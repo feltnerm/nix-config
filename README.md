@@ -1,19 +1,37 @@
 nixos-config
 ----
 
+# Usage
+
+## System
+
+```shell
+$ nixos-rebuild --flake . <cmd>
+```
+
+## Home
+
+```shell
+% home-manager --flake . <cmd>
+```
+
 # Structure
 
-## src
+## hosts
 
-Nix modules and default configuration for packages.
+~~Cattle~~ Machine configurations.
 
-## Hosts
+## home
 
-Configuration for a hostname.
+Users configured with `home-manager`.
 
-## Orbitals
+## lib
 
-An orbital is a logical collection of hosts.
+`flake.nix` helpers
+
+## modules
+
+Modules
 
 ----
 
@@ -24,3 +42,4 @@ An orbital is a logical collection of hosts.
 - https://github.com/colemickens/nixcfg
 - https://github.com/divnix/digga
 - https://jdisaacs.com/blog/ixos-config/
+- https://git.sr.ht/~misterio/nix-config
