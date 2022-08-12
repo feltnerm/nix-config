@@ -3,6 +3,10 @@ nixos-config
 
 # Usage
 
+```shell
+% nix develop
+```
+
 ## System
 
 ```shell
