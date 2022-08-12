@@ -15,11 +15,11 @@ in {
 
   home.xdg = lib.mkIf cfg.enable {
     # home.xdg = {
+    enable = true;
+    userDirs = {
       enable = true;
-      userDirs = {
-        enable = true;
-        createDirectories = true;
-      };
+      createDirectories = true;
+    };
     # };
   };
 }

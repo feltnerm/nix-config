@@ -1,4 +1,4 @@
-{ config, ... }: let
+{config, ...}: let
   cfg = config.feltnerm.config;
 in {
   imports = [

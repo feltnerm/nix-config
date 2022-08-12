@@ -37,6 +37,8 @@ in rec {
     userCfg = {
       inherit hostname;
     };
+
+    hostModule = ./../hosts + "/${hostname}" + /default.nix;
   in
     nixosSystem {
       inherit pkgs;
@@ -64,7 +66,7 @@ in rec {
           }
         ]
         ++ map mkUser users
-        ++ [../hosts/${hostname}];
+        ++ [hostModule];
     };
 
   # create a regular ol' user on a system
@@ -115,7 +117,9 @@ in rec {
     wallpaper ? null,
     features ? [], # features are imported
     userConfig ? {},
-  }:
+  }: let
+    userModule = ./../home + "/${username}" + /default.nix;
+  in
     homeManagerConfiguration {
       # TODO does this set useGlobalPkgs and useUserPackages to true, essentially?
       inherit pkgs username;
@@ -141,10 +145,9 @@ in rec {
             imports = [
               (import ../modules/home-manager {inherit inputs;})
             ];
-
           }
         ]
-        ++ [../home/${username}];
+        ++ [userModule];
     };
 
   # mkDeploys = nixosConfigs: homeConfigs:

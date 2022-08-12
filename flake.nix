@@ -36,8 +36,8 @@
       # nur = inputs.nur.overlay;
     };
 
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
+    # nixosModules = import ./modules/nixos;
+    # homeManagerModules = import ./modules/home-manager;
 
     # TODO
     # templates = import ./templates;

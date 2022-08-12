@@ -7,9 +7,9 @@
   features,
   ...
 }: {
-  imports = [ ];
-    # Import features that have modules
-    # ++ builtins.filter builtins.pathExists (map (feature: "./${feature}") features);
+  imports = [];
+  # Import features that have modules
+  # ++ builtins.filter builtins.pathExists (map (feature: "./${feature}") features);
 
   # TODO setup ~/bin
   # TODO profile => environment variables
