@@ -16,12 +16,18 @@
   # TODO surfraw configuration
   # TODO ~/.config/feltnerm/{functions.sh,/bin}
 
+  # options = lib.mkOption {
+  #   username = username;
+  # };
+
   feltnerm = {
     # config = {
     # };
 
     # xdg.enable = true;
     programs = {
+      ssh.enable = true;
+      gpg.enable = true;
       readline.enable = true;
       tmux.enable = true;
       zsh.enable = true;

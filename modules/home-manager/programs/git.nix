@@ -13,16 +13,27 @@ in {
     };
 
     username = lib.mkOption {
-      description = "username";
+      description = "Git username";
       type = lib.types.str;
       default = "";
     };
 
     email = lib.mkOption {
-      description = "email";
+      description = "Git email address";
       type = lib.types.str;
       default = "";
     };
+
+    signCommits = lib.mkOption {
+      description = "Whether to sign commits with GPG";
+      default = true;
+    };
+
+    # TODO
+    # allowedSignersFile = lib.mkOption {
+    #   description = "Allowed SSH file for signing";
+    #   default = "";
+    # };
 
     # TODO
     # commitTemplate = with config.feltnerm.git;
@@ -41,18 +52,33 @@ in {
       package = pkgs.gitAndTools.gitFull;
       userName = cfg.username;
       userEmail = cfg.email;
-      ignores = ["*~" "*.swp" "*.#"];
-      delta.enable = true;
+      #ignores = ["*~" "*.swp" "*.#"];
       extraConfig = {
+        commit.gpgSign = cfg.enable;
+        gpg = {
+          format = "ssh";
+          ssh = {
+            defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
+            programs = "${pkgs.openssh}/bin/ssh-keygen";
+
+            # TODO
+            # allowedSignersFile = cfg.allowedSignerFile;
+          };
+        };
         color.ui = "auto";
         core.editor = "vim";
+        delta.enable = true;
         format.signoff = true;
         init.defaultBranch = "main";
         pull.rebase = "true";
         push.default = "current";
 
+        # https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/
+        # https://stackoverflow.com/questions/27417656/should-diff3-be-default-conflictstyle-on-git
+        merge.conflictstyle = "zdiff3";
+
         # TODO ?
-        protocol.keybase.allow = "always";
+        #protocol.keybase.allow = "always";
 
         # TODO
         # commit.template = "${commitTemplate}";
@@ -67,3 +93,6 @@ in {
     };
   };
 }
+#TODO
+# - add script to clone into ~/code
+
