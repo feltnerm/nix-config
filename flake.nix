@@ -19,6 +19,7 @@
 
     # TODO
     # nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.05-darwin";
+    agenix.url = "yaxitech/ragenix";
     # agenix.url = "github:ryantm/agenix";
     # agenix.inputs.nixpkgs.follows = "nixos";
     # nixos-hardware.url = "github:nixos/nixos-hardware";

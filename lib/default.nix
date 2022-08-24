@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs unstable hardware nur home-manager;
+  inherit (inputs) self nixpkgs unstable hardware nur home-manager agenix;
   inherit (self) outputs;
   inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
   inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
@@ -66,7 +66,8 @@ in rec {
           }
         ]
         ++ map mkUser users
-        ++ [hostModule];
+        ++ [hostModule]
+        ++ [agenix.nixosModule];
     };
 
   # create a regular ol' user on a system
