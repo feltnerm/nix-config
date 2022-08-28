@@ -46,7 +46,7 @@ in {
       useXkbConfig = true; # use xkbOptions in tty.
     };
 
-    system.copySystemConfiguration = true;
+    #system.copySystemConfiguration = true;
     system.autoUpgrade = {
       enable = true;
       dates = "daily";
