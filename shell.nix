@@ -1,20 +1,11 @@
-{
-  mkShell,
-  nix,
-  home-manager,
-  git,
-  ...
-}:
-mkShell {
+{pkgs ? import <nixpkgs> {}}:
+pkgs.mkShell {
   nativeBuildInputs = [
-    nix
-    home-manager
-    git
+    pkgs.nix
+    pkgs.home-manager
+    pkgs.git
 
-    # Para deploy
-    # gnupg
-    # age
-    # deploy-rs
-    # sops
+    pkgs.alejandra
+    pkgs.statix
   ];
 }
