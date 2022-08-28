@@ -62,6 +62,9 @@
       };
     };
 
+    # for system zsh autocompletion
+    environment.pathsToLink = ["/share/zsh"];
+
     #system.copySystemConfiguration = true;
     system.stateVersion = "22.05";
   };
