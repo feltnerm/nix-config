@@ -91,10 +91,10 @@
         # TODO add more configuration definitions here.
       };
 
-      "kram@monke" = mkHome {
-        username = "kram";
-        hostname = "monke";
-      };
+      #"kram@monke" = mkHome {
+      #  username = "kram";
+      #  hostname = "monke";
+      #};
 
       # # TODO raspberry pi server
       # "mark@secupi" = mkHome {
