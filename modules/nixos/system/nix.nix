@@ -7,7 +7,10 @@
   cfg = config.feltnerm.system.nix;
 in {
   options.feltnerm.system.nix = {
-    enableFlake = lib.mkEnableOption "Enable nix flake support";
+    enableFlake = lib.mkOption {
+      description = "Enable nix flake support";
+      default = true;
+    };
 
     allowBroken = lib.mkOption {
       description = "Allow broken nix pkgs.";
