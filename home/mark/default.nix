@@ -41,7 +41,7 @@
         username = "feltnerm";
         # TODO better public email
         email = "feltner.mj@gmail.com";
-        signCommits = false;
+        signCommits = true;
       };
     };
   };

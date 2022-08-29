@@ -56,13 +56,13 @@ in {
       extraConfig = {
         commit.gpgSign = cfg.signCommits;
         gpg = {
-          format = "ssh";
-          ssh = {
-            defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
-            programs = "${pkgs.openssh}/bin/ssh-keygen";
-            #    # TODO
-            #    # allowedSignersFile = cfg.allowedSignerFile;
-          };
+          #format = "ssh";
+          #ssh = {
+          #  defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
+          #  programs = "${pkgs.openssh}/bin/ssh-keygen";
+          #  #    # TODO
+          #  #    # allowedSignersFile = cfg.allowedSignerFile;
+          #};
         };
         color.ui = "auto";
         core.editor = "vim";
