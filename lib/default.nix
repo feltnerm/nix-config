@@ -90,7 +90,7 @@ in rec {
       initialPassword = "${initialPassword}";
       extraGroups = groups;
 
-      #shell = pkgs.zsh;
+      shell = pkgs.zsh;
 
       createHome = true;
       home = "/home/${username}";
