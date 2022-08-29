@@ -52,6 +52,9 @@ in {
       package = pkgs.gitAndTools.gitFull;
       userName = cfg.username;
       userEmail = cfg.email;
+      diff-so-fancy = {
+        enable = true;
+      };
       #ignores = ["*~" "*.swp" "*.#"];
       extraConfig = {
         commit.gpgSign = cfg.signCommits;

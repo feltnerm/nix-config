@@ -22,7 +22,7 @@ in {
       enableSyntaxHighlighting = true;
       enableVteIntegration = true; # allow terminal to track current directory
       autocd = true; # automatically enter a directory when typed
-      defaultKeymap = "vicmd";
+      #defaultKeymap = "vicmd";
 
       history = {
         extended = true;
@@ -34,13 +34,13 @@ in {
         path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
 
-      zplug = {
-        enable = true;
-        plugins = [
-          # "bhilburn/powerlevel9k"
-          # "willghatch/zsh-saneopt"
-        ];
-      };
+      #zplug = {
+      #  enable = true;
+      #  #plugins = [
+      #  #  "bhilburn/powerlevel9k"
+      #  #  "willghatch/zsh-saneopt"
+      #  #];
+      #};
 
       initExtraFirst = ""; # added to the top of .zshrc
       initExtra = ""; # added to .zshrc

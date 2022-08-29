@@ -48,14 +48,14 @@
 
   #programs.git.extraConfig.user.signgingKey = "3BBF0F96";
 
+  # TODO system and/or home-manager packages?
   home.packages = with pkgs; [
-    aspell
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.en-science
+
+    # cloud
     # awscli
+
+    # web servers
     # caddy
-    diff-so-fancy
 
     # docker management:
     dive
@@ -65,40 +65,79 @@
     exiftool
     ffmpeg
     flac
-    fpp
     ghostscript
-    hexyl
-    httpie
     imagemagick
-    ispell
+
+    # browsers
     lynx
+    surfraw
+
+    # file browsers
     mc #midnight commander
     ncdu
-    nnn
     ranger
-    surfraw
+    nnn
+
+    # nix
+    alejandra
+    niv
+    nix-index
+    nixfmt
+    statix
+
+    # fun
+    asciinema
+
+    # spellingz
+    aspell
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
+    ispell
+
   ];
 
   programs = {
     bat.enable = true;
+    command-not-found.enable = true;
     direnv = {
       enable = true;
       nix-direnv = {
         enable = true;
       };
     };
-    exa.enable = true;
+    dircolors = {
+      enable = true;
+    };
+    exa = {
+      enable = true;
+      enableAliases = true;
+    };
+    fzf = {
+      enable = true;
+      tmux = {
+        #enableShellIntegration = true;
+      };
+    };
     htop.enable = true;
+    info.enable = true;
     jq.enable = true;
-    keychain.enable = true; # TODO configure keychain, ssh, gpg, etc.
+    keychain = {
+      enable = true;
+      keys = [ "id_ed25519_sk" ];
+    };
 
     # (neo)vim configuration
-    # TODO decide!
     vim.enable = true;
     neovim = {
       enable = true;
       withNodeJs = true;
+      vimAlias = true;
+      vimdiffAlias = true;
     };
+
+    # TODO rice my setup
+    powerline-go.enable = true;
   };
 
   home = {
@@ -113,31 +152,19 @@
       cpp = "rsync -Wavp --human-readable --progress $1 $2";
       mv = "mv -i";
       rm = "rm -ir";
-
-      l = "ls";
-      lsd = "ls -l";
-      ll = "ls -l";
-      lh = "ls -h";
-      la = "ls -la";
-      lad = "ls -lah";
-
       weather = "curl wttr.in";
       oracow = "fortune | cowsay";
-
-      # TODO only override these commands if the alias is installed
-      cat = "bat";
-      ls = "exa";
     };
 
     # extra directories to add to $PATH
     sessionPath = [
-      "$HOME/.local/bin"
-      "\${xdg.configHome}/bin"
+      #"$HOME/.local/bin"
+      #"\${xdg.configHome}/bin"
     ];
 
     sessionVariables = {
-      MANPAGER = "sh -c 'col -bx | cat -l man -p'";
-      EDITOR = "vim";
+      #MANPAGER = "sh -c 'col -bx | cat -l man -p'";
+      #EDITOR = "vim";
       DROPBOX = "$HOME/Dropbox";
       WIKI = "$HOME/vimwiki_html";
       WIKI_SOURCE = "$HOME/vimwiki";
