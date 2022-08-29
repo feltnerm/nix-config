@@ -68,9 +68,11 @@ in {
 
       shells = [pkgs.zsh pkgs.bash];
 
+      # TODO system and/or home-manager packages?
       systemPackages = with pkgs; [
         zsh
         vim
+        git
 
         # shell utils
         ack

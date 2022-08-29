@@ -4,7 +4,6 @@
   lib,
   ...
 }:
-# TODO
 let
   cfg = config.feltnerm.hardware.ssd;
 in {

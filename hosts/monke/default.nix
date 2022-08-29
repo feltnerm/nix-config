@@ -47,6 +47,9 @@
           preferExplicitNetworkAccess = true;
           interfaces = ["wlp2s0"];
         };
+        nix = {
+          enableFlake = true;
+        };
       };
 
       security = {
@@ -63,7 +66,7 @@
     };
 
     # for system zsh autocompletion
-    environment.pathsToLink = ["/share/zsh"];
+    #environment.pathsToLink = ["/share/zsh"];
 
     system.copySystemConfiguration = false;
     system.stateVersion = "22.05";
