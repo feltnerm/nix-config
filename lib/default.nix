@@ -63,11 +63,13 @@ in rec {
 
             # by default, disable any non-enabled networking interface
             networking.useDHCP = false;
+
+            #users.defaultUserShell = pkgs.zsh;
           }
         ]
         ++ map mkUser users
-        ++ [hostModule]
-        ++ [agenix.nixosModule];
+        ++ [hostModule];
+        #++ [agenix.nixosModule];
     };
 
   # create a regular ol' user on a system
@@ -88,7 +90,7 @@ in rec {
       initialPassword = "${initialPassword}";
       extraGroups = groups;
 
-      shell = pkgs.zsh;
+      #shell = pkgs.zsh;
 
       createHome = true;
       home = "/home/${username}";

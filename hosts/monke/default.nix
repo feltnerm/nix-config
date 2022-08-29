@@ -65,7 +65,7 @@
     # for system zsh autocompletion
     environment.pathsToLink = ["/share/zsh"];
 
-    #system.copySystemConfiguration = true;
+    system.copySystemConfiguration = false;
     system.stateVersion = "22.05";
   };
 }

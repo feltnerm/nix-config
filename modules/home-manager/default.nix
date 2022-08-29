@@ -5,6 +5,7 @@ _: {
   ...
 }: {
   imports = [
+    ./config
     ./programs
   ];
 

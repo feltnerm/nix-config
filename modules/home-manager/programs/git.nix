@@ -54,21 +54,21 @@ in {
       userEmail = cfg.email;
       #ignores = ["*~" "*.swp" "*.#"];
       extraConfig = {
-        commit.gpgSign = cfg.enable;
+        commit.gpgSign = cfg.signCommits;
         gpg = {
           format = "ssh";
           ssh = {
             defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
             programs = "${pkgs.openssh}/bin/ssh-keygen";
-
-            # TODO
-            # allowedSignersFile = cfg.allowedSignerFile;
+        #    # TODO
+        #    # allowedSignersFile = cfg.allowedSignerFile;
           };
         };
         color.ui = "auto";
         core.editor = "vim";
         delta.enable = true;
-        format.signoff = true;
+        # TODO: enable once it is all working
+        format.signoff = cfg.signCommits;
         init.defaultBranch = "main";
         pull.rebase = "true";
         push.default = "current";
@@ -87,7 +87,6 @@ in {
         # TODO
         url = {
           #"git@github.com:".insteadOf = "https://github.com/";
-          #"git@ssh.tulpa.dev:".insteadOf = "https://tulpa.dev/";
         };
       };
     };

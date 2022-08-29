@@ -61,7 +61,7 @@
       {
         username = "mark";
         uid = 1000;
-        groups = ["@wheel"];
+        groups = ["wheel"];
         # TODO share user and system packages
         pkgs = legacyPackages."x86_64-linux";
       }

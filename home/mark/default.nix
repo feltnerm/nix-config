@@ -26,20 +26,27 @@
 
     # xdg.enable = true;
     programs = {
-      ssh.enable = true;
-      gpg.enable = true;
-      readline.enable = true;
-      tmux.enable = true;
       zsh.enable = true;
+      tmux.enable = true;
+      readline.enable = true;
+
+      ssh.enable = true;
+      gpg = {
+        pubKey = "3BBF0F96";
+        enable = true;
+      };
 
       git = {
         enable = true;
         username = "feltnerm";
         # TODO better public email
         email = "feltner.mj@gmail.com";
+        signCommits = false;
       };
     };
   };
+
+  #programs.git.extraConfig.user.signgingKey = "3BBF0F96";
 
   home.packages = with pkgs; [
     aspell

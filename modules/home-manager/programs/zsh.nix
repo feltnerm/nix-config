@@ -31,7 +31,7 @@ in {
         save = 10000;
         size = 10000;
         share = true;
-        # path = "${config.xdg.dataHome}/zsh/zsh_history";
+        path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
 
       zplug = {
