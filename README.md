@@ -10,14 +10,18 @@ nixos-config
 ## System
 
 ```shell
-$ nixos-rebuild --flake . <cmd>
+$ nixos-rebuild --flake '.#<host>' <cmd>
 ```
+
+Example: `sudo nixos-rebuild --flake '.#monke' switch`
 
 ## Home
 
 ```shell
-% home-manager --flake . <cmd>
+% home-manager --flake '.#<user>' <cmd>
 ```
+
+Example: `home-manager --flake '.#mark@monke' switch`
 
 # Structure
 
