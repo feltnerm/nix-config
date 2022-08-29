@@ -69,6 +69,7 @@ in {
         delta.enable = true;
         # TODO: enable once it is all working
         format.signoff = cfg.signCommits;
+        user.signingkey = config.feltnerm.programs.gpg.pubKey;
         init.defaultBranch = "main";
         pull.rebase = "true";
         push.default = "current";
