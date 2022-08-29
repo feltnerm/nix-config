@@ -3,7 +3,7 @@
   lib,
   pkgs,
   ...
-}: let 
+}: let
   cfg = config.feltnerm.programs;
 in {
   config = {

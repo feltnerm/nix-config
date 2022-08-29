@@ -60,8 +60,8 @@ in {
           ssh = {
             defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
             programs = "${pkgs.openssh}/bin/ssh-keygen";
-        #    # TODO
-        #    # allowedSignersFile = cfg.allowedSignerFile;
+            #    # TODO
+            #    # allowedSignersFile = cfg.allowedSignerFile;
           };
         };
         color.ui = "auto";

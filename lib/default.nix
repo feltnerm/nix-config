@@ -69,7 +69,7 @@ in rec {
         ]
         ++ map mkUser users
         ++ [hostModule];
-        #++ [agenix.nixosModule];
+      #++ [agenix.nixosModule];
     };
 
   # create a regular ol' user on a system
