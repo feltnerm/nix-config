@@ -83,6 +83,7 @@ in {
         tmux
 
         # process management
+        bottom
         htop
         killall
         lsof
