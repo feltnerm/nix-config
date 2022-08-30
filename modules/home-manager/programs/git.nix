@@ -55,7 +55,7 @@ in {
       diff-so-fancy = {
         enable = true;
       };
-      #ignores = ["*~" "*.swp" "*.#"];
+      ignores = [".direnv" "result" "*~" "*.swp" "*.#"];
       extraConfig = {
         commit.gpgSign = cfg.signCommits;
         gpg = {
