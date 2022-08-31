@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-let
+}: let
   cfg = config.feltnerm.hardware.ssd;
 in {
   options.feltnerm.hardware.ssd = {

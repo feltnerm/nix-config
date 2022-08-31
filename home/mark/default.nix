@@ -50,7 +50,6 @@
 
   # TODO system and/or home-manager packages?
   home.packages = with pkgs; [
-
     # cloud
     # awscli
 
@@ -94,7 +93,6 @@
     aspellDicts.en-computers
     aspellDicts.en-science
     ispell
-
   ];
 
   programs = {
@@ -124,7 +122,7 @@
     jq.enable = true;
     keychain = {
       enable = true;
-      keys = [ "id_ed25519_sk" ];
+      keys = ["id_ed25519_sk"];
     };
 
     # (neo)vim configuration
