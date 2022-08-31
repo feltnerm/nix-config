@@ -41,7 +41,7 @@ in {
     time.timeZone = cfg.locale.timezone;
 
     console = {
-      font = "Lat2-Terminus16";
+      #font = "Lat2-Terminus16";
       # keyMap = cfg.locale.keymap;
       useXkbConfig = true; # use xkbOptions in tty.
     };
