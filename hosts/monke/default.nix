@@ -47,6 +47,7 @@
         };
         nix = {
           enableFlake = true;
+          allowedUsers = ["mark"];
         };
       };
 
