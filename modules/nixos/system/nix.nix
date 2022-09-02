@@ -38,10 +38,8 @@ in {
         options = "--delete-older-than 4d";
       };
       # package = pkgs.nixUnstable;
-      extraOptions = lib.mkIf cfg.enableFlake ''
-        experimental-features = nix-command flakes
-      '';
       settings = {
+        experimental-features = ["nix-command" "flakes"];
         auto-optimise-store = true;
         allowed-users = cfg.allowedUsers;
         # substituters = [
