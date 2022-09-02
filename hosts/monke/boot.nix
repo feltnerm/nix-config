@@ -6,9 +6,12 @@
 }: {
   # use the GRUB2 bootloader
   boot.loader = {
-    systemd-boot = {enable = false;};
-    grub = {
+    systemd-boot = {
       enable = true;
+      editor = false;
+    };
+    grub = {
+      enable = false;
       version = 2;
       device = "nodev";
       efiSupport = true;
