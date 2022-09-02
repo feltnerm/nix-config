@@ -7,6 +7,7 @@ _: {
   imports = [
     ./config
     ./programs
+    ./services
   ];
 
   nixpkgs.config = {
