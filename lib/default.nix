@@ -53,7 +53,10 @@ in rec {
           # import ../modules/nixos
           {
             #imports = [(import ../modules/nixos {inherit inputs;})] ++ (map (u: mkUser u) users);
-            imports = [(import ../modules/nixos {inherit inputs;})];
+            imports = [
+              (import ../modules/common {inherit inputs;})
+              (import ../modules/nixos {inherit inputs;})
+            ];
 
             feltnerm = systemConfig;
             # TODO is this module needed?
@@ -146,6 +149,7 @@ in rec {
         [
           {
             imports = [
+              (import ../modules/common {inherit inputs;})
               (import ../modules/home-manager {inherit inputs;})
             ];
           }
