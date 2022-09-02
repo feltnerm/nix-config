@@ -30,10 +30,8 @@ in rec {
     hostname,
     users,
     pkgs,
-    # pkgs ? outputs.nixosConfigurations.${hostname}.pkgs
     systemConfig ? {},
   }: let
-    # host_users = map (u: mkUser u) users;
     userCfg = {
       inherit hostname;
     };
@@ -47,12 +45,9 @@ in rec {
       specialArgs = {
         inherit inputs outputs hostname users systemConfig;
       };
-      # modules = attrValues (import ../modules/nixos)
       modules =
         [
-          # import ../modules/nixos
           {
-            #imports = [(import ../modules/nixos {inherit inputs;})] ++ (map (u: mkUser u) users);
             imports = [
               (import ../modules/common {inherit inputs;})
               (import ../modules/nixos {inherit inputs;})
@@ -84,7 +79,6 @@ in rec {
     groups ? [],
   }: {
     users.users."${username}" = {
-      # inherit pkgs;
       isNormalUser = true;
       isSystemUser = false;
 
@@ -143,8 +137,6 @@ in rec {
         feltnerm = userConfig;
       };
 
-      # define modules to load:
-      # modules = attrValues (import ../modules/home-manager)
       extraModules =
         [
           {
@@ -156,34 +148,4 @@ in rec {
         ]
         ++ [userModule];
     };
-
-  # mkDeploys = nixosConfigs: homeConfigs:
-  #   let
-  #     nixosProfiles = mapAttrs mkNixosDeployProfile nixosConfigs;
-  #     homeProfiles = mapAttrs mkHomeDeployProfile homeConfigs;
-  #     hostnames = attrNames nixosProfiles;
-
-  #     homesOn = hostname: filterAttrs (name: _: (getHostname name) == hostname) homeProfiles;
-  #     systemOn = hostname: { system = nixosProfiles.${hostname}; };
-  #     profilesOn = hostname: (systemOn hostname) // (mapAttrNames getUsername (homesOn hostname));
-  #   in
-  #   listToAttrs (map
-  #     (hostname: {
-  #       name = hostname;
-  #       value = {
-  #         inherit hostname;
-  #         profiles = profilesOn hostname;
-  #       };
-  #     })
-  #     hostnames);
-
-  # mkNixosDeployProfile = _name: config: {
-  #   user = "root";
-  #   path = activate "nixos" config;
-  # };
-
-  # mkHomeDeployProfile = name: config: {
-  #   user = getUsername name;
-  #   path = activate "home-manager" config;
-  # };
 }
