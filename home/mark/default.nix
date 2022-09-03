@@ -16,26 +16,17 @@
   # TODO surfraw configuration
   # TODO ~/.config/feltnerm/{functions.sh,/bin}
 
-  # options = lib.mkOption {
-  #   username = username;
-  # };
-
   feltnerm = {
-    # config = {
-    # };
-
     # xdg.enable = true;
     programs = {
       zsh.enable = true;
       tmux.enable = true;
       readline.enable = true;
-
       ssh.enable = true;
       gpg = {
         pubKey = "3BBF0F96";
         enable = true;
       };
-
       git = {
         enable = true;
         username = "feltnerm";
