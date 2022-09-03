@@ -133,7 +133,12 @@
     };
 
     # TODO rice my setup
-    powerline-go.enable = true;
+    starship = {
+      enable = true;
+      settings = {
+        add_newline = true;
+      };
+    };
   };
 
   home = {
