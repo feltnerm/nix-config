@@ -39,6 +39,7 @@
       };
 
       system = {
+        gui.enable = true;
         documentation.enable = true;
         networking = {
           enableNetworkManager = true;
