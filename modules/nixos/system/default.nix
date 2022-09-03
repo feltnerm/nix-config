@@ -75,6 +75,7 @@ in {
         zsh
         vim
         git
+        man
 
         # shell utils
         ack
@@ -103,6 +104,7 @@ in {
         openssl
         rsync
         speedtest-cli
+        sshfs
         wget
 
         # utils

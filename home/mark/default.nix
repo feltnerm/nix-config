@@ -73,6 +73,9 @@
     nixfmt
     statix
 
+    # shell
+    shellcheck
+
     # fun
     asciinema
 
@@ -82,6 +85,8 @@
     aspellDicts.en-computers
     aspellDicts.en-science
     ispell
+    hunspell
+    hunspellDicts.en-us
   ];
 
   programs = {

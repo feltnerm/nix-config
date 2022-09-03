@@ -29,8 +29,13 @@ _: {
 
   home.packages = with pkgs; [
     ack
+    bat
+    exa
     fd
+    readline
     ripgrep
+    ripgrep-all
+    tmux
 
     fpp
 
@@ -56,6 +61,7 @@ _: {
     rsync
     speedtest-cli
     wget
+    openvpn
 
     # utils
     tree
