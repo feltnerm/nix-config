@@ -81,6 +81,7 @@ in {
         bat
         exa
         fd
+        readline
         ripgrep
         tmux
 
