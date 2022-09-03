@@ -42,9 +42,30 @@ in {
       #  #];
       #};
 
-      initExtraFirst = ""; # added to the top of .zshrc
-      initExtra = ""; # added to .zshrc
-      profileExtra = ""; #added to .zprofile
+      # added to the top of .zshrc
+      initExtraFirst = "";
+      # added to .zshrc
+      initExtra = ''        ;
+              tmuxn() {
+                if [[ -z "$1" ]]
+                then
+                  tmux new-session -s $(basename $(pwd))
+                else
+                  tmux new-session -s "$1"
+                fi
+              }
+
+              tmuxa() {
+                if [[ -z "$1" ]]
+                then
+                  tmux attach-session -t $(basename $(pwd))
+                else
+                  tmux attach-session -t "$1"
+                fi
+              }
+      '';
+      #added to .zprofile
+      profileExtra = "";
     };
   };
 }
