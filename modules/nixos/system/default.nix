@@ -60,6 +60,8 @@ in {
     #   MaxFileSec=7day
     # '';
 
+    #users.defaultUserShell = [ pkgs.zsh ];
+
     environment = {
       sessionVariables = {
         EDITOR = "vim";

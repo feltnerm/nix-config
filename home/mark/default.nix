@@ -46,8 +46,6 @@
     };
   };
 
-  #programs.git.extraConfig.user.signgingKey = "3BBF0F96";
-
   # TODO system and/or home-manager packages?
   home.packages = with pkgs; [
     # cloud
