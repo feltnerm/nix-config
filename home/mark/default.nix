@@ -439,8 +439,8 @@ in {
   wayland.windowManager.sway = {
     enable = true;
     config = {
-      menu = "\{$pkgs.wofi}/bin/wofi --show drun";
-      terminal = "\${pkgs.alacritty/bin/alacritty}";
+      menu = "${pkgs.wofi}/bin/wofi --show drun";
+      terminal = "${pkgs.alacritty}/bin/alacritty";
     };
     extraConfig = ''
       set $cursor_size 54
