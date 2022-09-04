@@ -6,39 +6,8 @@
   username,
   features,
   ...
-}: {
-  imports = [];
-  # Import features that have modules
-  # ++ builtins.filter builtins.pathExists (map (feature: "./${feature}") features);
-
-  # TODO setup ~/bin
-  # TODO profile => environment variables
-  # TODO surfraw configuration
-  # TODO ~/.config/feltnerm/{functions.sh,/bin}
-
-  feltnerm = {
-    # xdg.enable = true;
-    programs = {
-      zsh.enable = true;
-      tmux.enable = true;
-      readline.enable = true;
-      ssh.enable = true;
-      gpg = {
-        pubKey = "3BBF0F96";
-        enable = true;
-      };
-      git = {
-        enable = true;
-        username = "feltnerm";
-        # TODO better public email
-        email = "feltner.mj@gmail.com";
-        signCommits = true;
-      };
-    };
-  };
-
-  # TODO system and/or home-manager packages?
-  home.packages = with pkgs; [
+}: let
+  cliPackages = with pkgs; [
     # cloud
     # awscli
 
@@ -89,7 +58,61 @@
     hunspellDicts.en-us
   ];
 
+  guiPackages = with pkgs; [
+    alacritty
+    firefox
+  ];
+in {
+  imports = [];
+  # Import features that have modules
+  # ++ builtins.filter builtins.pathExists (map (feature: "./${feature}") features);
+
+  # TODO setup ~/bin
+  # TODO ~/.config/feltnerm/{functions.sh,/bin}
+  # TODO profile => environment variables
+  # TODO surfraw configuration
+
+  feltnerm = {
+    # xdg.enable = true;
+    programs = {
+      zsh.enable = true;
+      tmux.enable = true;
+      readline.enable = true;
+      ssh.enable = true;
+      gpg = {
+        pubKey = "3BBF0F96";
+        enable = true;
+      };
+      git = {
+        enable = true;
+        username = "feltnerm";
+        # TODO better public email
+        email = "feltner.mj@gmail.com";
+        signCommits = true;
+      };
+    };
+  };
+
+  # TODO system and/or home-manager packages?
+  home.packages = cliPackages ++ guiPackages;
+
   programs = {
+    # GUI programs:
+    # TODO based on GUI-ness
+    alacritty = {
+      enable = true;
+      settings = {};
+    };
+
+    firefox = {
+      enable = true;
+    };
+
+    waybar = {
+      enable = true;
+    };
+
+    # CLI programs:
     bat.enable = true;
     command-not-found.enable = true;
     direnv = {
@@ -401,4 +424,46 @@
       '';
     };
   };
+
+  xdg.desktopEntries = {
+    firefox = {
+      name = "Firefox";
+      genericName = "Web Browser";
+      exec = "firefox %U";
+      terminal = false;
+      categories = ["Application" "Network" "WebBrowser"];
+      mimeType = ["text/html" "text/xml" "application/json" "application/pdf"];
+    };
+  };
+
+  wayland.windowManager.sway = {
+    enable = true;
+    config = {
+      menu = "\{$pkgs.wofi}/bin/wofi --show drun";
+      terminal = "\${pkgs.alacritty/bin/alacritty}";
+    };
+    extraConfig = ''
+      set $cursor_size 54
+
+      set $gnome-schema org.gnome.desktop.interface
+      exec_always {
+        gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+      }
+
+      seat seat0 xcursor_theme breeze 54
+
+      #exec swayidle -w \
+      #  timeout 1800 'swaylock -f'
+      #  timeout 1805 'swaymsg "output * dpms off"' \
+      #  resume 'swaymsg "output * dpms on"'
+
+      exec dbus-sway-environment
+      exec configure-gtk
+    '';
+    wrapperFeatures = {
+      gtk = true;
+    };
+  };
+
+  services.swayidle.enable = true;
 }

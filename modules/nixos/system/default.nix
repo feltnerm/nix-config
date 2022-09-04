@@ -8,6 +8,8 @@
 in {
   imports = [
     ./boot.nix
+    ./gui.nix
+    ./nix.nix
     ./networking.nix
     ./nix.nix
   ];
@@ -33,13 +35,6 @@ in {
     keymap = lib.mkOption {
       description = "System keymap";
       default = "us";
-    };
-  };
-
-  options.feltnerm.system.gui = {
-    enable = lib.mkOption {
-      description = "Enable desktop GUI";
-      default = false;
     };
   };
 
@@ -142,29 +137,5 @@ in {
       info.enable = true;
       nixos.enable = true;
     };
-
-    services.xserver.displayManager.gdm.enable = cfg.gui.enable;
-    #services.xserver.displayManager.plasma5.enable = cfg.gui.enable;
-    programs.sway = lib.mkIf cfg.gui.enable {
-      inherit (cfg.gui) enable;
-      wrapperFeatures.gtk = true;
-      extraPackages = with pkgs; [
-        swaylock
-        swayidle
-        wl-clipboard
-        wf-recorder
-        mako
-        grim
-        slurp
-        alacritty
-        #dmenu
-        wofi
-      ];
-    };
-
-    programs.waybar.enable = cfg.gui.enable;
-    programs.qt5ct.enable = cfg.gui.enable;
-    sound.enable = cfg.gui.enable;
-    hardware.pulseaudio.enable = cfg.gui.enable;
   };
 }
