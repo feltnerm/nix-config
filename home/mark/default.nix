@@ -443,6 +443,13 @@ in {
       terminal = "${pkgs.alacritty}/bin/alacritty";
     };
     extraConfig = ''
+      output HDMI-A-2 scale 2
+      output HDMA-A-2 pos 0 0 res 3440x1440
+
+      input "type:keyboard" {
+        xkb_options caps:escape;
+      }
+
       set $cursor_size 54
 
       set $gnome-schema org.gnome.desktop.interface

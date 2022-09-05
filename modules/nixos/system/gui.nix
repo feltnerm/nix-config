@@ -6,15 +6,6 @@
 }: let
   cfg = config.feltnerm.system.gui;
 
-  swayConfig = pkgs.writeText "greetd-sway-config" ''
-    exec "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l c- sway; sway msg exit"
-    bindsym Mod4+shift+e exec swaynag \
-      -t warning \
-      -m 'What do you want to do?' \
-      -b 'Poweroff' 'systemctl poweroff' \
-      -b 'Reboot' 'systemctl reboot'
-  '';
-
   # nixos.wiki/wiki/Sway
   dbus-sway-environment = pkgs.writeTextFile {
     name = "dbus-sway-environment";
@@ -96,9 +87,17 @@ in {
 
     services.greetd = {
       enable = true;
+      restart = true;
       settings = {
         default_session = {
-          command = "${pkgs.sway}/bin/sway --config ${swayConfig}";
+          #user = "greeter";
+          command = ''
+            ${pkgs.greetd.tuigreet}/bin/tuigreet \
+            --remember \
+            --remember-session \
+            --time --issue --asterisks \
+            --cmd '${pkgs.sway}/bin/sway'
+          '';
         };
       };
     };
