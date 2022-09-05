@@ -8,17 +8,22 @@
   ...
 }: let
   cliPackages = with pkgs; [
-    # cloud
-    # awscli
-
-    # web servers
-    # caddy
+    # shell
+    bat
+    exa
+    fd
+    jq
+    readline
+    ripgrep
+    tmux
 
     # docker management:
     dive
-    # dry
 
+    # base development environment
     # editorconfig
+
+    # audio/image/video processing
     exiftool
     ffmpeg
     flac
@@ -27,7 +32,7 @@
 
     # browsers
     lynx
-    surfraw
+    surfraw # TODO surfraw configuration
 
     # file browsers
     mc #midnight commander
@@ -56,6 +61,12 @@
     ispell
     hunspell
     hunspellDicts.en-us
+
+    # cloud
+    # awscli
+
+    # web servers
+    # caddy
   ];
 
   guiPackages = with pkgs; [
@@ -64,25 +75,16 @@
   ];
 in {
   imports = [];
-  # Import features that have modules
-  # ++ builtins.filter builtins.pathExists (map (feature: "./${feature}") features);
-
-  # TODO setup ~/bin
-  # TODO ~/.config/feltnerm/{functions.sh,/bin}
-  # TODO profile => environment variables
-  # TODO surfraw configuration
 
   feltnerm = {
     # xdg.enable = true;
+
     programs = {
-      zsh.enable = true;
-      tmux.enable = true;
       readline.enable = true;
       ssh.enable = true;
-      gpg = {
-        pubKey = "3BBF0F96";
-        enable = true;
-      };
+      tmux.enable = true;
+      zsh.enable = true;
+
       git = {
         enable = true;
         username = "feltnerm";
@@ -90,10 +92,14 @@ in {
         email = "feltner.mj@gmail.com";
         signCommits = true;
       };
+
+      gpg = {
+        pubKey = "3BBF0F96";
+        enable = true;
+      };
     };
   };
 
-  # TODO system and/or home-manager packages?
   home.packages = cliPackages ++ guiPackages;
 
   programs = {
@@ -110,6 +116,8 @@ in {
 
     waybar = {
       enable = true;
+      systemd.enable = true;
+      systemd.target = "sway-session.target";
     };
 
     # CLI programs:
@@ -150,9 +158,10 @@ in {
       vimAlias = true;
       vimdiffAlias = true;
 
-      #coc = {
-      #  enable = true;
-      #};
+      # TODO enable language-server support
+      # coc = {
+      #   enable = true;
+      # };
 
       extraPackages = [pkgs.git];
 
@@ -296,7 +305,6 @@ in {
       plugins = with pkgs.vimPlugins; [
         {
           plugin = vim-startify;
-          config = "let g:startify_change_to_vcs_root = 0";
         }
         delimitMate
         vim-abolish
@@ -371,22 +379,30 @@ in {
     homeDirectory = "/home/${username}";
 
     shellAliases = {
+      cat = "bat";
+
       g = "git";
+
       cp = "cp -i"; # write error instead of overwriting
       cpv = "rsync -pogr --progress";
       cpp = "rsync -Wavp --human-readable --progress $1 $2";
+
       mv = "mv -i";
       rm = "rm -ir";
+
       weather = "curl wttr.in";
       oracow = "fortune | cowsay";
     };
 
     # extra directories to add to $PATH
+    # TODO setup ~/bin
+    # TODO ~/.config/feltnerm/{functions.sh,/bin}
     sessionPath = [
       #"$HOME/.local/bin"
       #"\${xdg.configHome}/bin"
     ];
 
+    # TODO profile => environment variables
     sessionVariables = {
       #MANPAGER = "sh -c 'col -bx | cat -l man -p'";
       #EDITOR = "vim";

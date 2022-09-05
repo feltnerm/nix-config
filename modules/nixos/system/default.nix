@@ -122,6 +122,7 @@ in {
         cowsay
         figlet
         fortune
+        lolcat
         neofetch
         toilet
       ];

@@ -63,6 +63,7 @@ in {
         gnome3.adwaita-icon-theme # default gnome cursors
 
         # sway utils
+        waybar
         swaylock
         swayidle
 
