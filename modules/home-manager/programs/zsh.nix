@@ -19,6 +19,20 @@ in {
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
+      completionInit = ''
+        autoload -U compint
+        zstyle ":completion:*" menu select
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+        zmodload zsh/complist
+        compinit
+        _comp_options+=(globdots)
+
+        bindkey -M menuselect 'h' vi-backward-char
+        bindkey -M menuselect 'k' vi-up-line-or-history
+        bindkey -M menuselect 'l' vi-forward-char
+        bindkey -M menuselect 'j' vi-down-line-or-history
+        bindkey -v '^?' backward-delete-char
+      '';
       enableSyntaxHighlighting = true;
       enableVteIntegration = true; # allow terminal to track current directory
       autocd = true; # automatically enter a directory when typed
@@ -44,26 +58,34 @@ in {
 
       # added to the top of .zshrc
       initExtraFirst = "";
-      # added to .zshrc
-      initExtra = ''        ;
-              tmuxn() {
-                if [[ -z "$1" ]]
-                then
-                  tmux new-session -s $(basename $(pwd))
-                else
-                  tmux new-session -s "$1"
-                fi
-              }
 
-              tmuxa() {
-                if [[ -z "$1" ]]
-                then
-                  tmux attach-session -t $(basename $(pwd))
-                else
-                  tmux attach-session -t "$1"
-                fi
-              }
+      # added to .zshrc
+      initExtra = ''
+        autoload edit-command-line; zle -N edit-command-line
+        bindkey '^e' edit-command-line
+
+        bindkey -v
+        export KEYTIMEOUT=1
+
+        function tmuxn() {
+          if [[ -z "$1" ]]
+          then
+            tmux new-session -s $(basename $(pwd))
+          else
+            tmux new-session -s "$1"
+          fi
+        }
+
+        function tmuxa() {
+          if [[ -z "$1" ]]
+          then
+            tmux attach-session -t $(basename $(pwd))
+          else
+            tmux attach-session -t "$1"
+          fi
+        }
       '';
+
       #added to .zprofile
       profileExtra = "";
     };
