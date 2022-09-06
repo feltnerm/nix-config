@@ -465,7 +465,7 @@ in {
       output HDMA-A-2 pos 0 0 res 3440x1440
 
       input "type:keyboard" {
-        xkb_options caps:escape;
+        xkb_options caps:escape
       }
 
       set $cursor_size 54
