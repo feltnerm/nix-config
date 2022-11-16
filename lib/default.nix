@@ -121,23 +121,8 @@ in rec {
     userModule = ./../home + "/${username}" + /default.nix;
   in
     homeManagerConfiguration {
-      # TODO does this set useGlobalPkgs and useUserPackages to true, essentially?
-      inherit pkgs username;
-      # TODO make this modular, it should be
-      system = "x86_64-linux";
-
-      homeDirectory = "/home/${username}";
-
-      # additional arguments to all modules:
-      extraSpecialArgs = {
-        inherit inputs outputs hostname username colorscheme wallpaper features userConfig;
-      };
-
-      configuration = {
-        feltnerm = userConfig;
-      };
-
-      extraModules =
+      inherit pkgs;
+      modules =
         [
           {
             imports = [
@@ -145,7 +130,49 @@ in rec {
               (import ../modules/home-manager {inherit inputs;})
             ];
           }
+          {
+            config.feltnerm = userConfig;
+          }
+          {
+            home = {
+              # username = username;
+              # homeDirectory = "/home/${username}";
+            };
+          }
+
+          #     (import userModule {inherit inputs outputs hostname username colorscheme wallpaper features userConfig;})
+          #   ];
+          # }
+          userModule
         ]
         ++ [userModule];
     };
+  # homeManagerConfiguration {
+  #   # TODO does this set useGlobalPkgs and useUserPackages to true, essentially?
+  #   inherit pkgs username;
+  #   # TODO make this modular, it should be
+  #   system = "x86_64-linux";
+
+  #   homeDirectory = "/home/${username}";
+
+  #   # additional arguments to all modules:
+  #   extraSpecialArgs = {
+  #     inherit inputs outputs hostname username colorscheme wallpaper features userConfig;
+  #   };
+
+  #   configuration = {
+  #     feltnerm = userConfig;
+  #   };
+
+  #   extraModules =
+  #     [
+  #       {
+  #         imports = [
+  #           (import ../modules/common {inherit inputs;})
+  #           (import ../modules/home-manager {inherit inputs;})
+  #         ];
+  #       }
+  #     ]
+  #     ++ [userModule];
+  # };
 }

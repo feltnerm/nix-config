@@ -33,7 +33,8 @@ in {
     };
 
     services.gpg-agent = {
-      enable = true;
+      # FIXME
+      enable = false;
       enableSshSupport = true;
       enableExtraSocket = true;
       defaultCacheTtl = 60;

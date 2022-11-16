@@ -3,7 +3,18 @@ _: {
   config,
   lib,
   ...
-}: {
+}:
+# let
+#   cfg = config.feltnerm.home-manager;
+# in
+{
+  # options.feltnerm.home-manager = {
+  #   enableAutoUpgrade = lib.mkOption {
+  #     description = "Enable auto upgrade of home-manager";
+  #     default = true;
+  #   };
+  # };
+
   imports = [
     ./config
     ./programs
@@ -23,7 +34,9 @@ _: {
   home.enableNixpkgsReleaseCheck = true;
 
   services.home-manager.autoUpgrade = {
-    enable = true;
+    # enable = true;
+    # FIXME
+    enable = false;
     frequency = "daily";
   };
 
