@@ -110,7 +110,8 @@ in rec {
     pkgs ? outputs.nixosConfigurations.${hostname}.pkgs,
     colorscheme ? null,
     wallpaper ? null,
-    features ? [], # features are imported
+    features ? [],
+    # features are imported
     userConfig ? {},
   }: let
     userModule = ./../home + "/${username}" + /default.nix;

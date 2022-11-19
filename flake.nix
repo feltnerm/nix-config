@@ -59,7 +59,16 @@
       {
         username = "mark";
         uid = 1000;
-        groups = ["wheel" "disk" "audio" "video" "input" "systemd-journal" "networkmanager" "network"];
+        groups = [
+          "wheel"
+          "disk"
+          "audio"
+          "video"
+          "input"
+          "systemd-journal"
+          "networkmanager"
+          "network"
+        ];
         # TODO share user and system packages
         pkgs = legacyPackages."x86_64-linux";
       }
@@ -107,7 +116,12 @@
               exec = "firefox %U";
               terminal = false;
               categories = ["Application" "Network" "WebBrowser"];
-              mimeType = ["text/html" "text/xml" "application/json" "application/pdf"];
+              mimeType = [
+                "text/html"
+                "text/xml"
+                "application/json"
+                "application/pdf"
+              ];
             };
           };
 
