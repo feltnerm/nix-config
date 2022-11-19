@@ -6,15 +6,17 @@
 }: let
   cfg = config.feltnerm.programs.tmux;
 in {
-  options.feltnerm.programs.tmux.enable = lib.mkOption {
-    description = "Enable tmux.";
-    default = false;
+  options.feltnerm.programs.tmux = {
+    enable = lib.mkOption {
+      description = "Enable tmux.";
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
     programs.tmux = {
       enable = true;
-      prefix = "`";
+      prefix = "C-a";
       keyMode = "vi";
       clock24 = true;
       escapeTime = 10;

@@ -19,20 +19,20 @@ in {
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      completionInit = ''
-        autoload -U compint
-        zstyle ":completion:*" menu select
-        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-        zmodload zsh/complist
-        compinit
-        _comp_options+=(globdots)
+      #completionInit = ''
+      #  autoload -U compint
+      #  zstyle ":completion:*" menu select
+      #  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+      #  zmodload zsh/complist
+      #  compinit
+      #  _comp_options+=(globdots)
 
-        bindkey -M menuselect 'h' vi-backward-char
-        bindkey -M menuselect 'k' vi-up-line-or-history
-        bindkey -M menuselect 'l' vi-forward-char
-        bindkey -M menuselect 'j' vi-down-line-or-history
-        bindkey -v '^?' backward-delete-char
-      '';
+      #  bindkey -M menuselect 'h' vi-backward-char
+      #  bindkey -M menuselect 'k' vi-up-line-or-history
+      #  bindkey -M menuselect 'l' vi-forward-char
+      #  bindkey -M menuselect 'j' vi-down-line-or-history
+      #  bindkey -v '^?' backward-delete-char
+      #'';
       enableSyntaxHighlighting = true;
       enableVteIntegration = true; # allow terminal to track current directory
       autocd = true; # automatically enter a directory when typed
@@ -67,6 +67,7 @@ in {
         bindkey -v
         export KEYTIMEOUT=1
 
+        # TODO only add if tmux is enabled.
         function tmuxn() {
           if [[ -z "$1" ]]
           then

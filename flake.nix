@@ -13,7 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nixpkgs-darwin-stable.url = "github:NixOS/nixpkgs/nixpkgs-22.05-darwin";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:yaxitech/ragenix";
@@ -68,14 +67,18 @@
         hostname = "monke";
         pkgs = legacyPackages."x86_64-linux";
         users = defaultUsers;
-        systemConfig = {};
+        systemConfig = {
+          feltnerm = {};
+        };
       };
 
       markbook = mkSystem {
         hostname = "markbook";
         pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
-        systemConfig = {};
+        systemConfig = {
+          feltnerm = {};
+        };
       };
 
       # # TODO raspberry pi 3 server
@@ -90,11 +93,27 @@
         username = "mark";
         hostname = "monke";
         userConfig = {
-          programs = {
-            firefox.enable = true;
-            alacritty.enable = true;
+          home = {
+            homeDirectory = "/home/mark";
+          };
 
-            wayland.enable = true;
+          xdg.desktopEntries = {
+            firefox = {
+              name = "Firefox";
+              genericName = "Web Browser";
+              exec = "firefox %U";
+              terminal = false;
+              categories = ["Application" "Network" "WebBrowser"];
+              mimeType = ["text/html" "text/xml" "application/json" "application/pdf"];
+            };
+          };
+
+          feltnerm = {
+            programs = {
+              firefox.enable = true;
+              alacritty.enable = true;
+              wayland.enable = true;
+            };
           };
         };
         features = [];
@@ -104,7 +123,17 @@
       "mark@markbook" = mkHome {
         username = "mark";
         hostname = "markbook";
-        userConfig = {};
+        userConfig = {
+          home = {
+            homeDirectory = "/Users/mark";
+          };
+          feltnerm = {
+            config.xdg.enableUserDirs = false;
+            home-manager.enableAutoUpgrade = false;
+
+            programs.git.signCommits = false;
+          };
+        };
         features = [];
       };
 

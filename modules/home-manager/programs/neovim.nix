@@ -16,7 +16,7 @@ in {
   config = lib.mkIf cfg.enable {
     programs = {
       # (neo)vim configuration
-      vim.enable = true;
+      #vim.enable = true;
       neovim = {
         enable = true;
         withNodeJs = true;
@@ -171,145 +171,65 @@ in {
         # add unite + keybinds
         plugins = with pkgs.vimPlugins; [
           # FIXME
-          #{
-          #  plugin = vim-startify;
-          #}
-          #delimitMate
-          #vim-abolish
-          #vim-commentary
-          #vim-eunuch
-          #vim-fugitive
-          #vim-highlightedyank
-          #vim-indent-guides
-          #vim-obsession
-          #vim-repeat
-          #vim-signify
-          #vim-surround
-          #vim-unimpaired
+          {
+            plugin = vim-startify;
+          }
+          delimitMate
+          vim-abolish
+          vim-commentary
+          vim-eunuch
+          vim-fugitive
+          vim-highlightedyank
+          vim-indent-guides
+          vim-obsession
+          vim-repeat
+          vim-signify
+          vim-surround
+          vim-unimpaired
 
-          #base16-vim
-          #vim-colorschemes
-          #vim-janah
-          #gruvbox
+          base16-vim
+          vim-colorschemes
+          vim-janah
+          gruvbox
+          {
+            plugin = vim-one;
+            config = ''
+              let g:one_allow_italics = 1
+            '';
+          }
+          {
+            plugin = vim-airline;
+            config = ''
+              """" airline settings
+              let g:airline_theme = 'gruvbox'
+              let g:airline#extensions#tabline#enabled = 1
+              let g:airline#extensions#branch#enabled = 1
+              let g:airline#extensions#hunks#enabled = 1
+            '';
+          }
+          vim-airline-themes
+
+          editorconfig-vim
+          vim-gitgutter
+          {
+            plugin = vim-gitgutter;
+            #config = ''
+            #  let g:gitgutter_realtime = 1;
+            #'';
+          }
+          vim-rooter
           #{
-          #  plugin = vim-one;
+          #  plugin = vimfiler.vim;
           #  config = ''
-          #    let g:one_allow_italics = 1
+          #    let g:vimfiler_as_default_explorer = 1
+          #    nmap <leader>d :VimFiler -buffer-name=explorer -simple -toggle<CR>
+          #    nmap <leader>de :VimFiler -buffer-name=explorer -toggle<CR>
+          #    nmap <leader>df :VimFilerBufferDir -buffer-name=explorer -toggle<CR>
           #  '';
           #}
-          #{
-          #  plugin = vim-airline;
-          #  config = ''
-          #    """" airline settings
-          #    let g:airline_theme = 'gruvbox'
-          #    let g:airline#extensions#tabline#enabled = 1
-          #    let g:airline#extensions#branch#enabled = 1
-          #    let g:airline#extensions#hunks#enabled = 1
-          #  '';
-          #}
-          #vim-airline-themes
 
-          #editorconfig-vim
-          #vim-gitgutter
-          #{
-          #  plugin = vim-gitgutter;
-          #  #config = ''
-          #  #  let g:gitgutter_realtime = 1;
-          #  #'';
-          #}
-          #vim-rooter
-          ##{
-          ##  plugin = vimfiler.vim;
-          ##  config = ''
-          ##    let g:vimfiler_as_default_explorer = 1
-          ##    nmap <leader>d :VimFiler -buffer-name=explorer -simple -toggle<CR>
-          ##    nmap <leader>de :VimFiler -buffer-name=explorer -toggle<CR>
-          ##    nmap <leader>df :VimFilerBufferDir -buffer-name=explorer -toggle<CR>
-          ##  '';
-          ##}
-
-          #vim-nix
+          vim-nix
         ];
-      };
-
-      # TODO rice my setup
-      starship = {
-        enable = true;
-        settings = {
-          add_newline = true;
-        };
-      };
-    };
-
-    home = {
-      username = "mark";
-      stateVersion = "22.05";
-      homeDirectory = "/home/mark";
-
-      shellAliases = {
-        cat = "bat";
-
-        g = "git";
-
-        cp = "cp -i"; # write error instead of overwriting
-        cpv = "rsync -pogr --progress";
-        cpp = "rsync -Wavp --human-readable --progress $1 $2";
-
-        mv = "mv -i";
-        rm = "rm -ir";
-
-        weather = "curl wttr.in";
-        oracow = "fortune | cowsay";
-      };
-
-      # extra directories to add to $PATH
-      # TODO setup ~/bin
-      # TODO ~/.config/feltnerm/{functions.sh,/bin}
-      sessionPath = [
-        #"$HOME/.local/bin"
-        #"\${xdg.configHome}/bin"
-      ];
-
-      # TODO profile => environment variables
-      sessionVariables = {
-        #MANPAGER = "sh -c 'col -bx | cat -l man -p'";
-        #EDITOR = "vim";
-        DROPBOX = "$HOME/Dropbox";
-        WIKI = "$HOME/vimwiki_html";
-        WIKI_SOURCE = "$HOME/vimwiki";
-        CODE_HOME = "$HOME/code";
-        PROJECTS = "$CODE_HOME";
-
-        # GUI/Wayland
-        MOZ_ENABLE_WAYLAND = 1;
-        XDG_CURRENT_DESKTOP = "sway";
-      };
-    };
-
-    # home.file = {};
-    home.file = {
-      ".hushlogin" = {
-        text = "";
-      };
-
-      ".editorconfig" = {
-        text = ''
-          # editorconfig.org
-          root = true
-
-          [*]
-          charset = utf-8
-          end_of_line = lf
-          trim_trailing_whitespace = true
-          insert_final_newline = true
-
-          [*.{json,yaml,yml,toml,tml}]
-          indent_style = space
-          indent_size = 2
-
-          [Makefile]
-          indent_style = tab
-        '';
       };
     };
   };

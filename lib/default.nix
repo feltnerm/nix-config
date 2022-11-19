@@ -47,15 +47,9 @@ in rec {
       };
       modules =
         [
+          ../modules/common
+          ../modules/nixos
           {
-            imports = [
-              (import ../modules/common {inherit inputs;})
-              (import ../modules/nixos {inherit inputs;})
-            ];
-
-            feltnerm = systemConfig;
-            # TODO is this module needed?
-
             # set hostname of this machine
             networking.hostName = hostname;
 
@@ -64,6 +58,7 @@ in rec {
 
             #users.defaultUserShell = pkgs.zsh;
           }
+          systemConfig
         ]
         ++ map mkUser users
         ++ [hostModule];
@@ -122,57 +117,21 @@ in rec {
   in
     homeManagerConfiguration {
       inherit pkgs;
-      modules =
-        [
-          {
-            imports = [
-              (import ../modules/common {inherit inputs;})
-              (import ../modules/home-manager {inherit inputs;})
-            ];
-          }
-          {
-            config.feltnerm = userConfig;
-          }
-          {
-            home = {
-              # username = username;
-              # homeDirectory = "/home/${username}";
-            };
-          }
-
-          #     (import userModule {inherit inputs outputs hostname username colorscheme wallpaper features userConfig;})
-          #   ];
-          # }
-          userModule
-        ]
-        ++ [userModule];
+      # additional arguments to all modules:
+      extraSpecialArgs = {
+        #inherit inputs outputs hostname username colorscheme wallpaper features userConfig;
+        inherit inputs outputs hostname username colorscheme wallpaper features;
+      };
+      modules = [
+        ../modules/common
+        ../modules/home-manager
+        {
+          home = {
+            inherit username;
+          };
+        }
+        userModule
+        userConfig
+      ];
     };
-  # homeManagerConfiguration {
-  #   # TODO does this set useGlobalPkgs and useUserPackages to true, essentially?
-  #   inherit pkgs username;
-  #   # TODO make this modular, it should be
-  #   system = "x86_64-linux";
-
-  #   homeDirectory = "/home/${username}";
-
-  #   # additional arguments to all modules:
-  #   extraSpecialArgs = {
-  #     inherit inputs outputs hostname username colorscheme wallpaper features userConfig;
-  #   };
-
-  #   configuration = {
-  #     feltnerm = userConfig;
-  #   };
-
-  #   extraModules =
-  #     [
-  #       {
-  #         imports = [
-  #           (import ../modules/common {inherit inputs;})
-  #           (import ../modules/home-manager {inherit inputs;})
-  #         ];
-  #       }
-  #     ]
-  #     ++ [userModule];
-  # };
 }

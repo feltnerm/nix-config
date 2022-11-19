@@ -13,15 +13,20 @@ in {
     };
   };
 
-  #config = {
-  #  home.xdg = lib.mkIf cfg.enable {
-  #    # home.xdg = {
-  #    enable = true;
-  #    userDirs = {
-  #      enable = true;
-  #      createDirectories = true;
-  #    };
-  #    # };
-  #  };
-  #};
+  options.feltnerm.config.xdg = {
+    enableUserDirs = lib.mkOption {
+      description = "Enable XDG user-dirs.dir support";
+      default = true;
+    };
+  };
+
+  config = {
+    xdg = {
+      inherit (cfg) enable;
+      userDirs = {
+        enable = cfg.enableUserDirs;
+        createDirectories = true;
+      };
+    };
+  };
 }

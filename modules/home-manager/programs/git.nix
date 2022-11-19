@@ -139,7 +139,7 @@ in {
 
     signCommits = lib.mkOption {
       description = "Whether to sign commits with GPG";
-      default = true;
+      default = false;
     };
 
     # TODO
@@ -160,9 +160,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      diff-so-fancy
-    ];
+    home.shellAliases = {
+      g = "git";
+    };
 
     programs.git = {
       enable = true;
@@ -208,7 +208,7 @@ in {
 
         # https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/
         # https://stackoverflow.com/questions/27417656/should-diff3-be-default-conflictstyle-on-git
-        merge.conflictstyle = "zdiff3";
+        merge.conflictstyle = "diff3";
         merge.log = true;
 
         # TODO ?
