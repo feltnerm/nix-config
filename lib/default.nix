@@ -18,10 +18,10 @@ in rec {
 
   forAllSystems = genAttrs systems;
 
-  mkSystem = {
+  mkNixosSystem = {
     hostname,
     users,
-    system,
+    system ? "x86_64-linux",
     pkgs,
     systemConfig ? {},
   }: let
@@ -30,8 +30,7 @@ in rec {
     };
 
     systemUsers = map (mkUser {inherit pkgs userCfg;}) users;
-
-    hostModule = ./../hosts + "/${hostname}" + /default.nix;
+    hostModule = ./..hosts + "/${hostname}" + /default.nix;
   in
     nixosSystem {
       inherit pkgs system;
@@ -55,7 +54,46 @@ in rec {
           hostModule
           # agenix.nixosModules
         ]
-        ++ systemUsers;
+        ++ users;
+    };
+
+  mkDarwinSystem = {
+    hostname,
+    users,
+    system ? "x86_64-darwin",
+    pkgs,
+    systemConfig ? {},
+    ...
+  }: let
+    userCfg = {
+      inherit hostname;
+    };
+
+    systemUsers = map (mkUser {inherit pkgs userCfg;}) users;
+    hostModule = ./..hosts + "/${hostname}" + /default.nix;
+  in
+    darwin.lib.darwinSystem {
+      inherit pkgs system;
+      specialArgs = {
+        inherit inputs outputs hostname users systemConfig;
+      };
+      modules =
+        [
+          ../modules/common
+          ../modules/darwin
+          {
+            # set hostname of this machine
+            networking.hostName = hostname;
+
+            # by default, disable any non-enabled networking interface
+            networking.useDHCP = false;
+
+            #users.defaultUserShell = pkgs.zsh;
+          }
+          systemConfig
+          hostModule
+        ]
+        ++ users;
     };
 
   # create a regular ol' user on a system
@@ -103,7 +141,8 @@ in rec {
   mkHome = {
     username,
     hostname ? null,
-    pkgs ? outputs.nixosConfigurations.${hostname}.pkgs,
+    configuration ? outputs.nixosConfigurations,
+    pkgs ? "${configuration}"."${hostname}".pkgs,
     colorscheme ? null,
     wallpaper ? null,
     features ? [],

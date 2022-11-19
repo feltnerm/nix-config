@@ -22,7 +22,7 @@
 
   outputs = inputs: let
     lib = import ./lib {inherit inputs;};
-    inherit (lib) mkSystem mkHome forAllSystems;
+    inherit (lib) mkNixosSystem mkDarwinSystem mkHome forAllSystems;
 
     # default system users
     defaultUsers = [
@@ -78,7 +78,7 @@
       });
 
     nixosConfigurations = {
-      monke = mkSystem {
+      monke = mkNixosSystem {
         hostname = "monke";
         system = "x86_64-linux";
         pkgs = legacyPackages."x86_64-linux";
@@ -87,10 +87,11 @@
           feltnerm = {};
         };
       };
+    };
 
-      markbook = mkSystem {
+    darwinConfigurations = {
+      "markbook" = mkDarwinSystem {
         hostname = "markbook";
-        system = "x86_64-darwin";
         pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
         systemConfig = {
@@ -138,6 +139,7 @@
       "mark@markbook" = mkHome {
         username = "mark";
         hostname = "markbook";
+        configuration = darwinConfigurations;
         userConfig = {
           home = {
             homeDirectory = "/Users/mark";
