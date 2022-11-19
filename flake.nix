@@ -42,14 +42,17 @@
       default = legacyPackages.${system}.callPackage ./shell.nix {};
     });
 
-    legacyPackages = forAllSystems (
+    formatter = forAllSystems (
       system:
-        import inputs.nixpkgs {
-          inherit system;
-          overlays = builtins.attrValues overlays;
-          config.allowUnfree = true;
-        }
+        legacyPackages.${system}.alejandra
     );
+
+    legacyPackages = forAllSystems (system:
+      import inputs.nixpkgs {
+        inherit system;
+        overlays = builtins.attrValues overlays;
+        config.allowUnfree = true;
+      });
 
     # default system users
     defaultUsers = [
