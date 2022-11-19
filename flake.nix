@@ -15,28 +15,51 @@
 
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     agenix.url = "github:yaxitech/ragenix";
     # agenix.url = "github:ryantm/agenix";
-    # agenix.inputs.nixpkgs.follows = "nixos";
   };
 
   outputs = inputs: let
     lib = import ./lib {inherit inputs;};
     inherit (lib) mkSystem mkHome forAllSystems;
-  in rec {
-    inherit lib;
 
+    # default system users
+    defaultUsers = [
+      {
+        username = "mark";
+        uid = 1000;
+        groups = [
+          "wheel"
+          "disk"
+          "audio"
+          "video"
+          "input"
+          "systemd-journal"
+          "networkmanager"
+          "network"
+        ];
+      }
+    ];
+  in rec {
     overlays = {
       # default = import ./overlay {inherit inputs;};
       # unstable = inputs.unstable.overlay;
-      # nur = inputs.nur.overlay;
+      nur = inputs.nur.overlay;
     };
 
-    # nixosModules = import ./modules/nixos;
-    # homeManagerModules = import ./modules/home-manager;
+    nixosModules = {
+      feltnerm = import ./modules/nixos/default.nix;
+    };
+
+    homeManagerModules = {
+      feltnerm = import ./modules/home-manager/default.nix;
+    };
 
     # TODO
     # templates = import ./templates;
+
+    # checks = forAllSystems (system: doCheck);
 
     devShells = forAllSystems (system: {
       default = legacyPackages.${system}.callPackage ./shell.nix {};
@@ -54,29 +77,10 @@
         config.allowUnfree = true;
       });
 
-    # default system users
-    defaultUsers = [
-      {
-        username = "mark";
-        uid = 1000;
-        groups = [
-          "wheel"
-          "disk"
-          "audio"
-          "video"
-          "input"
-          "systemd-journal"
-          "networkmanager"
-          "network"
-        ];
-        # TODO share user and system packages
-        pkgs = legacyPackages."x86_64-linux";
-      }
-    ];
-
     nixosConfigurations = {
       monke = mkSystem {
         hostname = "monke";
+        system = "x86_64-linux";
         pkgs = legacyPackages."x86_64-linux";
         users = defaultUsers;
         systemConfig = {
@@ -86,18 +90,13 @@
 
       markbook = mkSystem {
         hostname = "markbook";
+        system = "x86_64-darwin";
         pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
         systemConfig = {
           feltnerm = {};
         };
       };
-
-      # # TODO raspberry pi 3 server
-      # secupi = mkSystem {
-      #   hostname = "secupi";
-      #   pkgs = legacyPackages."aarch64-linux";
-      # }
     };
 
     homeConfigurations = {
@@ -134,7 +133,6 @@
           };
         };
         features = [];
-        # TODO add more configuration definitions here.
       };
 
       "mark@markbook" = mkHome {
@@ -153,23 +151,6 @@
         };
         features = [];
       };
-
-      #"kram@monke" = mkHome {
-      #  username = "kram";
-      #  hostname = "monke";
-      #};
-
-      # # TODO raspberry pi server
-      # "mark@secupi" = mkHome {
-      #   username = "mark";
-      #   hostname = "secupi";
-      # };
-
-      # # TODO work + darwin
-      # "mfeltner@mfeltner" = mkHome {
-      #   username = "mfeltner";
-      #   hostname = "mfeltner";
-      # };
     };
   };
 }

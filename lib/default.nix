@@ -1,19 +1,10 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs unstable hardware nur home-manager agenix;
+  inherit (inputs) self nixpkgs unstable hardware nur home-manager darwin agenix;
   inherit (self) outputs;
   inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
   inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
   inherit (home-manager.lib) homeManagerConfiguration;
 in rec {
-  # Applies a function to a attrset's names, while keeping the values
-  mapAttrNames = f:
-    mapAttrs' (name: value: {
-      name = f name;
-      inherit value;
-    });
-
-  has = element: any (x: x == element);
-
   getUsername = string: elemAt (match "(.*)@(.*)" string) 0;
   getHostname = string: elemAt (match "(.*)@(.*)" string) 1;
 
@@ -24,11 +15,13 @@ in rec {
     "x86_64-darwin"
     "x86_64-linux"
   ];
+
   forAllSystems = genAttrs systems;
 
   mkSystem = {
     hostname,
     users,
+    system,
     pkgs,
     systemConfig ? {},
   }: let
@@ -36,12 +29,12 @@ in rec {
       inherit hostname;
     };
 
+    systemUsers = map (mkUser {inherit pkgs userCfg;}) users;
+
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
   in
     nixosSystem {
-      inherit pkgs;
-      # TODO make this modular, it should be
-      system = "x86_64-linux";
+      inherit pkgs system;
       specialArgs = {
         inherit inputs outputs hostname users systemConfig;
       };
@@ -59,18 +52,21 @@ in rec {
             #users.defaultUserShell = pkgs.zsh;
           }
           systemConfig
+          hostModule
+          # agenix.nixosModules
         ]
-        ++ map mkUser users
-        ++ [hostModule];
-      #++ [agenix.nixosModule];
+        ++ systemUsers;
     };
 
   # create a regular ol' user on a system
   mkUser = {
+    pkgs,
+    userConfig ? {},
+    ...
+  }: {
     username,
     initialPassword ? "spanky",
     uid,
-    pkgs,
     groups ? [],
   }: {
     users.users."${username}" = {
