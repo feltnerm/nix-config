@@ -120,7 +120,9 @@ in {
     };
 
     programs.waybar.enable = true;
-    programs.qt5ct.enable = true;
+    # FIXME
+    #programs.qt5ct.enable = true;
+    qt5.platformTheme = "qt5ct";
 
     # sound
     sound.enable = true;

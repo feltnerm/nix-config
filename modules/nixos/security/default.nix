@@ -15,7 +15,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     # Enable root and sudo access to `nix`
-    nix.allowedUsers = ["root" "@wheel"];
+    nix.settings.allowed-users = ["root" "@wheel"];
 
     security = {
       # rtkit.enable = true;
