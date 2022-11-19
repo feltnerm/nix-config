@@ -4,15 +4,6 @@
   ...
 }: let
   cliPackages = with pkgs; [
-    # shell
-    # bat
-    # exa
-    fd
-    # jq
-    # readline
-    ripgrep
-    # tmux
-
     # docker management:
     dive
 

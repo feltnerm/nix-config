@@ -1,10 +1,9 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
-}: let
-  # cfg = config.mark;
-in {
+}: {
   imports = [./cli.nix];
 
   config = {
@@ -15,7 +14,7 @@ in {
           username = "feltnerm";
           # TODO better public email
           email = "feltner.mj@gmail.com";
-          # signCommits = true;
+          signCommits = lib.mkDefault true;
         };
 
         gpg = {

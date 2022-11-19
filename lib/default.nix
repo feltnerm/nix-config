@@ -119,7 +119,6 @@ in rec {
       inherit pkgs;
       # additional arguments to all modules:
       extraSpecialArgs = {
-        #inherit inputs outputs hostname username colorscheme wallpaper features userConfig;
         inherit inputs outputs hostname username colorscheme wallpaper features;
       };
       modules = [

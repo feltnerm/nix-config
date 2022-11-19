@@ -52,6 +52,7 @@ in {
       readline
       ripgrep
       ripgrep-all
+      # vim
 
       fpp
 
