@@ -10,24 +10,24 @@
     feltnerm = {
       programs = {
         git = {
-          enable = true;
-          username = "feltnerm";
+          enable = lib.mkDefault true;
+          username = lib.mkDefault "feltnerm";
           # TODO better public email
-          email = "feltner.mj@gmail.com";
+          email = lib.mkDefault "feltner.mj@gmail.com";
           signCommits = lib.mkDefault true;
         };
 
         gpg = {
-          pubKey = "3BBF0F96";
-          enable = true;
+          pubKey = lib.mkDefault "3BBF0F96";
+          enable = lib.mkDefault true;
         };
       };
     };
 
     programs = {
       keychain = {
-        enable = true;
-        keys = ["id_ed25519_sk"];
+        enable = lib.mkDefault true;
+        keys = lib.mkDefault ["id_ed25519_sk"];
       };
     };
 
