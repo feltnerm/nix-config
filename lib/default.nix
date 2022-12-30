@@ -21,16 +21,17 @@ in rec {
   mkNixosSystem = {
     hostname,
     users,
-    system ? "x86_64-linux",
     pkgs,
+    defaultShell ? "bash",
+    system ? "x86_64-linux",
     systemConfig ? {},
   }: let
     userCfg = {
       inherit hostname;
     };
 
-    systemUsers = map mkNixosUser users;
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
+    mkNixosUser = nixosUserFactory pkgs;
   in
     nixosSystem {
       inherit pkgs system;
@@ -48,20 +49,21 @@ in rec {
             # by default, disable any non-enabled networking interface
             networking.useDHCP = false;
 
-            #users.defaultUserShell = pkgs.zsh;
+            users.defaultUserShell = pkgs."${defaultShell}";
           }
           systemConfig
           hostModule
           # agenix.nixosModules
         ]
-        ++ systemUsers;
+        ++ (map mkNixosUser users);
     };
 
   mkDarwinSystem = {
     hostname,
     users,
-    system ? "x86_64-darwin",
     pkgs,
+    defaultShell ? "bash",
+    system ? "x86_64-darwin",
     systemConfig ? {},
     ...
   }: let
@@ -69,8 +71,8 @@ in rec {
       inherit hostname;
     };
 
-    systemUsers = map mkDarwinUser users;
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
+    mkDarwinUser = darwinUserFactory pkgs;
   in
     darwin.lib.darwinSystem {
       inherit pkgs system;
@@ -88,19 +90,20 @@ in rec {
             # by default, disable any non-enabled networking interface
             networking.useDHCP = false;
 
-            #users.defaultUserShell = pkgs.zsh;
+            users.defaultUserShell = pkgs."${defaultShell}";
           }
           systemConfig
           hostModule
         ]
-        ++ systemUsers;
+        ++ (map mkDarwinUser users);
     };
 
-  mkNixosUser = {
+  nixosUserFactory = {pkgs, ...}: {
     username,
     uid ? 1000,
     isSudo ? false,
     initialPassword ? "spanky",
+    shell ? "bash",
   }: let
     groups =
       if isSudo
@@ -116,11 +119,15 @@ in rec {
       ]
       else [];
   in
-    mkUser {inherit username initialPassword uid groups;};
+    mkUser {
+      inherit username initialPassword uid groups;
+      shell = pkgs."${shell}";
+    };
 
-  mkDarwinUser = {
+  darwinUserFactory = {pkgs, ...}: {
     username,
     initialPassword ? "spanky",
+    shell ? "bash",
     isSudo ? false,
     uid ? 1000,
   }: let
@@ -129,11 +136,15 @@ in rec {
       then []
       else [];
   in
-    mkUser {inherit username initialPassword uid groups;};
+    mkUser {
+      inherit username initialPassword uid groups;
+      shell = pkgs."${shell}";
+    };
 
   mkUser = {
     username,
     uid,
+    shell,
     createHome ? true,
     groups ? [],
     home ? "/home/${username}",
@@ -142,7 +153,7 @@ in rec {
     isSystemUser ? false,
   }: let
     user = {
-      inherit uid createHome home isNormalUser isSystemUser;
+      inherit uid createHome home isNormalUser isSystemUser shell;
       name = username;
       initialPassword = "${initialPassword}";
       extraGroups = groups;

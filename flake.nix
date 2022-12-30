@@ -29,6 +29,7 @@
       {
         username = "mark";
         isSudo = true;
+        shell = "zsh";
         # uid = 1000;
         # # TODO make OS-agnostic (define: isSudo, isVideo, etc. conditionally)
         # groups = [
