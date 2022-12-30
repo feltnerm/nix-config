@@ -16,31 +16,6 @@ in
 
     config = lib.mkIf cfg.enable {
       fonts = {
-        fonts = with pkgs; [
-          comfortaa
-          comic-neue
-          fira
-          fira-code
-          fira-code-symbols
-          ibm-plex
-          inter
-          iosevka
-          iosevka
-          jetbrains-mono
-          lato
-          material-design-icons
-          nerdfonts
-          noto-fonts
-          noto-fonts-cjk
-          noto-fonts-emoji
-          powerline-fonts
-          roboto
-          source-sans
-          twemoji-color-font
-          work-sans
-          (nerdfonts.override {fonts = ["Iosevka" "JetBrainsMono"];})
-        ];
-
         enableDefaultFonts = false;
 
         fontconfig = {

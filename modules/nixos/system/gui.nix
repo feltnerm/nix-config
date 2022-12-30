@@ -6,6 +6,8 @@
 }: let
   cfg = config.feltnerm.system.gui;
 
+  # TODO ensure these text files are conditionally written
+
   # nixos.wiki/wiki/Sway
   dbus-sway-environment = pkgs.writeTextFile {
     name = "dbus-sway-environment";
@@ -32,13 +34,6 @@
     '';
   };
 in {
-  options.feltnerm.system.gui = {
-    enable = lib.mkOption {
-      description = "Enable desktop GUI";
-      default = false;
-    };
-  };
-
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       greetd.gtkgreet
@@ -116,7 +111,8 @@ in {
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
       ];
-      gtkUsePortal = true;
+      # FIXME deprecated?
+      #gtkUsePortal = true;
     };
 
     programs.waybar.enable = true;

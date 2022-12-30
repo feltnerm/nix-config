@@ -28,17 +28,19 @@
     defaultUsers = [
       {
         username = "mark";
-        uid = 1000;
-        groups = [
-          "wheel"
-          "disk"
-          "audio"
-          "video"
-          "input"
-          "systemd-journal"
-          "networkmanager"
-          "network"
-        ];
+        isSudo = true;
+        # uid = 1000;
+        # # TODO make OS-agnostic (define: isSudo, isVideo, etc. conditionally)
+        # groups = [
+        #   "wheel"
+        #   "disk"
+        #   "audio"
+        #   "video"
+        #   "input"
+        #   "systemd-journal"
+        #   "networkmanager"
+        #   "network"
+        # ];
       }
     ];
   in rec {

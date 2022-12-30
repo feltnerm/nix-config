@@ -1,1 +1,216 @@
-_: {}
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.feltnerm.system;
+in {
+  # imports = [
+  #   ./boot.nix
+  #   ./gui.nix
+  #   ./nix.nix
+  #   ./networking.nix
+  #   ./nix.nix
+  # ];
+
+  # docs
+  options.feltnerm.system.documentation = {
+    enable = lib.mkOption {
+      description = "Enable building documentation.";
+      default = true;
+    };
+  };
+
+  # locale
+  options.feltnerm.system.locale = {
+    timezone = lib.mkOption {
+      description = "System timezone";
+      default = "America/Chicago";
+    };
+
+    keymap = lib.mkOption {
+      description = "System keymap";
+      default = "us";
+    };
+  };
+
+  # nix
+  options.feltnerm.system.nix = {
+    enableFlake = lib.mkOption {
+      description = "Enable nix flake support";
+      default = true;
+    };
+
+    allowBroken = lib.mkOption {
+      description = "Allow broken nix pkgs.";
+      type = lib.types.bool;
+      default = false;
+    };
+
+    allowUnfree = lib.mkOption {
+      description = "Break Stallman's heart.";
+      type = lib.types.bool;
+      default = true;
+    };
+
+    allowedUsers = lib.mkOption {
+      description = "Users to give access to nix to.";
+      default = [];
+    };
+  };
+
+  # fonts
+  options.feltnerm.system.config.fonts = {
+    enable = lib.mkOption {
+      description = "Enable pretty fonts.";
+      default = false;
+    };
+  };
+
+  # gui
+  options.feltnerm.system.gui = {
+    enable = lib.mkOption {
+      description = "Enable desktop GUI.";
+      default = false;
+    };
+  };
+
+  config = {
+    time.timeZone = cfg.locale.timezone;
+    #users.defaultUserShell = [ pkgs.zsh ];
+    environment = {
+      # TODO only add whichever is enabled?
+      pathsToLink = ["/share/bash-completion" "/share/zsh"];
+      variables = {
+        EDITOR = "vim";
+        # TODO man, less, etc with colors
+      };
+
+      shells = [pkgs.zsh pkgs.bash];
+
+      # TODO system and/or home-manager packages?
+      systemPackages = with pkgs; [
+        zsh
+        vim
+        git
+        man
+
+        # shell utils
+        ack
+        bat
+        exa
+        fd
+        readline
+        ripgrep
+        tmux
+
+        # process management
+        bottom
+        htop
+        killall
+        lsof
+        #pidof
+
+        # processors
+        gawk
+        jq
+
+        # networking
+        curl
+        mosh
+        mtr
+        openssl
+        rsync
+        speedtest-cli
+        sshfs
+        wget
+
+        # utils
+        tree
+        unrar
+        unzip
+
+        # nix
+        niv
+        nixfmt
+
+        # fun
+        cowsay
+        figlet
+        fortune
+        lolcat
+        neofetch
+        toilet
+      ];
+    };
+
+    documentation = lib.mkIf cfg.documentation.enable {
+      enable = true;
+      dev.enable = true;
+      man = {
+        enable = true;
+        generateCaches = true;
+      };
+      info.enable = true;
+      nixos.enable = true;
+    };
+
+    nix = {
+      gc = {
+        automatic = true;
+        dates = "daily";
+        options = "--delete-older-than 4d";
+      };
+      # package = pkgs.nixUnstable;
+      settings = {
+        experimental-features = ["nix-command" "flakes"];
+        auto-optimise-store = true;
+        allowed-users = cfg.nix.allowedUsers;
+        # substituters = [
+        #   "https://cache.nixos.org?priority=10"
+        #   "https://fortuneteller2k.cachix.org"
+        # ];
+
+        # trusted-public-keys = [
+        #   "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        #   "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
+        # ];
+      };
+    };
+
+    nixpkgs.config = {
+      inherit (cfg.nix) allowBroken;
+      inherit (cfg.nix) allowUnfree;
+    };
+
+    programs.zsh.enable = true;
+
+    fonts = lib.mkIf cfg.config.fonts {
+      fonts = with pkgs; [
+        comfortaa
+        comic-neue
+        fira
+        fira-code
+        fira-code-symbols
+        ibm-plex
+        inter
+        iosevka
+        iosevka
+        jetbrains-mono
+        lato
+        material-design-icons
+        nerdfonts
+        noto-fonts
+        noto-fonts-cjk
+        noto-fonts-emoji
+        powerline-fonts
+        roboto
+        source-sans
+        twemoji-color-font
+        work-sans
+        (nerdfonts.override {fonts = ["Iosevka" "JetBrainsMono"];})
+      ];
+    };
+  };
+}

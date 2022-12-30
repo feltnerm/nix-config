@@ -29,8 +29,8 @@ in rec {
       inherit hostname;
     };
 
-    systemUsers = map (mkUser {inherit pkgs userCfg;}) users;
-    hostModule = ./..hosts + "/${hostname}" + /default.nix;
+    systemUsers = map mkNixosUser users;
+    hostModule = ./../hosts + "/${hostname}" + /default.nix;
   in
     nixosSystem {
       inherit pkgs system;
@@ -54,7 +54,7 @@ in rec {
           hostModule
           # agenix.nixosModules
         ]
-        ++ users;
+        ++ systemUsers;
     };
 
   mkDarwinSystem = {
@@ -69,8 +69,8 @@ in rec {
       inherit hostname;
     };
 
-    systemUsers = map (mkUser {inherit pkgs userCfg;}) users;
-    hostModule = ./..hosts + "/${hostname}" + /default.nix;
+    systemUsers = map mkDarwinUser users;
+    hostModule = ./../hosts + "/${hostname}" + /default.nix;
   in
     darwin.lib.darwinSystem {
       inherit pkgs system;
@@ -93,48 +93,62 @@ in rec {
           systemConfig
           hostModule
         ]
-        ++ users;
+        ++ systemUsers;
     };
 
-  # create a regular ol' user on a system
-  mkUser = {
-    pkgs,
-    userConfig ? {},
-    ...
-  }: {
+  mkNixosUser = {
+    username,
+    uid ? 1000,
+    isSudo ? false,
+    initialPassword ? "spanky",
+  }: let
+    groups =
+      if isSudo
+      then [
+        "wheel"
+        "disk"
+        "audio"
+        "video"
+        "input"
+        "systemd-journal"
+        "networkmanager"
+        "network"
+      ]
+      else [];
+  in
+    mkUser {inherit username initialPassword uid groups;};
+
+  mkDarwinUser = {
     username,
     initialPassword ? "spanky",
-    uid,
-    groups ? [],
-  }: {
-    users.users."${username}" = {
-      isNormalUser = true;
-      isSystemUser = false;
+    isSudo ? false,
+    uid ? 1000,
+  }: let
+    groups =
+      if isSudo
+      then []
+      else [];
+  in
+    mkUser {inherit username initialPassword uid groups;};
 
+  mkUser = {
+    username,
+    uid,
+    createHome ? true,
+    groups ? [],
+    home ? "/home/${username}",
+    initialPassword ? "spanky",
+    isNormalUser ? true,
+    isSystemUser ? false,
+  }: let
+    user = {
+      inherit uid createHome home isNormalUser isSystemUser;
       name = username;
-      inherit uid;
       initialPassword = "${initialPassword}";
       extraGroups = groups;
-
-      shell = pkgs.zsh;
-
-      createHome = true;
-      home = "/home/${username}";
     };
-  };
-
-  # make a system user; for a daemon or something
-  mkSystemUser = {
-    username,
-    groups ? [],
-  }: {
-    users.users."${username}" = {
-      isNormalUser = false;
-      isSystemUser = true;
-
-      name = username;
-      extraGroups = groups;
-    };
+  in {
+    users.users."${username}" = user;
   };
 
   # make a home-manager managed user

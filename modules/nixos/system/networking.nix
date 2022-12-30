@@ -41,7 +41,9 @@ in {
   in {
     networking = {
       networkmanager.enable = cfg.enableNetworkManager;
-      firewall = {enable = cfg.enableFirewall;};
+      firewall = {
+        enable = cfg.enableFirewall;
+      };
       useDHCP = !cfg.preferExplicitNetworkAccess;
       interfaces = networkCfg;
     };

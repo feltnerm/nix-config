@@ -7,29 +7,16 @@
   cfg = config.feltnerm.system;
 in {
   imports = [
-    ./boot.nix
+    # ./boot.nix
     ./gui.nix
-    ./nix.nix
     ./networking.nix
-    ./nix.nix
+    # ./nix.nix
   ];
-
-  options.feltnerm.system.documentation = {
-    enable = lib.mkOption {
-      description = "Enable building documentation.";
-      default = true;
-    };
-  };
 
   options.feltnerm.system.locale = {
     locale = lib.mkOption {
       description = "Locale for the system.";
       default = "en_US.UTF-8";
-    };
-
-    timezone = lib.mkOption {
-      description = "System timezone";
-      default = "America/Chicago";
     };
 
     keymap = lib.mkOption {
@@ -38,11 +25,18 @@ in {
     };
   };
 
+  options.feltnerm.system.boot = {
+    cleanTmpDir = lib.mkOption {
+      description = "Enabling wiping /tmp on reboot.";
+      default = true;
+    };
+  };
+
   config = {
     i18n.defaultLocale = cfg.locale.locale;
-    time.timeZone = cfg.locale.timezone;
 
     console = {
+      # TODO
       #font = "Lat2-Terminus16";
       # keyMap = cfg.locale.keymap;
       useXkbConfig = true; # use xkbOptions in tty.
@@ -62,81 +56,16 @@ in {
     #   MaxFileSec=7day
     # '';
 
-    #users.defaultUserShell = [ pkgs.zsh ];
-
     environment = {
       sessionVariables = {
         EDITOR = "vim";
         # TODO man, less, etc with colors
       };
-
-      shells = [pkgs.zsh pkgs.bash];
-
-      # TODO system and/or home-manager packages?
-      systemPackages = with pkgs; [
-        zsh
-        vim
-        git
-        man
-
-        # shell utils
-        ack
-        bat
-        exa
-        fd
-        readline
-        ripgrep
-        tmux
-
-        # process management
-        bottom
-        htop
-        killall
-        lsof
-        #pidof
-
-        # processors
-        gawk
-        jq
-
-        # networking
-        curl
-        mosh
-        mtr
-        openssl
-        rsync
-        speedtest-cli
-        sshfs
-        wget
-
-        # utils
-        tree
-        unrar
-        unzip
-
-        # nix
-        niv
-        nixfmt
-
-        # fun
-        cowsay
-        figlet
-        fortune
-        lolcat
-        neofetch
-        toilet
-      ];
     };
 
-    documentation = lib.mkIf cfg.documentation.enable {
-      enable = true;
-      dev.enable = true;
-      man = {
-        enable = true;
-        generateCaches = true;
-      };
-      info.enable = true;
-      nixos.enable = true;
-    };
+    boot.cleanTmpDir = cfg.boot.cleanTmpDir;
+    # boot.kernelPackages = pkgs.linuxPackages_latest;
+    # boot.kernelParams = [];
+    # boot.blacklistedKernelModules = [];
   };
 }
