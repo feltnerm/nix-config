@@ -107,6 +107,7 @@
       "mark@monke" = mkHome {
         username = "mark";
         hostname = "monke";
+        pkgs = legacyPackages."x86_64-linux";
         userConfig = {
           home = {
             homeDirectory = "/home/mark";
@@ -142,7 +143,7 @@
       "mark@markbook" = mkHome {
         username = "mark";
         hostname = "markbook";
-        configuration = darwinConfigurations;
+        pkgs = legacyPackages."x86_64-darwin";
         userConfig = {
           home = {
             homeDirectory = "/Users/mark";

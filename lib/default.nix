@@ -65,7 +65,6 @@ in rec {
     defaultShell ? "bash",
     system ? "x86_64-darwin",
     systemConfig ? {},
-    ...
   }: let
     userCfg = {
       inherit hostname;
@@ -165,9 +164,8 @@ in rec {
   # make a home-manager managed user
   mkHome = {
     username,
-    hostname ? null,
-    configuration ? outputs.nixosConfigurations,
-    pkgs ? "${configuration}"."${hostname}".pkgs,
+    hostname,
+    pkgs,
     colorscheme ? null,
     wallpaper ? null,
     features ? [],
@@ -183,7 +181,6 @@ in rec {
         inherit inputs outputs hostname username colorscheme wallpaper features;
       };
       modules = [
-        ../modules/common
         ../modules/home-manager
         {
           home = {
