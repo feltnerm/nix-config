@@ -22,9 +22,9 @@ in {
       };
     };
 
-    wayland.windowManager.sway = {
+    wayland.windowManager.sway = lib.mkIf cfg.enable {
       # FIXME
-      enable = lib.mkIf cfg.enable;
+      enable = true;
       config = {
         menu = "${pkgs.wofi}/bin/wofi --show drun";
         terminal = "${pkgs.alacritty}/bin/alacritty";
@@ -59,6 +59,6 @@ in {
       };
     };
 
-    services.swayidle.enable = lib.mkIf cfg.enable;
+    services.swayidle.enable = true;
   };
 }

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.feltnerm.system;
+  cfg = config.feltnerm;
 in {
   # imports = [
   #   ./boot.nix
@@ -15,7 +15,7 @@ in {
   # ];
 
   # docs
-  options.feltnerm.system.documentation = {
+  options.feltnerm.documentation = {
     enable = lib.mkOption {
       description = "Enable building documentation.";
       default = true;
@@ -23,7 +23,7 @@ in {
   };
 
   # locale
-  options.feltnerm.system.locale = {
+  options.feltnerm.locale = {
     timezone = lib.mkOption {
       description = "System timezone";
       default = "America/Chicago";
@@ -36,7 +36,7 @@ in {
   };
 
   # nix
-  options.feltnerm.system.nix = {
+  options.feltnerm.nix = {
     enableFlake = lib.mkOption {
       description = "Enable nix flake support";
       default = true;
@@ -61,7 +61,7 @@ in {
   };
 
   # fonts
-  options.feltnerm.system.config.fonts = {
+  options.feltnerm.config.fonts = {
     enable = lib.mkOption {
       description = "Enable pretty fonts.";
       default = false;
@@ -69,7 +69,7 @@ in {
   };
 
   # gui
-  options.feltnerm.system.gui = {
+  options.feltnerm.gui = {
     enable = lib.mkOption {
       description = "Enable desktop GUI.";
       default = false;
@@ -147,19 +147,19 @@ in {
 
     documentation = lib.mkIf cfg.documentation.enable {
       enable = true;
-      dev.enable = true;
+      # dev.enable = true;
       man = {
         enable = true;
-        generateCaches = true;
+        # generateCaches = true;
       };
       info.enable = true;
-      nixos.enable = true;
+      # nixos.enable = true;
     };
 
     nix = {
       gc = {
         automatic = true;
-        dates = "daily";
+        # dates = "daily";
         options = "--delete-older-than 4d";
       };
       # package = pkgs.nixUnstable;
@@ -186,7 +186,7 @@ in {
 
     programs.zsh.enable = true;
 
-    fonts = lib.mkIf cfg.config.fonts {
+    fonts = lib.mkIf cfg.config.fonts.enable {
       fonts = with pkgs; [
         comfortaa
         comic-neue

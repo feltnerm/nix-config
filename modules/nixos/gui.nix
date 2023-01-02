@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.feltnerm.system.gui;
+  cfg = config.feltnerm.gui;
 
   # TODO ensure these text files are conditionally written
 

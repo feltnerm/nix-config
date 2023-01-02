@@ -30,18 +30,6 @@
         username = "mark";
         isSudo = true;
         shell = "zsh";
-        # uid = 1000;
-        # # TODO make OS-agnostic (define: isSudo, isVideo, etc. conditionally)
-        # groups = [
-        #   "wheel"
-        #   "disk"
-        #   "audio"
-        #   "video"
-        #   "input"
-        #   "systemd-journal"
-        #   "networkmanager"
-        #   "network"
-        # ];
       }
     ];
   in rec {
@@ -72,6 +60,17 @@
       system:
         legacyPackages.${system}.alejandra
     );
+
+    # TODO base dev image(s), base server image(s)
+    packages =
+      forAllSystems (system: {
+      });
+
+    hydraJobs = {
+      nixos = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
+      darwin = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
+      home = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+    };
 
     legacyPackages = forAllSystems (system:
       import inputs.nixpkgs {

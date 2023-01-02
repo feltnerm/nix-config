@@ -13,21 +13,14 @@
 
   config = {
     feltnerm = {
-      # users = {
-      #   mark = {
-      #     name = "mark";
-      #     groups = ["users" "wheel" "networkmanager"];
-      #     uid = 1000;
-      #     shell = pkgs.zsh;
-      #   };
+      config = {
+        fonts.enable = true;
+      };
 
-      #   kram = {
-      #     name = "kram";
-      #     uid = 1001;
-      #     groups = ["users" "wheel"];
-      #     shell = pkgs.zsh;
-      #   };
-      # };
+      documentation.enable = true;
+
+      gui.enable = true;
+
       hardware = {
         bluetooth.enable = true;
         cpu = {
@@ -38,26 +31,19 @@
         ssd.enable = true;
       };
 
-      system = {
-        gui.enable = true;
-        documentation.enable = true;
-        networking = {
-          enableNetworkManager = true;
-          preferExplicitNetworkAccess = true;
-          interfaces = ["wlp2s0"];
-        };
-        nix = {
-          enableFlake = true;
-          allowedUsers = ["mark"];
-        };
+      networking = {
+        enableNetworkManager = true;
+        preferExplicitNetworkAccess = true;
+        interfaces = ["wlp2s0"];
+      };
+
+      nix = {
+        enableFlake = true;
+        allowedUsers = ["mark"];
       };
 
       security = {
         enable = true;
-      };
-
-      config = {
-        fonts.enable = true;
       };
 
       services = {

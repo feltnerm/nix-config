@@ -4,31 +4,19 @@
   pkgs,
   ...
 }: let
-  cfg = config.feltnerm.system;
+  cfg = config.feltnerm;
 in {
-  imports = [
-    # ./boot.nix
-    ./gui.nix
-    ./networking.nix
-    # ./nix.nix
-  ];
-
-  options.feltnerm.system.locale = {
-    locale = lib.mkOption {
-      description = "Locale for the system.";
-      default = "en_US.UTF-8";
-    };
-
-    keymap = lib.mkOption {
-      description = "System keymap";
-      default = "us";
-    };
-  };
-
-  options.feltnerm.system.boot = {
+  options.feltnerm.boot = {
     cleanTmpDir = lib.mkOption {
       description = "Enabling wiping /tmp on reboot.";
       default = true;
+    };
+  };
+
+  options.feltnerm.locale = {
+    locale = lib.mkOption {
+      description = "Locale for the system.";
+      default = "en_US.UTF-8";
     };
   };
 

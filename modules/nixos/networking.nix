@@ -4,9 +4,9 @@
   lib,
   ...
 }: let
-  cfg = config.feltnerm.system.networking;
+  cfg = config.feltnerm.networking;
 in {
-  options.feltnerm.system.networking = {
+  options.feltnerm.networking = {
     enableNetworkManager = lib.mkOption {
       description = "Enable Network Manager";
       default = false;

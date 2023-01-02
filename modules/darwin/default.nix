@@ -8,11 +8,8 @@
 in {
   imports = [];
 
-  options.feltnerm.darwin = {
-  };
-
   config = {
     # allow nix to manage fonts
-    fonts.fontDir.enable = config.feltnerm.system.config.fonts.enable;
+    fonts.fontDir.enable = config.feltnerm.config.fonts.enable;
   };
 }

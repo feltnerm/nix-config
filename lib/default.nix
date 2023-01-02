@@ -74,7 +74,8 @@ in rec {
     mkDarwinUser = darwinUserFactory pkgs;
   in
     darwin.lib.darwinSystem {
-      inherit pkgs system;
+      # inherit pkgs system;
+      inherit system;
       specialArgs = {
         inherit inputs outputs hostname users systemConfig;
       };
@@ -87,9 +88,9 @@ in rec {
             networking.hostName = hostname;
 
             # by default, disable any non-enabled networking interface
-            networking.useDHCP = false;
+            # networking.useDHCP = false;
 
-            users.defaultUserShell = pkgs."${defaultShell}";
+            # users.defaultUserShell = pkgs."${defaultShell}";
           }
           systemConfig
           hostModule
@@ -117,11 +118,21 @@ in rec {
         "network"
       ]
       else [];
-  in
-    mkUser {
-      inherit username initialPassword uid groups;
-      shell = pkgs."${shell}";
+
+    userShell = pkgs."${shell}";
+
+    isNormalUser = true;
+    isSystemUser = false;
+  in {
+    users.users."${username}" = {
+      inherit uid isNormalUser isSystemUser;
+      shell = userShell;
+      initialPassword = "${initialPassword}";
+      extraGroups = groups;
+      createHome = true;
+      home = "/home/${username}";
     };
+  };
 
   darwinUserFactory = {pkgs, ...}: {
     username,
@@ -130,35 +141,22 @@ in rec {
     isSudo ? false,
     uid ? 1000,
   }: let
-    groups =
-      if isSudo
-      then []
-      else [];
-  in
-    mkUser {
-      inherit username initialPassword uid groups;
-      shell = pkgs."${shell}";
-    };
-
-  mkUser = {
-    username,
-    uid,
-    shell,
-    createHome ? true,
-    groups ? [],
-    home ? "/home/${username}",
-    initialPassword ? "spanky",
-    isNormalUser ? true,
-    isSystemUser ? false,
-  }: let
-    user = {
-      inherit uid createHome home isNormalUser isSystemUser shell;
-      name = username;
-      initialPassword = "${initialPassword}";
-      extraGroups = groups;
-    };
+    # groups =
+    #   if isSudo
+    #   then []
+    #   else [];
+    # isNormalUser = true;
+    # isSystemUser = false;
+    userShell = pkgs."${shell}";
   in {
-    users.users."${username}" = user;
+    users.users."${username}" = {
+      inherit uid;
+      name = username;
+      shell = userShell;
+      # initialPassword = "${initialPassword}";
+      createHome = true;
+      home = "/Users/${username}";
+    };
   };
 
   # make a home-manager managed user
