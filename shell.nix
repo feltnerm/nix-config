@@ -1,6 +1,6 @@
 {pkgs ? import <nixpkgs> {}, ...}:
 pkgs.mkShell {
-  nativeBuildInputs = [
+  packages = [
     pkgs.nix
     pkgs.home-manager
     pkgs.git

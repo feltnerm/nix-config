@@ -34,42 +34,10 @@
     ];
   in rec {
     overlays = {
+      nur = inputs.nur.overlay;
+      # TODO
       # default = import ./overlay {inherit inputs;};
       # unstable = inputs.unstable.overlay;
-      nur = inputs.nur.overlay;
-    };
-
-    nixosModules = {
-      feltnerm = import ./modules/nixos/default.nix;
-    };
-
-    homeManagerModules = {
-      feltnerm = import ./modules/home-manager/default.nix;
-    };
-
-    # TODO
-    # templates = import ./templates;
-
-    # checks = forAllSystems (system: doCheck);
-
-    devShells = forAllSystems (system: {
-      default = legacyPackages.${system}.callPackage ./shell.nix {};
-    });
-
-    formatter = forAllSystems (
-      system:
-        legacyPackages.${system}.alejandra
-    );
-
-    # TODO base dev image(s), base server image(s)
-    packages =
-      forAllSystems (system: {
-      });
-
-    hydraJobs = {
-      nixos = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
-      darwin = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
-      home = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
     };
 
     legacyPackages = forAllSystems (system:
@@ -78,6 +46,22 @@
         overlays = builtins.attrValues overlays;
         config.allowUnfree = true;
       });
+
+    nixosModules = {
+      feltnerm = import ./modules/nixos/default.nix;
+    };
+
+    homeManagerModules = {
+      feltnerm = import ./modules/home-manager/default.nix;
+    };
+    devShells = forAllSystems (system: {
+      default = legacyPackages.${system}.callPackage ./shell.nix {};
+    });
+
+    formatter = forAllSystems (
+      system:
+        legacyPackages.${system}.alejandra
+    );
 
     nixosConfigurations = {
       monke = mkNixosSystem {
@@ -157,5 +141,16 @@
         features = [];
       };
     };
+
+    hydraJobs = {
+      nixos = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
+      darwin = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
+      home = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+    };
+
+    # TODO
+    # templates = import ./templates;
+    # checks = forAllSystems (system: doCheck);
+
   };
 }
