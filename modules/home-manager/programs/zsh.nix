@@ -48,13 +48,10 @@ in {
         path = "${config.xdg.dataHome}/zsh/zsh_history";
       };
 
-      #zplug = {
-      #  enable = true;
-      #  #plugins = [
-      #  #  "bhilburn/powerlevel9k"
-      #  #  "willghatch/zsh-saneopt"
-      #  #];
-      #};
+      zplug = {
+        enable = true;
+        plugins = [];
+      };
 
       # added to the top of .zshrc
       initExtraFirst = "";
