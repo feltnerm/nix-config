@@ -65,9 +65,10 @@
     );
 
     hydraJobs = {
-      nixos = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
-      darwin = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
-      home = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+      nixosConfigurations = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
+      darwinConfigurations = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
+      homeConfigurations = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+      inherit packages;
     };
 
     packages = forAllSystems (system: (
