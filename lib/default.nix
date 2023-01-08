@@ -22,7 +22,7 @@ in rec {
     hostname,
     users,
     pkgs,
-    defaultShell ? "bash",
+    defaultShell ? "bashInteractive",
     system ? "x86_64-linux",
     systemConfig ? {},
   }: let
@@ -62,7 +62,7 @@ in rec {
     hostname,
     users,
     pkgs,
-    defaultShell ? "bash",
+    defaultShell ? "bashInteractive",
     system ? "x86_64-darwin",
     systemConfig ? {},
   }: let
@@ -103,7 +103,7 @@ in rec {
     uid ? 1000,
     isSudo ? false,
     initialPassword ? "spanky",
-    shell ? "bash",
+    shell ? "bashInteractive",
   }: let
     groups =
       if isSudo
@@ -137,7 +137,7 @@ in rec {
   darwinUserFactory = {pkgs, ...}: {
     username,
     initialPassword ? "spanky",
-    shell ? "bash",
+    shell ? "bashInteractive",
     isSudo ? false,
     uid ? 1000,
   }: let
