@@ -64,6 +64,12 @@
         legacyPackages.${system}.alejandra
     );
 
+    hydraJobs = {
+      nixos = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
+      darwin = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
+      home = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+    };
+
     packages = forAllSystems (system: (
       import ./packages {pkgs = legacyPackages."${system}";}
     ));
@@ -147,10 +153,16 @@
       };
     };
 
-    hydraJobs = {
-      nixos = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
-      darwin = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
-      home = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+    nixConfig = {
+      extra-substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+      ];
+
+      extra-trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
     };
 
     # TODO
