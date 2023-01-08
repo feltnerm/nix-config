@@ -34,17 +34,27 @@
     ];
   in rec {
     overlays = {
+      feltnerm = final: _prev: import ./packages {pkgs = final;};
       nur = inputs.nur.overlay;
-      # TODO
-      # default = import ./overlay {inherit inputs;};
-      # unstable = inputs.unstable.overlay;
     };
 
     legacyPackages = forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
         overlays = builtins.attrValues overlays;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+        };
+        settings = {
+          substituters = [
+            "https://cache.nixos.org"
+            "https://nix-community.cachix.org"
+          ];
+          trusted-public-keys = [
+            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+          ];
+        };
       });
 
     nixosModules = {
@@ -65,10 +75,10 @@
     );
 
     hydraJobs = {
+      inherit packages devShells;
       nixosConfigurations = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
       darwinConfigurations = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
       homeConfigurations = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
-      inherit packages;
     };
 
     packages = forAllSystems (system: (
@@ -154,20 +164,9 @@
       };
     };
 
-    nixConfig = {
-      extra-substituters = [
-        "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
-      ];
-
-      extra-trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
-    };
+    templates = import ./templates;
 
     # TODO
-    # templates = import ./templates;
     # checks = forAllSystems (system: doCheck);
   };
 }
