@@ -1,3 +1,25 @@
+# `% brew tap`
+* borkdude/brew
+* boz/repo
+* c-bata/kube-prompt
+* clojure-lsp/brew
+* d12frosted/emacs-plus
+* homebrew/bundle
+* homebrew/cask
+* homebrew/cask-fonts
+* homebrew/cask-versions
+* homebrew/core
+* homebrew/services
+* moncho/dry
+* neovim/neovim
+* railwaycat/emacsmacport
+* rogual/neovim-dot-app
+* str4d.xyz/rage
+* thoughtbot/formulae
+* universal-ctags/universal-ctags
+* wagoodman/dive
+* wallix/awless
+
 # `% brew list`
 * ack
 * adns
@@ -326,6 +348,17 @@
 * zimg
 * zlib
 * zstd
+* corretto
+* corretto8
+* disk-inventory-x
+* font-hack
+* font-iosevka
+* java
+* vagrant
+* virtualbox
+* xquartz
+
+# `brew list --cask`
 * corretto
 * corretto8
 * disk-inventory-x
