@@ -66,25 +66,6 @@ in {
 
         bindkey -v
         export KEYTIMEOUT=1
-
-        # TODO only add if tmux is enabled.
-        function tmuxn() {
-          if [[ -z "$1" ]]
-          then
-            tmux new-session -s $(basename $(pwd))
-          else
-            tmux new-session -s "$1"
-          fi
-        }
-
-        function tmuxa() {
-          if [[ -z "$1" ]]
-          then
-            tmux attach-session -t $(basename $(pwd))
-          else
-            tmux attach-session -t "$1"
-          fi
-        }
       '';
 
       #added to .zprofile

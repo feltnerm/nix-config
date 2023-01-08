@@ -54,6 +54,7 @@
     homeManagerModules = {
       feltnerm = import ./modules/home-manager/default.nix;
     };
+
     devShells = forAllSystems (system: {
       default = legacyPackages.${system}.callPackage ./shell.nix {};
     });
@@ -62,6 +63,10 @@
       system:
         legacyPackages.${system}.alejandra
     );
+
+    packages = forAllSystems (system: (
+      import ./packages {pkgs = legacyPackages."${system}";}
+    ));
 
     nixosConfigurations = {
       monke = mkNixosSystem {
