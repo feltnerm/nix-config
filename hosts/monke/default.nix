@@ -37,11 +37,6 @@
         interfaces = ["wlp2s0"];
       };
 
-      nix = {
-        enableFlake = true;
-        allowedUsers = ["mark"];
-      };
-
       security = {
         enable = true;
       };
