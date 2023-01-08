@@ -92,7 +92,7 @@ in {
         # TODO man, less, etc with colors
       };
 
-      shells = [pkgs.zsh pkgs.bash];
+      shells = [pkgs.zsh pkgs.bashInteractive];
 
       # TODO system and/or home-manager packages?
       systemPackages = with pkgs; [
