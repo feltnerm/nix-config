@@ -90,7 +90,8 @@ in rec {
             # by default, disable any non-enabled networking interface
             # networking.useDHCP = false;
 
-            # users.defaultUserShell = pkgs."${defaultShell}";
+            # TODO
+            # networking.computername = hostname;
           }
           systemConfig
           hostModule
