@@ -3,7 +3,7 @@
   description = "LaTeX flake";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = github:numtide/flake-utils;
+    flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = {
     self,

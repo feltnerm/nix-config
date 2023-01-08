@@ -3,9 +3,7 @@
   lib,
   pkgs,
   ...
-}: let
-  # cfg = config.feltnerm.config.fonts;
-in {
+}: {
   config = lib.mkIf config.feltnerm.config.fonts.enable {
     fonts = {
       enableDefaultFonts = false;
