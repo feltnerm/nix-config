@@ -83,9 +83,8 @@ in {
 
   config = {
     time.timeZone = cfg.locale.timezone;
-    #users.defaultUserShell = [ pkgs.zsh ];
     environment = {
-      # TODO only add whichever is enabled?
+      # TODO only add whichever is enabled
       pathsToLink = ["/share/bash-completion" "/share/zsh"];
       variables = {
         EDITOR = "vim";
@@ -152,13 +151,10 @@ in {
 
     documentation = lib.mkIf cfg.documentation.enable {
       enable = true;
-      # dev.enable = true;
       man = {
         enable = true;
-        # generateCaches = true;
       };
       info.enable = true;
-      # nixos.enable = true;
     };
 
     nix = {
@@ -171,15 +167,14 @@ in {
         experimental-features = ["nix-command" "flakes"];
         auto-optimise-store = true;
         allowed-users = cfg.nix.allowedUsers;
-        # substituters = [
-        #   "https://cache.nixos.org?priority=10"
-        #   "https://fortuneteller2k.cachix.org"
-        # ];
+        trusted-users = cfg.nix.trustedUsers;
+        substituters = [
+          "https://cache.nixos.org"
+        ];
 
-        # trusted-public-keys = [
-        #   "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        #   "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
-        # ];
+        trusted-public-keys = [
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        ];
       };
     };
 

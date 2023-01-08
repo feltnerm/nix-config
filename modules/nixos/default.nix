@@ -15,6 +15,7 @@
   ];
 
   config = {
+    # nixos specific documentation
     documentation = lib.mkIf config.feltnerm.documentation.enable {
       dev.enable = true;
       man.generateCaches = true;
