@@ -136,8 +136,11 @@ in {
         unzip
 
         # nix
+        alejandra
         niv
-        nixfmt
+        nix-index
+        nix-diff
+        statix
 
         # fun
         cowsay
