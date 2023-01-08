@@ -23,6 +23,8 @@ in {
   config = {
     i18n.defaultLocale = cfg.locale.locale;
 
+    nix.gc.dates = "daily";
+
     console = {
       # TODO
       #font = "Lat2-Terminus16";

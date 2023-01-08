@@ -58,6 +58,11 @@ in {
       description = "Users to give access to nix to.";
       default = [];
     };
+
+    trustedUsers = lib.mkOption {
+      description = "Users to give enhanced access to nix to.";
+      default = [];
+    };
   };
 
   # fonts
@@ -159,7 +164,6 @@ in {
     nix = {
       gc = {
         automatic = true;
-        # dates = "daily";
         options = "--delete-older-than 4d";
       };
       # package = pkgs.nixUnstable;

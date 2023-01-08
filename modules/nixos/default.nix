@@ -20,5 +20,8 @@
       man.generateCaches = true;
       nixos.enable = true;
     };
+
+    # Give admins enhanced nix privs
+    nix.settings.trusted-users = ["@wheel"];
   };
 }
