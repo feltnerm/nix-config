@@ -151,6 +151,5 @@
     # TODO
     # templates = import ./templates;
     # checks = forAllSystems (system: doCheck);
-
   };
 }
