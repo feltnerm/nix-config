@@ -17,6 +17,7 @@ jobs:
       with:
         name: feltnerm
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - run: nix-shell --run "alejandra --check ."
     - run: nix-shell --run "statix check ."
     - run: nix flake check
     - run: nix-shell --run "echo OK"
