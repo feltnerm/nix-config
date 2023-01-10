@@ -1,4 +1,4 @@
-{...}: {
+_: {
   networking = {
     hostName = "monke";
     networkmanager.enable = true;
