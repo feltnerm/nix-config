@@ -1,8 +1,8 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs unstable hardware nur home-manager darwin agenix;
+  inherit (inputs) self home-manager darwin;
   inherit (self) outputs;
-  inherit (builtins) elemAt match any mapAttrs attrValues attrNames listToAttrs;
-  inherit (nixpkgs.lib) nixosSystem filterAttrs genAttrs mapAttrs';
+  inherit (builtins) elemAt match;
+  inherit (nixpkgs.lib) nixosSystem genAttrs;
   inherit (home-manager.lib) homeManagerConfiguration;
 in rec {
   getUsername = string: elemAt (match "(.*)@(.*)" string) 0;
@@ -26,9 +26,6 @@ in rec {
     system ? "x86_64-linux",
     systemConfig ? {},
   }: let
-    userCfg = {
-      inherit hostname;
-    };
 
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
     mkNixosUser = nixosUserFactory pkgs;
@@ -62,13 +59,9 @@ in rec {
     hostname,
     users,
     pkgs,
-    defaultShell ? "bashInteractive",
     system ? "x86_64-darwin",
     systemConfig ? {},
   }: let
-    userCfg = {
-      inherit hostname;
-    };
 
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
     mkDarwinUser = darwinUserFactory pkgs;
@@ -137,9 +130,7 @@ in rec {
 
   darwinUserFactory = {pkgs, ...}: {
     username,
-    initialPassword ? "spanky",
     shell ? "bashInteractive",
-    isSudo ? false,
     uid ? 1000,
   }: let
     # groups =

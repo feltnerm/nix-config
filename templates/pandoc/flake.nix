@@ -19,7 +19,7 @@
       });
   in {
     overlays = rec {
-      default = final: prev: {
+      default = _final: prev: {
         foo-bar = prev.callPackage ./. {};
       };
     };

@@ -78,7 +78,7 @@
       inherit packages devShells;
       nixosConfigurations = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) nixosConfigurations;
       darwinConfigurations = builtins.mapAttrs (_: cfg: cfg.config.system.build.toplevel) darwinConfigurations;
-      homeConfigurations = builtins.mapAttrs (_: cfg: {}) homeConfigurations;
+      homeConfigurations = builtins.mapAttrs (_: _cfg: {}) homeConfigurations;
     };
 
     packages = forAllSystems (system: (

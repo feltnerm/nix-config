@@ -1,6 +1,4 @@
-{config, ...}: let
-  cfg = config.feltnerm.config;
-in {
+{config, ...}: {
   imports = [
     ./xdg.nix
   ];
