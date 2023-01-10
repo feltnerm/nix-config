@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   # F I L E S Y S T E M
   fileSystems = {
     "/boot" = {

@@ -33,7 +33,6 @@
       };
     };
   };
-
 in {
   options.feltnerm.programs.neovim = {
     enable = lib.mkOption {

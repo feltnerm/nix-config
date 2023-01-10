@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   cliPackages = with pkgs; [
     # docker management:
     dive
@@ -27,7 +24,7 @@
     nnn
 
     # nix
-    home-manager
+    #home-manager
     niv
     nix-index
 

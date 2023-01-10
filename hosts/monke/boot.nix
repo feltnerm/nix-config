@@ -1,6 +1,4 @@
-{
-  ...
-}: {
+{...}: {
   # use the GRUB2 bootloader
   boot.loader = {
     systemd-boot = {

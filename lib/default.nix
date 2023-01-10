@@ -26,7 +26,6 @@ in rec {
     system ? "x86_64-linux",
     systemConfig ? {},
   }: let
-
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
     mkNixosUser = nixosUserFactory pkgs;
   in
@@ -62,7 +61,6 @@ in rec {
     system ? "x86_64-darwin",
     systemConfig ? {},
   }: let
-
     hostModule = ./../hosts + "/${hostname}" + /default.nix;
     mkDarwinUser = darwinUserFactory pkgs;
   in

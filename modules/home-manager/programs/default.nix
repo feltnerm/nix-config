@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   imports = [
     ./alacritty.nix
     ./firefox.nix
