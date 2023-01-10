@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self home-manager darwin;
+  inherit (inputs) self nixpkgs home-manager darwin;
   inherit (self) outputs;
   inherit (builtins) elemAt match;
   inherit (nixpkgs.lib) nixosSystem genAttrs;
@@ -67,7 +67,6 @@ in rec {
     mkDarwinUser = darwinUserFactory pkgs;
   in
     darwin.lib.darwinSystem {
-      # inherit pkgs system;
       inherit system;
       specialArgs = {
         inherit inputs outputs hostname users systemConfig;
@@ -103,13 +102,13 @@ in rec {
       if isSudo
       then [
         "wheel"
-        "disk"
         "audio"
-        "video"
+        "disk"
         "input"
-        "systemd-journal"
-        "networkmanager"
         "network"
+        "networkmanager"
+        "systemd-journal"
+        "video"
       ]
       else [];
 
@@ -132,20 +131,18 @@ in rec {
     username,
     shell ? "bashInteractive",
     uid ? 1000,
+    isSudo ? false,
   }: let
-    # groups =
-    #   if isSudo
-    #   then []
-    #   else [];
-    # isNormalUser = true;
-    # isSystemUser = false;
+    groups =
+      if isSudo
+      then ["admin"]
+      else [];
     userShell = pkgs."${shell}";
   in {
     users.users."${username}" = {
       inherit uid;
       name = username;
       shell = userShell;
-      # initialPassword = "${initialPassword}";
       createHome = true;
       home = "/Users/${username}";
     };
