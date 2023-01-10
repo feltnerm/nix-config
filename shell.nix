@@ -1,13 +1,14 @@
 {pkgs ? import <nixpkgs> {}, ...}:
 pkgs.mkShell {
   packages = [
-    pkgs.nix
-    pkgs.nix-index
-    pkgs.nix-diff
-    pkgs.home-manager
     pkgs.git
 
-    pkgs.alejandra
-    pkgs.statix
+    pkgs.alejandra # nix linter
+    pkgs.deadnix # remove unused code
+    pkgs.home-manager # home-manager
+    pkgs.niv # nix dependency mgmt
+    pkgs.nix-diff # compare derivations
+    pkgs.nix-index # search for nix packages
+    pkgs.statix # nix static analysis
   ];
 }

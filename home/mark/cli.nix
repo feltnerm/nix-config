@@ -28,11 +28,9 @@
     nnn
 
     # nix
-    alejandra
+    home-manager
     niv
     nix-index
-    nixfmt
-    statix
 
     # shell
     shellcheck
