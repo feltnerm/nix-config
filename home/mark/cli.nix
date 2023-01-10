@@ -63,6 +63,7 @@ in {
     config.xdg.enable = true;
     programs = {
       neovim.enable = true;
+      neovim.enableLanguageServer = true;
       readline.enable = true;
       ssh.enable = true;
       tmux.enable = true;

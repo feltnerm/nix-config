@@ -5,10 +5,44 @@
   ...
 }: let
   cfg = config.feltnerm.programs.neovim;
+  # TODO custom plugins
+  # vim-workspace
+
+  customVimPlugins = rec {
+    "denops.vim" = pkgs.vimUtils.buildVimPlugin {
+      name = "denops.vim";
+      buildInputs = [pkgs.perl];
+      buildPhase = null;
+      src = pkgs.fetchFromGitHub {
+        owner = "vim-denops";
+        repo = "denops.vim";
+        rev = "v3.4.2";
+        sha256 = "sha256-0TBrI7dvG/JlJ7Ni+MNylcAxwG8rw1J6jMydrBYTA6A=";
+      };
+    };
+
+    "ddu.vim" = pkgs.vimUtils.buildVimPlugin {
+      name = "ddu.vim";
+      buildInputs = [pkgs.deno];
+      buildPhase = null;
+      src = pkgs.fetchFromGitHub {
+        owner = "Shougo";
+        repo = "ddu.vim";
+        rev = "v2.1.0";
+        sha256 = "sha256-gKiDhXj+n3e1XisxNAw+Y+E2fqIfJYlZH0IoO/q8yjg=";
+      };
+    };
+  };
+
 in {
   options.feltnerm.programs.neovim = {
     enable = lib.mkOption {
       description = "Enable neovim";
+      default = false;
+    };
+
+    enableLanguageServer = lib.mkOption {
+      description = "Enable language server";
       default = false;
     };
   };
@@ -19,16 +53,17 @@ in {
       #vim.enable = true;
       neovim = {
         enable = true;
+        defaultEditor = true;
         withNodeJs = true;
         vimAlias = true;
         vimdiffAlias = true;
 
         # TODO enable language-server support
-        # coc = {
-        #   enable = true;
-        # };
+        coc = lib.mkIf cfg.enableLanguageServer {
+          enable = true;
+        };
 
-        extraPackages = [pkgs.git];
+        extraPackages = [pkgs.git pkgs.deno];
 
         extraConfig = ''
           map <space> <leader>
@@ -174,15 +209,21 @@ in {
           {
             plugin = vim-startify;
           }
+          editorconfig-vim
           delimitMate
+          nerdtree
           vim-abolish
           vim-commentary
+          vim-easymotion
+          vim-diminactive
           vim-eunuch
           vim-fugitive
+          vim-gitgutter
           vim-highlightedyank
           vim-indent-guides
           vim-obsession
           vim-repeat
+          vim-rooter
           vim-signify
           vim-surround
           vim-unimpaired
@@ -208,27 +249,20 @@ in {
             '';
           }
           vim-airline-themes
-
-          editorconfig-vim
-          vim-gitgutter
           {
-            plugin = vim-gitgutter;
-            #config = ''
-            #  let g:gitgutter_realtime = 1;
-            #'';
+            # plugin = vimfiler.vim;
+            plugin = nerdtree;
+            config = ''
+              nmap <leader>d :NERDTreeToggle<CR>
+              nmap <leader>de :NERDTreeToggleVCS<CR>
+              nmap <leader>df :NERDTreeFind<CR>
+            '';
           }
-          vim-rooter
-          #{
-          #  plugin = vimfiler.vim;
-          #  config = ''
-          #    let g:vimfiler_as_default_explorer = 1
-          #    nmap <leader>d :VimFiler -buffer-name=explorer -simple -toggle<CR>
-          #    nmap <leader>de :VimFiler -buffer-name=explorer -toggle<CR>
-          #    nmap <leader>df :VimFilerBufferDir -buffer-name=explorer -toggle<CR>
-          #  '';
-          #}
 
           vim-nix
+          customVimPlugins."denops.vim"
+          customVimPlugins."ddu.vim"
+          # vim-devicons # load last
         ];
       };
     };
