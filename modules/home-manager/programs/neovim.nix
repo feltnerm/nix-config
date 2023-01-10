@@ -8,31 +8,7 @@
   # TODO custom plugins
   # vim-workspace
 
-  customVimPlugins = rec {
-    "denops.vim" = pkgs.vimUtils.buildVimPlugin {
-      name = "denops.vim";
-      buildInputs = [pkgs.perl];
-      buildPhase = null;
-      src = pkgs.fetchFromGitHub {
-        owner = "vim-denops";
-        repo = "denops.vim";
-        rev = "v3.4.2";
-        sha256 = "sha256-0TBrI7dvG/JlJ7Ni+MNylcAxwG8rw1J6jMydrBYTA6A=";
-      };
-    };
-
-    "ddu.vim" = pkgs.vimUtils.buildVimPlugin {
-      name = "ddu.vim";
-      buildInputs = [pkgs.deno];
-      buildPhase = null;
-      src = pkgs.fetchFromGitHub {
-        owner = "Shougo";
-        repo = "ddu.vim";
-        rev = "v2.1.0";
-        sha256 = "sha256-gKiDhXj+n3e1XisxNAw+Y+E2fqIfJYlZH0IoO/q8yjg=";
-      };
-    };
-  };
+  customVimPlugins = import ./neovim-plugins.nix {inherit pkgs lib;};
 in {
   options.feltnerm.programs.neovim = {
     enable = lib.mkOption {
@@ -259,8 +235,50 @@ in {
           }
 
           vim-nix
-          customVimPlugins."denops.vim"
-          customVimPlugins."ddu.vim"
+          customVimPlugins."vim-denops/denops.vim"
+          customVimPlugins."vim-denops/denops-helloworld.vim"
+          customVimPlugins."Shougo/ddu.vim"
+          {
+            plugin = customVimPlugins."Shougo/ddu-ui-ff";
+            config = ''
+              call ddu#custom#patch_global({
+                \ 'ui': 'ff',
+                \ })
+            '';
+          }
+          {
+            plugin = customVimPlugins."Shougo/ddu-kind-file";
+            config = ''
+              call ddu#custom#patch_global({
+                \   'kindOptions': {
+                \     'file': {
+                \       'defaultAction': 'open',
+                \     },
+                \   }
+                \ })
+            '';
+          }
+          {
+            plugin = customVimPlugins."shun/ddu-source-rg";
+            # https://github.com/shun/ddu-source-rg#configuration
+            config = ''
+              call ddu#custom#patch_global({
+                \   'sourceParams' : {
+                \     'rg' : {
+                \       'args': ['--column', '--no-heading', '--color', 'never'],
+                \     },
+                \   },
+                \ })
+            '';
+          }
+          {
+            plugin = customVimPlugins."shun/ddu-source-buffer";
+            # https://github.com/shun/ddu-source-buffer#configuration
+            config = ''
+              " Use buffer source.
+              call ddu#start({'sources': [{'name': 'buffer'}]})
+            '';
+          }
           # vim-devicons # load last
         ];
       };
