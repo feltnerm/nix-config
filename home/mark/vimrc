@@ -68,12 +68,12 @@ set diffopt=filler
 set diffopt+=iwhite
 set diffopt+=vertical
 
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+" set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 
 """" Vimrc editing
-     autocmd! bufwritepost .vimrc source %
-     " no trailing whitespace
-     autocmd BufWritePre * %s/\s\+$//e
+autocmd! bufwritepost .vimrc source %
+" no trailing whitespace
+autocmd BufWritePre * %s/\s\+$//e
 
 """" Appearance
 colorscheme base16-gruvbox-dark-soft
@@ -132,4 +132,3 @@ map <C-l> <C-w>l
 " Create splits
 map <leader>sw :split<cr>
 map <leader>sv :vsplit<cr>
-

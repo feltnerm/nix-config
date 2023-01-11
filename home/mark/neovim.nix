@@ -1,7 +1,7 @@
 {pkgs, ...}: let
   feltnermVimrc = builtins.readFile ./vimrc;
 
-  vimPlugins = with pkgs; [
+  vimPlugins = with pkgs.vimPlugins; [
     base16-vim
     vim-colorschemes
     vim-janah
@@ -36,7 +36,7 @@
   ];
 in {
   config = {
-    feltnerm = {
+    feltnerm.programs = {
       neovim = {
         enable = true;
       };
