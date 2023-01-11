@@ -1,4 +1,4 @@
-{ ...}: {
+{...}: {
   nixosUserFactory = {pkgs, ...}: {
     username,
     uid ? 1000,

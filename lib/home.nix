@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self;
+  inherit (inputs) self home-manager;
   inherit (self) outputs;
   inherit (home-manager.lib) homeManagerConfiguration;
 in rec {
