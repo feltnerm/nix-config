@@ -1,10 +1,15 @@
 {pkgs, ...}: let
   feltnermVimrc = builtins.readFile ./vimrc.vim;
+  nvimLspConfig = builtins.readFile ./nvim-lsp.config.lua;
 
   vimPlugins = with pkgs.vimPlugins; [
     {
       plugin = nvim-lspconfig;
-      config = builtins.readFile ./nvim-lsp.config.lua;
+      config = ''
+        lua <<EOF
+          ${nvimLspConfig}
+        EOF
+      '';
     }
     {
       # plugin = nvim-treesitter;
@@ -29,9 +34,8 @@
       config = ''
         lua <<EOF
           require'nvim-treesitter.configs'.setup {
-            --ensure_installed = { "bash", "vim", "lua", "nix", "help", "html", "json", "yaml", "toml", "http", "jq", "regex", "sql" },
-            --sync_install = false,
-            --auto_install = false,
+            -- let nix handle the install
+            auto_install = false,
 
             highlight = {
               enable = true,
