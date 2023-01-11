@@ -30,6 +30,8 @@ in {
         enable = true;
         defaultEditor = true;
         withNodeJs = true;
+        withPython3 = true;
+        withRuby = true;
         vimAlias = true;
         vimdiffAlias = true;
 
@@ -225,7 +227,6 @@ in {
           }
           vim-airline-themes
           {
-            # plugin = vimfiler.vim;
             plugin = nerdtree;
             config = ''
               nmap <leader>d :NERDTreeToggle<CR>
@@ -233,7 +234,6 @@ in {
               nmap <leader>df :NERDTreeFind<CR>
             '';
           }
-
           vim-nix
           customVimPlugins."vim-denops/denops.vim"
           customVimPlugins."vim-denops/denops-helloworld.vim"
@@ -279,7 +279,7 @@ in {
               call ddu#start({'sources': [{'name': 'buffer'}]})
             '';
           }
-          # vim-devicons # load last
+          vim-devicons # load last
         ];
       };
     };

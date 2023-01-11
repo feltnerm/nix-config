@@ -4,7 +4,7 @@
     ./firefox.nix
     ./git.nix
     ./gpg.nix
-    ./neovim.nix
+    ./neovim
     ./readline.nix
     ./ssh.nix
     ./tmux.nix
