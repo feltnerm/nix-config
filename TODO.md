@@ -15,37 +15,48 @@ Non-exhaustive, semi-prioritized list of things left to do in this repo:
     - language support
     - setup dev env for _something_
         - chuck game development environment
-- [] rclone
-    - [] home
+- [ ] rclone
+    - [ ] home
         - gdrive personal
         - secrets for age?
         - caddy server?
+- [ ] work profile
 
 ## nixOS
 - [x] GUI
     - colorscheme / rice
-- [] rclone
-    - [] system
+- [ ] rclone
+    - [ ] system
         - secrets for age ?
         - import pubkeys - caddy server
         - secrets
             - passworded caddy server on local network?
 
 ## macOS
+- [ ] scroll speed, other tweaks
 - [x] macOS home-manager configuration
-- [] review `brew list`
-- [] scroll speed, other tweaks
+- [ ] review `brew list`
+  - [ ] brew gui programs for nix-darwin systems
+  - [ ] home-manager for things like firefox
 
 ## Other
-- [] nixops
-- [] Raspberry Pi nixosSystem
-- [] other OS support
-- [] VMs and Docker images
+- [ ] nixops
+- [ ] Raspberry Pi nixosSystem
+- [ ] other OS support
+- [ ] VMs and Docker images
 
 ## Secrets
-- [] Secrets management
-- [] Identity management
-    - [] integration w/ GitHub
-    - [] SSH keys
-    - [] GPG keys
-    - [] keybase
+- [ ] Secrets management
+- [ ] Identity management
+    - [ ] integration w/ GitHub
+    - [ ] SSH keys
+    - [ ] GPG keys
+    - [ ] keybase
+
+## vim
+
+https://github.com/LukasPietzschmann/telescope-tabs
+https://github.com/nvim-telescope/telescope-media-files.nvim
+https://github.com/cljoly/telescope-repo.nvim
+https://github.com/nvim-telescope/telescope-project.nvim
+https://github.com/crispgm/telescope-heading.nvim
