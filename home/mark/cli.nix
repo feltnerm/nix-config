@@ -50,54 +50,56 @@
     # caddy
   ];
 in {
-  home.packages = cliPackages;
+  imports = [./neovim.nix];
 
-  home.shellAliases = {
-    cat = "bat";
-  };
+  config = {
+    home.packages = cliPackages;
 
-  feltnerm = {
-    config.xdg.enable = true;
-    programs = {
-      neovim.enable = true;
-      neovim.enableLanguageServer = true;
-      readline.enable = true;
-      ssh.enable = true;
-      tmux.enable = true;
-      zsh.enable = true;
+    home.shellAliases = {
+      cat = "bat";
     };
-  };
 
-  programs = {
-    bat.enable = true;
-    command-not-found.enable = true;
-    direnv = {
-      enable = true;
-      nix-direnv = {
+    feltnerm = {
+      config.xdg.enable = true;
+      programs = {
+        readline.enable = true;
+        ssh.enable = true;
+        tmux.enable = true;
+        zsh.enable = true;
+      };
+    };
+
+    programs = {
+      bat.enable = true;
+      command-not-found.enable = true;
+      direnv = {
+        enable = true;
+        nix-direnv = {
+          enable = true;
+        };
+      };
+      dircolors = {
         enable = true;
       };
-    };
-    dircolors = {
-      enable = true;
-    };
-    exa = {
-      enable = true;
-      enableAliases = true;
-    };
-    fzf = {
-      enable = true;
-      tmux = {
-        #enableShellIntegration = true;
+      exa = {
+        enable = true;
+        enableAliases = true;
       };
-    };
-    htop.enable = true;
-    info.enable = true;
-    jq.enable = true;
+      fzf = {
+        enable = true;
+        tmux = {
+          #enableShellIntegration = true;
+        };
+      };
+      htop.enable = true;
+      info.enable = true;
+      jq.enable = true;
 
-    starship = {
-      enable = true;
-      settings = {
-        add_newline = true;
+      starship = {
+        enable = true;
+        settings = {
+          add_newline = true;
+        };
       };
     };
   };
