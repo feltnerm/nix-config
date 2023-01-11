@@ -22,7 +22,7 @@
 
   outputs = inputs: let
     lib = import ./lib {inherit inputs;};
-    inherit (lib) mkNixosSystem mkDarwinSystem mkHome forAllSystems;
+    inherit (lib) darwin home nixos utils;
 
     # default system users
     defaultUsers = [
@@ -38,7 +38,7 @@
       nur = inputs.nur.overlay;
     };
 
-    legacyPackages = forAllSystems (system:
+    systemPkgs = utils.forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
         overlays = builtins.attrValues overlays;
@@ -65,13 +65,13 @@
       feltnerm = import ./modules/home-manager/default.nix;
     };
 
-    devShells = forAllSystems (system: {
-      default = legacyPackages.${system}.callPackage ./shell.nix {};
+    devShells = utils.forAllSystems (system: {
+      default = systemPkgs.${system}.callPackage ./shell.nix {};
     });
 
-    formatter = forAllSystems (
+    formatter = utils.forAllSystems (
       system:
-        legacyPackages.${system}.alejandra
+        systemPkgs.${system}.alejandra
     );
 
     hydraJobs = {
@@ -81,15 +81,15 @@
       homeConfigurations = builtins.mapAttrs (_: _cfg: {}) homeConfigurations;
     };
 
-    packages = forAllSystems (system: (
-      import ./packages {pkgs = legacyPackages."${system}";}
+    packages = utils.forAllSystems (system: (
+      import ./packages {pkgs = systemPkgs."${system}";}
     ));
 
     nixosConfigurations = {
-      monke = mkNixosSystem {
+      monke = nixos.mkNixosSystem {
         hostname = "monke";
         system = "x86_64-linux";
-        pkgs = legacyPackages."x86_64-linux";
+        pkgs = systemPkgs."x86_64-linux";
         users = defaultUsers;
         systemConfig = {
           feltnerm = {};
@@ -98,9 +98,9 @@
     };
 
     darwinConfigurations = {
-      "markbook" = mkDarwinSystem {
+      "markbook" = darwin.mkDarwinSystem {
         hostname = "markbook";
-        pkgs = legacyPackages."x86_64-darwin";
+        pkgs = systemPkgs."x86_64-darwin";
         users = defaultUsers;
         systemConfig = {
           feltnerm = {};
@@ -109,10 +109,9 @@
     };
 
     homeConfigurations = {
-      "mark@monke" = mkHome {
+      "mark@monke" = home.mkHome {
         username = "mark";
-        hostname = "monke";
-        pkgs = legacyPackages."x86_64-linux";
+        pkgs = systemPkgs."x86_64-linux";
         userConfig = {
           home = {
             homeDirectory = "/home/mark";
@@ -145,13 +144,30 @@
         features = [];
       };
 
-      "mark@markbook" = mkHome {
+      "mark@markbook" = home.mkHome {
         username = "mark";
-        hostname = "markbook";
-        pkgs = legacyPackages."x86_64-darwin";
+        pkgs = systemPkgs."x86_64-darwin";
         userConfig = {
           home = {
             homeDirectory = "/Users/mark";
+          };
+          feltnerm = {
+            config.xdg.enableUserDirs = false;
+            home-manager.enableAutoUpgrade = false;
+
+            programs.git.signCommits = false;
+          };
+        };
+        features = [];
+      };
+
+      "mfeltner@mfeltner" = home.mkHome {
+        username = "mfeltner";
+        userModule = ./home/mark/default.nix;
+        pkgs = systemPkgs."x86_64-darwin";
+        userConfig = {
+          home = {
+            homeDirectory = "/Users/mfeltner";
           };
           feltnerm = {
             config.xdg.enableUserDirs = false;
@@ -167,6 +183,6 @@
     templates = import ./templates;
 
     # TODO
-    # checks = forAllSystems (system: doCheck);
+    # checks = utils.forAllSystems (system: doCheck);
   };
 }
