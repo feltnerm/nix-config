@@ -1,86 +1,186 @@
 {pkgs, ...}: let
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 
-  cocConfig = builtins.readFile ./coc.vim;
-  cocPlugins = with pkgs.vimPlugins; [
-    coc-clap
-    coc-sh
-    coc-json
-    coc-html
+  vimPlugins = with pkgs.vimPlugins; [
+    {
+      plugin = nvim-lspconfig;
+      config = builtins.readFile ./nvim-lsp.config.lua;
+    }
+    {
+      # plugin = nvim-treesitter;
+      plugin = nvim-treesitter.withPlugins (plugin:
+        with plugin; [
+          bash
+          help
+          html
+          http
+          jq
+          json
+          lua
+          markdown
+          markdown_inline
+          nix
+          regex
+          sql
+          toml
+          vim
+          yaml
+        ]);
+      config = ''
+        lua <<EOF
+          require'nvim-treesitter.configs'.setup {
+            --ensure_installed = { "bash", "vim", "lua", "nix", "help", "html", "json", "yaml", "toml", "http", "jq", "regex", "sql" },
+            --sync_install = false,
+            --auto_install = false,
+
+            highlight = {
+              enable = true,
+              additional_vim_regex_highlighting = false,
+            },
+            incremental_selection = {
+              enable = true,
+              keymaps = {
+                init_selection = "gnn", -- set to `false` to disable one of the mappings
+                node_incremental = "grn",
+                scope_incremental = "grc",
+                node_decremental = "grm",
+              },
+            },
+            indent = {
+              enable = true
+            },
+          }
+        EOF
+        set foldmethod=expr
+        set foldexpr=nvim_treesitter#foldexpr()
+        set nofoldenable                     " Disable folding at startup.
+      '';
+    }
+    {
+      plugin = nvim-treesitter-refactor;
+      config = ''
+        lua <<EOF
+          require'nvim-treesitter.configs'.setup {
+            refactor = {
+              highlight_definitions = {
+                enable = true,
+                -- Set to false if you have an `updatetime` of ~100.
+                clear_on_cursor_move = true,
+              },
+              highlight_current_scope = { enable = true },
+              smart_rename = {
+                enable = true,
+                keymaps = {
+                  smart_rename = "grr",
+                },
+              },
+              navigation = {
+                enable = true,
+                keymaps = {
+                  goto_definition = "gnd",
+                  list_definitions = "gnD",
+                  list_definitions_toc = "gO",
+                  goto_next_usage = "<a-*>",
+                  goto_previous_usage = "<a-#>",
+                },
+              },
+            },
+          }
+        EOF
+      '';
+    }
+    {
+      plugin = telescope-nvim;
+      config = ''
+        lua <<EOF
+          require('telescope').setup{
+            pickers = {
+              buffers = { theme = "dropdown", },
+              find_files = { theme = "dropdown", },
+              git_branches = { theme = "dropdown", },
+              git_files = { theme = "dropdown", },
+              help_tags = { theme = "dropdown", },
+              help_tags = { theme = "dropdown", },
+              live_grep = { theme = "dropdown" },
+
+              current_buffer_fuzzy_find = { theme = "cursor" },
+              current_buffer_tags = { theme = "cursor" },
+              quickfix = { theme = "cursor" },
+
+              command_history = { theme = "ivy" },
+              search_history = { theme = "ivy" },
+              help_tags = { theme = "ivy" },
+            }
+          }
+          local builtin = require('telescope.builtin')
+
+          vim.keymap.set('n', '<leader>p', builtin.live_grep, {})
+          vim.keymap.set('n', '<leader>pp', builtin.current_buffer_fuzzy_find, {})
+          vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
+
+          vim.keymap.set('n', '<leader>pb', builtin.buffers, {})
+
+          vim.keymap.set('n', '<leader>pt', builtin.tags, {})
+          vim.keymap.set('n', '<leader>pbt', builtin.current_buffer_tags, {})
+
+          vim.keymap.set('n', '<leader>phc', builtin.command_history, {})
+          vim.keymap.set('n', '<leader>phs', builtin.search_history, {})
+          vim.keymap.set('n', '<leader>phh', builtin.help_tags, {})
+
+          vim.keymap.set('n', '<leader>pq', builtin.quickfix, {})
+
+          vim.keymap.set('n', '<leader>pg', builtin.git_files, {})
+          vim.keymap.set('n', '<leader>pgc', builtin.git_commits, {})
+          vim.keymap.set('n', '<leader>pgbc', builtin.git_bcommits, {})
+          vim.keymap.set('n', '<leader>pgs', builtin.git_status, {})
+          vim.keymap.set('n', '<leader>pgb', builtin.git_branches, {})
+
+          vim.keymap.set('n', '<leader>cr', builtin.lsp_references, {})
+          vim.keymap.set('n', '<leader>cci', builtin.lsp_incoming_calls, {})
+          vim.keymap.set('n', '<leader>cco', builtin.lsp_outgoing_calls, {})
+          vim.keymap.set('n', '<leader>cs', builtin.lsp_document_symbols, {})
+          vim.keymap.set('n', '<leader>cws', builtin.lsp_workspace_symbols, {})
+          vim.keymap.set('n', '<leader>ci', builtin.lsp_implementations, {})
+          vim.keymap.set('n', '<leader>cd', builtin.lsp_definitions, {})
+          vim.keymap.set('n', '<leader>ct', builtin.lsp_type_definitions, {})
+          vim.keymap.set('n', '<leader>ctt', builtin.treesitter, {})
+        EOF
+      '';
+    }
+
+    base16-vim
+    vim-colorschemes
+    vim-janah
+    gruvbox
+    {
+      plugin = vim-one;
+      config = ''
+        let g:one_allow_italics = 1
+      '';
+    }
+    {
+      plugin = vim-airline;
+      config = ''
+        """" airline settings
+        let g:airline_theme = 'gruvbox'
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#branch#enabled = 1
+        let g:airline#extensions#hunks#enabled = 1
+      '';
+    }
+    vim-airline-themes
+    {
+      plugin = nerdtree;
+      config = ''
+        nmap <leader>d :NERDTreeToggle<CR>
+        nmap <leader>de :NERDTreeToggleVCS<CR>
+        nmap <leader>df :NERDTreeFind<CR>
+      '';
+    }
+    vista-vim
+    vim-nix
+    vim-devicons # load last
   ];
-
-  vimPlugins = with pkgs.vimPlugins;
-    [
-      base16-vim
-      vim-colorschemes
-      vim-janah
-      gruvbox
-      {
-        plugin = vim-one;
-        config = ''
-          let g:one_allow_italics = 1
-        '';
-      }
-      {
-        plugin = vim-airline;
-        config = ''
-          """" airline settings
-          let g:airline_theme = 'gruvbox'
-          let g:airline#extensions#tabline#enabled = 1
-          let g:airline#extensions#branch#enabled = 1
-          let g:airline#extensions#hunks#enabled = 1
-        '';
-      }
-      vim-airline-themes
-      {
-        plugin = nerdtree;
-        config = ''
-          nmap <leader>d :NERDTreeToggle<CR>
-          nmap <leader>de :NERDTreeToggleVCS<CR>
-          nmap <leader>df :NERDTreeFind<CR>
-        '';
-      }
-      vista-vim
-      {
-        plugin = vim-clap;
-        config = ''
-          nmap <leader>p :Clap live_grep<CR>
-          nmap <leader>pw :Clap live_grep ++query=<cword><CR>
-          vmap <leader>pw :Clap live_grep ++query=@visual<CR>
-          nmap <leader>P :Clap dumb_jump<CR>
-          nmap <leader>Pw :Clap dumb_jump ++query=<cword><CR>
-          vmap <leader>Pw :Clap dumb_jump ++query=@visual<CR>
-          nmap <leader>pp :Clap blines<CR>
-          nmap <leader>ppw :Clap blines ++query=<cword><CR>
-          vmap <leader>ppw :Clap blines ++query=@visual<CR>
-          nmap <leader>pf :Clap files<CR>
-          nmap <leader>pF :Clap filer<CR>
-          nmap <leader>pb :Clap buffers<CR>
-          nmap <leader>pg :Clap git_files<CR>
-          nmap <leader>pgc :Clap commits<CR>
-          nmap <leader>pG :Clap git_diff_files<CR>
-          nmap <leader>pr :Clap recent_files<CR>
-          nmap <leader>py :Clap yanks<CR>
-          nmap <leader>ph :Clap history <CR>
-          nmap <leader>phc :Clap command_history<CR>
-          nmap <leader>phs :Clap search_history<CR>
-          nmap <leader>po :Clap lines<CR>
-          nmap <leader>pq :Clap quickfix<CR>
-          nmap <leader>pt :Clap tags<CR>
-          nmap <leader>ptw :Clap tags ++query=<cword><CR>
-          vmap <leader>ptw :Clap tags ++query=@visual<CR>
-          nmap <leader>ppt :Clap proj_tags<CR>
-          nmap <leader>ptw :Clap proj_tags ++query=<cword><CR>
-          vmap <leader>ptw :Clap proj_tags ++query=@visual<CR>
-
-          " make relative to entire editor
-          let g:clap_layout = { 'relative': 'editor' }
-        '';
-      }
-      vim-nix
-      vim-devicons # load last
-    ]
-    ++ cocPlugins;
 in {
   config = {
     feltnerm.programs = {
@@ -90,30 +190,19 @@ in {
     };
 
     programs.neovim = {
-      coc = {
-        enable = true;
-        pluginConfig = cocConfig;
-        settings = {
-          "suggest.noselect" = true;
-          "suggest.enablePreview" = true;
-          "suggest.enablePreselect" = false;
-          "suggest.disableKind" = true;
-          languageserver = {
-            "efm" = {
-              "command" = "efm-langserver";
-              "args" = [];
-              #custom config path
-              #"args": ["-c", "/path/to/your/config.yaml"],
-              "filetypes" = ["vim" "eruby" "markdown"];
-            };
-            "nix" = {
-              "command" = "rnix-lsp";
-              "filetypes" = ["nix"];
-            };
-          };
-        };
-      };
-      extraPackages = [pkgs.deno pkgs.universal-ctags pkgs.efm-langserver pkgs.rnix-lsp pkgs.nodejs pkgs.ripgrep pkgs.shellcheck];
+      extraPackages = [
+        pkgs.universal-ctags
+        pkgs.ripgrep
+        pkgs.tree-sitter
+
+        # pkgs.deno
+        # pkgs.nodejs
+
+        # pkgs.efm-langserver
+        # pkgs.rnix-lsp
+
+        # pkgs.shellcheck
+      ];
       extraConfig = feltnermVimrc;
       plugins = vimPlugins;
       withNodeJs = true;

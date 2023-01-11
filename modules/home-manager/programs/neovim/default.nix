@@ -45,6 +45,7 @@ in {
           vim-repeat
           vim-rooter
           vim-signify
+          vim-sleuth
           vim-surround
           vim-unimpaired
         ];
