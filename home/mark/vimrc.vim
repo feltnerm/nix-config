@@ -26,7 +26,7 @@ set showmatch
 set sidescrolloff=1
 " splitting a window will put the new window below the current one
 set splitbelow
-"set t_Co=256
+set t_Co=256
 set termguicolors
 set title
 set ttyfast
@@ -41,18 +41,8 @@ set foldlevelstart=10
 set foldmethod=indent
 
 """" Backups
-set backupcopy=yes
-silent !mkdir -p $HOME/.vim/backup > /dev/null 2>&1
-set backupdir=$HOME/.vim/backup
-silent !mkdir -p $HOME/.vim/tmp > /dev/null 2>&1
-set directory=$HOME/.vim/tmp
-if has("persistent_undo")
-  silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
-  set undodir=~/.vim/undo
-  if exists('+undofile')
-    set undofile
-  endif
-endif
+set nobackup
+set nowritebackup
 
 """" Bells/Sound
 set noerrorbells
@@ -81,54 +71,61 @@ set background=dark
 set cmdheight=1
 set colorcolumn=80
 set cursorline
+set updatetime=300
+set signcolumn=yes
 
 """ Keybindings
-noremap ; :
-inoremap jj <Esc>
-inoremap jk <Esc>
-vnoremap <ESC> <C-c>
-imap ii <C-[>
-" Disable accidental macro recording when I spaz out on the q key
 map qq <Nop>
+" Disable accidental macro recording when I spaz out on the q key
 command! W w
 command! Q q
-
-
 cmap w!! w !sudo tee % >/dev/null
+" Find merge conflict markers
+map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+" W" Ex mode: no ty
+map Q <Nop>
+
+"" Normal Mode
+nmap ; :
 " turn off search highlight
 nnoremap <leader>/ :nohlsearch<CR>
 " move to beginning/end of line
 nnoremap B ^
 nnoremap E $
-" Find merge conflict markers
-map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 " highlight last inserted text
 nnoremap gV `[v`]
+"  Tabs
+let notabs = 1
+nmap <leader><Tab> :tabnext<CR>
+nmap <leader><S-Tab> :tabprev<CR>
+nmap <leader>tn :tabnext<CR>
+nmap <leader>tp :tabprev<CR>
+nmap <leader>tw :tabnew<CR>
+nmap <leader>tc :tabclose<CR
+" Create splits
+nmap <leader>sw :split<cr>
+nmap <leader>sv :vsplit<cr>
+" Move between splits using hjkl
+" noremap <C-h> <C-w>h
+" noremap <C-j> <C-w>j
+" noremap <C-k> <C-w>k
+" noremap <C-l> <C-w>l
+nmap <leader>Wh <C-w>h
+nmap <leader>Wj <C-w>j
+nmap <leader>Wk <C-w>k
+nmap <leader>Wl <C-w>l
+
+"" Insert Mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+imap ii <C-[>
+
+"" Visual Mode
+vnoremap <ESC> <C-c>
 vmap < <gv
 vmap > >gv
-" W" Ex mode: no ty
-map Q <Nop>
 
 """" Fuck help
 inoremap <F1> <ESC>
 nnoremap <F1> <ESC>
 vnoremap <F1> <ESC>
-
-""""  Tabs
-let notabs = 1
-noremap <leader><Tab> :tabnext<CR>
-noremap <leader><S-Tab> :tabprev<CR>
-noremap <leader>tn :tabnext<CR>
-noremap <leader>tp :tabprev<CR>
-noremap <leader>tw :tabnew<CR>
-noremap <leader>tc :tabclose<CR>
-
-"""" Splits
-" Move between splits using hjkl
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-" Create splits
-map <leader>sw :split<cr>
-map <leader>sv :vsplit<cr>
