@@ -198,7 +198,6 @@ in {
         ibm-plex
         inter
         iosevka
-        iosevka
         jetbrains-mono
         lato
         material-design-icons
