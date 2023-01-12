@@ -164,6 +164,19 @@ in {
       g = "git";
     };
 
+    # persist ssh sessions to github for a short while
+    programs.ssh = {
+      matchBlocks = {
+        "github.com" = {
+          extraOptions =  {
+            "ControlMaster" = "auto";
+            "ControlPath" = "~/.ssh/S.%r@%h:%p";
+            "ControlPersist" = "5m";
+          };
+        };
+      };
+    };
+
     programs.git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
