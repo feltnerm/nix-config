@@ -17,6 +17,14 @@ $ nixos-rebuild --flake '.#<host>' <cmd>
 
 Example: `sudo nixos-rebuild --flake '.#monke' switch`
 
+## macOS
+
+```shell
+$ darwin-rebuild --flake '.#<host>'> <cmd>
+```
+
+Example: `sudo nixos-rebuild --flake '.#markbook' switch`
+
 ## Home
 
 ```shell
