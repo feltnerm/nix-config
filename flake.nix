@@ -49,10 +49,12 @@
           substituters = [
             "https://cache.nixos.org"
             "https://nix-community.cachix.org"
+            "https://feltnerm.cachix.org"
           ];
           trusted-public-keys = [
             "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
             "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+            "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
           ];
         };
       });
@@ -102,6 +104,20 @@
         hostname = "markbook";
         pkgs = systemPkgs."x86_64-darwin";
         users = defaultUsers;
+        systemConfig = {
+          feltnerm = {};
+        };
+      };
+
+      "mfeltner" = darwin.mkDarwinSystem {
+        hostname = "mfeltner";
+        pkgs = systemPkgs."x86_64-darwin";
+        users = [
+          {
+            username = "mfeltner";
+            shell = "zsh";
+          }
+        ];
         systemConfig = {
           feltnerm = {};
         };
@@ -169,6 +185,7 @@
           home = {
             homeDirectory = "/Users/mfeltner";
           };
+          programs.keychain.keys = ["id_ecdsa_sk"];
           feltnerm = {
             config.xdg.enableUserDirs = false;
             home-manager.enableAutoUpgrade = false;
@@ -176,7 +193,6 @@
             programs.git.signCommits = false;
             programs.git.email = "mark.feltner@acquia.com";
             programs.gpg.pubKey = "FA9E3ABE6B2DF6521D541921CAA87B6562729B49";
-            programs.keychain.keys = ["id_ecdsa_sk"];
           };
         };
         features = [];

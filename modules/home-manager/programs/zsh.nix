@@ -48,7 +48,7 @@ in {
       };
 
       zplug = {
-        enable = true;
+        enable = false;
         plugins = [];
       };
 

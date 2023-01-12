@@ -1,4 +1,3 @@
-lua <<EOF
 -- https://github.com/neovim/nvim-lspconfig#suggested-configuration
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -54,4 +53,3 @@ local lsp_flags = {
 --       ["rust-analyzer"] = {}
 --     }
 -- }
-EOF

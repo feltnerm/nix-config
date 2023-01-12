@@ -8,11 +8,11 @@ in rec {
     hostname,
     users,
     pkgs,
+    hostModule ? ./../hosts + "/${hostname}" + /default.nix,
     system ? systemIdentifier,
     systemConfig ? {},
     ...
   }: let
-    hostModule = ./../hosts + "/${hostname}" + /default.nix;
     mkDarwinUser = darwinUserFactory pkgs;
   in
     darwin.lib.darwinSystem {

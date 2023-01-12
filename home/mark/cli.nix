@@ -1,10 +1,7 @@
 {pkgs, ...}: let
   cliPackages = with pkgs; [
-    # docker management:
+    # docker management
     dive
-
-    # base development environment
-    # editorconfig
 
     # audio/image/video processing
     exiftool
@@ -15,7 +12,8 @@
 
     # browsers
     lynx
-    surfraw # TODO surfraw configuration
+    # TODO surfraw configuration
+    surfraw
 
     # file browsers
     mc #midnight commander
@@ -24,7 +22,6 @@
     nnn
 
     # nix
-    #home-manager
     niv
     nix-index
 
@@ -33,6 +30,8 @@
 
     # fun
     asciinema
+    nyancat
+    youtube-dl
 
     # spellingz
     aspell

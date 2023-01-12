@@ -183,6 +183,7 @@
     }
     vista-vim
     vim-nix
+    # TODO get nerdfonts setup
     vim-devicons # load last
   ];
 in {

@@ -24,36 +24,29 @@ _: {
       "electric-sheep"
 
       # 🦊
+      # TODO use home-manager
       "firefox"
 
-      # block stuff
-      "minecraft"
+      # terminal
+      "alacritty"
 
-      # remote fs gui
-      "cyberduck"
+      # stop from sleeping
+      "caffeine"
+
+      # aws java
+      "corretto"
+      "corretto8"
+      # sql gui
+      "sequel-ace"
 
       # http request editor
       "insomnia"
 
       # For Java
-      "intellij-idea-ce"
-
-      # sql gui
-      "sequel-ace"
-
-      # VPN
-      "tunnelblick"
-      "private-internet-access"
+      "intellij-idea"
 
       # it's meh, but good visual editor
       "visual-studio-code"
-
-      # VM mgmt
-      "vagrant"
-      "virtualbox"
-
-      # media player
-      "vlc"
     ];
 
     # system.copySystemConfiguration = false;

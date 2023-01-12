@@ -43,7 +43,6 @@
 
       # extra directories to add to $PATH
       # TODO setup ~/bin
-      # TODO ~/.config/feltnerm/{functions.sh,/bin}
       sessionPath = [
         #"$HOME/.local/bin"
         #"\${xdg.configHome}/bin"

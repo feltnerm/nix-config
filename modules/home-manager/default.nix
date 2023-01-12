@@ -47,8 +47,10 @@ in {
     home.packages = with pkgs; [
       ack
       bat
+      direnv
       exa
       fd
+      gawk
       readline
       ripgrep
       ripgrep-all
@@ -75,6 +77,7 @@ in {
       mosh
       mtr
       openssl
+      rclone
       rsync
       speedtest-cli
       wget
