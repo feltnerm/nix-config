@@ -185,6 +185,11 @@
         userConfig = {
           home = {
             homeDirectory = "/Users/mfeltner";
+            sessionVariables = {
+              # hack to use corretto @ work
+              # `/usr/libexec/java_home -v 1.8`
+              JAVA_HOME = "/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home";
+            };
           };
           programs.keychain.keys = ["id_ecdsa_sk"];
           feltnerm = {
