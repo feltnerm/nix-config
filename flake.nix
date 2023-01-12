@@ -168,11 +168,11 @@
             homeDirectory = "/Users/mark";
           };
           feltnerm = {
-            programs.alacritty.enable = true;
             config.xdg.enableUserDirs = false;
             home-manager.enableAutoUpgrade = false;
 
-            programs.git.signCommits = false;
+            programs.alacritty.enable = true;
+            programs.git.signCommits = true;
           };
         };
         features = [];
@@ -191,6 +191,7 @@
             config.xdg.enableUserDirs = false;
             home-manager.enableAutoUpgrade = false;
 
+            programs.alacritty.enable = true;
             programs.git.email = "mark.feltner@acquia.com";
             programs.gpg.pubKey = "FA9E3ABE6B2DF6521D541921CAA87B6562729B49";
           };
