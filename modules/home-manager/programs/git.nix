@@ -168,7 +168,7 @@ in {
     programs.ssh = {
       matchBlocks = {
         "github.com" = {
-          extraOptions =  {
+          extraOptions = {
             "ControlMaster" = "auto";
             "ControlPath" = "~/.ssh/S.%r@%h:%p";
             "ControlPersist" = "5m";
