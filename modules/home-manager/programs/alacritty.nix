@@ -14,18 +14,41 @@ in {
   };
 
   config = {
+    programs.zsh = lib.mkIf cfg.enable {
+      initExtra = ''
+      if [[ "$TERM" != "" && "$TERM" == "alacritty" ]]
+      then
+          precmd()
+          {
+              print -Pn "$(whoami)@$(hostname):%~\a"
+          }
+
+          preexec()
+          {
+              # output current executed command with parameters
+              echo -en "\e]0;$(whoami)@$(hostname): $1\a"
+          }
+      fi
+      '';
+    };
+
     programs.alacritty = {
       inherit (cfg) enable;
       settings = {
-        window.opacity = 0.99;
+        window = {
+          decorations = "transparent";
+          opacity = 0.99;
+          padding.x = 16;
+          padding.y = 24;
+          dynamic_padding = false;
+          dynamic_title = true;
+        };
         bell = {
           animation = "EaseOutExpo";
-          duration = 100;
+          duration = 50;
           color = "0xffffff";
         };
-        decorations = "none";
         draw_bold_text_with_bright_colors = false;
-        window.dynamic_title = true;
         live_config_reload = true;
 
         # gruvbox
