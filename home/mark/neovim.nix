@@ -154,10 +154,10 @@
     {
       plugin = telescope-file-browser-nvim;
       config = ''
-      lua <<EOF
-        require("telescope").load_extension "file_browser"
-        vim.keymap.set("n", "<leader>pd", require "telescope".extensions.file_browser.file_browser, {})
-      EOF
+        lua <<EOF
+          require("telescope").load_extension "file_browser"
+          vim.keymap.set("n", "<leader>pd", require "telescope".extensions.file_browser.file_browser, {})
+        EOF
       '';
     }
 
