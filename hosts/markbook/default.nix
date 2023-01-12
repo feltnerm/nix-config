@@ -8,14 +8,29 @@ _: {
   # ];
 
   config = {
-    feltnerm = {};
+    feltnerm = {
+      config.fonts.enable = true;
+    };
 
+    services = {
+      # yabai.enable = true;
+      # skhd.enable = true;
+    };
+
+    homebrew.enable = true;
     homebrew.casks = [
+      # terminal
+      "alacritty"
+
       # tiling window manager
+      # TODO replace with yabai
       "amethyst"
 
       # stop from sleeping
       "caffeine"
+
+      # e-book manager
+      "calibre"
 
       # Visual size
       "disk-inventory-x"

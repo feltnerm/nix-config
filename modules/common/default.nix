@@ -188,29 +188,41 @@ in {
 
     programs.zsh.enable = true;
 
+    # TODO trim these down
     fonts = lib.mkIf cfg.config.fonts.enable {
       fonts = with pkgs; [
-        comfortaa
+        # comfortaa
+        # comic-neue
+        # fira
+        # fira-code
+        # fira-code-symbols
+        # ibm-plex
+        # inter
+        # iosevka
+        # jetbrains-mono
+        # lato
+        # material-design-icons
+        #nerdfonts
+        # noto-fonts
+        # noto-fonts-cjk
+        # noto-fonts-emoji
+        # powerline-fonts
+        # roboto
+        # source-sans
+        # twemoji-color-font
+        # work-sans
+        # sans fonts
         comic-neue
-        fira
-        fira-code
-        fira-code-symbols
-        ibm-plex
-        inter
-        iosevka
-        jetbrains-mono
-        lato
-        material-design-icons
-        nerdfonts
-        noto-fonts
-        noto-fonts-cjk
-        noto-fonts-emoji
-        powerline-fonts
-        roboto
         source-sans
-        twemoji-color-font
-        work-sans
-        (nerdfonts.override {fonts = ["Iosevka" "JetBrainsMono"];})
+
+        (nerdfonts.override {
+          fonts = [
+            "Hack"
+            "IBMPlexMono"
+            "Iosevka"
+            "JetBrainsMono"
+          ];
+        })
       ];
     };
   };

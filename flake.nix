@@ -168,6 +168,7 @@
             homeDirectory = "/Users/mark";
           };
           feltnerm = {
+            programs.alacritty.enable = true;
             config.xdg.enableUserDirs = false;
             home-manager.enableAutoUpgrade = false;
 

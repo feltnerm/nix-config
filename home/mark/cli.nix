@@ -23,7 +23,6 @@
 
     # nix
     niv
-    nix-index
 
     # shell
     shellcheck
@@ -70,7 +69,6 @@ in {
 
     programs = {
       bat.enable = true;
-      command-not-found.enable = true;
       direnv = {
         enable = true;
         nix-direnv = {
@@ -93,6 +91,11 @@ in {
       htop.enable = true;
       info.enable = true;
       jq.enable = true;
+
+      nix-index = {
+        enable = true;
+        enableZshIntegration = true;
+      };
 
       starship = {
         enable = true;

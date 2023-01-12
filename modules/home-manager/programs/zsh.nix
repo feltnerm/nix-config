@@ -18,6 +18,10 @@ in {
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
+      enableSyntaxHighlighting = true;
+      enableVteIntegration = true; # allow terminal to track current directory
+      autocd = true; # automatically enter a directory when typed
+      #defaultKeymap = "vicmd";
       #completionInit = ''
       #  autoload -U compint
       #  zstyle ":completion:*" menu select
@@ -32,10 +36,6 @@ in {
       #  bindkey -M menuselect 'j' vi-down-line-or-history
       #  bindkey -v '^?' backward-delete-char
       #'';
-      enableSyntaxHighlighting = true;
-      enableVteIntegration = true; # allow terminal to track current directory
-      autocd = true; # automatically enter a directory when typed
-      #defaultKeymap = "vicmd";
 
       history = {
         extended = true;

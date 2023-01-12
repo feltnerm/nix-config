@@ -17,6 +17,21 @@ in {
   config = {
     # allow nix to manage fonts
     fonts.fontDir.enable = config.feltnerm.config.fonts.enable;
+    # fonts.fonts = with pkgs; [
+    #   # sans fonts
+    #   comic-neue
+    #   source-sans
+
+    #   # nerdfonts
+    #   (nerdfonts.override {
+    #     fonts = [
+    #       "Hack"
+    #       "IBMPlexMono"
+    #       "Iosevka"
+    #       "JetBrainsMono"
+    #     ];
+    #   })
+    # ];
 
     # garbage collect daily
     nix.gc.interval = {
@@ -26,6 +41,10 @@ in {
 
     # Give admins enhanced nix privs
     nix.settings.trusted-users = ["@admin"];
+
+    services = {
+      nix-daemon.enable = true;
+    };
 
     # enable Touch ID sudo authentication
     security.pam.enableSudoTouchIdAuth = true;
@@ -39,18 +58,20 @@ in {
       # };
 
       # enable firewall
-      alf.globalstate = 1;
+      # alf.globalstate = 1;
 
       # drop pings
-      alf.stealthenabled = 1;
+      # alf.stealthenabled = 1;
 
       # allow signed apps to use the network by default
-      alf.allowdownloadsignedenabled = 1;
-      alf.allowsignedenabled = 1;
+      # alf.allowdownloadsignedenabled = 1;
+      # alf.allowsignedenabled = 1;
 
       dock = {
         appswitcher-all-displays = true;
         autohide = true;
+        mru-spaces = false;
+        showhidden = true;
 
         dashboard-in-overlay = false;
       };
@@ -71,6 +92,8 @@ in {
 
         # show full POSIX path
         _FXShowPosixPathInTitle = true;
+
+        QuitMenuItem = true;
       };
 
       loginwindow = {
@@ -132,6 +155,7 @@ in {
     };
 
     homebrew = lib.mkIf cfg.homebrew.enable {
+      enable = true;
       onActivation = {
         # enable homebrew auto-update during nix-darwin activation
         autoUpdate = false;
@@ -161,7 +185,7 @@ in {
         "font-hack"
         "font-iosevka"
       ];
-      masApps = [];
+      # masApps = [];
     };
 
     programs = {
