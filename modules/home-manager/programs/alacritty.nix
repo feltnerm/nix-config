@@ -43,11 +43,11 @@ in {
           dynamic_padding = false;
           dynamic_title = true;
         };
-        bell = {
-          animation = "EaseOutExpo";
-          duration = 50;
-          color = "0xffffff";
-        };
+        # bell = {
+        #   animation = "EaseOutExpo";
+        #   duration = 50;
+        #   color = "0xffffff";
+        # };
         draw_bold_text_with_bright_colors = false;
         live_config_reload = true;
 
