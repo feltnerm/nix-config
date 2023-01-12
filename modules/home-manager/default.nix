@@ -77,11 +77,11 @@ in {
       mosh
       mtr
       openssl
+      openvpn
       rclone
       rsync
       speedtest-cli
       wget
-      openvpn
 
       # utils
       tree
