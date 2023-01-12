@@ -32,17 +32,26 @@ _: {
       # e-book manager
       "calibre"
 
+      # hide status bar icons
+      "dozer"
+
       # Visual size
       "disk-inventory-x"
 
       # Dreams
       "electric-sheep"
 
+      # Gdrive
+      "google-drive"
+
       # 🦊
       "firefox"
 
       # block stuff
       "minecraft"
+
+      # screen recorder and broadcaster
+      "obs"
 
       # remote fs gui
       "cyberduck"
