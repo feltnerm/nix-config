@@ -16,19 +16,19 @@ in {
   config = {
     programs.zsh = lib.mkIf cfg.enable {
       initExtra = ''
-      if [[ "$TERM" != "" && "$TERM" == "alacritty" ]]
-      then
-          precmd()
-          {
-              print -Pn "$(whoami)@$(hostname):%~\a"
-          }
+        if [[ "$TERM" != "" && "$TERM" == "alacritty" ]]
+        then
+            precmd()
+            {
+                print -Pn "$(whoami)@$(hostname):%~\a"
+            }
 
-          preexec()
-          {
-              # output current executed command with parameters
-              echo -en "\e]0;$(whoami)@$(hostname): $1\a"
-          }
-      fi
+            preexec()
+            {
+                # output current executed command with parameters
+                echo -en "\e]0;$(whoami)@$(hostname): $1\a"
+            }
+        fi
       '';
     };
 
