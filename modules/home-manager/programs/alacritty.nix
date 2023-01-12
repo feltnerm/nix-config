@@ -14,23 +14,23 @@ in {
   };
 
   config = {
-    programs.zsh = lib.mkIf cfg.enable {
-      initExtra = ''
-        if [[ "$TERM" != "" && "$TERM" == "alacritty" ]]
-        then
-            precmd()
-            {
-                print -Pn "$(whoami)@$(hostname):%~\a"
-            }
+    # programs.zsh = lib.mkIf cfg.enable {
+    #   initExtra = ''
+    #     if [[ "$TERM" != "" && "$TERM" == "alacritty" ]]
+    #     then
+    #         precmd()
+    #         {
+    #             print -Pn "$(whoami)@$(hostname):%~\a"
+    #         }
 
-            preexec()
-            {
-                # output current executed command with parameters
-                echo -en "\e]0;$(whoami)@$(hostname): $1\a"
-            }
-        fi
-      '';
-    };
+    #         preexec()
+    #         {
+    #             # output current executed command with parameters
+    #             echo -en "\e]0;$(whoami)@$(hostname): $1\a"
+    #         }
+    #     fi
+    #   '';
+    # };
 
     programs.alacritty = {
       inherit (cfg) enable;
@@ -80,7 +80,7 @@ in {
         };
 
         font = {
-          size = 16;
+          size = 18;
           normal = {
             family = "JetBrainsMono Nerd Font Mono";
             style = "Regular";
