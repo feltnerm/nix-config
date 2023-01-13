@@ -37,6 +37,12 @@ in {
           vim-diminactive
           vim-easymotion
           vim-eunuch
+          {
+            plugin = vim-fugitive;
+            config = ''
+              nmap <space>G :Git<CR>
+            '';
+          }
           vim-fugitive
           vim-gitgutter
           vim-highlightedyank
@@ -47,6 +53,7 @@ in {
           vim-signify
           vim-sleuth
           vim-surround
+          vim-table-mode
           vim-unimpaired
         ];
       };

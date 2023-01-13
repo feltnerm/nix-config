@@ -36,6 +36,8 @@ set backspace=eol,start,indent
 set mouse=a
 set mousehide
 
+set completeopt=menu,menuone,noselect
+
 set foldenable
 set foldlevelstart=10
 set foldmethod=indent
