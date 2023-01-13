@@ -37,10 +37,11 @@
       feltnerm = import ./packages {pkgs = final;};
     };
   in rec {
+    inherit overlay;
+
     overlays = {
       feltnerm = overlay;
     };
-
 
     systemPkgs = utils.forAllSystems (system:
       import inputs.nixpkgs {

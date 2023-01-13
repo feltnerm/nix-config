@@ -21,7 +21,7 @@ in {
   ];
 
   config = {
-    nixpkgs.overlays = [outputs.overlays];
+    nixpkgs.overlays = [outputs.overlay];
     nixpkgs.config = {
       allowUnfree = true;
     };
