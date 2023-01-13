@@ -32,16 +32,20 @@
         shell = "zsh";
       }
     ];
+
+    overlay = final: _prev: {
+      feltnerm = import ./packages {pkgs = final;};
+    };
   in rec {
     overlays = {
-      feltnerm = final: _prev: import ./packages {pkgs = final;};
-      nur = inputs.nur.overlay;
+      feltnerm = overlay;
     };
+
 
     systemPkgs = utils.forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
-        overlays = builtins.attrValues overlays;
+        overlays = [overlay];
         config = {
           allowUnfree = true;
         };
@@ -181,6 +185,7 @@
       "mfeltner@mfeltner" = home.mkHome {
         username = "mfeltner";
         userModule = ./home/mark/default.nix;
+        overlays = [overlays.feltnerm];
         pkgs = systemPkgs."x86_64-darwin";
         userConfig = {
           home = {

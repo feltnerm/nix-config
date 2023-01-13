@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  outputs,
   ...
 }: let
   cfg = config.feltnerm.home-manager;
@@ -20,6 +21,7 @@ in {
   ];
 
   config = {
+    nixpkgs.overlays = [outputs.overlays];
     nixpkgs.config = {
       allowUnfree = true;
     };
@@ -94,6 +96,9 @@ in {
       fortune
       neofetch
       toilet
+
+      feltnerm.greet
+      feltnerm.screensaver
     ];
   };
 }
