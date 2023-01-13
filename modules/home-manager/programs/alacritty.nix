@@ -87,11 +87,11 @@ in {
           };
           bold = {
             family = "JetBrainsMono Nerd Font Mono";
-            style = "ExtraBold";
+            style = "Bold";
           };
           italic = {
             family = "JetBrainsMono Nerd Font Mono";
-            style = "ExtraLightItalic";
+            style = "Thin Italic";
           };
           bold_italic = {
             family = "JetBrainsMono Nerd Font Mono";
