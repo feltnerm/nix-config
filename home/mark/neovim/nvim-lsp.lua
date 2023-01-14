@@ -1,6 +1,6 @@
 -- https://github.com/neovim/nvim-lspconfig#suggested-configuration
 local lspconfig = require('lspconfig')
-local opts = { noremap=true, silent=true }
+local opts = { noremap=true, silent=true, desc="lsp" }
 
 function add_lsp(binary, server, options)
   if vim.fn.executable(binary) == 1 then server.setup(options) end
@@ -17,8 +17,8 @@ local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  local bufopts = { noremap=true, silent=true, buffer=bufnr, desc="code" }
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<leader>cgD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', '<leader>cgd', vim.lsp.buf.definition, bufopts)
   vim.keymap.set('n', '<leader>cgi', vim.lsp.buf.implementation, bufopts)

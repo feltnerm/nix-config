@@ -5,4 +5,4 @@
   darwinModules = import ./modules/darwin;
 }
 # Import packages to top-level
-// (import ./pkgs {inherit pkgs;})
+// (import ./packages {inherit pkgs;})

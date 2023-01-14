@@ -25,17 +25,11 @@ in {
 
         # base set of vim plugins, when enabled
         plugins = with pkgs.vimPlugins; [
-          # FIXME
-          {
-            plugin = vim-startify;
-          }
           delimitMate
           editorconfig-vim
-          nerdtree
           vim-abolish
           vim-commentary
           vim-diminactive
-          vim-easymotion
           vim-eunuch
           {
             plugin = vim-fugitive;
@@ -52,6 +46,7 @@ in {
           vim-rooter
           vim-signify
           vim-sleuth
+          vim-sneak
           vim-surround
           vim-table-mode
           vim-unimpaired

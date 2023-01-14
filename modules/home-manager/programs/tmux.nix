@@ -23,29 +23,13 @@ in {
       secureSocket = true; # More secure tmux socket; removed at logout.
       # TODO configure tmux plugins and extra config
       plugins = [];
-      extraConfig = "";
+      # extraConfig = "";
+      extraConfig = ''
+        set-option -g default-terminal "screen-256color"
+        set-option -sa terminal-overrides ',screen:RGB
+      '';
     };
 
-    programs.zsh.initExtra = lib.mkIf config.feltnerm.programs.zsh.enable ''
-      # create a tmux session in the current directory
-      function tmuxn() {
-        if [[ -z "$1" ]]
-        then
-          tmux new-session -s $(basename $(pwd))
-        else
-          tmux new-session -s "$1"
-        fi
-      }
-
-      # attach to a tmux session in the current directory
-      function tmuxa() {
-        if [[ -z "$1" ]]
-        then
-          tmux attach-session -t $(basename $(pwd))
-        else
-          tmux attach-session -t "$1"
-        fi
-      }
-    '';
+    programs.zsh.initExtra = lib.mkIf config.feltnerm.programs.zsh.enable (builtins.readFile ./tmux.zsh);
   };
 }

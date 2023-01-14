@@ -1,58 +1,7 @@
-{pkgs, ...}: let
-  cliPackages = with pkgs; [
-    # docker management
-    dive
-
-    # audio/image/video processing
-    exiftool
-    ffmpeg
-    flac
-    ghostscript
-    imagemagick
-
-    # browsers
-    lynx
-    # TODO surfraw configuration
-    surfraw
-
-    # file browsers
-    mc #midnight commander
-    ncdu
-    ranger
-    nnn
-
-    # nix
-    niv
-
-    # shell
-    shellcheck
-
-    # fun
-    asciinema
-    nyancat
-    youtube-dl
-
-    # spellingz
-    aspell
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.en-science
-    ispell
-    hunspell
-    hunspellDicts.en-us
-
-    # cloud
-    # awscli
-
-    # web servers
-    # caddy
-  ];
-in {
-  imports = [./neovim.nix];
+{pkgs, ...}: {
+  imports = [./neovim];
 
   config = {
-    home.packages = cliPackages;
-
     home.shellAliases = {
       cat = "bat";
     };
@@ -104,5 +53,53 @@ in {
         };
       };
     };
+    home.packages = with pkgs; [
+      # docker management
+      dive
+
+      # audio/image/video processing
+      exiftool
+      ffmpeg
+      flac
+      ghostscript
+      imagemagick
+
+      # browsers
+      lynx
+      # TODO surfraw configuration
+      surfraw
+
+      # file browsers
+      mc #midnight commander
+      ncdu
+      ranger
+      nnn
+
+      # nix
+      niv
+
+      # shell
+      shellcheck
+
+      # fun
+      asciinema
+      nyancat
+      youtube-dl
+
+      # spellingz
+      aspell
+      aspellDicts.en
+      aspellDicts.en-computers
+      aspellDicts.en-science
+      ispell
+      hunspell
+      hunspellDicts.en-us
+
+      # cloud
+      # awscli
+
+      # web servers
+      # caddy
+    ];
   };
 }
