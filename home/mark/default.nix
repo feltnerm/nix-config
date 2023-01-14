@@ -1,8 +1,13 @@
-{lib, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   imports = [./cli.nix];
 
   config = {
     feltnerm = {
+      config.code.enableCodeDir = true;
       programs = {
         git = {
           enable = lib.mkDefault true;
@@ -28,6 +33,8 @@
 
     home = {
       stateVersion = "22.05";
+
+      packages = [];
 
       shellAliases = {
         cp = "cp -i"; # write error instead of overwriting

@@ -25,5 +25,7 @@
     vim-devicons # load last
   ];
 in {
-  config = {};
+  config = {
+    programs.neovim.plugins = uiPlugins;
+  };
 }

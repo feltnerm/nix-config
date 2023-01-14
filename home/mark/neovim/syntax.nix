@@ -7,5 +7,7 @@
     vim-toml
   ];
 in {
-  config = {};
+  config = {
+    programs.neovim.plugins = syntaxPlugins;
+  };
 }

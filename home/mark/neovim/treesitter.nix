@@ -12,8 +12,7 @@
     {
       plugin = nvim-treesitter-refactor;
       type = "lua";
-      config = ''
-      '';
+      config = treesitterRefactorConfig;
     }
   ];
 
@@ -27,7 +26,7 @@ in {
     programs.neovim.extraConfig = ''
       set foldmethod=expr
       set foldexpr=nvim_treesitter#foldexpr()
-      set nofoldenable                     " Disable folding at startup.
+      set nofoldenable  " Disable folding at startup.
     '';
   };
 }

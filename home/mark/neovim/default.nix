@@ -6,12 +6,12 @@
     alpha-nvim
 
     # TODO
-    {
-      plugin = hop-nvim;
-      type = "lua";
-      # map <Leader><Leader> <Plug>(easymotion-prefix)
-      config = builtins.readFile ./hop.lua;
-    }
+    #{
+    #  plugin = hop-nvim;
+    #  type = "lua";
+    #  # map <Leader><Leader> <Plug>(easymotion-prefix)
+    #  config = builtins.readFile ./hop.lua;
+    #}
     {
       plugin = nerdtree;
       config = ''
