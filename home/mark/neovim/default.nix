@@ -3,7 +3,15 @@
 
   vimPlugins = with pkgs.vimPlugins; [
     playground
-    alpha-nvim
+    {
+      plugin = alpha-nvim;
+      type = "lua";
+      config = ''
+        local alpha = require("alpha")
+        local theme = require("alpha.themes.dashboard")
+        alpha.setup(theme.config)
+      '';
+    }
 
     # TODO
     #{
@@ -32,7 +40,7 @@
     }
   ];
 in {
-  imports = [./cmp.nix ./lsp.nix ./telescope.nix ./treesitter.nix ./ui.nix];
+  imports = [./cmp.nix ./lsp.nix ./telescope.nix ./treesitter.nix ./ui.nix ./wiki.nix];
 
   config = {
     feltnerm.programs = {
@@ -45,11 +53,10 @@ in {
       extraPackages = [
         pkgs.universal-ctags
         pkgs.ripgrep
-        # pkgs.tree-sitter-grammars
 
+        # pkgs.tree-sitter-grammars
         # pkgs.deno
         # pkgs.nodejs
-
         # pkgs.shellcheck
       ];
       extraConfig = feltnermVimrc;

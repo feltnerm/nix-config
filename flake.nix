@@ -76,6 +76,7 @@
       default = systemPkgs.${system}.callPackage ./shell.nix {};
     });
 
+    # TODO run statix as well here
     formatter = utils.forAllSystems (
       system:
         systemPkgs.${system}.alejandra

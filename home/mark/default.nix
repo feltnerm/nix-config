@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  imports = [./cli.nix];
+  imports = [./cli ./neovim];
 
   config = {
     feltnerm = {
@@ -40,36 +40,24 @@
         cp = "cp -i"; # write error instead of overwriting
         cpv = "rsync -pogr --progress";
         cpp = "rsync -Wavp --human-readable --progress $1 $2";
-
         mv = "mv -i";
         rm = "rm -ir";
-
         weather = "curl wttr.in";
         oracow = "fortune | cowsay";
       };
 
       # extra directories to add to $PATH
-      # TODO setup ~/bin
-      sessionPath = [
-        #"$HOME/.local/bin"
-        #"\${xdg.configHome}/bin"
-      ];
+      sessionPath = [];
 
-      # TODO profile => environment variables
       sessionVariables = {
         DROPBOX = "$HOME/Dropbox";
-        WIKI = "$HOME/vimwiki_html";
-        WIKI_SOURCE = "$HOME/vimwiki";
-        CODE_HOME = "$HOME/code";
-        PROJECTS = "$CODE_HOME";
 
-        # GUI/Wayland
+        # FIXME required for GUI/Wayland
         #MOZ_ENABLE_WAYLAND = 1;
         #XDG_CURRENT_DESKTOP = "sway";
       };
     };
 
-    # home.file = {};
     home.file = {
       ".hushlogin" = {
         text = "";

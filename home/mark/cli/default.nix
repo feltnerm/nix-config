@@ -2,40 +2,7 @@
   pkgs,
   config,
   ...
-}: let
-  inherit (config.feltnerm.config.code) codeDir;
-
-  # TODO organize these helpers
-  # TODO
-  #fzfTmuxSesions = pkgs.writeShellApplication {
-  #}
-
-  fzfRepo = pkgs.writeShellApplication {
-    name = "fzf-repo";
-    text = ''
-      function _fzf-repo() {
-        local query
-        local repo
-        local path
-
-        local previewCommand
-        previewCommand="exa --icons --git-ignore --group-directories-first --git -1"
-
-        query="''${1:-}"
-        repo=$(cd "${codeDir}" && tree -L 1 -dfiC -- * | fzf --query "$query" --scheme=path --filepath-word --ansi --header code --no-info --preview "$previewCommand {+}" --preview-label files)
-        if [[ -n "$repo" ]]
-        then
-          path="${codeDir}/$repo"
-          echo -e "$path"
-        fi
-      }
-
-      _fzf-repo "$@"
-    '';
-  };
-in {
-  imports = [./neovim];
-
+}: {
   config = {
     home.shellAliases = {
       cat = "bat";
@@ -87,11 +54,6 @@ in {
           add_newline = true;
         };
       };
-      zsh.initExtra = ''
-        function c() {
-          cd -- $(fzf-repo "$1")
-        }
-      '';
     };
     home.packages = with pkgs; [
       # docker management
@@ -135,7 +97,9 @@ in {
       hunspell
       hunspellDicts.en-us
 
+      # my own shell scripts
       fzfRepo
+      fzfFiles
 
       # cloud
       # awscli
