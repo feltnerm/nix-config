@@ -24,9 +24,9 @@ in {
       secureSocket = true; # More secure tmux socket; removed at logout.
       plugins = with pkgs.tmuxPlugins; [
         tmux-fzf
-        tmux-mem-cpu-load
-        tmux-jump
-        tmux-yank
+        # FIXME tmux-mem-cpu-load
+        # FIXME tmux-jump
+        # FIXME tmux-yank
       ];
       # extraConfig = "";
       extraConfig = ''

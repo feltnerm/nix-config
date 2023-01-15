@@ -33,7 +33,7 @@ in {
     home.sessionVariables = {
     };
 
-    home.packages = with pkgs; [
+    home.packages = [
       fzfGitCommits
       fzfFiles
       fzfRepo

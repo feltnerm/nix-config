@@ -3,6 +3,8 @@
   config,
   ...
 }: {
+  imports = [./fzf.nix ./tmux.nix];
+
   config = {
     home.shellAliases = {
       cat = "bat";
@@ -96,10 +98,6 @@
       ispell
       hunspell
       hunspellDicts.en-us
-
-      # my own shell scripts
-      fzfRepo
-      fzfFiles
 
       # cloud
       # awscli

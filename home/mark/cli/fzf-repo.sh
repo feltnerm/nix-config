@@ -18,8 +18,8 @@ function _fzf-repo() {
     local path
 
     query="${1:-}"
-    reposDir="${2:$CODE_HOME}"
-    repo=$(cd "$CODE_DIR" && tree -L 1 -dfiC -- * | \
+    reposDir="${2:-$CODE_HOME}"
+    repo=$(cd "$CODE_HOME" && tree -L 1 -dfiC -- * | \
       fzf --query "$query" \
         --scheme=path \
         --filepath-word \

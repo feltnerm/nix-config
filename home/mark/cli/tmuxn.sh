@@ -6,7 +6,7 @@
 
 function _tmuxn() {
   local sessionName
-  sessionName="''${1:-}"
+  sessionName="${1:-}"
   if [[ -z "$sessionName" ]]
   then
     local currentDir

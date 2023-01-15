@@ -7,7 +7,7 @@
 # attach to a tmux session in the current directory
 function _tmuxa() {
   local sessionName
-  sessionName="''${1:=}"
+  sessionName="${1:=}"
   if [[ -z "$sessionName" ]]
   then
     local currentDir

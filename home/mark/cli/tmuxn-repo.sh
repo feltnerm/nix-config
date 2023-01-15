@@ -18,16 +18,16 @@ function _tmuxcn() {
   #fi
 
   local pathToCheck
-  pathToCheck="${codeDir}/$repoPath"
+  pathToCheck="$CODE_HOME/$repoPath"
   [ -d "$pathToCheck" ] && startSession "$pathToCheck" "$repoPath"
 
-  pathToCheck="${codeDir}/feltnerm/$repoPath"
+  pathToCheck="$CODE_HOME/feltnerm/$repoPath"
   [ -d "$pathToCheck" ] && startSession "$pathToCheck" "feltnerm/$repoPath"
 
-  pathToCheck="${codeDir}/feltnerm/scratch$repoPath"
+  pathToCheck="$CODE_HOME/feltnerm/scratch$repoPath"
   [ -d "$pathToCheck" ] && startSession "$pathToCheck" "scratch/$repoPath"
 
-  pathToCheck="${codeDir}/scratch/$repoPath"
+  pathToCheck="$CODE_HOME/scratch/$repoPath"
   [ -d "$pathToCheck" ] && startSession "$pathToCheck" "scratch/$repoPath"
 
   echo -e "No repo found"

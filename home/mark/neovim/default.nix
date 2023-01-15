@@ -40,7 +40,7 @@
     }
   ];
 in {
-  imports = [./cmp.nix ./lsp.nix ./telescope.nix ./treesitter.nix ./ui.nix ./wiki.nix];
+  imports = [./cmp.nix ./lsp.nix ./telescope.nix ./treesitter.nix ./ui.nix ./vimwiki.nix];
 
   config = {
     feltnerm.programs = {

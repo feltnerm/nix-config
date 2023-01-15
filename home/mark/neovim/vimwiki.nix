@@ -11,7 +11,7 @@
 
   plugins = with pkgs.vimPlugins; [
     {
-      plugin = vim-wiki;
+      plugin = vimwiki;
       config = ''
         let g:vimwiki_global_ext = 0
         let g:vimwiki_list = [{'path': '~/${vimWiki}/', 'syntax': 'markdown', 'ext': '.md'}]
