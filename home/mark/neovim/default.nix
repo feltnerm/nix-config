@@ -1,6 +1,8 @@
 {pkgs, ...}: let
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 
+  # TODO
+
   vimPlugins = with pkgs.vimPlugins; [
     playground
     git-blame-nvim
@@ -9,26 +11,6 @@
       type = "lua";
       config = ''
         require("nvim-autopairs").setup {}
-      '';
-    }
-    {
-      plugin = auto-session;
-      type = "lua";
-      config = ''
-        require("auto-session").setup {
-          log_level = "error",
-          auto_session_suppress_dirs = { "~/", "~/code", "~/Downloads", "/"},
-
-          cwd_change_handling = {
-            -- defaults
-            restore_upcoming_session = true,
-            pre_cwd_changed_hook = nil,
-
-            -- post_cwd_changed_hook = function() -- example refreshing the lualine status line _after_ the cwd changes
-            --   require("lualine").refresh() -- refresh lualine so the new session name is displayed in the status bar
-            -- end,
-          },
-        }
       '';
     }
     {
@@ -51,20 +33,72 @@
       '';
     }
     {
-      plugin = alpha-nvim;
-      type = "lua";
+      plugin = vim-startify;
+      #type = "lua";
       config = ''
-        local alpha = require("alpha")
-        local theme = require("alpha.themes.dashboard")
-        alpha.setup(theme.config)
+           let g:figlet_header_text = 'figlet -w 100 -f colossal vim'
+           let g:startify_custom_header =
+             \ startify#center(split(system(figlet_header_text), '\n')) +
+             \ startify#center(split(system('year-progress 100'), '\n')) +
+             \ startify#center(startify#fortune#boxed())
+
+          function! s:gitModified()
+            let files = systemlist('git ls-files -m 2>/dev/null')
+            return map(files, "{'line': v:val, 'path': v:val}")
+        endfunction
+
+          " same as above, but show untracked files, honouring .gitignore
+          function! s:gitUntracked()
+              let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+              return map(files, "{'line': v:val, 'path': v:val}")
+          endfunction
+
+          let g:startify_lists = [
+                  \ { 'type': 'files',     'header': ['   MRU']            },
+                  \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+                  \ { 'type': 'sessions',  'header': ['   Sessions']       },
+                  \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+                  \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+                  \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+                  \ { 'type': 'commands',  'header': ['   Commands']       },
+                  \ ]
       '';
     }
+    #{
+    #  plugin = alpha-nvim;
+    #  type = "lua";
+    #  config = builtins.readFile ./alpha.lua;
+    #}
+    # FIXME
+    #{
+    #  plugin = hop-nvim;
+    #  type = "lua";
+    #  config = builtins.readFile ./hop.lua;
+    #}
+    #{
+    #  plugin = auto-session;
+    #  type = "lua";
+    #  config = ''
+    #    require("auto-session").setup {
+    #      log_level = "error",
+    #      auto_session_suppress_dirs = { "~/", "~/code", "~/Downloads", "/"},
+    #      auto_session_enabled = true,
+    #      auto_session_create_enabled = true,
+    #      auto_save_enabled = true,
+    #      auto_restored_enabled = false,
+    #      auto_session_use_git_branch = true,
 
-    {
-      plugin = hop-nvim;
-      type = "lua";
-      config = builtins.readFile ./hop.lua;
-    }
+    #      cwd_change_handling = {
+    #        restore_upcoming_session = false,
+
+    #        pre_cwd_changed_hook = nil,
+    #        -- post_cwd_changed_hook = function() -- example refreshing the lualine status line _after_ the cwd changes
+    #        --   require("lualine").refresh() -- refresh lualine so the new session name is displayed in the status bar
+    #        -- end,
+    #      },
+    #    }
+    #  '';
+    #}
     {
       plugin = nerdtree;
       config = ''

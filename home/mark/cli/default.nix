@@ -2,7 +2,12 @@
   pkgs,
   config,
   ...
-}: {
+}: let
+  yearProgress = pkgs.writeShellApplication {
+    name = "year-progress";
+    text = builtins.readFile ./year-progress.sh;
+  };
+in {
   imports = [./fzf.nix ./tmux.nix];
 
   config = {
@@ -105,6 +110,8 @@
       ispell
       hunspell
       hunspellDicts.en-us
+
+      yearProgress
 
       # cloud
       # awscli

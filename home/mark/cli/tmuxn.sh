@@ -7,6 +7,7 @@
 function _tmuxn() {
   local sessionName
   sessionName="${1:-}"
+
   if [[ -z "$sessionName" ]]
   then
     local currentDir
@@ -15,10 +16,11 @@ function _tmuxn() {
     currentDir=$(pwd)
     baseDir=$(basename "$currentDir")
 
-    tmux new-session -s "$baseDir"
-  else
-    tmux new-session -s "$sessionName"
+    sessionName="$baseDir"
   fi
+
+  echo "Creating tmux session @ $sessionName"
+  tmux new-session -s "$sessionName"
 }
 
 _tmuxn "$@"

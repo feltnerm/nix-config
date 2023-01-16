@@ -8,6 +8,7 @@
 function _tmuxa() {
   local sessionName
   sessionName="${1:-}"
+
   if [[ -z "$sessionName" ]]
   then
     local currentDir
@@ -16,10 +17,11 @@ function _tmuxa() {
     currentDir=$(pwd)
     baseDir=$(basename "$currentDir")
 
-    tmux attach-session -t "$baseDir"
-  else
-    tmux attach-session -t "$sessionName"
+    sessionName="$baseDir"
   fi
+
+  echo "Attaching tmux session @ $sessionName"
+  tmux attach-session -t "$sessionName"
 }
 
 _tmuxa "$@"
