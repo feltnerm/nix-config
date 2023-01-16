@@ -10,6 +10,14 @@
   vimWikiHtml = "${wikiRoot}/vimwiki_html";
 
   plugins = with pkgs.vimPlugins; [
+    plenary-nvim
+    {
+      plugin = rest-nvim;
+      type = "lua";
+      config = ''
+        require("rest-nvim").setup({})
+      '';
+    }
     {
       plugin = vimwiki;
       config = ''

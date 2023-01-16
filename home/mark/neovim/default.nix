@@ -3,6 +3,53 @@
 
   vimPlugins = with pkgs.vimPlugins; [
     playground
+    git-blame-nvim
+    {
+      plugin = nvim-autopairs;
+      type = "lua";
+      config = ''
+        require("nvim-autopairs").setup {}
+      '';
+    }
+    {
+      plugin = auto-session;
+      type = "lua";
+      config = ''
+        require("auto-session").setup {
+          log_level = "error",
+          auto_session_suppress_dirs = { "~/", "~/code", "~/Downloads", "/"},
+
+          cwd_change_handling = {
+            -- defaults
+            restore_upcoming_session = true,
+            pre_cwd_changed_hook = nil,
+
+            -- post_cwd_changed_hook = function() -- example refreshing the lualine status line _after_ the cwd changes
+            --   require("lualine").refresh() -- refresh lualine so the new session name is displayed in the status bar
+            -- end,
+          },
+        }
+      '';
+    }
+    {
+      plugin = auto-save-nvim;
+      type = "lua";
+      config = ''
+        require("auto-save").setup {}
+      '';
+    }
+    {
+      plugin = indent-blankline-nvim;
+      type = "lua";
+      config = ''
+        local indentBlankline = require("indent_blankline")
+        indentBlankline.setup({
+            -- for example, context is off by default, use this to turn it on
+            show_current_context = true,
+            show_current_context_start = true,
+        })
+      '';
+    }
     {
       plugin = alpha-nvim;
       type = "lua";
@@ -13,13 +60,11 @@
       '';
     }
 
-    # TODO
-    #{
-    #  plugin = hop-nvim;
-    #  type = "lua";
-    #  # map <Leader><Leader> <Plug>(easymotion-prefix)
-    #  config = builtins.readFile ./hop.lua;
-    #}
+    {
+      plugin = hop-nvim;
+      type = "lua";
+      config = builtins.readFile ./hop.lua;
+    }
     {
       plugin = nerdtree;
       config = ''

@@ -85,8 +85,15 @@
       # shell
       shellcheck
 
+      # html validate/format
+      tidyp
+
+      # json, yaml, js, and more format
+      nodePackages.prettier
+
       # fun
       asciinema
+      ascii-image-converter
       nyancat
       youtube-dl
 

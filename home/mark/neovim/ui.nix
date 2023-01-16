@@ -1,9 +1,14 @@
 {pkgs, ...}: let
   uiPlugins = with pkgs.vimPlugins; [
-    base16-vim
+    {
+      plugin = base16-vim;
+      config = ''
+        let base16colorspace=256
+      '';
+    }
     vim-colorschemes
     vim-janah
-    gruvbox
+    gruvbox-material
     {
       plugin = vim-one;
       config = ''
@@ -14,7 +19,8 @@
       plugin = vim-airline;
       config = ''
         """" airline settings
-        let g:airline_theme = 'gruvbox'
+        let g:airline_theme = 'base16_gruvbox_dark_soft'
+        let g:airline#extensions#tmuxline#enabled = 0
         let g:airline#extensions#tabline#enabled = 1
         let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
         let g:airline#extensions#branch#enabled = 1
@@ -22,6 +28,7 @@
       '';
     }
     vim-airline-themes
+    vim-airline-clock
     vista-vim
     vim-devicons # load last
   ];

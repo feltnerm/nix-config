@@ -125,6 +125,7 @@ in {
         mosh
         mtr
         openssl
+        prettyping
         rsync
         speedtest-cli
         sshfs

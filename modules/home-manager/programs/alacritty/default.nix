@@ -5,6 +5,7 @@
   ...
 }: let
   cfg = config.feltnerm.programs.alacritty;
+  #theme = ./base16-gruvbox-dark-soft-256.yml;
 in {
   options.feltnerm.programs.alacritty = {
     enable = lib.mkOption {
@@ -14,69 +15,85 @@ in {
   };
 
   config = {
-    # programs.zsh = lib.mkIf cfg.enable {
-    #   initExtra = ''
-    #     if [[ "$TERM" != "" && "$TERM" == "alacritty" ]]
-    #     then
-    #         precmd()
-    #         {
-    #             print -Pn "$(whoami)@$(hostname):%~\a"
-    #         }
-
-    #         preexec()
-    #         {
-    #             # output current executed command with parameters
-    #             echo -en "\e]0;$(whoami)@$(hostname): $1\a"
-    #         }
-    #     fi
-    #   '';
-    # };
-
     programs.alacritty = {
       inherit (cfg) enable;
       settings = {
         window = {
           decorations = "transparent";
           opacity = 0.99;
-          padding.x = 16;
+          padding.x = 8;
           padding.y = 24;
           dynamic_padding = false;
           dynamic_title = true;
         };
-        # bell = {
-        #   animation = "EaseOutExpo";
-        #   duration = 50;
-        #   color = "0xffffff";
-        # };
         draw_bold_text_with_bright_colors = false;
         live_config_reload = true;
 
-        # gruvbox
+        # Base16 Gruvbox dark, soft 256 - alacritty color config
+        # Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
         colors = {
+          # Default colors
           primary = {
-            background = "0x282828";
-            foreground = "0xebdbb2";
+            background = "0x32302f";
+            foreground = "0xd5c4a1";
           };
+
+          # Colors the cursor will use if `custom_cursor_colors` is true
+          cursor = {
+            text = "0x32302f";
+            cursor = "0xd5c4a1";
+          };
+
+          # Normal colors
           normal = {
-            black = "0x282828";
-            red = "0xcc241d";
-            green = "0x98971a";
-            yellow = "0xd79921";
-            blue = "0x458588";
-            magenta = "0xb16286";
-            cyan = "0x689d6a";
-            white = "0xa89984";
-          };
-          bright = {
-            black = "0x928374";
+            black = "0x32302f";
             red = "0xfb4934";
             green = "0xb8bb26";
             yellow = "0xfabd2f";
             blue = "0x83a598";
             magenta = "0xd3869b";
             cyan = "0x8ec07c";
-            white = "0xebdbb2";
+            white = "0xd5c4a1";
           };
+
+          # Bright colors
+          bright = {
+            black = "0x665c54";
+            red = "0xfb4934";
+            green = "0xb8bb26";
+            yellow = "0xfabd2f";
+            blue = "0x83a598";
+            magenta = "0xd3869b";
+            cyan = "0x8ec07c";
+            white = "0xfbf1c7";
+          };
+
+          indexed_colors = [
+            {
+              index = 16;
+              color = "0xfe8019";
+            }
+            {
+              index = 17;
+              color = "0xd65d0e";
+            }
+            {
+              index = 18;
+              color = "0x3c3836";
+            }
+            {
+              index = 19;
+              color = "0x504945";
+            }
+            {
+              index = 20;
+              color = "0xbdae93";
+            }
+            {
+              index = 21;
+              color = "0xebdbb2";
+            }
+          ];
         };
 
         font = {

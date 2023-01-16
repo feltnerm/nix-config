@@ -1,10 +1,4 @@
 map <space> <leader>
-"
-" save faster
-" map <leader>w :w<CR>
-lua <<EOF
-vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = "save" })
-EOF
 
 " reload vimrc
 " map <leader>VR :source $MYVIMRC<CR>

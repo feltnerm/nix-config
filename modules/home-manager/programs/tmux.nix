@@ -23,15 +23,17 @@ in {
       newSession = true; # Automatically spawn a session if trying to attach and none are running.
       secureSocket = true; # More secure tmux socket; removed at logout.
       plugins = with pkgs.tmuxPlugins; [
+        jump
+        net-speed
+        prefix-highlight
+        sysstat
         tmux-fzf
-        # FIXME tmux-mem-cpu-load
-        # FIXME tmux-jump
-        # FIXME tmux-yank
+        yank
       ];
       # extraConfig = "";
       extraConfig = ''
         set-option -g default-terminal "screen-256color"
-        set-option -sa terminal-overrides ',screen:RGB
+        set-option -sa terminal-overrides ',alacritty:RGB
       '';
     };
   };
