@@ -9,26 +9,34 @@ function _yearPercent() {
     totalDayNumber=365
     progressPercent=$(echo "scale=2; ($currentDayNumber / $totalDayNumber)" | bc)
 
-    echo "$progressPercent"
+    echo -n "$progressPercent"
 }
 
-function _progressBar() {
-    local front
-    local back
-    front="["
-    back="]"
+function _drawProgressBar() {
+    local progressPercent
+    progressPercent="$1"
 
+    local width
+    width="$2"
+
+    # set some drawing characters
     local loading
     local loaded
-    loading="-"
-    loaded="="
+    loading="${3:--}"
+    loaded="${4:-=}"
 
-    local progressPercent
-    progressPercent=${1:-"0"}
+    local front
+    local back
+    front="${5:-[}"
+    back="${6:-]}"
 
+    # subtract 2 since the front and back characters are part of the
+    # width
     local total
-    total=${2:-"10"}
+    total=$(echo "($width - 2)" | bc)
 
+    # use the provided percent to draw a progress bar at the provided
+    # width
     local normalizedProgress
     normalizedProgress=$(echo "($progressPercent * $total)" | bc)
 
@@ -41,7 +49,6 @@ function _progressBar() {
     local formattedNormalizedUnloaded
     formattedNormalizedUnloaded=$(printf %.0f "$normalizedUnloaded")
 
-    # echo -e "$normalizedProgress"
     echo -n "$front"
     for ((i=0; i<formattedNormalizedProgress; i++))
     do
@@ -52,6 +59,18 @@ function _progressBar() {
         echo -n "$loading"
     done
     echo -n "$back"
+}
+
+function _progressBar() {
+
+    local progressPercent
+    progressPercent=${1:-"0"}
+
+    local width
+    width=${2:-"10"}
+    # TODO if $width < 3, just make it 3
+
+    _drawProgressBar "$progressPercent" "$width"
 }
 
 function _main() {
@@ -65,8 +84,3 @@ function _main() {
 }
 
 _main "$@"
-
-# divide by 10 to make it easy
-# multiply by width in characters - 2 (for the )
-# [----------]
-# result=$(expr $(date +%j) / 365); echo $result

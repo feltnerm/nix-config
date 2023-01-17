@@ -36,11 +36,17 @@
       plugin = vim-startify;
       #type = "lua";
       config = ''
-           let g:figlet_header_text = 'figlet -w 100 -f colossal vim'
+           ""let g:startify_header = system('figlet -w 100 -f colossal vim')
+           let g:startify_header = system('chuckscii')
            let g:startify_custom_header =
-             \ startify#center(split(system(figlet_header_text), '\n')) +
-             \ startify#center(split(system('year-progress 100'), '\n')) +
-             \ startify#center(startify#fortune#boxed())
+             \ startify#center(split(startify_header, '\n')) +
+             \ startify#center([""]) +
+             \ startify#center(startify#fortune#boxed()) +
+             \ startify#center([""]) +
+             \ startify#center(split(system('date -R'), '\n')) +
+             \ startify#center([""]) +
+             \ startify#center(split(system('year-progress 100'), '\n'))
+
 
           function! s:gitModified()
             let files = systemlist('git ls-files -m 2>/dev/null')

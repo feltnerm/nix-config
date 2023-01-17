@@ -5,7 +5,14 @@
 }: let
   yearProgress = pkgs.writeShellApplication {
     name = "year-progress";
+    runtimeInputs = [pkgs.bc];
     text = builtins.readFile ./year-progress.sh;
+  };
+
+  chuckscii = pkgs.writeShellApplication {
+    name = "chuckscii";
+    runtimeInputs = [];
+    text = builtins.readFile ./chuckscii.sh;
   };
 in {
   imports = [./fzf.nix ./tmux.nix];
@@ -112,6 +119,7 @@ in {
       hunspellDicts.en-us
 
       yearProgress
+      chuckscii
 
       # cloud
       # awscli
