@@ -1,8 +1,11 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
+  cfg = config.feltnerm.programs.neovim.lsp;
+
   nvimLspConfig = builtins.readFile ./nvim-lsp.lua;
 
   languageServers = with pkgs; [
@@ -27,7 +30,14 @@
     }
   ];
 in {
-  config = {
+  options.feltnerm.programs.neovim.lsp = {
+    enable = lib.mkOption {
+      description = "Enable LSP servers for neovim.";
+      default = false;
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     programs.neovim.extraPackages = languageServers;
     programs.neovim.plugins = vimLanguageServerPlugins;
   };

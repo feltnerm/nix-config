@@ -39,66 +39,106 @@ in {
       };
     };
 
-    home.enableNixpkgsReleaseCheck = true;
-
     services.home-manager.autoUpgrade = {
       enable = cfg.enableAutoUpgrade;
       frequency = "daily";
     };
 
-    home.packages = with pkgs; [
-      ack
-      bat
-      direnv
-      exa
-      fd
-      gawk
-      readline
-      ripgrep
-      ripgrep-all
-      # vim
+    home = {
+      enableNixpkgsReleaseCheck = true;
+      shellAliases = {
+        cp = "cp -i"; # write error instead of overwriting
+        cpv = "rsync -pogr --progress";
+        cpp = "rsync -Wavp --human-readable --progress $1 $2";
+        mv = "mv -i";
+        rm = "rm -ir";
+        weather = "curl wttr.in";
+        oracow = "fortune | cowsay";
+      };
 
-      fpp
+      packages = with pkgs; [
+        ack
+        bat
+        direnv
+        exa
+        fd
+        gawk
+        readline
+        ripgrep
+        ripgrep-all
+        # vim
 
-      hexyl
-      httpie
+        fpp
 
-      lynx
+        hexyl
+        httpie
 
-      # processors
-      gawk
+        lynx
 
-      # process management
-      htop
-      killall
-      lsof
-      #pidof
+        # processors
+        gawk
 
-      # networking
-      curl
-      mosh
-      mtr
-      openssl
-      openvpn
-      rclone
-      rsync
-      speedtest-cli
-      wget
+        # process management
+        htop
+        killall
+        lsof
+        #pidof
 
-      # utils
-      tree
-      unrar
-      unzip
+        # networking
+        curl
+        mosh
+        mtr
+        openssl
+        openvpn
+        rclone
+        rsync
+        speedtest-cli
+        wget
 
-      # fun
-      cowsay
-      figlet
-      fortune
-      neofetch
-      toilet
+        # utils
+        tree
+        unrar
+        unzip
 
-      feltnerm.greet
-      feltnerm.screensaver
-    ];
+        # fun
+        cowsay
+        figlet
+        fortune
+        neofetch
+        toilet
+
+        # my scripts and packages
+        feltnerm.chuckscii
+        feltnerm.greet
+        feltnerm.screensaver
+        feltnerm.year-progress
+      ];
+
+      file = {
+        ".hushlogin" = {
+          text = "";
+        };
+
+        ".editorconfig" = {
+          text = ''
+            # editorconfig.org
+            root = true
+
+            [*]
+            charset = utf-8
+            end_of_line = lf
+            trim_trailing_whitespace = true
+            insert_final_newline = true
+
+            [*.{json,yaml,yml,toml,tml}]
+            indent_style = space
+            indent_size = 2
+
+            [Makefile]
+            indent_style = tab
+          '';
+        };
+      };
+    };
   };
 }

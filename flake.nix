@@ -4,8 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    hardware.url = "github:nixos/nixos-hardware";
+hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
 
     home-manager = {
@@ -169,6 +168,7 @@
       "mark@markbook" = home.mkHome {
         username = "mark";
         pkgs = systemPkgs."x86_64-darwin";
+        overlays = [overlays.feltnerm];
         userConfig = {
           home = {
             homeDirectory = "/Users/mark";
@@ -206,6 +206,25 @@
             programs.alacritty.enable = true;
             programs.git.email = "mark.feltner@acquia.com";
             programs.gpg.pubKey = "FA9E3ABE6B2DF6521D541921CAA87B6562729B49";
+            programs.neovim.ui.startify.extraConfig = ''
+              let g:startify_custom_header =
+              \ startify#center(["                                    "]) +
+              \ startify#center(["      -*++=  -*++-  +*++++++*=      "]) +
+              \ startify#center(["      :#@@@+ :%@@@= =@@@@@@@%:      "]) +
+              \ startify#center(["        *@@@*  #@@@+ -@@@@@*        "]) +
+              \ startify#center(["         *@@@#  #@@@* :%@@=         "]) +
+              \ startify#center(["          +@@@#  *@@@* :*-          "]) +
+              \ startify#center(["           =@@@%: +@@@#             "]) +
+              \ startify#center(["            =@@@=  +@@#:            "]) +
+              \ startify#center(["             -#-    =+              "]) +
+              \ startify#center(["                                    "]) +
+              \ startify#center([""]) +
+              \ startify#center(startify#fortune#boxed()) +
+              \ startify#center([""]) +
+              \ startify#center(split(system('date -R'), '\n')) +
+              \ startify#center([""]) +
+              \ startify#center(split(system('year-progress 100'), '\n'))
+            '';
           };
         };
         features = [];

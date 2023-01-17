@@ -1,4 +1,11 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.feltnerm.programs.neovim.treesitter;
+
   treesitterConfig = builtins.readFile ./nvim-treesitter.lua;
   treesitterRefactorConfig = builtins.readFile ./nvim-treesitter-refactor.lua;
 
@@ -20,7 +27,14 @@
     tree-sitter
   ];
 in {
-  config = {
+  options.feltnerm.programs.neovim.treesitter = {
+    enable = lib.mkOption {
+      description = "Enable neovim treesitter";
+      default = false;
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     programs.neovim.extraPackages = treesitterPackages;
     programs.neovim.plugins = treesitterPlugins;
     programs.neovim.extraConfig = ''

@@ -27,11 +27,9 @@
   };
 in {
   config = {
-    home.shellAliases = {
-    };
+    home.shellAliases = {};
 
-    home.sessionVariables = {
-    };
+    home.sessionVariables = {};
 
     home.packages = [
       fzfGitCommits
@@ -40,6 +38,10 @@ in {
     ];
 
     programs.zsh.initExtra = ''
+      function f() {
+        vim -- $(fzf-files "$1")
+      }
+
       function c() {
         cd -- $(fzf-repo "$1")
       }

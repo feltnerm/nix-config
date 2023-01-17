@@ -1,4 +1,11 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
+  cfg = config.feltnerm.programs.neovim.telescope;
+
   telescopeConfig = builtins.readFile ./telescope-nvim.lua;
 
   telescopePlugins = with pkgs.vimPlugins; [
@@ -17,7 +24,13 @@
     }
   ];
 in {
+  options.feltnerm.programs.neovim.telescope = {
+    enable = lib.mkOption {
+      description = "Enable neovim telescope.";
+      default = false;
+    };
+  };
   config = {
-    programs.neovim.plugins = telescopePlugins;
+    programs.neovim.plugins = lib.mkIf cfg.enable telescopePlugins;
   };
 }
