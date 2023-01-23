@@ -22,6 +22,9 @@ in {
       escapeTime = 10;
       newSession = true; # Automatically spawn a session if trying to attach and none are running.
       secureSocket = true; # More secure tmux socket; removed at logout.
+      # TODO detect based on config values
+      defaultShell = "\${pkgs.zsh}/bin/zsh";
+      defaultTerminal = "screen-256color";
       plugins = with pkgs.tmuxPlugins; [
         jump
         net-speed
