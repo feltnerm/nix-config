@@ -18,7 +18,7 @@
         };
 
         gpg = {
-          pubKey = lib.mkDefault "3BBF0F96";
+          pubKey = lib.mkDefault "390FE4873BBF0F96";
           enable = lib.mkDefault true;
         };
       };
