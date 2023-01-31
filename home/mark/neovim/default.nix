@@ -1,4 +1,8 @@
-{pkgs, lib, ...}: let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 
   # TODO

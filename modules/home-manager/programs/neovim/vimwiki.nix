@@ -60,12 +60,13 @@ in {
     };
 
     programs.neovim = {
-      extraPackages = with pkgs; [] ++
-      (
+      extraPackages = with pkgs;
+        []
+        ++ (
           if cfg.enableMarkdown
           then [vimwiki-markdown]
           else []
-      );
+        );
       inherit plugins;
     };
   };

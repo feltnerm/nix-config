@@ -24,7 +24,7 @@
       }
     ]
     ++ (
-      if (config.feltnerm.programs.neovim.vimwiki.enable)
+      if config.feltnerm.programs.neovim.vimwiki.enable
       then [cmp-vimwiki-tags]
       else []
     );

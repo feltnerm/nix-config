@@ -2,8 +2,7 @@
   pkgs,
   config,
   ...
-}: let
-in {
+}: {
   imports = [./fzf ./tmux];
 
   config = {
