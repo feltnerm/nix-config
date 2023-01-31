@@ -81,6 +81,7 @@ in {
         # process management
         htop
         killall
+        lnav
         lsof
         #pidof
 

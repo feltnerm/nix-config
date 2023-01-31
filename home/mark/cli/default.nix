@@ -59,6 +59,8 @@
     };
 
     home.packages = with pkgs; [
+      bitwarden-cli
+
       # docker management
       dive
 
@@ -67,7 +69,9 @@
       ffmpeg
       flac
       ghostscript
+      image_optim
       imagemagick
+      nodePackages.svgo
 
       # browsers
       lynx
@@ -92,9 +96,19 @@
       # json, yaml, js, and more format
       nodePackages.prettier
 
+      # process mgmt
+      glances
+      #gotop
+      nodePackages.nodemon
+
+      # yubikey
+      yubikey-agent
+      yubikey-manager
+      yubikey-personalization
+
       # fun
-      asciinema
       ascii-image-converter
+      asciinema
       nyancat
       youtube-dl
 

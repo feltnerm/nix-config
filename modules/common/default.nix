@@ -6,7 +6,6 @@
 }: let
   cfg = config.feltnerm;
 in {
-
   # docs
   options.feltnerm.documentation = {
     enable = lib.mkOption {

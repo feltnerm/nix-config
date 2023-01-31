@@ -164,6 +164,8 @@ in {
       g = "git";
     };
 
+    home.packages = [pkgs.git-quick-stats];
+
     # persist ssh sessions to github for a short while
     programs.ssh = {
       matchBlocks = {
