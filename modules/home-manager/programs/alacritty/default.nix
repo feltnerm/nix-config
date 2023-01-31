@@ -29,6 +29,10 @@ in {
         draw_bold_text_with_bright_colors = false;
         live_config_reload = true;
 
+        mouse = {
+          hide_when_typing = true;
+        };
+
         # Base16 Gruvbox dark, soft 256 - alacritty color config
         # Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
         colors = {
