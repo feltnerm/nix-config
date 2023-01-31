@@ -6,13 +6,6 @@
 }: let
   cfg = config.feltnerm;
 in {
-  # imports = [
-  #   ./boot.nix
-  #   ./gui.nix
-  #   ./nix.nix
-  #   ./networking.nix
-  #   ./nix.nix
-  # ];
 
   # docs
   options.feltnerm.documentation = {
@@ -169,14 +162,10 @@ in {
         allowed-users = cfg.nix.allowedUsers;
         trusted-users = cfg.nix.trustedUsers;
         substituters = [
-          "https://cache.nixos.org"
-          "https://nix-community.cachix.org"
           "https://feltnerm.cachix.org"
         ];
 
         trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
           "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
         ];
       };
