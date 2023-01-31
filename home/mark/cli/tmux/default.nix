@@ -38,9 +38,6 @@ in {
   config = {
     programs.tmux = {
       extraConfig = ''
-        set-option -g default-terminal "tmux-256color"
-        set-option -sa terminal-overrides ",alacritty:Tc"
-
         # Base17 Gruvbox dark, soft
         # Scheme author: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
         # Template author: Tinted Theming: (https://github.com/tinted-theming)
