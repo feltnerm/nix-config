@@ -32,20 +32,20 @@
       }
     ];
 
-    overlay = final: _prev: {
+    feltnermOverlay = final: _prev: {
       feltnerm = import ./packages {pkgs = final;};
     };
   in rec {
-    inherit overlay;
+    inherit lib;
 
     overlays = {
-      feltnerm = overlay;
+      feltnerm = feltnermOverlay;
     };
 
     systemPkgs = utils.forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
-        overlays = [overlay];
+        overlays = [feltnermOverlay];
         config = {
           allowUnfree = true;
         };
@@ -65,6 +65,10 @@
 
     homeManagerModules = {
       feltnerm = import ./modules/home-manager/default.nix;
+    };
+
+    darwinModules = {
+      feltnerm = import ./modules/darwin/default.nix;
     };
 
     devShells = utils.forAllSystems (system: {
