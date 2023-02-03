@@ -36,13 +36,16 @@
       feltnerm = import ./packages {pkgs = final;};
     };
   in rec {
-    inherit lib;
-
-    overlays = {
-      feltnerm = feltnermOverlay;
+    lib = {
+      inherit darwin home nixos utils;
     };
 
-    systemPkgs = utils.forAllSystems (system:
+    overlays = rec {
+      feltnerm = feltnermOverlay;
+      default = feltnerm;
+    };
+
+    legacyPackages = utils.forAllSystems (system:
       import inputs.nixpkgs {
         inherit system;
         overlays = [feltnermOverlay];
@@ -59,26 +62,29 @@
         };
       });
 
-    nixosModules = {
+    nixosModules = rec {
       feltnerm = import ./modules/nixos/default.nix;
+      default = feltnerm;
     };
 
-    homeManagerModules = {
+    homeManagerModules = rec {
       feltnerm = import ./modules/home-manager/default.nix;
+      default = feltnerm;
     };
 
-    darwinModules = {
+    darwinModules = rec {
       feltnerm = import ./modules/darwin/default.nix;
+      default = feltnerm;
     };
 
     devShells = utils.forAllSystems (system: {
-      default = systemPkgs.${system}.callPackage ./shell.nix {};
+      default = legacyPackages.${system}.callPackage ./shell.nix {};
     });
 
     # TODO run statix as well here
     formatter = utils.forAllSystems (
       system:
-        systemPkgs.${system}.alejandra
+        legacyPackages.${system}.alejandra
     );
 
     hydraJobs = {
@@ -89,14 +95,14 @@
     };
 
     packages = utils.forAllSystems (system: (
-      import ./packages {pkgs = systemPkgs."${system}";}
+      import ./packages {pkgs = legacyPackages."${system}";}
     ));
 
     nixosConfigurations = {
       monke = nixos.mkNixosSystem {
         hostname = "monke";
         system = "x86_64-linux";
-        pkgs = systemPkgs."x86_64-linux";
+        pkgs = legacyPackages."x86_64-linux";
         users = defaultUsers;
         systemConfig = {
           feltnerm = {};
@@ -107,7 +113,7 @@
     darwinConfigurations = {
       "markbook" = darwin.mkDarwinSystem {
         hostname = "markbook";
-        pkgs = systemPkgs."x86_64-darwin";
+        pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
         systemConfig = {
           feltnerm = {};
@@ -116,7 +122,7 @@
 
       "mfeltner" = darwin.mkDarwinSystem {
         hostname = "mfeltner";
-        pkgs = systemPkgs."x86_64-darwin";
+        pkgs = legacyPackages."x86_64-darwin";
         users = [
           {
             username = "mfeltner";
@@ -132,7 +138,7 @@
     homeConfigurations = {
       "mark@monke" = home.mkHome {
         username = "mark";
-        pkgs = systemPkgs."x86_64-linux";
+        pkgs = legacyPackages."x86_64-linux";
         userConfig = {
           home = {
             homeDirectory = "/home/mark";
@@ -167,7 +173,7 @@
 
       "mark@markbook" = home.mkHome {
         username = "mark";
-        pkgs = systemPkgs."x86_64-darwin";
+        pkgs = legacyPackages."x86_64-darwin";
         overlays = [overlays.feltnerm];
         userConfig = {
           home = {
@@ -188,7 +194,7 @@
         username = "mfeltner";
         userModule = ./home/mark/default.nix;
         overlays = [overlays.feltnerm];
-        pkgs = systemPkgs."x86_64-darwin";
+        pkgs = legacyPackages."x86_64-darwin";
         userConfig = {
           home = {
             homeDirectory = "/Users/mfeltner";

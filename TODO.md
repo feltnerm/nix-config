@@ -5,16 +5,24 @@ _Lots to do here ..._
 
 Non-exhaustive, semi-prioritized list of things left to do in this repo:
 
+- [ ] composable flake
 - [ ] dev env
 - [ ] firefox for apps
     - work apps like slack, gmail, calendar, etc.
     - home apps like discord, yt, ytmusic, yttv
 - [ ] rclone / gdrive
 
+## CI
+- [ ] cachix working?
+- [ ] actually build systems as integ test
+    - [ ] docker images
+    - [ ] vms
+- [ ] flake auto-update PRs?
+
 ## home
 - development environment
-    - continue porting
-        - ~/code and git/github user setup?
+    - ~/code and git/github user setup?
+        - automation to create, clone, navigate, etc. repos
     - [x] vim / neovim config
 - [ ] rclone
     - [ ] home

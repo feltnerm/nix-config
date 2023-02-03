@@ -4,7 +4,7 @@
   inherit (nixpkgs.lib) nixosSystem;
 
   user = import ./user.nix {inherit inputs;};
-in rec {
+in {
   mkNixosSystem = {
     hostname,
     users,
