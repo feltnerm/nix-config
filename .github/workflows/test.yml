@@ -1,9 +1,46 @@
-name: "Test"
+name: Tests
 on:
+  workflow_dispatch:
   pull_request:
   push:
+    branches:
+      - main
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
 jobs:
-  tests:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v19
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+        nix_path: nixpkgs=channel:nixos-unstable
+    - uses: cachix/cachix-action@v12
+      with:
+        name: feltnerm
+        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+    - name: Sanity check
+      run: nix develop --command bash -c echo OK
+
+    - name: Check style
+      run: nix develop --command alejandra --check .
+
+    - name: Lint
+      run: nix develop --command statix check .
+
+    - name: Unused modules
+      run: nix develop --command deadnix --fail .
+
+    - name: Flake check
+      run: nix flake check
+
+  home-manager:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -12,12 +49,52 @@ jobs:
     - uses: actions/checkout@v3
     - uses: cachix/install-nix-action@v18
       with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
         nix_path: nixpkgs=channel:nixos-unstable
     - uses: cachix/cachix-action@v12
       with:
         name: feltnerm
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: nix-shell --run "alejandra --check ."
-    - run: nix-shell --run "statix check ."
-    - run: nix flake check
-    - run: nix-shell --run "echo OK"
+
+    - name: Home-manager linux
+      if: matrix.os == 'ubuntu-latest'
+      run: cd examples/simple-flake && nix build --no-link '.#homeConfigurations.nix-user.activationPackage'
+
+    - name: Home-manager darwin
+      if: matrix.os == 'macos-latest'
+      run: cd examples/simple-flake && nix build --no-link '.#homeConfigurations.darwin-user.activationPackage'
+
+  # nix:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: cachix/install-nix-action@v18
+  #     with:
+  #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
+  #       nix_path: nixpkgs=channel:nixos-unstable
+  #   - uses: cachix/cachix-action@v12
+  #     with:
+  #       name: feltnerm
+  #       authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+  #   - name: Nixos system
+  #     run: cd examples/simple-flake && nix build --dry-run --no-link '.#nixosConfigurations.nixos-system.config.system.build.toplevel'
+
+  # darwin:
+  #   runs-on: macos-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: cachix/install-nix-action@v18
+  #     with:
+  #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
+  #       nix_path: nixpkgs=channel:nixos-unstable
+  #   - uses: cachix/cachix-action@v12
+  #     with:
+  #       name: feltnerm
+  #       authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+  #   - name: Install darwin-nix
+  #     # with:
+  #     #   github_access_token: ${{ secrets.GITHUB_TOKEN }}
+  #     #   nix_path: nixpkgs=channel:nixos-unstable
+  #     run: nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer && ./result/bin/darwin-installer
+  #   - name: Darwin system
+  #     run: cd examples/simple-flake && darwin-rebuild --flake '.#darwin-system' check
