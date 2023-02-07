@@ -9,12 +9,12 @@ in {
     hostname,
     users,
     pkgs,
+    hostModule ? ./../hosts + "/${hostname}" + /default.nix,
     defaultShell ? "bashInteractive",
     system ? "x86_64-linux",
     systemConfig ? {},
     ...
   }: let
-    hostModule = ./../hosts + "/${hostname}" + /default.nix;
     mkNixosUser = user.nixosUserFactory pkgs;
   in
     nixosSystem {
