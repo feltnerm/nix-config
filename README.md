@@ -1,4 +1,4 @@
-nixos-config
+nix-config
 ----
 
 [![Test](https://github.com/feltnerm/nixos-config/actions/workflows/test.yml/badge.svg)](https://github.com/feltnerm/nixos-config/actions/workflows/test.yml)
