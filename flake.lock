@@ -168,6 +168,9 @@
         "hardware": "hardware",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-firefox-darwin": [
+          "nixpkgs"
+        ],
         "nur": "nur",
         "unstable": "unstable"
       }

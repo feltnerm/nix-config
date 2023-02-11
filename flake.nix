@@ -15,6 +15,8 @@
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
+    nixpkgs-firefox-darwin.follows = "nixpkgs";
     agenix.url = "github:yaxitech/ragenix";
     # agenix.url = "github:ryantm/agenix";
   };
