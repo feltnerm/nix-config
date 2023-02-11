@@ -47,11 +47,5 @@
 
     system.copySystemConfiguration = false;
     system.stateVersion = "22.05";
-
-    # TODO move to module:
-    # gui
-    #environment.systemPackages = with pkgs; [
-    #  alacritty
-    #];
   };
 }

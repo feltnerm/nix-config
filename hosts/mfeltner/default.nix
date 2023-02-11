@@ -1,12 +1,4 @@
 _: {
-  # imports = [
-  #   ./hardware-configuration.nix
-  #   ./boot.nix
-  #   ./filesystem.nix
-  #   ./hardware.nix
-  #   ./networking.nix
-  # ];
-
   config = {
     feltnerm = {
       config.fonts.enable = true;
@@ -33,7 +25,6 @@ _: {
       "electric-sheep"
 
       # 🦊
-      # TODO use home-manager
       "firefox"
 
       # gimp
@@ -69,8 +60,5 @@ _: {
       # Meeeeetings
       "zoom"
     ];
-
-    # system.copySystemConfiguration = false;
-    # system.stateVersion = 22;
   };
 }
