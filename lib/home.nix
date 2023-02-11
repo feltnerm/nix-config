@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self home-manager;
+  inherit (inputs) self home-manager nur;
   inherit (self) outputs;
   inherit (home-manager.lib) homeManagerConfiguration;
 in {
@@ -9,6 +9,7 @@ in {
     pkgs,
     userModule ? ./../home + "/${username}" + /default.nix,
     userConfig ? {},
+    nurModule ? nur.nixosModules.nur,
     colorscheme ? null,
     wallpaper ? null,
     features ? [],
@@ -22,6 +23,7 @@ in {
       };
       modules = [
         ../modules/home-manager
+        nurModule
         {
           home = {
             inherit username;

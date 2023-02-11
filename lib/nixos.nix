@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs;
+  inherit (inputs) self nixpkgs nur;
   inherit (self) outputs;
   inherit (nixpkgs.lib) nixosSystem;
 
@@ -13,6 +13,7 @@ in {
     defaultShell ? "bashInteractive",
     system ? "x86_64-linux",
     systemConfig ? {},
+    nurModule ? nur.nixosModules.nur,
     ...
   }: let
     mkNixosUser = user.nixosUserFactory pkgs;

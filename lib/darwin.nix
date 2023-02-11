@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self darwin;
+  inherit (inputs) self darwin nur;
   inherit (self) outputs;
 
   systemIdentifier = "x86_64-darwin";
@@ -11,6 +11,7 @@ in rec {
     hostModule ? ./../hosts + "/${hostname}" + /default.nix,
     system ? systemIdentifier,
     systemConfig ? {},
+    nurModule ? nur.nixosModules.nur,
     ...
   }: let
     mkDarwinUser = darwinUserFactory pkgs;
@@ -24,6 +25,7 @@ in rec {
         [
           ../modules/common
           ../modules/darwin
+          nurModule
           {
             # set hostname of this machine
             networking.hostName = hostname;
