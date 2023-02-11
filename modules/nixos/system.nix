@@ -46,10 +46,7 @@ in {
     # '';
 
     environment = {
-      sessionVariables = {
-        EDITOR = "vim";
-        # TODO man, less, etc with colors
-      };
+      sessionVariables = {};
     };
 
     boot.cleanTmpDir = cfg.boot.cleanTmpDir;

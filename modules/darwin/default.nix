@@ -17,21 +17,6 @@ in {
   config = {
     # allow nix to manage fonts
     fonts.fontDir.enable = config.feltnerm.config.fonts.enable;
-    # fonts.fonts = with pkgs; [
-    #   # sans fonts
-    #   comic-neue
-    #   source-sans
-
-    #   # nerdfonts
-    #   (nerdfonts.override {
-    #     fonts = [
-    #       "Hack"
-    #       "IBMPlexMono"
-    #       "Iosevka"
-    #       "JetBrainsMono"
-    #     ];
-    #   })
-    # ];
 
     # garbage collect daily
     nix.gc.interval = {

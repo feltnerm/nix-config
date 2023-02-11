@@ -26,7 +26,6 @@ in {
       default = "us";
     };
   };
-
   # nix
   options.feltnerm.nix = {
     enableFlake = lib.mkOption {
@@ -76,12 +75,7 @@ in {
   config = {
     time.timeZone = cfg.locale.timezone;
     environment = {
-      # TODO only add whichever is enabled
       pathsToLink = ["/share/bash-completion" "/share/zsh"];
-      variables = {
-        EDITOR = "vim";
-        # TODO man, less, etc with colors
-      };
 
       shells = [pkgs.zsh pkgs.bashInteractive];
 
@@ -177,29 +171,8 @@ in {
 
     programs.zsh.enable = true;
 
-    # TODO trim these down
     fonts = lib.mkIf cfg.config.fonts.enable {
       fonts = with pkgs; [
-        # comfortaa
-        # comic-neue
-        # fira
-        # fira-code
-        # fira-code-symbols
-        # ibm-plex
-        # inter
-        # iosevka
-        # jetbrains-mono
-        # lato
-        # material-design-icons
-        #nerdfonts
-        # noto-fonts
-        # noto-fonts-cjk
-        # noto-fonts-emoji
-        # powerline-fonts
-        # roboto
-        # source-sans
-        # twemoji-color-font
-        # work-sans
         # sans fonts
         comic-neue
         source-sans

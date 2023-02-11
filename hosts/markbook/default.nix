@@ -1,12 +1,4 @@
 _: {
-  # imports = [
-  #   ./hardware-configuration.nix
-  #   ./boot.nix
-  #   ./filesystem.nix
-  #   ./hardware.nix
-  #   ./networking.nix
-  # ];
-
   config = {
     feltnerm = {
       config.fonts.enable = true;
@@ -79,8 +71,5 @@ _: {
       # media player
       "vlc"
     ];
-
-    # system.copySystemConfiguration = false;
-    # system.stateVersion = 22;
   };
 }

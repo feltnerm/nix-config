@@ -2,7 +2,7 @@
   inherit (inputs) self home-manager;
   inherit (self) outputs;
   inherit (home-manager.lib) homeManagerConfiguration;
-in rec {
+in {
   # make a home-manager managed user
   mkHome = {
     username,

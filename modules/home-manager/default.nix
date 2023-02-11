@@ -2,7 +2,7 @@
   pkgs,
   config,
   lib,
-  # outputs,
+  outputs,
   ...
 }: let
   cfg = config.feltnerm.home-manager;
@@ -21,8 +21,7 @@ in {
   ];
 
   config = {
-    # FIXME: sometimes overlay is empty
-    #nixpkgs.overlays = [outputs.overlay];
+    nixpkgs.overlays = builtins.attrValues outputs.overlays;
     nixpkgs.config = {
       allowUnfree = true;
     };
@@ -31,7 +30,6 @@ in {
 
     programs = {
       home-manager.enable = true;
-      # TODO rice my setup
       starship = {
         enable = true;
         settings = {
@@ -109,12 +107,11 @@ in {
         neofetch
         toilet
 
-        # FIXME
         # my scripts and packages
-        #feltnerm.chuckscii
-        #feltnerm.greet
-        #feltnerm.screensaver
-        #feltnerm.year-progress
+        feltnerm.chuckscii
+        feltnerm.greet
+        feltnerm.screensaver
+        feltnerm.year-progress
       ];
 
       file = {

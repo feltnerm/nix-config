@@ -5,35 +5,19 @@
     # source of truth for inputs
     feltnerm.url = "../../";
 
-    # TODO ensure these follow the feltnerm nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs.follows = "feltnerm/nixpkgs";
-
-    # TODO are home-manager and darwin even needed?
-    # home-manager = {
-    #   url = "github:nix-community/home-manager";
-    #   # inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
-    # darwin = {
-    #   url = "github:lnl7/nix-darwin/master";
-    #   # inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs = {
     feltnerm,
     nixpkgs,
-    # TODO needed?
-    # home-manager,
-    # darwin,
     ...
   }: rec {
     legacyPackages = feltnerm.lib.utils.forAllSystems (system:
       import nixpkgs {
         inherit system;
         config = {allowUnfree = true;};
-        #overlays = [overlay];
       });
 
     homeConfigurations = {
@@ -75,7 +59,7 @@
         pkgs = legacyPackages."x86_64-linux";
         hostModule = {};
         systemConfig = {
-          # feltnerm = {};
+          feltnerm = {};
         };
         users = [
           {
