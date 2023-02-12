@@ -163,8 +163,9 @@
           feltnerm = {
             home-manager.enableAutoUpgrade = false;
             programs = {
-              firefox.enable = true;
               alacritty.enable = true;
+              firefox.enable = true;
+              gpg.enableAgent = true;
               wayland.enable = true;
             };
           };
