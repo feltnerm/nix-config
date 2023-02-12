@@ -161,6 +161,7 @@
           };
 
           feltnerm = {
+            home-manager.enableAutoUpgrade = false;
             programs = {
               firefox.enable = true;
               alacritty.enable = true;
