@@ -19,7 +19,7 @@ in {
       inherit (cfg) enable;
       settings = {
         window = {
-          decorations = "transparent";
+          decorations = "Full";
           opacity = 0.99;
           padding.x = 8;
           padding.y = 24;
