@@ -6,13 +6,23 @@
   user = import ./user.nix {inherit inputs;};
 in {
   mkNixosSystem = {
+    # The system's hostname. Required.
     hostname,
+    # A list of users for this system. Required.
     users,
+    #
     pkgs,
+    # A list of users to home-manager for this system.
+    homeManagerUsers ? [],
+    # The host-specific nix module.
     hostModule ? ./../hosts + "/${hostname}" + /default.nix,
+    # Any extra modules to load.
     extraModules ? [],
+    # The default shell of the system.
     defaultShell ? "bashInteractive",
+    # The system type.
     system ? "x86_64-linux",
+    # Any extra config for this system.
     systemConfig ? {},
     ...
   }: let
