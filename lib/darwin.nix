@@ -9,11 +9,25 @@ in rec {
     users,
     pkgs,
     hostModule ? ./../hosts + "/${hostname}" + /default.nix,
+    extraModules ? [],
     system ? systemIdentifier,
     systemConfig ? {},
     ...
   }: let
     mkDarwinUser = darwinUserFactory pkgs;
+
+    baseModule = {
+      # set hostname of this machine
+      networking.hostName = hostname;
+
+      # by default, disable any non-enabled networking interface
+      # networking.useDHCP = false;
+
+      # TODO
+      # networking.computername = hostname;
+    };
+
+    userModules = map mkDarwinUser users;
   in
     darwin.lib.darwinSystem {
       inherit system;
@@ -24,20 +38,14 @@ in rec {
         [
           ../modules/common
           ../modules/darwin
-          {
-            # set hostname of this machine
-            networking.hostName = hostname;
-
-            # by default, disable any non-enabled networking interface
-            # networking.useDHCP = false;
-
-            # TODO
-            # networking.computername = hostname;
-          }
+          baseModule
+        ]
+        ++ extraModules
+        ++ [
           systemConfig
           hostModule
         ]
-        ++ (map mkDarwinUser users);
+        ++ userModules;
     };
 
   darwinUserFactory = {pkgs, ...}: {

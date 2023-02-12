@@ -10,12 +10,22 @@ in {
     users,
     pkgs,
     hostModule ? ./../hosts + "/${hostname}" + /default.nix,
+    extraModules ? [],
     defaultShell ? "bashInteractive",
     system ? "x86_64-linux",
     systemConfig ? {},
     ...
   }: let
     mkNixosUser = user.nixosUserFactory pkgs;
+    baseModule = {
+      # set hostname of this machine
+      networking.hostName = hostname;
+
+      # by default, disable any non-enabled networking interface
+      networking.useDHCP = false;
+
+      users.defaultUserShell = pkgs."${defaultShell}";
+    };
   in
     nixosSystem {
       inherit pkgs system;
@@ -26,15 +36,10 @@ in {
         [
           ../modules/common
           ../modules/nixos
-          {
-            # set hostname of this machine
-            networking.hostName = hostname;
-
-            # by default, disable any non-enabled networking interface
-            networking.useDHCP = false;
-
-            users.defaultUserShell = pkgs."${defaultShell}";
-          }
+          baseModule
+        ]
+        ++ extraModules
+        ++ [
           systemConfig
           hostModule
           # agenix.nixosModules
