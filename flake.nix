@@ -176,7 +176,7 @@
       "mark@markbook" = home.mkHome {
         username = "mark";
         pkgs = legacyPackages."x86_64-darwin";
-        overlays = [overlays.feltnerm];
+        extraModules = [];
         userConfig = {
           home = {
             homeDirectory = "/Users/mark";
@@ -195,7 +195,6 @@
       "mfeltner@mfeltner" = home.mkHome {
         username = "mfeltner";
         userModule = ./home/mark/default.nix;
-        overlays = [overlays.feltnerm];
         pkgs = legacyPackages."x86_64-darwin";
         userConfig = {
           home = {
