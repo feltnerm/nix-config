@@ -80,7 +80,7 @@
 
       # file browsers
       mc #midnight commander
-      ncdu
+      ncdu_1 # FIXME once zig is stable
       ranger
       nnn
 
