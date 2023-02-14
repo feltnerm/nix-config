@@ -5,12 +5,19 @@
   systemIdentifier = "x86_64-darwin";
 in rec {
   mkDarwinSystem = {
+    # The system's hostname. Required.
     hostname,
+    # A list of users for this system. Required.
     users,
+    #
     pkgs,
-    hostModule ? ./../hosts + "/${hostname}" + /default.nix,
-    extraModules ? [],
+    # The system type.
     system ? systemIdentifier,
+    # The host-specific nix module.
+    hostModule ? ./../hosts + "/${hostname}" + /default.nix,
+    # Any extra modules to load.
+    extraModules ? [],
+    # Any extra config for this system.
     systemConfig ? {},
     ...
   }: let
