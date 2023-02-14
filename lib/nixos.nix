@@ -12,16 +12,14 @@ in {
     users,
     #
     pkgs,
-    # A list of users to home-manager for this system.
-    homeManagerUsers ? [],
+    # The system type.
+    system ? "x86_64-linux",
     # The host-specific nix module.
     hostModule ? ./../hosts + "/${hostname}" + /default.nix,
     # Any extra modules to load.
     extraModules ? [],
     # The default shell of the system.
     defaultShell ? "bashInteractive",
-    # The system type.
-    system ? "x86_64-linux",
     # Any extra config for this system.
     systemConfig ? {},
     ...
@@ -52,7 +50,6 @@ in {
         ++ [
           systemConfig
           hostModule
-          # agenix.nixosModules
         ]
         ++ (map mkNixosUser users);
     };
