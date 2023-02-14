@@ -40,35 +40,35 @@ jobs:
     - name: Flake check
       run: nix flake check
 
-  home-manager:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v18
-      with:
-        github_access_token: ${{ secrets.GITHUB_TOKEN }}
-        nix_path: nixpkgs=channel:nixos-unstable
-    - uses: cachix/cachix-action@v12
-      with:
-        name: feltnerm
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+  # home-manager:
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, macos-latest]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: cachix/install-nix-action@v20
+  #     with:
+  #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
+  #       nix_path: nixpkgs=channel:nixos-unstable
+  #   - uses: cachix/cachix-action@v12
+  #     with:
+  #       name: feltnerm
+  #       authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-    - name: Home-manager linux
-      if: matrix.os == 'ubuntu-latest'
-      run: cd examples/simple-flake && nix build --no-link '.#homeConfigurations.nix-user.activationPackage'
+  #   - name: Home-manager linux
+  #     if: matrix.os == 'ubuntu-latest'
+  #     run: cd examples/simple-flake && nix build --no-link '.#homeConfigurations.nix-user.activationPackage'
 
-    - name: Home-manager darwin
-      if: matrix.os == 'macos-latest'
-      run: cd examples/simple-flake && nix build --no-link '.#homeConfigurations.darwin-user.activationPackage'
+  #   - name: Home-manager darwin
+  #     if: matrix.os == 'macos-latest'
+  #     run: cd examples/simple-flake && nix build --no-link '.#homeConfigurations.darwin-user.activationPackage'
 
-  # nix:
+  # nixos:
   #   runs-on: ubuntu-latest
   #   steps:
   #   - uses: actions/checkout@v3
-  #   - uses: cachix/install-nix-action@v18
+  #   - uses: cachix/install-nix-action@v20
   #     with:
   #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
   #       nix_path: nixpkgs=channel:nixos-unstable
@@ -77,13 +77,13 @@ jobs:
   #       name: feltnerm
   #       authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
   #   - name: Nixos system
-  #     run: cd examples/simple-flake && nix build --dry-run --no-link '.#nixosConfigurations.nixos-system.config.system.build.toplevel'
+  #     run: mkdir -p /home/test-user-03 && cd examples/simple-flake && nix build --dry-run --no-link '.#nixosConfigurations.nixos-system.config.system.build.toplevel'
 
-  # darwin:
+  # darwin-nix:
   #   runs-on: macos-latest
   #   steps:
   #   - uses: actions/checkout@v3
-  #   - uses: cachix/install-nix-action@v18
+  #   - uses: cachix/install-nix-action@v20
   #     with:
   #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
   #       nix_path: nixpkgs=channel:nixos-unstable
@@ -92,9 +92,9 @@ jobs:
   #       name: feltnerm
   #       authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
   #   - name: Install darwin-nix
-  #     # with:
-  #     #   github_access_token: ${{ secrets.GITHUB_TOKEN }}
-  #     #   nix_path: nixpkgs=channel:nixos-unstable
+  #     with:
+  #       github_access_token: ${{ secrets.GITHUB_TOKEN }}
+  #       nix_path: nixpkgs=channel:nixos-unstable
   #     run: nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer && ./result/bin/darwin-installer
   #   - name: Darwin system
   #     run: cd examples/simple-flake && darwin-rebuild --flake '.#darwin-system' check

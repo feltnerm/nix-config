@@ -28,7 +28,7 @@ _: {
       "firefox"
 
       # gimp
-      "gimp"
+      #"gimp"
 
       # Gdrive
       "google-drive"

@@ -57,7 +57,7 @@ in {
 
   options.feltnerm.programs.neovim = {
     enable = lib.mkOption {
-      description = "Enable neovim";
+      description = "Enable a base neovim setup.";
       default = false;
     };
   };

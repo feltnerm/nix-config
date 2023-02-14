@@ -9,10 +9,10 @@ in {
     username,
     #
     pkgs,
-    # The user-specific module.
-    userModule ? ./../home + "/${username}" + /default.nix,
     # Any extra modules to load.
     extraModules ? [],
+    # The user-specific module based on the username, but can be overridden.
+    userModule ? ./../conf/home + "/${username}" + /default.nix,
     # Any extra config for this user.
     userConfig ? {},
     ...

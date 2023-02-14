@@ -3,12 +3,8 @@
   lib,
   ...
 }: let
-  cfg = config.feltnerm.config.code;
+  cfg = config.feltnerm.config;
 in {
-  imports = [
-    ./xdg.nix
-  ];
-
   options.feltnerm.config.code = {
     enableCodeDir = lib.mkOption {
       description = "Enable code directory";
@@ -22,8 +18,16 @@ in {
   };
 
   config = {
-    home.sessionVariables = lib.mkIf cfg.enableCodeDir {
-      CODE_HOME = cfg.codeDir;
+    home.sessionVariables = lib.mkIf cfg.code.enableCodeDir {
+      CODE_HOME = cfg.code.codeDir;
+    };
+
+    xdg = {
+      enable = lib.mkDefault true;
+      userDirs = {
+        enable = lib.mkDefault false;
+        createDirectories = lib.mkDefault true;
+      };
     };
   };
 }

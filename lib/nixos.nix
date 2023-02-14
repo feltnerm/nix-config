@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs;
+  inherit (inputs) self nixpkgs home-manager;
   inherit (self) outputs;
   inherit (nixpkgs.lib) nixosSystem;
 
@@ -15,16 +15,17 @@ in {
     # The system type.
     system ? "x86_64-linux",
     # The host-specific nix module.
-    hostModule ? ./../hosts + "/${hostname}" + /default.nix,
+    hostModule ? ./../conf/hosts + "/${hostname}" + /default.nix,
     # Any extra modules to load.
     extraModules ? [],
     # The default shell of the system.
     defaultShell ? "bashInteractive",
     # Any extra config for this system.
     systemConfig ? {},
+    # Any users to configure with home-manager
+    homeManagerUsers ? [],
     ...
   }: let
-    mkNixosUser = user.nixosUserFactory pkgs;
     baseModule = {
       # set hostname of this machine
       networking.hostName = hostname;
@@ -34,6 +35,49 @@ in {
 
       users.defaultUserShell = pkgs."${defaultShell}";
     };
+
+    mkNixosUser = user.nixosUserFactory pkgs;
+    userModules = map mkNixosUser users;
+
+    useHomeManager = builtins.length homeManagerUsers > 0;
+    homeManagerModules =
+      if useHomeManager
+      then [
+        home-manager.nixosModules.home-manager
+        {
+          # home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ]
+      else [];
+
+    homeManagerUserModules =
+      builtins.map (
+        homeManagerUser: let
+          inherit (homeManagerUser) username;
+          userConfig =
+            if builtins.isAttrs homeManagerUser.userConfig
+            then homeManagerUser.userConfig
+            else {};
+          userModule =
+            if builtins.isPath homeManagerUser.userModule
+            then homeManagerUser.userModule
+            else ./../home + "/${username}" + /default.nix;
+        in {
+          home-manager.extraSpecialArgs = {
+            inherit inputs outputs username;
+          };
+          # home-manager.users."${username}" = userConfig;
+          home-manager.users."${username}" = {
+            imports = [
+              ../modules/home-manager
+              userModule
+            ];
+            config = userConfig;
+          };
+        }
+      )
+      homeManagerUsers;
   in
     nixosSystem {
       inherit pkgs system;
@@ -46,11 +90,13 @@ in {
           ../modules/nixos
           baseModule
         ]
+        ++ homeManagerModules
         ++ extraModules
         ++ [
           systemConfig
           hostModule
         ]
-        ++ (map mkNixosUser users);
+        ++ userModules
+        ++ homeManagerUserModules;
     };
 }
