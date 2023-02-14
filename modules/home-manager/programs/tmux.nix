@@ -18,7 +18,7 @@
     (
       if alacrittyEnabled
       then "alacritty:RGB"
-      else null
+      else ""
     )
     "xterm-256color:RGB"
   ];

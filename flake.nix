@@ -116,8 +116,20 @@
         pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
         systemConfig = {
+          nix.settings.auto-optimise-store = false;
           feltnerm = {};
         };
+        homeManagerUsers = [
+          {
+            username = "mark";
+            userConfig = {
+              feltnerm = {
+                # TODO gui.enable = true;
+                programs.alacritty.enable = true;
+              };
+            };
+          }
+        ];
       };
 
       "mfeltner" = darwin.mkDarwinSystem {
@@ -130,8 +142,20 @@
           }
         ];
         systemConfig = {
+          nix.settings.auto-optimise-store = false;
           feltnerm = {};
         };
+        homeManagerUsers = [
+          {
+            username = "mfeltner";
+            userConfig = {
+              feltnerm = {
+                # TODO gui.enable = true;
+                programs.alacritty.enable = true;
+              };
+            };
+          }
+        ];
       };
     };
 
@@ -140,10 +164,9 @@
         username = "mark";
         pkgs = legacyPackages."x86_64-linux";
         userConfig = {
-          home = {
-            homeDirectory = "/home/mark";
-          };
+          feltnerm.gui.enable = true;
 
+          config.xdg.userDirs.enable = true;
           xdg.desktopEntries = {
             firefox = {
               name = "Firefox";
@@ -158,80 +181,6 @@
                 "application/pdf"
               ];
             };
-          };
-
-          feltnerm = {
-            home-manager.enableAutoUpgrade = false;
-            programs = {
-              alacritty.enable = true;
-              firefox.enable = true;
-              gpg.enableAgent = true;
-              wayland.enable = true;
-            };
-          };
-        };
-        features = [];
-      };
-
-      "mark@markbook" = home.mkHome {
-        username = "mark";
-        pkgs = legacyPackages."x86_64-darwin";
-        extraModules = [];
-        userConfig = {
-          home = {
-            homeDirectory = "/Users/mark";
-          };
-          feltnerm = {
-            config.xdg.enableUserDirs = false;
-            home-manager.enableAutoUpgrade = false;
-
-            programs.alacritty.enable = true;
-            programs.git.signCommits = true;
-          };
-        };
-        features = [];
-      };
-
-      "mfeltner@mfeltner" = home.mkHome {
-        username = "mfeltner";
-        userModule = ./home/mark/default.nix;
-        pkgs = legacyPackages."x86_64-darwin";
-        userConfig = {
-          home = {
-            homeDirectory = "/Users/mfeltner";
-            sessionVariables = {
-              # hack to use corretto @ work
-              # `/usr/libexec/java_home -v 1.8`
-              JAVA_HOME = "/Library/Java/JavaVirtualMachines/amazon-corretto-8.jdk/Contents/Home";
-            };
-          };
-          programs.keychain.keys = ["id_ecdsa_sk"];
-          feltnerm = {
-            config.xdg.enableUserDirs = false;
-            home-manager.enableAutoUpgrade = false;
-
-            programs.alacritty.enable = true;
-            programs.git.email = "mark.feltner@acquia.com";
-            programs.gpg.pubKey = "FA9E3ABE6B2DF6521D541921CAA87B6562729B49";
-            programs.neovim.ui.startify.extraConfig = ''
-              let g:startify_custom_header =
-              \ startify#center(["                                    "]) +
-              \ startify#center(["      -*++=  -*++-  +*++++++*=      "]) +
-              \ startify#center(["      :#@@@+ :%@@@= =@@@@@@@%:      "]) +
-              \ startify#center(["        *@@@*  #@@@+ -@@@@@*        "]) +
-              \ startify#center(["         *@@@#  #@@@* :%@@=         "]) +
-              \ startify#center(["          +@@@#  *@@@* :*-          "]) +
-              \ startify#center(["           =@@@%: +@@@#             "]) +
-              \ startify#center(["            =@@@=  +@@#:            "]) +
-              \ startify#center(["             -#-    =+              "]) +
-              \ startify#center(["                                    "]) +
-              \ startify#center([""]) +
-              \ startify#center(startify#fortune#boxed()) +
-              \ startify#center([""]) +
-              \ startify#center(split(system('date -R'), '\n')) +
-              \ startify#center([""]) +
-              \ startify#center(split(system('year-progress 100'), '\n'))
-            '';
           };
         };
         features = [];

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  outputs,
   ...
 }: let
   cfg = config.feltnerm;
@@ -151,7 +152,7 @@ in {
       # package = pkgs.nixUnstable;
       settings = {
         experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = true;
+        auto-optimise-store = lib.mkDefault true;
         allowed-users = cfg.nix.allowedUsers;
         trusted-users = cfg.nix.trustedUsers;
         substituters = [
@@ -164,6 +165,7 @@ in {
       };
     };
 
+    nixpkgs.overlays = builtins.attrValues outputs.overlays;
     nixpkgs.config = {
       inherit (cfg.nix) allowBroken;
       inherit (cfg.nix) allowUnfree;

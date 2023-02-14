@@ -2,30 +2,17 @@
   pkgs,
   config,
   lib,
-  outputs,
   ...
-}: let
-  cfg = config.feltnerm.home-manager;
-in {
-  options.feltnerm.home-manager = {
-    enableAutoUpgrade = lib.mkOption {
-      description = "Enable auto upgrade of home-manager";
-      default = true;
-    };
-  };
-
+}: {
   imports = [
+    ./cli
     ./config
     ./programs
     ./services
+    ./ui
   ];
 
   config = {
-    nixpkgs.overlays = builtins.attrValues outputs.overlays;
-    nixpkgs.config = {
-      allowUnfree = true;
-    };
-
     systemd.user.startServices = true;
 
     programs = {
@@ -39,7 +26,7 @@ in {
     };
 
     services.home-manager.autoUpgrade = {
-      enable = cfg.enableAutoUpgrade;
+      enable = lib.mkDefault false;
       frequency = "daily";
     };
 

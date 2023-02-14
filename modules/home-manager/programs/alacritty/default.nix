@@ -9,7 +9,7 @@
 in {
   options.feltnerm.programs.alacritty = {
     enable = lib.mkOption {
-      description = "Enable alacritty";
+      description = "Enable alacritty GUI terminal.";
       default = false;
     };
   };

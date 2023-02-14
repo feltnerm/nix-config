@@ -31,7 +31,6 @@
             homeDirectory = "/home/test-user-01";
           };
           feltnerm = {
-            config.xdg.enableUserDirs = false;
             home-manager.enableAutoUpgrade = false;
           };
         };
@@ -46,7 +45,6 @@
             homeDirectory = "/Users/darwin-user-01";
           };
           feltnerm = {
-            config.xdg.enableUserDirs = false;
             home-manager.enableAutoUpgrade = false;
           };
         };
@@ -70,6 +68,18 @@
             username = "test-user-02";
           }
         ];
+        homeManagerUsers = [
+          {
+            username = "test-user-03";
+            userModule = {};
+            userConfig = {
+              home = {
+                homeDirectory = "/home/test-user-03";
+              };
+              feltnerm = {};
+            };
+          }
+        ];
       };
     };
 
@@ -88,6 +98,18 @@
           }
           {
             username = "test-user-02";
+          }
+        ];
+        homeManagerUsers = [
+          {
+            username = "test-user-03";
+            userModule = {};
+            userConfig = {
+              home = {
+                homeDirectory = "/Users/test-user-03";
+              };
+              feltnerm = {};
+            };
           }
         ];
       };

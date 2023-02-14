@@ -1,17 +1,26 @@
 {
-  pkgs,
   config,
+  lib,
+  pkgs,
   ...
-}: {
-  imports = [./fzf ./tmux];
+}: let
+  cfg = config.feltnerm.cli;
+in {
+  imports = [./fzf ./neovim ./tmux];
 
-  config = {
+  options.feltnerm.cli = {
+    enable = lib.mkOption {
+      description = "Enable pre-customized CLI.";
+      default = false;
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     home.shellAliases = {
       cat = "bat";
     };
 
     feltnerm = {
-      config.xdg.enable = true;
       programs = {
         readline.enable = true;
         ssh.enable = true;

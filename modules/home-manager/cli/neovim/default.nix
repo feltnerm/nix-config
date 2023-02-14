@@ -1,8 +1,11 @@
 {
+  config,
   pkgs,
   lib,
   ...
 }: let
+  cfg = config.feltnerm.cli.neovim;
+
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 
   # TODO
@@ -33,7 +36,14 @@
     }
   ];
 in {
-  config = {
+  options.feltnerm.cli.neovim = {
+    enable = lib.mkOption {
+      description = "Enable neovim with a bunch of pre-customized defaults.";
+      default = false;
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
     feltnerm.programs = {
       neovim = {
         enable = true;
@@ -47,7 +57,7 @@ in {
           enable = true;
           startify = {
             enable = true;
-            extraConfig = lib.mkDefault ''
+            extraConfig = ''
               let g:startify_header = system('chuckscii')
               let g:startify_custom_header =
                 \ startify#center(split(startify_header, '\n')) +
