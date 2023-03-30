@@ -116,7 +116,6 @@
         pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
         systemConfig = {
-          nix.settings.auto-optimise-store = false;
           feltnerm = {};
         };
         homeManagerUsers = [
@@ -142,7 +141,6 @@
           }
         ];
         systemConfig = {
-          nix.settings.auto-optimise-store = false;
           feltnerm = {};
         };
         homeManagerUsers = [
