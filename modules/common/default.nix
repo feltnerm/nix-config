@@ -152,7 +152,7 @@ in {
       # package = pkgs.nixUnstable;
       settings = {
         experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = lib.mkDefault true;
+        auto-optimise-store = lib.mkDefault false;
         allowed-users = cfg.nix.allowedUsers;
         trusted-users = cfg.nix.trustedUsers;
         substituters = [
