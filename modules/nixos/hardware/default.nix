@@ -26,7 +26,7 @@ in {
 
   config = {
     hardware.enableRedistributableFirmware = lib.mkDefault true;
-    hardware.video.hidpi.enable = cfg.display.enableHighResolutionDisplay;
+    #hardware.video.hidpi.enable = cfg.display.enableHighResolutionDisplay;
     hardware.bluetooth.enable = cfg.bluetooth.enable;
   };
 }
