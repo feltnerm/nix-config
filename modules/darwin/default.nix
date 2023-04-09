@@ -16,7 +16,7 @@ in {
 
   config = {
     # allow nix to manage fonts
-    fonts.fontDir.enable = config.feltnerm.config.fonts.enable;
+    fonts.fontDir.enable = lib.mkDefault config.feltnerm.config.fonts.enable;
 
     # garbage collect daily
     nix.gc.interval = {
