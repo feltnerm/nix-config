@@ -130,31 +130,6 @@
           }
         ];
       };
-
-      "mfeltner" = darwin.mkDarwinSystem {
-        hostname = "mfeltner";
-        pkgs = legacyPackages."x86_64-darwin";
-        users = [
-          {
-            username = "mfeltner";
-            shell = "zsh";
-          }
-        ];
-        systemConfig = {
-          feltnerm = {};
-        };
-        homeManagerUsers = [
-          {
-            username = "mfeltner";
-            userConfig = {
-              feltnerm = {
-                # TODO gui.enable = true;
-                programs.alacritty.enable = true;
-              };
-            };
-          }
-        ];
-      };
     };
 
     homeConfigurations = {
