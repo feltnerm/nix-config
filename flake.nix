@@ -49,9 +49,6 @@
       import inputs.nixpkgs {
         inherit system;
         overlays = [feltnermOverlay];
-        config = {
-          allowUnfree = true;
-        };
         settings = {
           substituters = [
             "https://feltnerm.cachix.org"
