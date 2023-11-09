@@ -5,7 +5,7 @@
 }: {
   config = lib.mkIf config.feltnerm.config.fonts.enable {
     fonts = {
-      enableDefaultPackages = lib.mkDefault false;
+      enableDefaultPackages = lib.mkDefault true;
 
       fontconfig = {
         enable = lib.mkDefault true;
