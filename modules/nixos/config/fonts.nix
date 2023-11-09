@@ -5,10 +5,10 @@
 }: {
   config = lib.mkIf config.feltnerm.config.fonts.enable {
     fonts = {
-      enableDefaultFonts = false;
+      enableDefaultPackages = lib.mkDefault false;
 
       fontconfig = {
-        enable = true;
+        enable = lib.mkDefault true;
         defaultFonts = {
           monospace = [
             "Iosevka Term Nerd Font Complete Mono"
