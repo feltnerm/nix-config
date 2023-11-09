@@ -18,7 +18,6 @@ in {
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      enableSyntaxHighlighting = true;
       enableVteIntegration = true; # allow terminal to track current directory
       autocd = true; # automatically enter a directory when typed
       #defaultKeymap = "vicmd";
@@ -36,6 +35,10 @@ in {
       #  bindkey -M menuselect 'j' vi-down-line-or-history
       #  bindkey -v '^?' backward-delete-char
       #'';
+
+      syntaxHighlighting = {
+        enable = true;
+      };
 
       history = {
         extended = true;
