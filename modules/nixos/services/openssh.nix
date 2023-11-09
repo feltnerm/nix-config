@@ -24,8 +24,10 @@ in {
   config = lib.mkIf cfg.enable {
     services.openssh = {
       inherit (cfg) enable;
-      permitRootLogin = "no";
-      passwordAuthentication = true;
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = true;
+      };
     };
 
     boot.initrd.network.ssh.enable = cfg.enableAtBoot;

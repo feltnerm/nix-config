@@ -118,7 +118,7 @@ in {
     programs.waybar.enable = true;
     # FIXME
     #programs.qt5ct.enable = true;
-    qt5.platformTheme = "qt5ct";
+    qt.platformTheme = "qt5ct";
 
     # sound
     sound.enable = true;
