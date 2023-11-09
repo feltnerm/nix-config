@@ -164,7 +164,7 @@ in {
     programs.zsh.enable = true;
 
     fonts = lib.mkIf cfg.config.fonts.enable {
-      packages = with pkgs; [
+      fonts = with pkgs; [
         # sans fonts
         comic-neue
         source-sans
