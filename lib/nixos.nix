@@ -80,7 +80,8 @@ in {
       homeManagerUsers;
   in
     nixosSystem {
-      inherit pkgs system;
+      # inherit pkgs system;
+      inherit system;
       specialArgs = {
         inherit inputs outputs hostname users systemConfig;
       };
