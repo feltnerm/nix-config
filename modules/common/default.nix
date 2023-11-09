@@ -8,68 +8,70 @@
   cfg = config.feltnerm;
 in {
   # docs
-  options.feltnerm.documentation = {
-    enable = lib.mkOption {
-      description = "Enable building documentation.";
-      default = true;
-    };
-  };
-
-  # locale
-  options.feltnerm.locale = {
-    timezone = lib.mkOption {
-      description = "System timezone";
-      default = "America/Chicago";
+  options.feltnerm = {
+    documentation = {
+      enable = lib.mkOption {
+        description = "Enable building documentation.";
+        default = true;
+      };
     };
 
-    keymap = lib.mkOption {
-      description = "System keymap";
-      default = "us";
+    # locale
+    locale = {
+      timezone = lib.mkOption {
+        description = "System timezone";
+        default = "America/Chicago";
+      };
+
+      keymap = lib.mkOption {
+        description = "System keymap";
+        default = "us";
+      };
     };
-  };
-  # nix
-  options.feltnerm.nix = {
-    enableFlake = lib.mkOption {
-      description = "Enable nix flake support";
-      default = true;
+    # nix
+    nix = {
+      enableFlake = lib.mkOption {
+        description = "Enable nix flake support";
+        default = true;
+      };
+
+      allowBroken = lib.mkOption {
+        description = "Allow broken nix pkgs.";
+        type = lib.types.bool;
+        default = false;
+      };
+
+      allowUnfree = lib.mkOption {
+        description = "Break Stallman's heart.";
+        type = lib.types.bool;
+        default = true;
+      };
+
+      allowedUsers = lib.mkOption {
+        description = "Users to give access to nix to.";
+        default = [];
+      };
+
+      trustedUsers = lib.mkOption {
+        description = "Users to give enhanced access to nix to.";
+        default = [];
+      };
     };
 
-    allowBroken = lib.mkOption {
-      description = "Allow broken nix pkgs.";
-      type = lib.types.bool;
-      default = false;
+    # fonts
+    config.fonts = {
+      enable = lib.mkOption {
+        description = "Enable pretty fonts.";
+        default = false;
+      };
     };
 
-    allowUnfree = lib.mkOption {
-      description = "Break Stallman's heart.";
-      type = lib.types.bool;
-      default = true;
-    };
-
-    allowedUsers = lib.mkOption {
-      description = "Users to give access to nix to.";
-      default = [];
-    };
-
-    trustedUsers = lib.mkOption {
-      description = "Users to give enhanced access to nix to.";
-      default = [];
-    };
-  };
-
-  # fonts
-  options.feltnerm.config.fonts = {
-    enable = lib.mkOption {
-      description = "Enable pretty fonts.";
-      default = false;
-    };
-  };
-
-  # gui
-  options.feltnerm.gui = {
-    enable = lib.mkOption {
-      description = "Enable desktop GUI.";
-      default = false;
+    # gui
+    gui = {
+      enable = lib.mkOption {
+        description = "Enable desktop GUI.";
+        default = false;
+      };
     };
   };
 

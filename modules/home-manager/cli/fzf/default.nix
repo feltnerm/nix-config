@@ -27,15 +27,16 @@
   };
 in {
   config = {
-    home.shellAliases = {};
+    home = {
+      shellAliases = {};
+      sessionVariables = {};
 
-    home.sessionVariables = {};
-
-    home.packages = [
-      fzfGitCommits
-      fzfFiles
-      fzfRepo
-    ];
+      packages = [
+        fzfGitCommits
+        fzfFiles
+        fzfRepo
+      ];
+    };
 
     programs.zsh.initExtra = ''
       function f() {

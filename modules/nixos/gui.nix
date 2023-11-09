@@ -81,29 +81,11 @@ in {
       ];
     };
 
-    services.greetd = {
-      enable = true;
-      restart = true;
-      settings = {
-        default_session = {
-          #user = "greeter";
-          command = ''
-            ${pkgs.greetd.tuigreet}/bin/tuigreet \
-            --remember \
-            --remember-session \
-            --time --issue --asterisks \
-            --cmd '${pkgs.sway}/bin/sway'
-          '';
-        };
-      };
-    };
-
     environment.etc."greetd/environments".text = ''
       sway
       zsh
     '';
 
-    services.dbus.enable = true;
     xdg.portal = {
       enable = true;
       wlr.enable = true;
@@ -122,10 +104,30 @@ in {
 
     # sound
     sound.enable = true;
-    services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      pulse.enable = true;
+
+    services = {
+      dbus.enable = true;
+      pipewire = {
+        enable = true;
+        alsa.enable = true;
+        pulse.enable = true;
+      };
+      greetd = {
+        enable = true;
+        restart = true;
+        settings = {
+          default_session = {
+            #user = "greeter";
+            command = ''
+              ${pkgs.greetd.tuigreet}/bin/tuigreet \
+              --remember \
+              --remember-session \
+              --time --issue --asterisks \
+              --cmd '${pkgs.sway}/bin/sway'
+            '';
+          };
+        };
+      };
     };
   };
 }

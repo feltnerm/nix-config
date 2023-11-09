@@ -35,12 +35,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.neovim.extraPackages = treesitterPackages;
-    programs.neovim.plugins = treesitterPlugins;
-    programs.neovim.extraConfig = ''
-      set foldmethod=expr
-      set foldexpr=nvim_treesitter#foldexpr()
-      set nofoldenable  " Disable folding at startup.
-    '';
+    programs.neovim = {
+      extraPackages = treesitterPackages;
+      plugins = treesitterPlugins;
+      extraConfig = ''
+        set foldmethod=expr
+        set foldexpr=nvim_treesitter#foldexpr()
+        set nofoldenable  " Disable folding at startup.
+      '';
+    };
   };
 }
