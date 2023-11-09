@@ -35,18 +35,6 @@ in {
         default = true;
       };
 
-      allowBroken = lib.mkOption {
-        description = "Allow broken nix pkgs.";
-        type = lib.types.bool;
-        default = false;
-      };
-
-      allowUnfree = lib.mkOption {
-        description = "Break Stallman's heart.";
-        type = lib.types.bool;
-        default = true;
-      };
-
       allowedUsers = lib.mkOption {
         description = "Users to give access to nix to.";
         default = [];
@@ -169,8 +157,8 @@ in {
 
     nixpkgs.overlays = builtins.attrValues outputs.overlays;
     nixpkgs.config = {
-      inherit (cfg.nix) allowBroken;
-      inherit (cfg.nix) allowUnfree;
+      allowUnfree = lib.mkDefault true;
+      allowBroken = lib.mkDefault false;
     };
 
     programs.zsh.enable = true;
