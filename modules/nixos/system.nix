@@ -5,13 +5,6 @@
 }: let
   cfg = config.feltnerm;
 in {
-  options.feltnerm.boot = {
-    cleanTmpDir = lib.mkOption {
-      description = "Enabling wiping /tmp on reboot.";
-      default = true;
-    };
-  };
-
   options.feltnerm.locale = {
     locale = lib.mkOption {
       description = "Locale for the system.";
@@ -49,7 +42,7 @@ in {
       sessionVariables = {};
     };
 
-    boot.cleanTmpDir = cfg.boot.cleanTmpDir;
+    boot.tmp.cleanOnBoot = lib.mkDefault true;
     # boot.kernelPackages = pkgs.linuxPackages_latest;
     # boot.kernelParams = [];
     # boot.blacklistedKernelModules = [];

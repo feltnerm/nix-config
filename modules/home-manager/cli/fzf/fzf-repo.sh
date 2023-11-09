@@ -4,7 +4,7 @@
 # Quick search for a repo in the $codeDir
 ##
 
-PREVIEW_COMMAND="exa \
+PREVIEW_COMMAND="eza \
   --icons \
   --git-ignore \
   --group-directories-first \

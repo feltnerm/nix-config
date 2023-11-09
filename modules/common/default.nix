@@ -92,7 +92,7 @@ in {
         # shell utils
         ack
         bat
-        exa
+        eza
         fd
         readline
         ripgrep
@@ -176,7 +176,7 @@ in {
     programs.zsh.enable = true;
 
     fonts = lib.mkIf cfg.config.fonts.enable {
-      fonts = with pkgs; [
+      packages = with pkgs; [
         # sans fonts
         comic-neue
         source-sans

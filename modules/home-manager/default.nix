@@ -46,7 +46,7 @@
         ack
         bat
         direnv
-        exa
+        eza
         fd
         gawk
         readline

@@ -22,7 +22,7 @@
   # search for my repos
   fzfRepo = pkgs.writeShellApplication {
     name = "fzf-repo";
-    runtimeInputs = [pkgs.fzf pkgs.exa];
+    runtimeInputs = [pkgs.fzf pkgs.eza];
     text = builtins.readFile ./fzf-repo.sh;
   };
 in {

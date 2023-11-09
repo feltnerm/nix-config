@@ -7,7 +7,6 @@ _: {
     };
     grub = {
       enable = false;
-      version = 2;
       device = "nodev";
       efiSupport = true;
       useOSProber = false;
