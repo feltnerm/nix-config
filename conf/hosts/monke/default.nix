@@ -9,13 +9,12 @@
 
   config = {
     feltnerm = {
-      config = {
-        fonts.enable = true;
-      };
-
       documentation.enable = true;
 
-      gui.enable = true;
+      gui = {
+        enable = true;
+        fonts.enable = true;
+      };
 
       hardware = {
         bluetooth.enable = true;

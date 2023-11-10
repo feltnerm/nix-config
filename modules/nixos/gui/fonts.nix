@@ -1,10 +1,28 @@
 {
   config,
   lib,
+  pkgs,
   ...
-}: {
-  config = lib.mkIf config.feltnerm.config.fonts.enable {
+}: let
+  cfg = config.feltnerm.gui.fonts;
+in {
+  config = lib.mkIf cfg.enable {
     fonts = {
+      fonts = with pkgs; [
+        # sans fonts
+        comic-neue
+        source-sans
+
+        (nerdfonts.override {
+          fonts = [
+            "Hack"
+            "IBMPlexMono"
+            "Iosevka"
+            "JetBrainsMono"
+          ];
+        })
+      ];
+
       enableDefaultPackages = lib.mkDefault true;
 
       fontconfig = {

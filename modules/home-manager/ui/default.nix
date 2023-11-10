@@ -7,12 +7,12 @@
 in {
   imports = [];
 
-  options.feltnerm.gui = {
-    enable = lib.mkOption {
-      description = "Enable pre-customized GUI.";
-      default = false;
-    };
-  };
+  # options.feltnerm.gui = {
+  #   enable = lib.mkOption {
+  #     description = "Enable pre-customized GUI.";
+  #     default = false;
+  #   };
+  # };
 
   config = lib.mkIf cfg.enable {
     feltnerm = {

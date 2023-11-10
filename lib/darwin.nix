@@ -43,7 +43,7 @@ in rec {
       then [
         home-manager.darwinModules.home-manager
         {
-          home-manager.useGlobalPkgs = true;
+          # home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
         }
       ]
@@ -87,7 +87,7 @@ in rec {
       };
       modules =
         [
-          ../modules/common
+          # ../modules/common
           ../modules/darwin
           baseModule
         ]

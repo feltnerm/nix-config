@@ -1,10 +1,10 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }: {
   imports = [
+    ../common
     ./cli
     ./config
     ./programs
@@ -121,9 +121,7 @@
             indent_style = space
             indent_size = 2
 
-            [Makefile]
-            indent_style = tab
-          '';
+            [Makefile] indent_style = tab '';
         };
       };
     };

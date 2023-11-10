@@ -1,11 +1,14 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
-  cfg = config.feltnerm.darwin;
+  cfg = config.feltnerm;
 in {
-  imports = [];
+  imports = [
+    ../common
+  ];
 
   options.feltnerm.darwin.homebrew = {
     enable = lib.mkOption {
@@ -15,13 +18,34 @@ in {
   };
 
   config = {
+    time.timeZone = cfg.locale.timezone;
+
     # allow nix to manage fonts
-    fonts.fontDir.enable = lib.mkDefault config.feltnerm.config.fonts.enable;
+    fonts = lib.mkIf cfg.gui.fonts.enable {
+      fontDir.enable = true;
+      fonts = with pkgs; [
+        # sans fonts
+        comic-neue
+        source-sans
+
+        (nerdfonts.override {
+          fonts = [
+            "Hack"
+            "IBMPlexMono"
+            "Iosevka"
+            "JetBrainsMono"
+          ];
+        })
+      ];
+    };
 
     # garbage collect daily
-    nix.gc.interval = {
-      Hour = 24;
-      Minute = 0;
+    nix.gc = {
+      automatic = true;
+      interval = {
+        Hour = 24;
+        Minute = 0;
+      };
     };
 
     # Give admins enhanced nix privs
@@ -139,7 +163,7 @@ in {
       # CustomUserPreferences = {};
     };
 
-    homebrew = lib.mkIf cfg.homebrew.enable {
+    homebrew = lib.mkIf cfg.darwin.homebrew.enable {
       enable = true;
       onActivation = {
         # enable homebrew auto-update during nix-darwin activation
@@ -177,6 +201,75 @@ in {
       info.enable = true;
       man.enable = true;
       zsh.enable = true;
+    };
+
+    documentation = lib.mkIf cfg.documentation.enable {
+      enable = true;
+      man = {
+        enable = true;
+      };
+      info.enable = true;
+    };
+
+    environment = {
+      pathsToLink = ["/share/bash-completion" "/share/zsh"];
+
+      shells = [pkgs.zsh pkgs.bashInteractive];
+
+      # TODO system and/or home-manager packages?
+      systemPackages = with pkgs; [
+        zsh
+        vim
+        git
+        man
+
+        # shell utils
+        ack
+        bat
+        eza
+        fd
+        readline
+        ripgrep
+        tmux
+
+        # process management
+        bottom
+        htop
+        killall
+        lsof
+        #pidof
+
+        # processors
+        gawk
+        jq
+
+        # networking
+        curl
+        mosh
+        mtr
+        openssl
+        prettyping
+        rsync
+        speedtest-cli
+        sshfs
+        wget
+
+        # utils
+        tree
+        unrar
+        unzip
+
+        # nix
+        home-manager
+
+        # fun
+        cowsay
+        figlet
+        fortune
+        lolcat
+        neofetch
+        toilet
+      ];
     };
   };
 }

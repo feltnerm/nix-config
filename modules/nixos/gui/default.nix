@@ -34,6 +34,10 @@
     '';
   };
 in {
+  imports = [
+    ./fonts.nix
+  ];
+
   config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       greetd.gtkgreet

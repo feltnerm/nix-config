@@ -87,7 +87,7 @@ in {
       };
       modules =
         [
-          ../modules/common
+          # ../modules/common
           ../modules/nixos
           baseModule
         ]

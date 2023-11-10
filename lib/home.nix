@@ -31,6 +31,7 @@ in {
       };
       modules =
         [
+          # ../modules/common
           ../modules/home-manager
           baseModule
         ]

@@ -1,7 +1,7 @@
 _: {
   config = {
     feltnerm = {
-      config.fonts.enable = true;
+      gui.fonts.enable = true;
     };
 
     services = {
