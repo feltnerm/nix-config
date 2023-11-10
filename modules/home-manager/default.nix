@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  outputs,
   ...
 }: {
   imports = [
@@ -13,6 +14,14 @@
   ];
 
   config = {
+    nixpkgs = {
+      overlays = builtins.attrValues outputs.overlays;
+      config = {
+        allowUnfree = lib.mkDefault true;
+        allowBroken = lib.mkDefault false;
+      };
+    };
+
     systemd.user.startServices = true;
 
     programs = {

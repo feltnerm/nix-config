@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  # outputs,
   ...
 }: let
   cfg = config.feltnerm;
@@ -36,8 +37,29 @@ in {
         automatic = true;
         options = "--delete-older-than 4d";
       };
-      # Give admins enhanced nix privs
-      settings.trusted-users = ["@wheel"];
+      settings = {
+        # experimental-features = ["nix-command" "flakes"];
+        auto-optimise-store = lib.mkDefault false;
+        # Give admins enhanced nix privs
+        trusted-users = ["@wheel"];
+        # trusted-users = ["@wheel"] + cfg.nix.trustedUsers;
+        allowed-users = cfg.nix.allowedUsers;
+        # substituters = [
+        #   "https://feltnerm.cachix.org"
+        # ];
+
+        # trusted-public-keys = [
+        #   "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
+        # ];
+      };
+    };
+
+    nixpkgs = {
+      # overlays = builtins.attrValues outputs.overlays;
+      config = {
+        allowUnfree = lib.mkDefault true;
+        allowBroken = lib.mkDefault false;
+      };
     };
 
     environment = {

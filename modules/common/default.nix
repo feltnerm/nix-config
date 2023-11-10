@@ -71,22 +71,7 @@ in {
     #   info.enable = true;
     # };
 
-    nix = {
-      # package = pkgs.nixUnstable;
-      settings = {
-        experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = lib.mkDefault false;
-        allowed-users = cfg.nix.allowedUsers;
-        trusted-users = cfg.nix.trustedUsers;
-        substituters = [
-          "https://feltnerm.cachix.org"
-        ];
-
-        trusted-public-keys = [
-          "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
-        ];
-      };
-    };
+    nix.settings.experimental-features = ["nix-command" "flakes"];
 
     # nixpkgs.overlays = builtins.attrValues outputs.overlays;
     # nixpkgs.config = {
