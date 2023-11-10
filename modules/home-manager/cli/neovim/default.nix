@@ -8,8 +8,6 @@
 
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 
-  # TODO
-
   vimPlugins = with pkgs.vimPlugins; [
     playground
     {

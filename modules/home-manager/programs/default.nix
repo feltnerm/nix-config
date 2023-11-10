@@ -1,4 +1,4 @@
-{config, ...}: {
+{...}: {
   imports = [
     ./alacritty
     ./firefox.nix
@@ -11,7 +11,4 @@
     ./wayland.nix
     ./zsh.nix
   ];
-
-  config = {
-  };
 }

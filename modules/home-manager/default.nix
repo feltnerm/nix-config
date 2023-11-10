@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  outputs,
   ...
 }: {
   imports = [
@@ -51,6 +50,7 @@
         eza
         fd
         gawk
+        less
         readline
         ripgrep
         ripgrep-all

@@ -28,7 +28,6 @@ in {
         };
         draw_bold_text_with_bright_colors = false;
         live_config_reload = true;
-
         mouse = {
           hide_when_typing = true;
         };

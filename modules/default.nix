@@ -4,6 +4,7 @@
     ./darwin
     ./home-manager
     ./nixos
-    ./system
+    ./nixpkgs.nix
+    ./system.nix
   ];
 }
