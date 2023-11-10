@@ -2,7 +2,8 @@
   imports = [
     ./common
     ./darwin
-    ./nixos
     ./home-manager
+    ./nixos
+    ./system
   ];
 }

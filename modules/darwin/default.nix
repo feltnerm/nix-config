@@ -9,6 +9,7 @@
 in {
   imports = [
     ../common
+    ../system.nix
   ];
 
   options.feltnerm.darwin.homebrew = {
@@ -19,8 +20,6 @@ in {
   };
 
   config = {
-    time.timeZone = cfg.locale.timezone;
-
     # allow nix to manage fonts
     fonts = lib.mkIf cfg.gui.fonts.enable {
       fontDir.enable = true;
@@ -40,43 +39,17 @@ in {
       ];
     };
 
-    # garbage collect daily
-    nix.gc = {
-      automatic = true;
-      interval = {
-        Hour = 24;
-        Minute = 0;
-      };
-    };
-
-    # Give admins enhanced nix privs
     nix = {
-      # package = pkgs.nixUnstable;
+      gc = {
+        # garbage collect every 4 days
+        interval = {
+          Hour = 96;
+          Minute = 0;
+        };
+      };
       settings = {
-        # experimental-features = ["nix-command" "flakes"];
-        auto-optimise-store = lib.mkDefault false;
         # Give admins enhanced nix privs
         trusted-users = ["@admin"];
-        # trusted-users = ["@admin"] ++ cfg.nix.trustedUsers;
-        allowed-users = cfg.nix.allowedUsers;
-        # substituters = [
-        #   "https://feltnerm.cachix.org"
-        # ];
-
-        # trusted-public-keys = [
-        #   "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
-        # ];
-      };
-    };
-
-    nixpkgs = {
-      overlays =
-        if (outputs ? "overlays")
-        then builtins.attrValues outputs.overlays
-        else [];
-      config = {
-        allowUnfree = lib.mkDefault true;
-        allowBroken = lib.mkDefault false;
       };
     };
 
@@ -224,81 +197,6 @@ in {
         "font-iosevka"
       ];
       # masApps = [];
-    };
-
-    programs = {
-      info.enable = true;
-      man.enable = true;
-      zsh.enable = true;
-    };
-
-    documentation = lib.mkIf cfg.documentation.enable {
-      enable = true;
-      man = {
-        enable = true;
-      };
-      info.enable = true;
-    };
-
-    environment = {
-      pathsToLink = ["/share/bash-completion" "/share/zsh"];
-
-      shells = [pkgs.zsh pkgs.bashInteractive];
-
-      # TODO system and/or home-manager packages?
-      systemPackages = with pkgs; [
-        zsh
-        vim
-        git
-        man
-
-        # shell utils
-        ack
-        bat
-        eza
-        fd
-        readline
-        ripgrep
-        tmux
-
-        # process management
-        bottom
-        htop
-        killall
-        lsof
-        #pidof
-
-        # processors
-        gawk
-        jq
-
-        # networking
-        curl
-        mosh
-        mtr
-        openssl
-        prettyping
-        rsync
-        speedtest-cli
-        sshfs
-        wget
-
-        # utils
-        tree
-        unrar
-        unzip
-
-        # nix
-        home-manager
-
-        # fun
-        cowsay
-        figlet
-        fortune
-        lolcat
-        neofetch
-        toilet
-      ];
     };
   };
 }

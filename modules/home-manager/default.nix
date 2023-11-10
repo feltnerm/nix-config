@@ -6,26 +6,15 @@
 }: {
   imports = [
     ../common
+    ../nixpkgs.nix
     ./cli
     ./config
     ./programs
     ./services
-    ./ui
+    ./gui
   ];
 
   config = {
-    nixpkgs = {
-      # overlays = pkgs.overlays;
-      overlays =
-        if (outputs ? "overlays")
-        then builtins.attrValues outputs.overlays
-        else [];
-      config = {
-        allowUnfree = lib.mkDefault true;
-        allowBroken = lib.mkDefault false;
-      };
-    };
-
     systemd.user.startServices = true;
 
     programs = {
