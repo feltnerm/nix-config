@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  # outputs,
+  outputs,
   ...
 }: let
   cfg = config.feltnerm;
@@ -55,7 +55,10 @@ in {
     };
 
     nixpkgs = {
-      # overlays = builtins.attrValues outputs.overlays;
+      overlays =
+        if (outputs ? "overlays")
+        then builtins.attrValues outputs.overlays
+        else [];
       config = {
         allowUnfree = lib.mkDefault true;
         allowBroken = lib.mkDefault false;

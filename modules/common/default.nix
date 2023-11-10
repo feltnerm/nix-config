@@ -3,9 +3,7 @@
   lib,
   # outputs,
   ...
-}: let
-  cfg = config.feltnerm;
-in {
+}: {
   # docs
   options.feltnerm = {
     documentation = {
