@@ -3,7 +3,18 @@ nix-config
 
 [![Test](https://github.com/feltnerm/nixos-config/actions/workflows/test.yml/badge.svg)](https://github.com/feltnerm/nixos-config/actions/workflows/test.yml)
 
-# Usage
+My special collection of nix packages, modules, and configurations.
+
+# Quick Start
+
+Assuming you already have a nix system, pop into a shell with:
+
+<!-- TODO test this -->
+```shell
+% nix develop github.com/feltnerm/nix-config
+```
+
+## Local Usage
 
 ```shell
 % nix develop
@@ -50,6 +61,11 @@ Users configured with `home-manager`.
 ## modules
 
 Modules
+
+- darwin        - modules for nix-darwin
+- home-manager  - modules for home-manager
+g nix           -
+- common        - for modules shared between darwin/home-manager/nixos
 
 ----
 
