@@ -95,10 +95,11 @@ in {
           };
 
           passwords = {
-            "signon.rememberSignons" = false;
             "signon.autofillForms" = false;
+            "signon.firefoxRelay.feature" = false;
             "signon.generation.enabled" = false;
             "signon.management.page.breach-alerts.enabled" = false;
+            "signon.rememberSignons" = false;
           };
 
           downloads = {
