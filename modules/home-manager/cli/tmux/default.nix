@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  colorScheme = builtins.readFile ./base17.conf.tmux;
+  colorScheme = builtins.readFile ./base17.tmux.conf;
 
   tmuxn = pkgs.writeShellApplication {
     name = "tmuxn";
