@@ -5,4 +5,3 @@
 
   packages = import ./packages {inherit pkgs;};
 }
-
