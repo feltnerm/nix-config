@@ -5,6 +5,12 @@
   ...
 }: let
   cfg = config.feltnerm.profiles.developer;
+
+  fzfReposZshExtra = ''
+    function c() {
+      cd -- $(fzf-repo "$1")
+    }
+  '';
 in {
   options.feltnerm.profiles.developer.code = {
     enable = lib.mkOption {
@@ -32,35 +38,16 @@ in {
 
         neovim = {
           enable = true;
-
-          completion.enable = true;
-          lsp.enable = true;
-          syntax.enable = true;
-          telescope.enable = true;
-          treesitter.enable = true;
-          vimwiki.enable = true;
-
-          ui = {
-            enable = true;
-            startify = {
-              enable = true;
-              extraConfig = ''
-                let g:startify_header = system('chuckscii')
-                let g:startify_custom_header =
-                  \ startify#center(split(startify_header, '\n')) +
-                  \ startify#center([""]) +
-                  \ startify#center(startify#fortune#boxed()) +
-                  \ startify#center([""]) +
-                  \ startify#center(split(system('date -R'), '\n')) +
-                  \ startify#center([""]) +
-                  \ startify#center(split(system('year-progress 100'), '\n'))
-              '';
-            };
-          };
+          developer.enable = true;
         };
       };
     };
 
+    programs = {
+      zsh.initExtra = fzfReposZshExtra;
+    };
+
+    # home-manager configuration
     home = {
       sessionVariables = lib.mkIf cfg.code.enable {
         CODE_HOME = cfg.code.codeDir;

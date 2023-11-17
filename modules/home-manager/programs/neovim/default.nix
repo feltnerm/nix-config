@@ -10,13 +10,10 @@
     plenary-nvim
     delimitMate
     editorconfig-vim
-    git-blame-nvim
     vim-abolish
     vim-commentary
     vim-diminactive
     vim-eunuch
-    vim-fugitive
-    vim-gitgutter
     vim-highlightedyank
     vim-indent-guides
     vim-obsession
@@ -28,12 +25,6 @@
     vim-surround
     vim-table-mode
     vim-unimpaired
-    {
-      plugin = vim-fugitive;
-      config = ''
-        nmap <space>G :Git<CR>
-      '';
-    }
     {
       plugin = nvim-autopairs;
       type = "lua";
@@ -51,34 +42,11 @@
         require("which-key").setup({})
       '';
     }
-    playground
-    {
-      plugin = auto-save-nvim;
-      type = "lua";
-      config = ''
-        require("auto-save").setup {}
-      '';
-    }
-    {
-      plugin = nerdtree;
-      config = ''
-        nmap <leader>d :NERDTreeToggle<CR>
-        nmap <leader>de :NERDTreeToggleVCS<CR>
-        nmap <leader>df :NERDTreeFind<CR>
-      '';
-    }
-    {
-      plugin = rest-nvim;
-      type = "lua";
-      config = ''
-        require("rest-nvim").setup({})
-      '';
-    }
   ];
 
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 in {
-  imports = [./completion ./lsp ./telescope ./treesitter ./syntax.nix ./ui.nix ./vimwiki.nix];
+  imports = [./completion ./developer.nix ./lsp ./telescope ./treesitter ./syntax.nix ./ui.nix ./vimwiki.nix];
 
   options.feltnerm.programs.neovim = {
     enable = lib.mkOption {
@@ -99,18 +67,11 @@ in {
         extraConfig = feltnermVimrc;
 
         extraPackages = [
-          pkgs.git
           pkgs.ripgrep
-          pkgs.universal-ctags
         ];
 
         # base set of vim plugins, when enabled
         plugins = defaultVimPlugins;
-
-        # TODO add 'developer' mode?
-        withNodeJs = true;
-        withPython3 = true;
-        withRuby = true;
       };
     };
   };

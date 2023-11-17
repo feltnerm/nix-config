@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   config = {
     home = {
       stateVersion = "22.05";
@@ -16,8 +12,6 @@
 
       # extra environment variables
       sessionVariables = {
-        DROPBOX = "$HOME/Dropbox";
-
         # FIXME required for GUI/Wayland
         #MOZ_ENABLE_WAYLAND = 1;
         #XDG_CURRENT_DESKTOP = "sway";
@@ -43,6 +37,18 @@
         };
 
         gpg.pubKey = "390FE4873BBF0F96";
+
+        neovim.ui.startify.extraConfig = ''
+          let g:startify_header = system('chuckscii')
+          let g:startify_custom_header =
+            \ startify#center(split(startify_header, '\n')) +
+            \ startify#center([""]) +
+            \ startify#center(startify#fortune#boxed()) +
+            \ startify#center([""]) +
+            \ startify#center(split(system('date -R'), '\n')) +
+            \ startify#center([""]) +
+            \ startify#center(split(system('year-progress 100'), '\n'))
+        '';
       };
     };
   };

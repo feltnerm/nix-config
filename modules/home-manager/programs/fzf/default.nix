@@ -6,6 +6,7 @@
 }: let
   cfg = config.feltnerm.programs.fzf;
 
+  # TODO use fzf-tmux
   # TODO organize these helpers
   # can be sourced lazily at runtime, or sourced at shell load
   # grep git commits
@@ -28,6 +29,12 @@
     runtimeInputs = [pkgs.fzf pkgs.eza];
     text = builtins.readFile ./fzf-repo.sh;
   };
+
+  fzfFilesZshExtra = ''
+    function f() {
+      vim -- $(fzf-files "$1")
+    }
+  '';
 in {
   options.feltnerm.programs.fzf = {
     enable = lib.mkOption {
@@ -46,9 +53,6 @@ in {
     };
 
     home = {
-      shellAliases = {};
-      sessionVariables = {};
-
       packages = [
         pkgs.fzf
 
@@ -58,14 +62,6 @@ in {
       ];
     };
 
-    programs.zsh.initExtra = ''
-      function f() {
-        vim -- $(fzf-files "$1")
-      }
-
-      function c() {
-        cd -- $(fzf-repo "$1")
-      }
-    '';
+    programs.zsh.initExtra = fzfFilesZshExtra;
   };
 }

@@ -8,6 +8,7 @@
 
   nvimLspConfig = builtins.readFile ./nvim-lsp.lua;
 
+  # TODO make per-language configs for the dev profile
   languageServers = with pkgs; [
     efm-langserver
     gopls
