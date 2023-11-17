@@ -1,10 +1,5 @@
 name: Tests
-on:
-  workflow_dispatch:
-  pull_request:
-  push:
-    branches:
-      - main
+on: push
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
