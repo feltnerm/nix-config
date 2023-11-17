@@ -1,8 +1,11 @@
 {
-  pkgs,
   config,
+  lib,
+  pkgs,
   ...
 }: let
+  cfg = config.feltnerm.programs.fzf;
+
   # TODO organize these helpers
   # can be sourced lazily at runtime, or sourced at shell load
   # grep git commits
@@ -26,12 +29,29 @@
     text = builtins.readFile ./fzf-repo.sh;
   };
 in {
-  config = {
+  options.feltnerm.programs.fzf = {
+    enable = lib.mkOption {
+      description = "Enable fzf and some shell helpers.";
+      default = false;
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    programs.fzf = {
+      enable = true;
+      tmux = {
+        # TODO
+        #enableShellIntegration = true;
+      };
+    };
+
     home = {
       shellAliases = {};
       sessionVariables = {};
 
       packages = [
+        pkgs.fzf
+
         fzfGitCommits
         fzfFiles
         fzfRepo

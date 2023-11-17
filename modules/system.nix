@@ -9,8 +9,6 @@
 }: let
   cfg = config.feltnerm;
 in {
-  imports = [./nixpkgs.nix];
-
   # nix
   options.feltnerm.nix = {
     allowedUsers = lib.mkOption {
@@ -78,11 +76,14 @@ in {
         # shell utils
         ack
         bat
+        direnv
         eza
         fd
+        fpp
+        gawk
+        jq
         readline
         ripgrep
-        tmux
 
         # process management
         bottom

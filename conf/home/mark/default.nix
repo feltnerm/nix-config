@@ -32,24 +32,17 @@
     };
 
     feltnerm = {
-      config.code.enableCodeDir = true;
-      cli = {
-        enable = true;
-        neovim.enable = true;
-      };
+      profiles.developer.enable = true;
       programs = {
         git = {
-          enable = true;
           username = "feltnerm";
           # TODO better public email
           email = "feltner.mj@gmail.com";
-          signCommits = true;
+          # FIXME get commit signing setup working again
+          signCommits = false;
         };
 
-        gpg = {
-          pubKey = "390FE4873BBF0F96";
-          enable = true;
-        };
+        gpg.pubKey = "390FE4873BBF0F96";
       };
     };
   };

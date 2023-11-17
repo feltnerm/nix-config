@@ -51,7 +51,32 @@
         require("which-key").setup({})
       '';
     }
+    playground
+    {
+      plugin = auto-save-nvim;
+      type = "lua";
+      config = ''
+        require("auto-save").setup {}
+      '';
+    }
+    {
+      plugin = nerdtree;
+      config = ''
+        nmap <leader>d :NERDTreeToggle<CR>
+        nmap <leader>de :NERDTreeToggleVCS<CR>
+        nmap <leader>df :NERDTreeFind<CR>
+      '';
+    }
+    {
+      plugin = rest-nvim;
+      type = "lua";
+      config = ''
+        require("rest-nvim").setup({})
+      '';
+    }
   ];
+
+  feltnermVimrc = builtins.readFile ./vimrc.vim;
 in {
   imports = [./completion ./lsp ./telescope ./treesitter ./syntax.nix ./ui.nix ./vimwiki.nix];
 
@@ -66,9 +91,12 @@ in {
     programs = {
       neovim = {
         enable = true;
+
         defaultEditor = true;
         vimAlias = true;
         vimdiffAlias = true;
+
+        extraConfig = feltnermVimrc;
 
         extraPackages = [
           pkgs.git
@@ -78,6 +106,11 @@ in {
 
         # base set of vim plugins, when enabled
         plugins = defaultVimPlugins;
+
+        # TODO add 'developer' mode?
+        withNodeJs = true;
+        withPython3 = true;
+        withRuby = true;
       };
     };
   };

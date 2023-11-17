@@ -26,23 +26,18 @@ in {
       default = false;
     };
 
-    enableMarkdown = lib.mkOption {
-      description = "Enable markdown for vimwiki";
-      default = false;
-    };
-
     wikiRoot = lib.mkOption {
-      description = "Root of the vimwiki source";
+      description = "Root of the vimwiki.";
       default = "$HOME/wiki";
     };
 
     vimWikiRoot = lib.mkOption {
-      description = "Root of the vimwiki source";
+      description = "Root of the vimwiki source.";
       default = "${cfg.wikiRoot}/vimwiki";
     };
 
     vimWikiHtmlOut = lib.mkOption {
-      description = "Directory for the vimwiki HTML output";
+      description = "Directory for the vimwiki HTML output.";
       default = "${cfg.wikiRoot}/vimwiki_html";
     };
   };
@@ -60,11 +55,7 @@ in {
     };
 
     programs.neovim = {
-      extraPackages = with pkgs; (
-        if cfg.enableMarkdown
-        then [vimwiki-markdown]
-        else []
-      );
+      extraPackages = with pkgs; [vimwiki-markdown];
       inherit plugins;
     };
   };

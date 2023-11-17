@@ -7,7 +7,7 @@
   cfg = config.feltnerm;
 in {
   imports = [
-    ../common
+    ../common.nix
     ../system.nix
     ./gui
     ./hardware

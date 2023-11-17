@@ -6,7 +6,6 @@
     ./hardware.nix
     ./networking.nix
   ];
-
   config = {
     feltnerm = {
       documentation.enable = true;

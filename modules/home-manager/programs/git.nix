@@ -181,7 +181,6 @@ in {
 
     programs.git = {
       enable = true;
-      package = lib.mkDefault pkgs.gitAndTools.gitFull;
       userName = cfg.username;
       userEmail = cfg.email;
       diff-so-fancy = {

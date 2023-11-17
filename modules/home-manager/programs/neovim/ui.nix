@@ -65,9 +65,20 @@ in {
         default = false;
       };
 
+      # TODO reference `${pkgs.chuckscii}/bin` or something
       extraConfig = lib.mkOption {
         description = "Edit the startify header.";
-        default = "";
+        default = ''
+          let g:startify_header = system('chuckscii')
+          let g:startify_custom_header =
+            \ startify#center(split(startify_header, '\n')) +
+            \ startify#center([""]) +
+            \ startify#center(startify#fortune#boxed()) +
+            \ startify#center([""]) +
+            \ startify#center(split(system('date -R'), '\n')) +
+            \ startify#center([""]) +
+            \ startify#center(split(system('year-progress 100'), '\n'))
+        '';
       };
     };
   };

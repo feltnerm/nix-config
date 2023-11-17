@@ -120,7 +120,6 @@
             username = "mark";
             userConfig = {
               feltnerm = {
-                # TODO gui.enable = true;
                 programs.alacritty.enable = true;
               };
             };
@@ -134,7 +133,9 @@
         username = "mark";
         pkgs = legacyPackages."x86_64-linux";
         userConfig = {
-          feltnerm.gui.enable = true;
+          feltnerm.profiles = {
+            gui.enable = true;
+          };
 
           config.xdg.userDirs.enable = true;
           xdg.desktopEntries = {

@@ -18,11 +18,6 @@ in {
       default = false;
     };
 
-    enableAgent = lib.mkOption {
-      description = "Enable GPG Agent";
-      default = false;
-    };
-
     pubKey = lib.mkOption {
       description = "GPG pub key";
       default = "";
@@ -39,7 +34,7 @@ in {
 
     services.gpg-agent = {
       # FIXME
-      enable = cfg.enableAgent;
+      enable = lib.mkDefault false;
       enableSshSupport = true;
       enableExtraSocket = true;
       defaultCacheTtl = 60;
