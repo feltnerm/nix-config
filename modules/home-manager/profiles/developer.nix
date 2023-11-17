@@ -27,19 +27,12 @@ in {
   config = lib.mkIf cfg.enable {
     feltnerm = {
       # inherit the minimal profile
+      profiles.minimal.enable = true;
+
       programs = {
-        fzf.enable = true;
         git.enable = true;
         gpg.enable = true;
-        readline.enable = true;
-        ssh.enable = true;
-        tmux.enable = true;
-        zsh.enable = true;
-
-        neovim = {
-          enable = true;
-          developer.enable = true;
-        };
+        neovim.developer.enable = true;
       };
     };
 
@@ -79,6 +72,8 @@ in {
 
         # docker management
         dive
+
+        diffsitter
 
         # audio/image/video processing
         exiftool

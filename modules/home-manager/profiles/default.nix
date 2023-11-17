@@ -14,6 +14,12 @@
         description = "Enable the developer profile whichs adds a ton of development tools.";
         default = false;
       };
+
+      # languages = [
+      # # nodejs = {};
+      # # python = {};
+      # # java = {};
+      # ];
     };
 
     # TODO make this the default?

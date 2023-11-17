@@ -13,7 +13,8 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  # TODO the nix firefox package does not work on darwin
+  config = lib.mkIf (cfg.enable || !pkgs.stdenv.isDarwin) {
     home.packages = with pkgs; [
       firefox
     ];
