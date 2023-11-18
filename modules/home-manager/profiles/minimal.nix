@@ -70,16 +70,15 @@ in {
     };
 
     home = {
-      # TODO use `${pkg.blah}/bin` references here
       shellAliases = {
-        cat = "bat";
+        cat = "${pkgs.bat}/bin/bat";
         cp = "cp -i"; # write error instead of overwriting
-        cpv = "rsync -pogr --progress";
-        cpp = "rsync -Wavp --human-readable --progress $1 $2";
+        cpv = "${pkgs.rsync}/bin/rsync -pogr --progress";
+        cpp = "${pkgs.rsync}/bin/rsync -Wavp --human-readable --progress $1 $2";
         mv = "mv -i";
         rm = "rm -ir";
-        weather = "curl wttr.in";
-        oracow = "fortune | cowsay";
+        weather = "${pkgs.curl}/bin/curl wttr.in";
+        oracow = "${pkgs.fortune}/bin/fortune | ${pkgs.cowsay}/bin/cowsay";
       };
 
       # don't display login message
