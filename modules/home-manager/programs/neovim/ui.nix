@@ -8,18 +8,6 @@
 
   uiPlugins = with pkgs.vimPlugins; [
     {
-      plugin = indent-blankline-nvim;
-      type = "lua";
-      config = ''
-        local indentBlankline = require("ibl")
-        indentBlankline.setup({
-            -- for example, context is off by default, use this to turn it on
-            show_current_context = true,
-            show_current_context_start = true,
-        })
-      '';
-    }
-    {
       plugin = base16-vim;
       config = ''
         let base16colorspace=256

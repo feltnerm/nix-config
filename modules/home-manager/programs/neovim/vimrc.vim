@@ -98,6 +98,11 @@ cmap w!! w !sudo tee % >/dev/null
 map Q <Nop>
 
 lua <<EOF
+-- show whitespace for ident
+vim.opt.list = true
+-- •
+vim.opt.listchars = { tab = "⇥ ", leadmultispace = "┊ ", trail = "␣", nbsp = "⍽" }
+
 -- turn off search highlight
 vim.keymap.set('n', '<leader>/', ':nohlsearch<CR>', { desc = "clear search" })
 
