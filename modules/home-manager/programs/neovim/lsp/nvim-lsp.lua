@@ -48,6 +48,7 @@ add_lsp("kotlin-language-server", lspconfig.kotlin_language_server, {})
 add_lsp("nil", lspconfig.nil_ls, {})
 add_lsp("pyright", lspconfig.pylsp, {})
 add_lsp("rust_analyzer", lspconfig.rust_analyzer, {})
+add_lsp("ltex-ls", lspconfig.ltex, { lang = { "en-US" } })
 -- require('lspconfig')['pyright'].setup{
 --     on_attach = on_attach,
 --     flags = lsp_flags,

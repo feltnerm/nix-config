@@ -14,6 +14,7 @@
     gopls
     jdt-language-server
     kotlin-language-server
+    ltex-ls
     nil
     nodePackages.bash-language-server
     pyright
