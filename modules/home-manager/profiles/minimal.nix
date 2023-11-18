@@ -12,6 +12,7 @@ in {
       programs = {
         fzf.enable = true;
         neovim.enable = true;
+        nix.enable = true;
         readline.enable = true;
         ssh.enable = true;
         tmux.enable = true;
@@ -79,6 +80,16 @@ in {
         rm = "rm -ir";
         weather = "${pkgs.curl}/bin/curl wttr.in";
         oracow = "${pkgs.fortune}/bin/fortune | ${pkgs.cowsay}/bin/cowsay";
+
+        # nix aliases
+        n = "${pkgs.nix}/bin/nix";
+        nd = "${pkgs.nix}/bin/nix develop -c $SHELL";
+        ndc = "${pkgs.nix}/bin/nix develop -c";
+        ns = "${pkgs.nix}/bin/nix shell";
+        nsn = "${pkgs.nix}/bin/nix shell nixpkgs#";
+        nb = "${pkgs.nix}/bin/nix build";
+        nbn = "${pkgs.nix}/bin/nix build nixpkgs#";
+        nf = "${pkgs.nix}/bin/nix flake";
       };
 
       # don't display login message
