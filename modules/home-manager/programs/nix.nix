@@ -19,8 +19,9 @@ in {
   };
 
   config = {
-    home.packages = if cfg.enable then
-      extraPackages
-    else [];
+    home.packages =
+      if cfg.enable
+      then extraPackages
+      else [];
   };
 }
