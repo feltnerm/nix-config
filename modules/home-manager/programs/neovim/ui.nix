@@ -11,8 +11,7 @@
       plugin = indent-blankline-nvim;
       type = "lua";
       config = ''
-
-        local indentBlankline = require("indent_blankline")
+        local indentBlankline = require("ibl")
         indentBlankline.setup({
             -- for example, context is off by default, use this to turn it on
             show_current_context = true,
