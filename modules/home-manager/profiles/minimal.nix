@@ -20,7 +20,10 @@ in {
     };
 
     programs = {
-      bat.enable = true;
+      bat = {
+        enable = true;
+        config.theme = "base16";
+      };
       dircolors.enable = true;
       home-manager.enable = true;
       htop.enable = true;
