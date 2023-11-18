@@ -22,5 +22,7 @@
     };
 
     home.enableNixpkgsReleaseCheck = true;
+
+    programs.bash.enable = true;
   };
 }
