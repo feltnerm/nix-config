@@ -105,6 +105,7 @@ in rec {
     username,
     shell ? "bashInteractive",
     uid ? 1000,
+    isTrusted ? false,
     ...
   }: let
     userShell = pkgs."${shell}";
@@ -116,5 +117,10 @@ in rec {
       createHome = true;
       home = "/Users/${username}";
     };
+
+    nix.settings.trusted-users =
+      if isTrusted
+      then [username]
+      else [];
   };
 }

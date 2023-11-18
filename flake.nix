@@ -29,6 +29,7 @@
         username = "mark";
         isSudo = true;
         shell = "zsh";
+        isTrusted = true;
       }
     ];
 

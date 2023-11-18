@@ -5,6 +5,7 @@ _: {
     isSudo ? false,
     initialPassword ? "spanky",
     shell ? "bashInteractive",
+    isTrusted ? false,
   }: let
     groups =
       if isSudo
@@ -33,5 +34,10 @@ _: {
       createHome = true;
       home = "/home/${username}";
     };
+
+    nix.settings.trusted-users =
+      if isTrusted
+      then [username]
+      else [];
   };
 }
