@@ -2,25 +2,25 @@
 - [ ] use `config.feltnerm.profiles.developer.code.codeDir`
 - [x] use `${pkgs.bin}/bin/blah` to reference stuffs
 
-- [ ] language profiles -- note: projects really should be using their own `default.nix`
-  - [ ] programs?
-  - [ ] vim lsp and completion
-- [ ] better vimwiki
-  - [ ] aliases
-  - [ ] journal
-  - [ ] backedup
-- [ ] fzf-tmux ?
-- [ ] firefox userChrome.css
-  - [ ] need to locate darwin/brew-installed profile, or use a firefox overlay
 - [ ] ditch gpg (?) and re-setup crypto setup
   - [ ] ssh keys for git signing (and everything)
   - [ ] gpg+yubikey is a bad time
-- [ ] impermanence/persitence for directories in ~/
-  - [ ] code
-  - [ ] vimwiki
-  - [ ] rcloned stuffs
-  - [ ] _some_ xdg user-dirs?
 - [ ] git shell aliases (?)
 - [x] nix tools/helpers
   - [ ] shell aliases
   - [ ] convention/configuration for nix-config location and rebuilding
+- [ ] better vimwiki
+  - [ ] aliases
+  - [ ] journal
+  - [ ] backed-up
+- [ ] impermanence/persistence for directories in ~/
+  - [ ] code
+  - [ ] vimwiki
+  - [ ] rcloned stuffs
+  - [ ] _some_ xdg user-dirs?
+- [ ] firefox userChrome.css
+  - [ ] need to locate darwin/brew-installed profile, or use a firefox overlay
+- [ ] language profiles -- note: projects really should be using their own `default.nix`
+  - [ ] programs?
+  - [x] vim lsp and completion
+- [ ] fzf-tmux ?
