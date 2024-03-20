@@ -110,7 +110,12 @@ in {
           general_settings // https // newTab // searchBar // domPrivacy // telemetry // graphics // passwords // downloads;
         # bookmarks = [];
         extraConfig = ""; # user.js
-        userChrome = ""; # user chrome CSS
+        userChrome = ''
+          /* hides the native tabs */
+          #TabsToolbar, #sidebar-header {
+            visibility: none !important;
+          }
+        '';
         userContent = ""; # custom user content CSS
       };
     };
