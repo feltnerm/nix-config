@@ -33,6 +33,9 @@ _: {
       # Dreams
       "electric-sheep"
 
+      # godot engine
+      "godot"
+
       # Gdrive
       "google-drive"
 
