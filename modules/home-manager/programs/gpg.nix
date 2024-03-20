@@ -39,7 +39,7 @@ in {
       enableExtraSocket = true;
       defaultCacheTtl = 60;
       maxCacheTtl = 120;
-      pinentryFlavor = pinentry.name;
+      pinentryPackage = pinentry.package;
       sshKeys = [cfg.pubKey];
     };
 
