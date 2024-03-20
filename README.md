@@ -64,7 +64,6 @@ Modules
 
 - darwin        - modules for nix-darwin
 - home-manager  - modules for home-manager
-g nix           -
 - common        - for modules shared between darwin/home-manager/nixos
 
 ----
