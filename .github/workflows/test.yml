@@ -37,6 +37,9 @@ jobs:
     - name: Flake check
       run: nix flake check
 
+    - name: Test example
+      run: cd ./examples/simple-flake && nix flake check
+
   # home-manager:
   #   strategy:
   #     matrix:
