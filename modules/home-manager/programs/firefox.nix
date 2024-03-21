@@ -13,7 +13,8 @@ in {
     };
   };
 
-  # TODO the nix firefox package does not work on darwin
+  # TODO the nix firefox package does not work on isDarwin
+  # note: ~Library/Application Support/Firefox/profiles.ini
   config = lib.mkIf (cfg.enable || !pkgs.stdenv.isDarwin) {
     home.packages = with pkgs; [
       firefox
