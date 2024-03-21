@@ -24,14 +24,16 @@ in rec {
     ...
   }: let
     baseModule = {
-      # set hostname of this machine
-      networking.hostName = hostname;
+      config = {
+        # set hostname of this machine
+        networking.hostName = hostname;
 
-      # by default, disable any non-enabled networking interface
-      # networking.useDHCP = false;
+        # by default, disable any non-enabled networking interface
+        # networking.useDHCP = false;
 
-      # TODO
-      # networking.computername = hostname;
+        # TODO
+        # networking.computername = hostname;
+      };
     };
 
     mkDarwinUser = darwinUserFactory pkgs;
