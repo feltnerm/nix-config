@@ -17,6 +17,11 @@
 
     agenix.url = "github:yaxitech/ragenix";
     # agenix.url = "github:ryantm/agenix";
+
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: let

@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs home-manager;
+  inherit (inputs) self nixpkgs home-manager nixos-generators;
   inherit (self) outputs;
   inherit (nixpkgs.lib) nixosSystem;
 
@@ -27,13 +27,16 @@ in {
     ...
   }: let
     baseModule = {
-      # set hostname of this machine
-      networking.hostName = hostname;
+      imports = [nixos-generators.nixosModules.all-formats];
+      config = {
+        # set hostname of this machine
+        networking.hostName = hostname;
 
-      # by default, disable any non-enabled networking interface
-      networking.useDHCP = false;
+        # by default, disable any non-enabled networking interface
+        networking.useDHCP = false;
 
-      users.defaultUserShell = pkgs."${defaultShell}";
+        users.defaultUserShell = pkgs."${defaultShell}";
+      };
     };
 
     mkNixosUser = user.nixosUserFactory pkgs;
