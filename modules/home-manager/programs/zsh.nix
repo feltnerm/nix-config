@@ -16,7 +16,8 @@ in {
     programs.zsh = {
       # zsh configuration
       enable = true;
-      enableAutosuggestions = true;
+
+      autosuggestion.enable = true;
       enableCompletion = true;
       enableVteIntegration = true; # allow terminal to track current directory
       autocd = true; # automatically enter a directory when typed
