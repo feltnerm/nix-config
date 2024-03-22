@@ -5,7 +5,6 @@
   ...
 }: let
   cfg = config.feltnerm.profiles.developer;
-
   fzfReposZshExtra = ''
     function c() {
       cd -- $(fzf-repo "$1")
@@ -131,6 +130,8 @@ in {
         ispell
         hunspell
         hunspellDicts.en-us
+
+        feltnerm.nix-format-feltnerm
 
         # cloud
         # awscli
