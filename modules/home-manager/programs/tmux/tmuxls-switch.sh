@@ -14,7 +14,7 @@ function _tmux-ls-switch() {
   local sessionName
   sessionName=$(echo "$search" | cut -d: -f1)
 
-  if [[ -z $TMUX ]]; then
+  if [[ -z ${TMUX:-} ]]; then
     # assume we are not in a tmux session
     tmuxa "$sessionName"
   else
