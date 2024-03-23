@@ -69,6 +69,12 @@
     text = builtins.readFile ./tmuxls.sh;
   };
 
+  tmuxls-switch = pkgs.writeShellApplication {
+    name = "tmuxls-switch";
+    runtimeInputs = [tmuxls tmuxa pkgs.tmux];
+    text = builtins.readFile ./tmuxls-switch.sh;
+  };
+
   extraConfig =
     if cfg.colors.enable
     then trueColorFix + colorScheme
@@ -111,6 +117,7 @@ in {
       tmuxa
       tmuxn
       tmuxls
+      tmuxls-switch
       (lib.mkIf config.feltnerm.profiles.developer.code.enable tmuxcn)
       (lib.mkIf config.feltnerm.profiles.developer.code.enable tmuxca)
     ];
