@@ -23,4 +23,4 @@
 - [ ] language profiles -- note: projects really should be using their own `default.nix`
   - [ ] programs?
   - [x] vim lsp and completion
-- [ ] fzf-tmux ?
+- [x] fzf-tmux ?
