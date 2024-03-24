@@ -35,7 +35,7 @@ in {
 
     codeDir = lib.mkOption {
       description = "Set the the directory";
-      default = "$HOME/code";
+      default = "${config.home.homeDirectory}/code";
     };
   };
 
