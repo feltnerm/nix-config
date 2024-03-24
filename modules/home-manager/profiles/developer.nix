@@ -5,11 +5,27 @@
   ...
 }: let
   cfg = config.feltnerm.profiles.developer;
+
+  # quick search for a repo and `cd` to its directory
   fzfReposZshExtra = ''
     function c() {
       cd -- $(fzf-repo "$1")
     }
   '';
+
+  # grep git commits
+  fzfGitCommits = pkgs.writeShellApplication {
+    name = "fzf-git-commits";
+    runtimeInputs = [pkgs.fzf pkgs.git pkgs.diff-so-fancy];
+    text = "git log --oneline | fzf --multi --preview 'git show {+1} | diff-so-fancy --color'";
+  };
+
+  # search for my repos
+  fzfRepo = pkgs.writeShellApplication {
+    name = "fzf-repo";
+    runtimeInputs = [pkgs.fzf pkgs.eza];
+    text = builtins.readFile ./fzf-repo.sh;
+  };
 in {
   options.feltnerm.profiles.developer.code = {
     enable = lib.mkOption {
@@ -130,6 +146,9 @@ in {
         ispell
         hunspell
         hunspellDicts.en-us
+
+        fzfGitCommits
+        fzfRepo
 
         feltnerm.nix-format-feltnerm
 
