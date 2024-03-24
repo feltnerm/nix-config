@@ -6,8 +6,23 @@
   ];
 
   # Define profiles -- which are collections of implemented options -- here
-
   options.feltnerm.profiles = {
+    # TODO
+    headless = {
+      enable = lib.mkOption {
+        description = "Enable the headless profile which adds packages suitable for a headless system.";
+        default = false;
+      };
+    };
+
+    # TODO make this the default?
+    minimal = {
+      enable = lib.mkOption {
+        description = "Enable the minimal profile which adds a baseline system suitable for a user.";
+        default = false;
+      };
+    };
+
     developer = {
       # TODO add enables for different platforms, languages, and toolchains?
       enable = lib.mkOption {
@@ -20,14 +35,6 @@
       # # python = {};
       # # java = {};
       # ];
-    };
-
-    # TODO make this the default?
-    minimal = {
-      enable = lib.mkOption {
-        description = "Enable the minimal profile which adds a baseline system.";
-        default = false;
-      };
     };
 
     gui = {
