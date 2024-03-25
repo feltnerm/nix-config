@@ -30,7 +30,6 @@ in {
       htop.enable = true;
       info.enable = true;
       jq.enable = true;
-      zsh.enable = true;
 
       direnv = {
         enable = true;
@@ -104,9 +103,6 @@ in {
 
         # shell utils
         ack
-        bat
-        direnv
-        eza
         fd
         fpp
         readline
@@ -120,7 +116,6 @@ in {
 
         # process management
         bottom
-        htop
         killall
         lnav
         lsof
@@ -128,7 +123,6 @@ in {
 
         # processors
         gawk
-        jq
 
         # networking
         curl
@@ -147,9 +141,6 @@ in {
         tree
         unrar
         unzip
-
-        # nix
-        home-manager
 
         # fun
         cowsay
