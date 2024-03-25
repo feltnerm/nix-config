@@ -42,7 +42,7 @@ in {
   config = lib.mkIf cfg.enable {
     feltnerm = {
       # inherit the minimal profile
-      profiles.minimal.enable = true;
+      profiles.minimal.enable = lib.mkForce true;
 
       programs = {
         git.enable = true;
