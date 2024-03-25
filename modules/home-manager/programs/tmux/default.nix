@@ -86,9 +86,26 @@ in {
       default = false;
     };
 
+    enableShellIntegration = lib.mkOption {
+      description = "Enable shell integration with aliases/functions.";
+      default = true;
+    };
+
     colors.enable = lib.mkOption {
       description = "Enable colors for tmux.";
       default = false;
+    };
+
+    plugins = lib.mkOption {
+      description = "tmux plugins. empty list disables any plugins";
+      default = with pkgs.tmuxPlugins; [
+        jump
+        net-speed
+        prefix-highlight
+        sysstat
+        tmux-fzf
+        yank
+      ];
     };
   };
 
@@ -103,17 +120,10 @@ in {
       escapeTime = 10;
       newSession = false; # Automatically spawn a session if trying to attach and none are running.
       secureSocket = true; # More secure tmux socket; removed at logout.
-      plugins = with pkgs.tmuxPlugins; [
-        jump
-        net-speed
-        prefix-highlight
-        sysstat
-        tmux-fzf
-        yank
-      ];
+      inherit (cfg) plugins;
     };
 
-    home.packages = [
+    home.packages = lib.mkIf cfg.enableShellIntegration [
       tmuxa
       tmuxn
       tmuxls
@@ -122,9 +132,9 @@ in {
       (lib.mkIf config.feltnerm.profiles.developer.code.enable tmuxca)
     ];
 
-    # TODO check if (neo)vim is enabled
-    programs.neovim.plugins = with pkgs.vimPlugins; [
-      tmuxline-vim
-    ];
+    programs.neovim.plugins = with pkgs.vimPlugins;
+      lib.mkIf config.feltnerm.programs.neovim.enabled [
+        tmuxline-vim
+      ];
   };
 }
