@@ -47,7 +47,9 @@ in {
       programs = {
         git.enable = true;
         gpg.enable = true;
-        neovim.developer.enable = true;
+        neovim = {
+          developer.enable = true;
+        };
       };
     };
 

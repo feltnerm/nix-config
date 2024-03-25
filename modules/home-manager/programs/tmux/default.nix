@@ -133,7 +133,7 @@ in {
     ];
 
     programs.neovim.plugins = with pkgs.vimPlugins;
-      lib.mkIf config.feltnerm.programs.neovim.enabled [
+      lib.mkIf config.feltnerm.programs.neovim.enable [
         tmuxline-vim
       ];
   };
