@@ -8,7 +8,6 @@
 in {
   config = lib.mkIf cfg.enable {
     feltnerm = {
-      # inherit the minimal profile
       programs = {
         fzf.enable = true;
         neovim.enable = true;
