@@ -36,6 +36,13 @@
           signCommits = false;
         };
 
+        neovim.vimwiki = {
+          enable = true;
+          wikis = {
+            "feltnerm" = {};
+          };
+        };
+
         gpg.pubKey = "390FE4873BBF0F96";
 
         neovim.ui.startify.extraConfig = ''
