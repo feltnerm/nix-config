@@ -66,7 +66,7 @@ in {
   config = lib.mkIf cfg.enable {
     home = {
       sessionVariables = {
-        WIKI = "${config.home.homeDirectory}/${cfg.wikisRoot}";
+        WIKI_HOME = "${config.home.homeDirectory}/${cfg.wikisRoot}";
       };
       shellAliases = {
         # TODO add alias to quick open wiki
