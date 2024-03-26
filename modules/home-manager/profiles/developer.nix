@@ -35,7 +35,8 @@ in {
 
     codeDir = lib.mkOption {
       description = "Set the the directory";
-      default = "${config.home.homeDirectory}/code";
+      default = "code";
+      # default = "${config.home.homeDirectory}/code";
     };
   };
 
@@ -60,7 +61,7 @@ in {
     # home-manager configuration
     home = {
       sessionVariables = lib.mkIf cfg.code.enable {
-        CODE_HOME = cfg.code.codeDir;
+        CODE_HOME = "${config.home.homeDirectory}/cfg.code.codeDir";
       };
 
       file.".editorconfig" = {
