@@ -84,6 +84,7 @@ in {
           inherit name;
           inherit (wiki) ext;
           inherit (wiki) syntax;
+          custom_wiki2html = "vimwiki_markdown";
         }
         # set a path when undefined
         // (
