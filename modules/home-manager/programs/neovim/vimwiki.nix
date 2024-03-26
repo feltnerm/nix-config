@@ -23,7 +23,7 @@ in {
         options = {
           # if undefined/null, then use convention path via wiki root based on name
           name = lib.mkOption {
-            description = "Define the wiki name.";
+            description = "Define the wiki name. BUG: this only is the name of the attrset's key.";
             type = lib.types.nullOr lib.types.str;
             default = "";
           };
