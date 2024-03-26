@@ -7,7 +7,10 @@
 in {
   options.feltnerm.hardware.cpu = {
     enableMicrocode = lib.mkEnableOption "Enable CPU microcode updates";
-    vendor = lib.mkOption {type = lib.types.enum ["intel" "amd"];};
+    vendor = lib.mkOption {
+      description = "CPU vendor";
+      type = lib.types.enum ["intel" "amd"];
+    };
   };
 
   config = lib.mkIf config.feltnerm.hardware.cpu.enableMicrocode {
