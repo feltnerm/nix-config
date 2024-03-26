@@ -22,6 +22,13 @@ in {
       type = lib.types.attrsOf (lib.types.submodule {
         options = {
           # if undefined/null, then use convention path via wiki root based on name
+          name = lib.mkOption {
+            description = "Define the wiki name.";
+            type = lib.types.nullOr lib.types.str;
+            default = "";
+          };
+
+          # if undefined/null, then use convention path via wiki root based on name
           # path = "${cfg.wikiRoot}/${name}";
           path = lib.mkOption {
             description = "Define a path to wiki source. Defaults to a sub-directory of the wiki root.";
