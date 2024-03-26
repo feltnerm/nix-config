@@ -1,11 +1,10 @@
 {inputs, ...}: let
-  inherit (inputs) self nixpkgs home-manager nixos-generators;
+  inherit (inputs) self home-manager nixos-generators;
   inherit (self) outputs;
-  inherit (nixpkgs.lib) nixosSystem;
 
   user = import ./user.nix {inherit inputs;};
 in {
-  mkNixosSystem = {
+  mkNixosModule = {
     # The system's hostname. Required.
     hostname,
     # A list of users for this system. Required.
@@ -81,26 +80,25 @@ in {
         }
       )
       homeManagerUsers;
-  in
-    nixosSystem {
-      # inherit pkgs system;
-      inherit system;
-      specialArgs = {
-        inherit inputs outputs hostname users systemConfig;
-      };
-      modules =
-        [
-          # ../modules/common
-          ../modules/nixos
-          baseModule
-        ]
-        ++ homeManagerModules
-        ++ extraModules
-        ++ [
-          systemConfig
-          hostModule
-        ]
-        ++ userModules
-        ++ homeManagerUserModules;
+  in {
+    # inherit pkgs system;
+    inherit system;
+    specialArgs = {
+      inherit inputs outputs hostname users systemConfig;
     };
+    modules =
+      [
+        # ../modules/common
+        ../modules/nixos
+        baseModule
+      ]
+      ++ homeManagerModules
+      ++ extraModules
+      ++ [
+        systemConfig
+        hostModule
+      ]
+      ++ userModules
+      ++ homeManagerUserModules;
+  };
 }

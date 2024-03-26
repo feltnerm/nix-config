@@ -102,7 +102,7 @@
     ));
 
     nixosConfigurations = {
-      monke = nixos.mkNixosSystem {
+      monke = inputs.nixpkgs.lib.nixosSystem (nixos.mkNixosModule {
         hostname = "monke";
         system = "x86_64-linux";
         pkgs = legacyPackages."x86_64-linux";
@@ -110,11 +110,11 @@
         systemConfig = {
           feltnerm = {};
         };
-      };
+      });
     };
 
     darwinConfigurations = {
-      "markbook" = darwin.mkDarwinSystem {
+      "markbook" = inputs.darwin.lib.darwinSystem (darwin.mkDarwinModule {
         hostname = "markbook";
         pkgs = legacyPackages."x86_64-darwin";
         users = defaultUsers;
@@ -131,7 +131,7 @@
             };
           }
         ];
-      };
+      });
     };
 
     homeConfigurations = {

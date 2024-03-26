@@ -1,10 +1,10 @@
 {inputs, ...}: let
-  inherit (inputs) self darwin home-manager;
+  inherit (inputs) self home-manager;
   inherit (self) outputs;
 
   systemIdentifier = "x86_64-darwin";
 in rec {
-  mkDarwinSystem = {
+  mkDarwinModule = {
     # The system's hostname. Required.
     hostname,
     # A list of users for this system. Required.
@@ -81,27 +81,26 @@ in rec {
         )
         homeManagerUsers
       else [];
-  in
-    darwin.lib.darwinSystem {
-      inherit system;
-      specialArgs = {
-        inherit inputs outputs hostname users systemConfig;
-      };
-      modules =
-        [
-          # ../modules/common
-          ../modules/darwin
-          baseModule
-        ]
-        ++ homeManagerModules
-        ++ extraModules
-        ++ [
-          systemConfig
-          hostModule
-        ]
-        ++ userModules
-        ++ homeManagerUserModules;
+  in {
+    inherit system;
+    specialArgs = {
+      inherit inputs outputs hostname users systemConfig;
     };
+    modules =
+      [
+        # ../modules/common
+        ../modules/darwin
+        baseModule
+      ]
+      ++ homeManagerModules
+      ++ extraModules
+      ++ [
+        systemConfig
+        hostModule
+      ]
+      ++ userModules
+      ++ homeManagerUserModules;
+  };
 
   darwinUserFactory = {pkgs, ...}: {
     username,
