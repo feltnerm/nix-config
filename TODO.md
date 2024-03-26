@@ -9,7 +9,7 @@
 - [x] nix tools/helpers
   - [ ] shell aliases
   - [ ] convention/configuration for nix-config location and rebuilding
-- [ ] better vimwiki
+- [x] better vimwiki
   - [ ] aliases
   - [ ] journal
   - [ ] backed-up
