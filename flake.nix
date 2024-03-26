@@ -56,10 +56,10 @@
         inherit system;
         overlays = [feltnermOverlay];
         settings = {
-          substituters = [
+          extra-substituters = [
             "https://feltnerm.cachix.org"
           ];
-          trusted-public-keys = [
+          extra-trusted-public-keys = [
             "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
           ];
         };
