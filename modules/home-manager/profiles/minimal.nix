@@ -116,7 +116,7 @@ in {
         # process management
         bottom
         killall
-        lnav
+        #lnav
         lsof
         #pidof
 
