@@ -139,7 +139,7 @@ in {
         ascii-image-converter
         asciinema
         nyancat
-        youtube-dl
+        yt-dlp
 
         # spellingz
         aspell

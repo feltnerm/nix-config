@@ -21,8 +21,7 @@ in {
   config = {
     # allow nix to manage fonts
     fonts = lib.mkIf cfg.gui.fonts.enable {
-      fontDir.enable = true;
-      fonts = with pkgs; [
+      packages = with pkgs; [
         # sans fonts
         comic-neue
         source-sans
@@ -39,13 +38,7 @@ in {
     };
 
     nix = {
-      gc = {
-        # garbage collect every 4 days
-        interval = {
-          Hour = 96;
-          Minute = 0;
-        };
-      };
+      gc = {};
       settings = {
         # Give admins enhanced nix privs
         trusted-users = ["@admin"];

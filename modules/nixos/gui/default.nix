@@ -106,9 +106,6 @@ in {
     #programs.qt5ct.enable = true;
     qt.platformTheme = "qt5ct";
 
-    # sound
-    sound.enable = true;
-
     services = {
       dbus.enable = true;
       pipewire = {
