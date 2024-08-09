@@ -20,6 +20,11 @@ in {
     };
 
     programs = {
+      atuin = {
+        enable = true;
+        enableBashIntegration = true;
+        enableZshIntegration = true;
+      };
       bat = {
         enable = true;
         config.theme = "base16";
