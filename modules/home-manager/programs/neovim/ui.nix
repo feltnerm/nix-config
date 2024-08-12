@@ -16,6 +16,7 @@
     vim-colorschemes
     vim-janah
     gruvbox-material
+    nvim-web-devicons
     {
       plugin = vim-one;
       config = ''
