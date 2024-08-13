@@ -35,6 +35,7 @@
         let g:airline#extensions#hunks#enabled = 1
       '';
     }
+    gitsigns-nvim
     vim-airline-themes
     vim-airline-clock
     vista-vim

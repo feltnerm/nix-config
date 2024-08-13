@@ -29,53 +29,64 @@ in {
       };
     };
 
-    programs.neovim = {
-      plugins = with pkgs.vimPlugins; [
-        playground
-        {
-          plugin = auto-save-nvim;
-          type = "lua";
-          config = ''
-            require("auto-save").setup {}
-          '';
-        }
-        {
-          plugin = nerdtree;
-          config = ''
-            nmap <leader>d :NERDTreeToggle<CR>
-            nmap <leader>de :NERDTreeToggleVCS<CR>
-            nmap <leader>df :NERDTreeFind<CR>
-          '';
-        }
-        {
-          plugin = rest-nvim;
-          type = "lua";
-          config = ''
-            require("rest-nvim").setup({})
-          '';
-        }
+    programs = {
+      neovim = {
+        plugins = with pkgs.vimPlugins; [
+          nvim-lint
+          conform-nvim
+          markdown-preview-nvim
+          playground
+          {
+            plugin = auto-save-nvim;
+            type = "lua";
+            config = ''
+              require("auto-save").setup {}
+            '';
+          }
+          {
+            plugin = nerdtree;
+            config = ''
+              nmap <leader>d :NERDTreeToggle<CR>
+              nmap <leader>de :NERDTreeToggleVCS<CR>
+              nmap <leader>df :NERDTreeFind<CR>
+            '';
+          }
+          {
+            plugin = rest-nvim;
+            type = "lua";
+            config = ''
+              require("rest-nvim").setup({})
+            '';
+          }
 
-        # git-related
-        git-blame-nvim
-        vim-fugitive
-        vim-gitgutter
-        {
-          plugin = vim-fugitive;
-          config = ''
-            nmap <space>G :Git<CR>
-          '';
-        }
-      ];
+          # git-related
+          git-blame-nvim
+          vim-fugitive
+          vim-gitgutter
+          {
+            plugin = vim-fugitive;
+            config = ''
+              nmap <space>G :Git<CR>
+            '';
+          }
+        ];
 
-      extraPackages = [
-        pkgs.git
-        pkgs.ripgrep
-        pkgs.universal-ctags
-      ];
+        extraPackages = with pkgs; [
+          git
+          pyenv
+          ripgrep
+          universal-ctags
+          yarn-berry
 
-      withNodeJs = true;
-      withPython3 = true;
-      withRuby = true;
+          luajitPackages.luarocks
+
+          nodePackages_latest.neovim
+        ];
+
+        withNodeJs = true;
+        withPython3 = true;
+        withRuby = true;
+      };
     };
   };
 }

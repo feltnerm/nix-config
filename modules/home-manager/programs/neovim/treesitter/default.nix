@@ -11,6 +11,7 @@
 
   treesitterPlugins = with pkgs.vimPlugins; [
     # treesitter
+    nvim-treesitter-textobjects
     {
       plugin = nvim-treesitter.withAllGrammars;
       type = "lua";
