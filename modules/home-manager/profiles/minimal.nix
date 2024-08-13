@@ -24,6 +24,11 @@ in {
         enable = true;
         enableBashIntegration = true;
         enableZshIntegration = true;
+        settings = {
+          enter_accept = false; # do not immediately execute a command
+          filter_mode_shell_up_key_binding = "directory"; # up-arrow searches current dir if it is a .git directory
+          keymap_mode = "vim-normal";
+        };
       };
       bat = {
         enable = true;
