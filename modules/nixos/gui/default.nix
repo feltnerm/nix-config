@@ -53,6 +53,8 @@ in {
       extraPackages = with pkgs; [
         # nixos.wiki/wiki/Sway
 
+        foot
+
         sway
         dbus-sway-environment
         configure-gtk
