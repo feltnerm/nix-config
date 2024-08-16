@@ -6,7 +6,7 @@ lua <<EOF
 vim.keymap.set('n', '<leader>VR', ':source $MYVIMRC<CR>', { desc = "reload vimrc" })
 EOF
 
-lang en_US
+""lang en_US
 
 set modeline
 set magic

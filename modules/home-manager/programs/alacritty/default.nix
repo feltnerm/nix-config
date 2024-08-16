@@ -26,7 +26,6 @@ in {
           dynamic_padding = false;
           dynamic_title = true;
         };
-        draw_bold_text_with_bright_colors = false;
         live_config_reload = true;
         mouse = {
           hide_when_typing = true;
@@ -36,6 +35,7 @@ in {
         # Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
         colors = {
           # Default colors
+          draw_bold_text_with_bright_colors = false;
           primary = {
             background = "0x32302f";
             foreground = "0xd5c4a1";

@@ -72,8 +72,8 @@ in {
     xdg = {
       enable = lib.mkDefault true;
       userDirs = {
-        enable = false;
-        createDirectories = true;
+        enable = lib.mkDefault true;
+        createDirectories = lib.mkDefault false;
       };
     };
 

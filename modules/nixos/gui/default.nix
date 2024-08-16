@@ -41,6 +41,9 @@ in {
     {
       # dbus.enable = true;
       # qt.platformTheme = "qt5ct";
+      environment.systemPackages = with pkgs; [
+        xdg-utils
+      ];
     }
     (lib.mkIf cfg.audio.enable {
       services.pipewire = {
@@ -53,6 +56,8 @@ in {
       programs.hyprland.enable = true;
 
       security.pam.services.swaylock = {};
+      security.polkit.enable = true;
+      services.gnome.gnome-keyring.enable = true;
 
       xdg.portal = {
         enable = true;

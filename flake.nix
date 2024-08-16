@@ -116,26 +116,31 @@
             userConfig = {
               feltnerm = {
                 programs = {
-                  alacitty.enable = true;
+                  alacritty.enable = true;
                   firefox.enable = true;
                   hyprland.enable = true;
                 };
               };
 
-              config.xdg.userDirs.enable = true;
-              xdg.desktopEntries = {
-                firefox = {
-                  name = "Firefox";
-                  genericName = "Web Browser";
-                  exec = "firefox %U";
-                  terminal = false;
-                  categories = ["Application" "Network" "WebBrowser"];
-                  mimeType = [
-                    "text/html"
-                    "text/xml"
-                    "application/json"
-                    "application/pdf"
-                  ];
+
+              wayland.windowManager.hyprland.settings.monitor="HDMI-A-2,3840x2160@30,0x0,1";
+
+              xdg = {
+                userDirs.enable = true;
+                desktopEntries = {
+                  firefox = {
+                    name = "Firefox";
+                    genericName = "Web Browser";
+                    exec = "firefox %U";
+                    terminal = false;
+                    categories = ["Application" "Network" "WebBrowser"];
+                    mimeType = [
+                      "text/html"
+                      "text/xml"
+                      "application/json"
+                      "application/pdf"
+                    ];
+                  };
                 };
               };
             };

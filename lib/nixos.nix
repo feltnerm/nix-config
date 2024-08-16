@@ -49,6 +49,7 @@ in {
         {
           # home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "nixbak";
         }
       ]
       else [];
@@ -58,13 +59,13 @@ in {
         homeManagerUser: let
           inherit (homeManagerUser) username;
           userConfig =
-            if builtins.isAttrs homeManagerUser.userConfig
+            if builtins.hasAttr "userConfig" homeManagerUser && builtins.isAttrs homeManagerUser.userConfig
             then homeManagerUser.userConfig
             else {};
           userModule =
-            if builtins.isPath homeManagerUser.userModule
+            if builtins.hasAttr "userModule" homeManagerUser && builtins.isPath homeManagerUser.userModule
             then homeManagerUser.userModule
-            else ./../home + "/${username}" + /default.nix;
+            else ./../conf/home + "/${username}" + /default.nix;
         in {
           home-manager.extraSpecialArgs = {
             inherit inputs outputs username;

@@ -5,6 +5,7 @@
 }: let
   cfg = config.feltnerm.profiles.gui;
 in {
-  config = lib.mkIf cfg.enable {
-  };
+  config =
+    lib.mkIf cfg.enable {
+    };
 }
