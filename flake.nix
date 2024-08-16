@@ -110,6 +110,37 @@
         systemConfig = {
           feltnerm = {};
         };
+        homeManagerUsers = [
+          {
+            username = "mark";
+            userConfig = {
+              feltnerm = {
+                programs = {
+                  alacitty.enable = true;
+                  firefox.enable = true;
+                  hyprland.enable = true;
+                };
+              };
+
+              config.xdg.userDirs.enable = true;
+              xdg.desktopEntries = {
+                firefox = {
+                  name = "Firefox";
+                  genericName = "Web Browser";
+                  exec = "firefox %U";
+                  terminal = false;
+                  categories = ["Application" "Network" "WebBrowser"];
+                  mimeType = [
+                    "text/html"
+                    "text/xml"
+                    "application/json"
+                    "application/pdf"
+                  ];
+                };
+              };
+            };
+          }
+        ];
       });
     };
 
@@ -134,35 +165,7 @@
       });
     };
 
-    homeConfigurations = {
-      "mark@monke" = home.mkHome {
-        username = "mark";
-        pkgs = legacyPackages."x86_64-linux";
-        userConfig = {
-          feltnerm.profiles = {
-            gui.enable = true;
-          };
-
-          config.xdg.userDirs.enable = true;
-          xdg.desktopEntries = {
-            firefox = {
-              name = "Firefox";
-              genericName = "Web Browser";
-              exec = "firefox %U";
-              terminal = false;
-              categories = ["Application" "Network" "WebBrowser"];
-              mimeType = [
-                "text/html"
-                "text/xml"
-                "application/json"
-                "application/pdf"
-              ];
-            };
-          };
-        };
-        features = [];
-      };
-    };
+    homeConfigurations = {};
 
     templates = import ./templates;
 

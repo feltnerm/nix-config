@@ -11,8 +11,13 @@
       documentation.enable = true;
 
       gui = {
-        enable = true;
+        audio.enable = true;
         fonts.enable = true;
+        greet = {
+          enable = true;
+          defaultUser = "mark";
+        };
+        hyprland.enable = true;
       };
 
       hardware = {
