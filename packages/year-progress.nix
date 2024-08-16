@@ -3,5 +3,8 @@
 in
   pkgs.writeShellApplication {
     inherit name;
+    runtimeInputs = [
+      pkgs.bc
+    ];
     text = builtins.readFile ./year-progress.sh;
   }
