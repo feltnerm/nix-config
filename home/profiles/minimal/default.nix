@@ -116,11 +116,6 @@ in {
         ripgrep
         ripgrep-all
 
-        hexyl
-        httpie
-
-        lynx
-
         # process management
         bottom
         killall
@@ -131,8 +126,14 @@ in {
         # processors
         gawk
 
+        # http
+        hexyl
+        httpie
+        lynx
+
         # networking
         curl
+        dig
         mosh
         mtr
         openssl
@@ -148,6 +149,10 @@ in {
         tree
         unrar
         unzip
+
+        # nix
+        nvd
+        nix-output-monitor
 
         # fun
         cowsay

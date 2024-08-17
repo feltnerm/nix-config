@@ -29,20 +29,9 @@ in {
     programs.dconf.enable = cfg.dconf.enable;
 
     environment.systemPackages = with pkgs; [
-      zsh
-      vim
       git
-      man
-
-      # shell utils
-      ack
-      bat
-      direnv
-      eza
-      fd
-      fpp
-      readline
-      ripgrep
+      vim
+      zsh
 
       # process management
       bottom
@@ -51,20 +40,12 @@ in {
       lsof
       #pidof
 
-      # processors
-      gawk
-      jq
-
-      # networking
       curl
-      mosh
-      mtr
-      openssl
-      prettyping
-      rsync
-      speedtest-cli
-      sshfs
       wget
+      file
+      zip
+      unzip
+      unrar
 
       # Network
       # TODO
@@ -92,22 +73,8 @@ in {
       # cpufetch
       # sbctl
 
-      # utils
-      tree
-      unrar
-      unzip
-
       # nix
       home-manager
-      nix-output-monitor
-
-      # fun
-      cowsay
-      figlet
-      fortune
-      lolcat
-      neofetch
-      toilet
     ];
   };
 }
