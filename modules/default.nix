@@ -1,0 +1,5 @@
+{generalModules, ...}: {
+  imports = [
+    "${generalModules}/nix"
+  ];
+}

@@ -1,0 +1,39 @@
+_: {
+  # use the GRUB2 bootloader
+  boot = {
+    kernelModules = ["kvm-intel"];
+    extraModulePackages = [];
+
+    initrd = {
+      availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
+      kernelModules = ["dm-snapshot"];
+    };
+
+    loader = {
+      systemd-boot = {
+        enable = true;
+        editor = false;
+      };
+      grub = {
+        enable = false;
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = false;
+        #memtest86.enable = true;
+      };
+
+      efi = {
+        canTouchEfiVariables = true;
+      };
+    };
+
+    initrd.luks.devices = {
+      cryptlvm = {
+        device = "/dev/disk/by-uuid/d3aa3dac-8702-4b08-9f4b-c7f86fb685e3";
+        fallbackToPassword = true;
+        preLVM = true;
+        allowDiscards = true;
+      };
+    };
+  };
+}
