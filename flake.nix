@@ -76,7 +76,6 @@
       };
       markbook = {
         hostname = "markbook";
-        username = "mark";
         platform = "x86_64-darwin";
       };
     };

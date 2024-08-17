@@ -17,7 +17,7 @@ in {
     nix = {
       settings = {
         auto-optimise-store = lib.mkDefault true;
-        subsituters = [];
+        substituters = [];
         trusted-public-keys = [];
         experimental-features = ["nix-command" "flakes"];
       };

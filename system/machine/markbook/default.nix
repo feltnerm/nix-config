@@ -1,10 +1,21 @@
-_: {
+{ inputs, pkgs, ... }: {
   config = {
-    feltnerm = {
-      fonts.enable = true;
-    };
+
+    programs.zsh.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      home-manager
+      neovim
+      vim
+    ];
+
+    # FIXME
+    # feltnerm = {
+    #   fonts.enable = true;
+    # };
 
     services = {
+      # TODO
       # yabai.enable = true;
       # skhd.enable = true;
     };
@@ -74,5 +85,8 @@ _: {
       # media player
       "vlc"
     ];
+
+    services.nix-daemon.enable = true;
+    system.configurationRevision = inputs.rev or inputs.dirtyRev or null;
   };
 }
