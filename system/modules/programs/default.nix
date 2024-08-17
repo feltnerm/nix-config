@@ -19,6 +19,7 @@ in {
   imports = [
     "${hostProgramModulesPath}/gnupg"
     "${hostProgramModulesPath}/home-manager"
+    "${hostProgramModulesPath}/nix-helper"
     "${hostProgramModulesPath}/xdg-portal"
   ];
 
