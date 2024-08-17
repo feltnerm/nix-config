@@ -1,0 +1,31 @@
+todo
+---
+
+The neverending, semi-updated of additions I want to make.
+
+- [ ] `builtins.readFile` all the things (ex, tmux)
+- [ ] use `config.feltnerm.profiles.developer.code.codeDir`
+- [x] use `${pkgs.bin}/bin/blah` to reference stuffs
+
+- [ ] ditch gpg (?) and re-setup crypto setup
+  - [ ] ssh keys for git signing (and everything)
+  - [ ] gpg+yubikey is a bad time
+- [ ] git shell aliases (?)
+- [x] nix tools/helpers
+  - [ ] shell aliases
+  - [ ] convention/configuration for nix-config location and rebuilding
+- [x] better vimwiki
+  - [ ] aliases
+  - [ ] journal
+  - [ ] backed-up
+- [ ] impermanence/persistence for directories in ~/
+  - [ ] code
+  - [ ] vimwiki
+  - [ ] rcloned stuffs
+  - [ ] _some_ xdg user-dirs?
+- [ ] firefox userChrome.css
+  - [ ] need to locate darwin/brew-installed profile, or use a firefox overlay
+- [ ] language profiles -- note: projects really should be using their own `default.nix`
+  - [ ] programs?
+  - [x] vim lsp and completion
+- [x] fzf-tmux ?
