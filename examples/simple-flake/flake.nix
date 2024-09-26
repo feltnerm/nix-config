@@ -68,18 +68,18 @@
             username = "test-user-02";
           }
         ];
-        homeManagerUsers = [
-          {
-            username = "test-user-03";
-            userModule = {};
-            userConfig = {
-              home = {
-                homeDirectory = "/home/test-user-03";
-              };
-              feltnerm = {};
-            };
-          }
-        ];
+        # homeManagerUsers = [
+        #   {
+        #     username = "test-user-03";
+        #     userModule = {};
+        #     userConfig = {
+        #       home = {
+        #         homeDirectory = "/home/test-user-03";
+        #       };
+        #       feltnerm = {};
+        #     };
+        #   }
+        # ];
       };
     };
 
@@ -100,18 +100,18 @@
             username = "test-user-02";
           }
         ];
-        homeManagerUsers = [
-          {
-            username = "test-user-03";
-            userModule = {};
-            userConfig = {
-              home = {
-                homeDirectory = "/Users/test-user-03";
-              };
-              feltnerm = {};
-            };
-          }
-        ];
+        # homeManagerUsers = [
+        #   {
+        #     username = "test-user-03";
+        #     userModule = {};
+        #     userConfig = {
+        #       home = {
+        #         homeDirectory = "/Users/test-user-03";
+        #       };
+        #       feltnerm = {};
+        #     };
+        #   }
+        # ];
       };
     };
   };
