@@ -1,5 +1,7 @@
 _: {
   config = {
+    system.stateVersion = 5;
+
     feltnerm = {
       gui.fonts.enable = true;
     };
