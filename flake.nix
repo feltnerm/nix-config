@@ -122,8 +122,7 @@
                 };
               };
 
-
-              wayland.windowManager.hyprland.settings.monitor="HDMI-A-2,3840x2160@30,0x0,1";
+              wayland.windowManager.hyprland.settings.monitor = "HDMI-A-2,3840x2160@30,0x0,1";
 
               xdg = {
                 userDirs.enable = true;
