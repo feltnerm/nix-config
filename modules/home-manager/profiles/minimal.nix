@@ -72,7 +72,7 @@ in {
     xdg = {
       enable = lib.mkDefault true;
       userDirs = {
-        enable = lib.mkDefault true;
+        enable = lib.mkDefault false;
         createDirectories = lib.mkDefault false;
       };
     };
