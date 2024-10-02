@@ -1,4 +1,4 @@
-{pkgs, ...}: rec {
+{pkgs}: {
   default = pkgs.neofetch;
   chuckscii = pkgs.callPackage ./chuckscii {};
   greet = pkgs.callPackage ./greet {};

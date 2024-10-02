@@ -5,8 +5,8 @@
   generalModules,
   hostname,
   platform,
-  stateVersion,
-  stateVersionDarwin,
+  stateVersion ? null,
+  stateVersionDarwin ? null,
   ...
 }: let
   inherit (pkgs.stdenv) isDarwin;
@@ -27,6 +27,6 @@ in {
     system.stateVersion = currentStateVersion;
     nixpkgs.hostPlatform = platform;
 
-    feltnerm.nix.enable = true;
+    # feltnerm.nix.enable = true;
   };
 }

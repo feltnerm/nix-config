@@ -41,13 +41,12 @@ in {
     feltnerm = {
       profiles.minimal.enable = lib.mkForce true;
 
-      programs = {
-        git.enable = lib.mkDefault true;
-        gpg.enable = lib.mkDefault true;
-        neovim = {
-          enable = lib.mkDefault true;
-          developer.enable = lib.mkDefault true;
-        };
+      nix.enableTools = true;
+      git.enable = lib.mkDefault true;
+      gpg.enable = lib.mkDefault true;
+      neovim = {
+        enable = lib.mkDefault true;
+        developer.enable = lib.mkDefault true;
       };
     };
 
@@ -57,7 +56,7 @@ in {
 
     home = {
       sessionVariables = {
-        CODE_HOME = "${config.home.homeDirectory}/code";
+        CODE_HOME = "${config.home.homeDirectory}/${cfg.codeDir}";
       };
 
       # editorconfig
@@ -133,7 +132,7 @@ in {
         fzfGitCommits
         fzfRepo
 
-        feltnerm.nix-format-feltnerm
+        # feltnerm.nix-format-feltnerm
 
         # cloud
         # awscli

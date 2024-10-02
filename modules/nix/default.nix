@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.feltnerm.nix;
@@ -10,11 +11,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.config = {
-      allowUnfree = true;
-    };
-
     nix = {
+      # package = pkgs.nixFlakes;
       settings = {
         auto-optimise-store = lib.mkDefault true;
         substituters = [];

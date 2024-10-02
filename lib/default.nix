@@ -10,6 +10,7 @@
   homeProfiles = "${homeConfiguration}/profiles";
   homeModules = "${homeConfiguration}/modules";
   hostModules = "${hostConfiguration}/modules";
+  darwinModules = "${hostConfiguration}/modules/darwin";
   generalModules = "${self}/modules";
 in {
   # create a home-manager configuration
@@ -22,10 +23,22 @@ in {
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
       extraSpecialArgs = {
-        inherit inputs self homeProfiles homeModules generalModules username hostname platform stateVersion extraConfig;
+        inherit
+          extraConfig
+          generalModules
+          homeModules
+          homeProfiles
+          hostname
+          inputs
+          platform
+          self
+          stateVersion
+          username
+          ;
 
         modules = [
           "${homeConfiguration}"
+          extraConfig
         ];
       };
     };
@@ -40,7 +53,19 @@ in {
   }:
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {
-        inherit inputs self homeProfiles homeModules hostModules generalModules hostname username platform stateVersion extraConfig;
+        inherit
+          extraConfig
+          generalModules
+          homeModules
+          homeProfiles
+          hostModules
+          hostname
+          inputs
+          platform
+          self
+          stateVersion
+          username
+          ;
       };
 
       modules = [
@@ -54,32 +79,33 @@ in {
   # create a darwin host
   mkHostDarwin = {
     hostname ? "nix-darwin",
+    username ? "mark",
     platform ? "x86_64-darwin",
     extraConfig ? {},
   }:
     inputs.darwin.lib.darwinSystem {
       specialArgs = {
         inherit
-          inputs
-          self
-          #homeModules
-          
-          hostModules
-          generalModules
-          hostname
-          #username
-          
-          platform
-          stateVersionDarwin
+          darwinModules
           extraConfig
+          generalModules
+          homeModules
+          homeProfiles
+          hostname
+          inputs
+          platform
+          self
+          stateVersion
+          stateVersionDarwin
+          username
           ;
       };
 
       modules = [
-        # inputs.home-manager.darwinModules.home-manager
+        inputs.home-manager.darwinModules.home-manager
         "${hostConfiguration}"
-        # "${homeConfiguration}"
-        # extraConfig
+        "${homeConfiguration}"
+        extraConfig
       ];
     };
 }

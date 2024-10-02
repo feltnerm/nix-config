@@ -81,6 +81,9 @@
 in {
   options.feltnerm.tmux = {
     enable = lib.mkEnableOption "tmux";
+    colors = {
+      enable = lib.mkEnableOption "colors";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -104,16 +107,19 @@ in {
       ];
     };
 
-    home.packages = lib.mkIf cfg.enableShellIntegration [
-      tmuxa
-      tmuxn
-      tmuxls
-      tmuxls-switch
+    home.packages =
+      [
+        tmuxa
+        tmuxn
+        tmuxls
+        tmuxls-switch
 
-      # TODO only for developer profile:
-      tmuxcn
-      tmuxca
-    ];
+        # TODO only for developer profile:
+      ]
+      ++ lib.optionals config.feltnerm.profiles.developer.enable [
+        tmuxcn
+        tmuxca
+      ];
 
     programs.neovim.plugins = with pkgs.vimPlugins;
       lib.mkIf config.feltnerm.neovim.enable [

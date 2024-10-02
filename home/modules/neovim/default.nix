@@ -48,14 +48,14 @@
   feltnermVimrc = builtins.readFile ./vimrc.vim;
 in {
   imports = [
-    "${homeModules}/completion"
-    "${homeModules}/developer.nix"
-    "${homeModules}/lsp"
-    "${homeModules}/telescope"
-    "${homeModules}/treesitter"
-    "${homeModules}/syntax.nix"
-    "${homeModules}/ui.nix"
-    "${homeModules}/vimwiki.nix"
+    "${homeModules}/neovim/completion"
+    "${homeModules}/neovim/developer.nix"
+    "${homeModules}/neovim/lsp"
+    "${homeModules}/neovim/telescope"
+    "${homeModules}/neovim/treesitter"
+    "${homeModules}/neovim/syntax.nix"
+    "${homeModules}/neovim/ui.nix"
+    "${homeModules}/neovim/vimwiki.nix"
   ];
 
   options.feltnerm.neovim = {

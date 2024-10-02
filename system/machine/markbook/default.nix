@@ -1,5 +1,43 @@
-{ inputs, pkgs, ... }: {
+{
+  self,
+  darwinModules,
+  hostname,
+  pkgs,
+  ...
+}: let
+  machineModules = "${self}/system/machine/${hostname}/modules";
+in {
+  imports = [
+    "${darwinModules}"
+    "${machineModules}"
+  ];
+
   config = {
+    feltnerm = {
+      darwin = {
+        enable = true;
+        fonts.enable = true;
+        homebrew.enable = true;
+        security.enable = true;
+        users.enable = true;
+      };
+      nix.enable = true;
+
+      # docs.enable = true;
+      # environment.enable = true;
+      # FIXME
+      # fonts.enable = true;
+      #locale.enable = true;
+
+      # programs = {
+      #   enable = true;
+      #   gnupg.enable = true;
+      #   hm.enable = true;
+      # };
+
+      #security.enable = true;
+      #users.enable = true;
+    };
 
     programs.zsh.enable = true;
 
@@ -8,11 +46,6 @@
       neovim
       vim
     ];
-
-    # FIXME
-    # feltnerm = {
-    #   fonts.enable = true;
-    # };
 
     services = {
       # TODO
@@ -85,8 +118,5 @@
       # media player
       "vlc"
     ];
-
-    services.nix-daemon.enable = true;
-    system.configurationRevision = inputs.rev or inputs.dirtyRev or null;
   };
 }

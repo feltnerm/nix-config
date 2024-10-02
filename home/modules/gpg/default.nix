@@ -27,7 +27,7 @@ in {
 
     services.gpg-agent = {
       # FIXME
-      enable = true;
+      enable = lib.mkDefault true;
       enableSshSupport = true;
       enableExtraSocket = true;
       defaultCacheTtl = 60;

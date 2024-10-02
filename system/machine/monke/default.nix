@@ -1,6 +1,5 @@
 {
   self,
-  config,
   hostModules,
   hostname,
   ...
@@ -33,6 +32,8 @@ in {
         enable = true;
         interfaces = ["wlp2s0"];
       };
+
+      nix.enable = true;
 
       programs = {
         enable = true;

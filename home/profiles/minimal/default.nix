@@ -6,6 +6,10 @@
 }: let
   cfg = config.feltnerm.profiles.minimal;
 in {
+  options.feltnerm.profiles.minimal = {
+    enable = lib.mkEnableOption "minimal";
+  };
+
   config = lib.mkIf cfg.enable {
     feltnerm = {
       fzf.enable = true;
@@ -71,7 +75,7 @@ in {
       enable = lib.mkDefault true;
       userDirs = {
         enable = lib.mkDefault true;
-        createDirectories = lib.mkDefault false;
+        createDirectories = true;
       };
     };
 
@@ -85,16 +89,6 @@ in {
         rm = "rm -ir";
         weather = "${pkgs.curl}/bin/curl wttr.in";
         oracow = "${pkgs.fortune}/bin/fortune | ${pkgs.cowsay}/bin/cowsay";
-
-        # nix aliases
-        n = "${pkgs.nix}/bin/nix";
-        nd = "${pkgs.nix}/bin/nix develop -c $SHELL";
-        ndc = "${pkgs.nix}/bin/nix develop -c";
-        ns = "${pkgs.nix}/bin/nix shell";
-        nsn = "${pkgs.nix}/bin/nix shell nixpkgs#";
-        nb = "${pkgs.nix}/bin/nix build";
-        nbn = "${pkgs.nix}/bin/nix build nixpkgs#";
-        nf = "${pkgs.nix}/bin/nix flake";
       };
 
       # don't display login message
@@ -150,9 +144,7 @@ in {
         unrar
         unzip
 
-        # nix
-        nvd
-        nix-output-monitor
+        home-manager
 
         # fun
         cowsay
@@ -163,10 +155,10 @@ in {
         toilet
 
         # my scripts and packages
-        feltnerm.chuckscii
-        feltnerm.greet
-        feltnerm.screensaver
-        feltnerm.year-progress
+        # feltnerm.chuckscii
+        # feltnerm.greet
+        # feltnerm.screensaver
+        # feltnerm.year-progress
       ];
     };
   };

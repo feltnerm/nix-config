@@ -1,5 +1,10 @@
-{ lib, config, username, ...}: let
-  cfg = config.module.programs.nh;
+{
+  lib,
+  config,
+  username,
+  ...
+}: let
+  cfg = config.feltnerm.programs.nh;
 in {
   options.feltnerm.programs.nh.enable = lib.mkEnableOption "nix-helper";
 

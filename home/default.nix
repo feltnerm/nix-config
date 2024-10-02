@@ -23,7 +23,7 @@
     else if isRoot
     then "/root"
     else "/home/${username}";
-  userConfigurationPath = "${self}/home/users/${username}";
+  userConfigurationPath = "${self}/home/user/${username}";
   userConfigurationPathExist = builtins.pathExists userConfigurationPath;
 in {
   home-manager = {
@@ -31,18 +31,25 @@ in {
     useUserPackages = true;
 
     extraSpecialArgs = {
-      inherit inputs self homeProfiles homeModules generalModules hostname username platform;
+      inherit inputs self homeProfiles homeModules generalModules hostname username stateVersion platform;
     };
 
     users.${username} = {
-      programs.home-manager.enable = true;
+      imports =
+        [
+          "${generalModules}"
+          "${homeModules}"
+          "${homeProfiles}"
+        ]
+        ++ lib.optional userConfigurationPathExist userConfigurationPath;
 
-      imports = lib.optional userConfigurationPathExist userConfigurationPath;
-
-      home = {
-        inherit username;
-        inherit stateVersion;
-        inherit homeDirectory;
+      config = {
+        programs.home-manager.enable = true;
+        home = {
+          inherit username;
+          inherit stateVersion;
+          inherit homeDirectory;
+        };
       };
     };
   };

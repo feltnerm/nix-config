@@ -17,10 +17,11 @@ in {
       # mutableUsers = false; # FIXME use immutable users
       users = {
         ${username} = {
+          inherit (cfg) shell;
+
           uid = 1000;
           isNormalUser = true;
           description = "${username}";
-          inherit (cfg) shell;
           createHome = true;
           home = "/home/${username}";
           initialPassword = "spanky"; # FIXME used hashed passwords
