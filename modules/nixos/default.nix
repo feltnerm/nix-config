@@ -3,9 +3,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm;
-in {
+in
+{
   imports = [
     ../common.nix
     ../system.nix
@@ -20,7 +22,7 @@ in {
   config = {
     environment = {
       # environment variables
-      sessionVariables = {};
+      sessionVariables = { };
     };
 
     nix = {

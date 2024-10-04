@@ -1,7 +1,8 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   name = "chuckscii";
 in
-  pkgs.writeShellApplication {
-    inherit name;
-    text = builtins.readFile ./chuckscii.sh;
-  }
+pkgs.writeShellApplication {
+  inherit name;
+  text = builtins.readFile ./chuckscii.sh;
+}

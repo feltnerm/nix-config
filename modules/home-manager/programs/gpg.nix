@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.gpg;
 
   # TODO add switch for GUI pinentry
@@ -11,7 +12,8 @@
     package = pkgs.pinentry-curses;
     name = "curses";
   };
-in {
+in
+{
   options.feltnerm.programs.gpg = {
     enable = lib.mkOption {
       description = "Enable GPG";
@@ -25,7 +27,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [pinentry.package];
+    home.packages = [ pinentry.package ];
 
     programs.gpg = {
       enable = true;
@@ -40,7 +42,7 @@ in {
       defaultCacheTtl = 60;
       maxCacheTtl = 120;
       pinentryPackage = pinentry.package;
-      sshKeys = [cfg.pubKey];
+      sshKeys = [ cfg.pubKey ];
     };
 
     #programs.git.extraConfig.user.signgingKey = cfg.pubKey;

@@ -8,7 +8,8 @@
 # - list of users -> lookup keys
 let
   cfg = config.feltnerm.services.openssh;
-in {
+in
+{
   options.feltnerm.services.openssh = {
     enable = lib.mkOption {
       description = "Enable OpenSSH server.";

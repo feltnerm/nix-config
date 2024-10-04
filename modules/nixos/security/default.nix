@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.security;
-in {
+in
+{
   options.feltnerm.security = {
     enable = lib.mkOption {
       description = "Enable lightweight, sane security defaults.";
@@ -14,8 +16,14 @@ in {
 
   config = lib.mkIf cfg.enable {
     # Enable root and sudo access to `nix`
-    nix.settings.allowed-users = ["root" "@wheel"];
-    nix.settings.trusted-users = ["root" "@wheel"];
+    nix.settings.allowed-users = [
+      "root"
+      "@wheel"
+    ];
+    nix.settings.trusted-users = [
+      "root"
+      "@wheel"
+    ];
     security = {
       # rtkit.enable = true;
       # apparmor = {
@@ -37,7 +45,7 @@ in {
             commands = [
               {
                 command = "/run/current-system/sw/bin/nixos-rebuild";
-                options = ["NOPASSWD"];
+                options = [ "NOPASSWD" ];
               }
             ];
           }

@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.tmux;
 
   alacrittyEnabled = config.programs.alacritty.enable;
@@ -15,21 +16,14 @@
 
   # equivalent to `set -ag terminal-overrides ",alacritty:RGB"`
   terminalOverrides = [
-    (
-      if alacrittyEnabled
-      then "alacritty:RGB"
-      else ""
-    )
+    (if alacrittyEnabled then "alacritty:RGB" else "")
     "xterm-256color:RGB"
   ];
 
   # default-shell
   defaultShell = null;
 
-  shell =
-    if config.programs.zsh.enable
-    then "${pkgs.zsh}/bin/zsh"
-    else defaultShell;
+  shell = if config.programs.zsh.enable then "${pkgs.zsh}/bin/zsh" else defaultShell;
 
   # https://github.com/alacritty/alacritty/issues/109
   trueColorFix = ''
@@ -40,46 +34,51 @@
 
   tmuxn = pkgs.writeShellApplication {
     name = "tmuxn";
-    runtimeInputs = [pkgs.tmux];
+    runtimeInputs = [ pkgs.tmux ];
     text = builtins.readFile ./tmuxn.sh;
   };
 
   tmuxa = pkgs.writeShellApplication {
     name = "tmuxa";
-    runtimeInputs = [pkgs.tmux];
+    runtimeInputs = [ pkgs.tmux ];
     text = builtins.readFile ./tmuxa.sh;
   };
 
   tmuxcn = pkgs.writeShellApplication {
     name = "tmuxcn";
-    runtimeInputs = [pkgs.tmux];
+    runtimeInputs = [ pkgs.tmux ];
     text = builtins.readFile ./tmuxn-repo.sh;
   };
 
   tmuxca = pkgs.writeShellApplication {
     name = "tmuxca";
-    runtimeInputs = [pkgs.tmux];
+    runtimeInputs = [ pkgs.tmux ];
     text = builtins.readFile ./tmuxa-repo.sh;
   };
 
   # not sure if needed
   tmuxls = pkgs.writeShellApplication {
     name = "tmuxls";
-    runtimeInputs = [pkgs.tmux pkgs.fzf];
+    runtimeInputs = [
+      pkgs.tmux
+      pkgs.fzf
+    ];
     text = builtins.readFile ./tmuxls.sh;
   };
 
   tmuxls-switch = pkgs.writeShellApplication {
     name = "tmuxls-switch";
-    runtimeInputs = [tmuxls tmuxa pkgs.tmux];
+    runtimeInputs = [
+      tmuxls
+      tmuxa
+      pkgs.tmux
+    ];
     text = builtins.readFile ./tmuxls-switch.sh;
   };
 
-  extraConfig =
-    if cfg.colors.enable
-    then trueColorFix + colorScheme
-    else "";
-in {
+  extraConfig = if cfg.colors.enable then trueColorFix + colorScheme else "";
+in
+{
   options.feltnerm.programs.tmux = {
     enable = lib.mkOption {
       description = "Enable tmux.";
@@ -132,7 +131,8 @@ in {
       (lib.mkIf config.feltnerm.profiles.developer.code.enable tmuxca)
     ];
 
-    programs.neovim.plugins = with pkgs.vimPlugins;
+    programs.neovim.plugins =
+      with pkgs.vimPlugins;
       lib.mkIf config.feltnerm.programs.neovim.enable [
         tmuxline-vim
       ];

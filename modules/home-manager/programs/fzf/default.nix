@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.fzf;
 
   # TODO use fzf-tmux
@@ -12,7 +13,10 @@
   # livegrep in files
   fzfFiles = pkgs.writeShellApplication {
     name = "fzf-files";
-    runtimeInputs = [pkgs.fzf pkgs.bat];
+    runtimeInputs = [
+      pkgs.fzf
+      pkgs.bat
+    ];
     text = builtins.readFile ./fzf-files.sh;
   };
 
@@ -22,7 +26,8 @@
       vim -- $(fzf-files "$1")
     }
   '';
-in {
+in
+{
   options.feltnerm.programs.fzf = {
     enable = lib.mkOption {
       description = "Enable fzf and some shell helpers.";

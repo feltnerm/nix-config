@@ -3,9 +3,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.hyprland;
-in {
+in
+{
   options.feltnerm.programs.hyprland = {
     enable = lib.mkOption {
       description = "Enable hyprland";

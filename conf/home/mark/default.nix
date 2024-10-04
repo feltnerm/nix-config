@@ -1,14 +1,15 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   config = {
     home = {
       stateVersion = "22.05";
       homeDirectory = lib.mkDefault "/home/mark";
 
       # extra packages
-      packages = [];
+      packages = [ ];
 
       # extra directories to add to $PATH
-      sessionPath = [];
+      sessionPath = [ ];
 
       # extra environment variables
       sessionVariables = {
@@ -21,7 +22,7 @@
     programs = {
       keychain = {
         enable = true;
-        keys = ["id_ed25519_sk"];
+        keys = [ "id_ed25519_sk" ];
       };
     };
 
@@ -39,7 +40,7 @@
         neovim.vimwiki = {
           enable = true;
           wikis = {
-            "feltnerm" = {};
+            "feltnerm" = { };
           };
         };
 

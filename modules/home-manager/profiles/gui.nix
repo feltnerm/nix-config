@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.profiles.gui;
-in {
+in
+{
   config =
-    lib.mkIf cfg.enable {
-    };
+    lib.mkIf cfg.enable
+      {
+      };
 }

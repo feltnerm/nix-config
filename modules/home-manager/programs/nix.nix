@@ -3,14 +3,16 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.nix;
 
   extraPackages = with pkgs; [
     nix-health
     nix-tree
   ];
-in {
+in
+{
   options.feltnerm.programs.nix = {
     enable = lib.mkOption {
       description = "Enable the install of extra nix tools";
@@ -19,9 +21,6 @@ in {
   };
 
   config = {
-    home.packages =
-      if cfg.enable
-      then extraPackages
-      else [];
+    home.packages = if cfg.enable then extraPackages else [ ];
   };
 }

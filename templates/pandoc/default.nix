@@ -7,7 +7,10 @@ stdenv.mkDerivation {
   pname = "foo-bar";
   version = "0.1.0";
   src = ./.;
-  buildInputs = [pandoc texlive.combined.scheme-small];
+  buildInputs = [
+    pandoc
+    texlive.combined.scheme-small
+  ];
   buildPhase = ''
     shopt -s globstar
     pandoc src/**/*.md -o document.pdf

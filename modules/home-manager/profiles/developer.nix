@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.profiles.developer;
 
   # quick search for a repo and `cd` to its directory
@@ -16,17 +17,25 @@
   # grep git commits
   fzfGitCommits = pkgs.writeShellApplication {
     name = "fzf-git-commits";
-    runtimeInputs = [pkgs.fzf pkgs.git pkgs.diff-so-fancy];
+    runtimeInputs = [
+      pkgs.fzf
+      pkgs.git
+      pkgs.diff-so-fancy
+    ];
     text = "git log --oneline | fzf --multi --preview 'git show {+1} | diff-so-fancy --color'";
   };
 
   # search for my repos
   fzfRepo = pkgs.writeShellApplication {
     name = "fzf-repo";
-    runtimeInputs = [pkgs.fzf pkgs.eza];
+    runtimeInputs = [
+      pkgs.fzf
+      pkgs.eza
+    ];
     text = builtins.readFile ./fzf-repo.sh;
   };
-in {
+in
+{
   options.feltnerm.profiles.developer.code = {
     enable = lib.mkOption {
       description = "Enable the $CODE directory.";
@@ -108,7 +117,7 @@ in {
         surfraw
 
         # file browsers
-        mc #midnight commander
+        mc # midnight commander
         ncdu_1 # FIXME once zig is stable
         ranger
         nnn

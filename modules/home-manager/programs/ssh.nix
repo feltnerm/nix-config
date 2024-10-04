@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.ssh;
-in {
+in
+{
   options.feltnerm.programs.ssh = {
     enable = lib.mkOption {
       description = "Enable SSH";

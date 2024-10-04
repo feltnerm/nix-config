@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.neovim.syntax;
 
   syntaxPlugins = with pkgs.vimPlugins; [
@@ -13,7 +14,8 @@
     vim-nix
     vim-toml
   ];
-in {
+in
+{
   options.feltnerm.programs.neovim.syntax = {
     enable = lib.mkOption {
       description = "Enable extra neovim syntaxes.";

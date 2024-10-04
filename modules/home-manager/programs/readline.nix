@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.readline;
-in {
+in
+{
   options.feltnerm.programs.readline = {
     enable = lib.mkOption {
       description = "Enable custom readline.";

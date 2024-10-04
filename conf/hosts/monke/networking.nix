@@ -2,7 +2,9 @@ _: {
   networking = {
     hostName = "monke";
     networkmanager.enable = true;
-    firewall = {enable = false;};
+    firewall = {
+      enable = false;
+    };
 
     # only have WiFi, for now
     useDHCP = false;

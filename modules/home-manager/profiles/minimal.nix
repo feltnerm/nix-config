@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.profiles.minimal;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     feltnerm = {
       programs = {

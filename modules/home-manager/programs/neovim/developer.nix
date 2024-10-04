@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.neovim.developer;
-in {
+in
+{
   options.feltnerm.programs.neovim.developer = {
     enable = lib.mkOption {
       description = "Enable developer-ey config/programs for neovim.";
