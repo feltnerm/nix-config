@@ -1,9 +1,12 @@
-{pkgs ? import <nixpkgs> {}, ...}:
+{
+  pkgs ? import <nixpkgs> { },
+  ...
+}:
 pkgs.mkShell {
   packages = with pkgs; [
     git
 
-    alejandra # nix linter
+    nixfmt-rfc-style # nix linter
     deadnix # remove unused code
     home-manager # home-manager
     niv # nix dependency mgmt

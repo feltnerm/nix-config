@@ -26,7 +26,7 @@ jobs:
       run: nix develop --command bash -c echo OK
 
     - name: Check style
-      run: nix develop --command alejandra --check .
+      run: nix develop --command nixfmt -c .
 
     - name: Lint
       run: nix develop --command statix check .
