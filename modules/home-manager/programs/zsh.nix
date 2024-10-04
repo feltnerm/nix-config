@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.zsh;
-in {
+in
+{
   options.feltnerm.programs.zsh = {
     enable = lib.mkOption {
       description = "Enable zsh";
@@ -53,7 +55,7 @@ in {
 
       zplug = {
         enable = false;
-        plugins = [];
+        plugins = [ ];
       };
 
       # added to the top of .zshrc

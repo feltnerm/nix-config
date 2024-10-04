@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.networking;
-in {
+in
+{
   options.feltnerm.networking = {
     enableNetworkManager = lib.mkOption {
       description = "Enable Network Manager";
@@ -24,27 +26,29 @@ in {
     interfaces = lib.mkOption {
       description = "List of networking interfaces to enable";
       type = with lib.types; listOf str;
-      default = [];
+      default = [ ];
     };
   };
 
-  config = let
-    networkCfg =
-      builtins.listToAttrs
-      (map
-        (n: {
+  config =
+    let
+      networkCfg = builtins.listToAttrs (
+        map (n: {
           name = "${n}";
-          value = {useDHCP = true;};
-        })
-        cfg.interfaces);
-  in {
-    networking = {
-      networkmanager.enable = cfg.enableNetworkManager;
-      firewall = {
-        enable = cfg.enableFirewall;
+          value = {
+            useDHCP = true;
+          };
+        }) cfg.interfaces
+      );
+    in
+    {
+      networking = {
+        networkmanager.enable = cfg.enableNetworkManager;
+        firewall = {
+          enable = cfg.enableFirewall;
+        };
+        useDHCP = !cfg.preferExplicitNetworkAccess;
+        interfaces = networkCfg;
       };
-      useDHCP = !cfg.preferExplicitNetworkAccess;
-      interfaces = networkCfg;
     };
-  };
 }

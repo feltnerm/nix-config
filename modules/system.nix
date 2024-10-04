@@ -6,19 +6,21 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm;
-in {
+in
+{
   # nix
   options.feltnerm.nix = {
     allowedUsers = lib.mkOption {
       description = "Users to give access to nix to.";
-      default = [];
+      default = [ ];
     };
 
     trustedUsers = lib.mkOption {
       description = "Users to give enhanced access to nix to.";
-      default = [];
+      default = [ ];
     };
   };
 
@@ -43,7 +45,10 @@ in {
         auto-optimise-store = lib.mkDefault false;
 
         # enable nix flake support
-        experimental-features = ["nix-command" "flakes"];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
 
         # allow other users to user and/or manage nix
         trusted-users = cfg.nix.trustedUsers;
@@ -62,9 +67,15 @@ in {
 
     # shared environment settings
     environment = {
-      pathsToLink = ["/share/bash-completion" "/share/zsh"];
+      pathsToLink = [
+        "/share/bash-completion"
+        "/share/zsh"
+      ];
 
-      shells = [pkgs.zsh pkgs.bashInteractive];
+      shells = [
+        pkgs.zsh
+        pkgs.bashInteractive
+      ];
 
       # TODO system and/or home-manager packages?
       systemPackages = with pkgs; [

@@ -2,14 +2,19 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.hardware.cpu;
-in {
+in
+{
   options.feltnerm.hardware.cpu = {
     enableMicrocode = lib.mkEnableOption "Enable CPU microcode updates";
     vendor = lib.mkOption {
       description = "CPU vendor";
-      type = lib.types.enum ["intel" "amd"];
+      type = lib.types.enum [
+        "intel"
+        "amd"
+      ];
     };
   };
 

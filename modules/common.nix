@@ -1,6 +1,7 @@
 ## common configuration options shared between all modules
-{lib, ...}: {
-  imports = [./nixpkgs.nix];
+{ lib, ... }:
+{
+  imports = [ ./nixpkgs.nix ];
   options.feltnerm = {
     # docs
     documentation = {
@@ -47,6 +48,9 @@
 
   config = {
     # Enable nix flakes
-    nix.settings.experimental-features = ["nix-command" "flakes"];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 }

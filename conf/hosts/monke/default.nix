@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   imports = [
     ./hardware-configuration.nix
     ./boot.nix
@@ -33,7 +34,7 @@
       networking = {
         enableNetworkManager = true;
         preferExplicitNetworkAccess = true;
-        interfaces = ["wlp2s0"];
+        interfaces = [ "wlp2s0" ];
       };
 
       security = {

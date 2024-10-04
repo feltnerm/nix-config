@@ -3,12 +3,14 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.neovim.completion;
 
   nvimCmpConfig = builtins.readFile ./nvim-cmp.lua;
 
-  cmpPlugins = with pkgs.vimPlugins;
+  cmpPlugins =
+    with pkgs.vimPlugins;
     [
       cmp-buffer
       cmp-nvim-tags
@@ -23,12 +25,9 @@
         config = nvimCmpConfig;
       }
     ]
-    ++ (
-      if config.feltnerm.programs.neovim.vimwiki.enable
-      then [cmp-vimwiki-tags]
-      else []
-    );
-in {
+    ++ (if config.feltnerm.programs.neovim.vimwiki.enable then [ cmp-vimwiki-tags ] else [ ]);
+in
+{
   options.feltnerm.programs.neovim.completion = {
     enable = lib.mkOption {
       description = "Enable neovim code completion.";

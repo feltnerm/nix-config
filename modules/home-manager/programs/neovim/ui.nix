@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.neovim.ui;
 
   uiPlugins = with pkgs.vimPlugins; [
@@ -41,7 +42,8 @@
     vista-vim
     vim-devicons # load last
   ];
-in {
+in
+{
   options.feltnerm.programs.neovim.ui = {
     enable = lib.mkOption {
       description = "Enable neovim UI.";
@@ -73,40 +75,43 @@ in {
   };
 
   config = {
-    programs.neovim.plugins = lib.mkIf cfg.enable (uiPlugins
+    programs.neovim.plugins = lib.mkIf cfg.enable (
+      uiPlugins
       ++ (
-        if cfg.startify.enable
-        then [
-          {
-            plugin = pkgs.vimPlugins.vim-startify;
-            #type = "lua";
-            config = ''
-                function! s:gitModified()
-                  let files = systemlist('git ls-files -m 2>/dev/null')
-                  return map(files, "{'line': v:val, 'path': v:val}")
-              endfunction
-
-                " same as above, but show untracked files, honouring .gitignore
-                function! s:gitUntracked()
-                    let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+        if cfg.startify.enable then
+          [
+            {
+              plugin = pkgs.vimPlugins.vim-startify;
+              #type = "lua";
+              config = ''
+                  function! s:gitModified()
+                    let files = systemlist('git ls-files -m 2>/dev/null')
                     return map(files, "{'line': v:val, 'path': v:val}")
                 endfunction
 
-                let g:startify_lists = [
-                        \ { 'type': 'files',     'header': ['   MRU']            },
-                        \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-                        \ { 'type': 'sessions',  'header': ['   Sessions']       },
-                        \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-                        \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
-                        \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
-                        \ { 'type': 'commands',  'header': ['   Commands']       },
-                        \ ]
+                  " same as above, but show untracked files, honouring .gitignore
+                  function! s:gitUntracked()
+                      let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+                      return map(files, "{'line': v:val, 'path': v:val}")
+                  endfunction
 
-                  ${cfg.startify.extraConfig}
-            '';
-          }
-        ]
-        else []
-      ));
+                  let g:startify_lists = [
+                          \ { 'type': 'files',     'header': ['   MRU']            },
+                          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+                          \ { 'type': 'sessions',  'header': ['   Sessions']       },
+                          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+                          \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+                          \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+                          \ { 'type': 'commands',  'header': ['   Commands']       },
+                          \ ]
+
+                    ${cfg.startify.extraConfig}
+              '';
+            }
+          ]
+        else
+          [ ]
+      )
+    );
   };
 }

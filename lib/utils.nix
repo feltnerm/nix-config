@@ -1,8 +1,10 @@
-{inputs, ...}: let
+{ inputs, ... }:
+let
   inherit (inputs) nixpkgs;
   inherit (nixpkgs.lib) genAttrs;
   inherit (builtins) elemAt match;
-in rec {
+in
+rec {
   getUsername = string: elemAt (match "(.*)@(.*)" string) 0;
   getHostname = string: elemAt (match "(.*)@(.*)" string) 1;
 

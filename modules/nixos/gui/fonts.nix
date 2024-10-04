@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.gui.fonts;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     fonts = {
       packages = with pkgs; [
@@ -33,9 +35,15 @@ in {
             "Iosevka Nerd Font"
             "Noto Color Emoji"
           ];
-          sansSerif = ["Iosevka Nerd Font" "Noto Color Emoji"];
-          serif = ["Iosevka Nerd Font" "Noto Color Emoji"];
-          emoji = ["Noto Color Emoji"];
+          sansSerif = [
+            "Iosevka Nerd Font"
+            "Noto Color Emoji"
+          ];
+          serif = [
+            "Iosevka Nerd Font"
+            "Noto Color Emoji"
+          ];
+          emoji = [ "Noto Color Emoji" ];
         };
       };
     };

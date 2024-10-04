@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.neovim.lsp;
 
   nvimLspConfig = builtins.readFile ./nvim-lsp.lua;
@@ -31,7 +32,8 @@
       config = nvimLspConfig;
     }
   ];
-in {
+in
+{
   options.feltnerm.programs.neovim.lsp = {
     enable = lib.mkOption {
       description = "Enable LSP servers for neovim.";

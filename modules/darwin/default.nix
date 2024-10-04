@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm;
-in {
+in
+{
   imports = [
     ../common.nix
     ../system.nix
@@ -38,10 +40,10 @@ in {
     };
 
     nix = {
-      gc = {};
+      gc = { };
       settings = {
         # Give admins enhanced nix privs
-        trusted-users = ["@admin"];
+        trusted-users = [ "@admin" ];
       };
     };
 
@@ -180,8 +182,9 @@ in {
         "homebrew/services"
       ];
 
-      brews = [
-      ];
+      brews =
+        [
+        ];
 
       casks = [
         # fonts

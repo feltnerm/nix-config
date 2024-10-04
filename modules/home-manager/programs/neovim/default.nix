@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.neovim;
 
   defaultVimPlugins = with pkgs.vimPlugins; [
@@ -45,8 +46,18 @@
   ];
 
   feltnermVimrc = builtins.readFile ./vimrc.vim;
-in {
-  imports = [./completion ./developer.nix ./lsp ./telescope ./treesitter ./syntax.nix ./ui.nix ./vimwiki.nix];
+in
+{
+  imports = [
+    ./completion
+    ./developer.nix
+    ./lsp
+    ./telescope
+    ./treesitter
+    ./syntax.nix
+    ./ui.nix
+    ./vimwiki.nix
+  ];
 
   options.feltnerm.programs.neovim = {
     enable = lib.mkOption {

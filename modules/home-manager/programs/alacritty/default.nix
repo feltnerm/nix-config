@@ -3,10 +3,12 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.programs.alacritty;
-  #theme = ./base16-gruvbox-dark-soft-256.yml;
-in {
+in
+#theme = ./base16-gruvbox-dark-soft-256.yml;
+{
   options.feltnerm.programs.alacritty = {
     enable = lib.mkOption {
       description = "Enable alacritty GUI terminal.";

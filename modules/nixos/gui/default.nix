@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.gui;
-in {
+in
+{
   imports = [
     ./fonts.nix
   ];
@@ -55,7 +57,7 @@ in {
     (lib.mkIf cfg.hyprland.enable {
       programs.hyprland.enable = true;
 
-      security.pam.services.swaylock = {};
+      security.pam.services.swaylock = { };
       security.polkit.enable = true;
       services.gnome.gnome-keyring.enable = true;
 

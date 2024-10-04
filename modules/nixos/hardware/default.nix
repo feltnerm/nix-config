@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.feltnerm.hardware;
-in {
+in
+{
   imports = [
     ./cpu.nix
     ./ssd.nix
