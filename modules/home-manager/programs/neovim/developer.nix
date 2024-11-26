@@ -81,8 +81,6 @@ in
           yarn-berry
 
           luajitPackages.luarocks
-
-          nodePackages_latest.neovim
         ];
 
         withNodeJs = true;
