@@ -4,22 +4,115 @@ the official feltnerm [nix](https://nixos.org/) config
 
 ## Development
 
-#### Update and Commit Lockfile
+### Development Shell
+
+```shell
+nix develop
+```
+
+### Update and Commit Lockfile
 
 ```shell
 nix flake update --commit-lock-file
 ```
 
-#### Check
+### Check
 
 ```shell
 nix flake check
 ```
 
-#### Format
+### Format
 
 ```shell
 nix fmt
+```
+
+### Build Documentation
+
+(may not work on macOS)
+
+```shell
+nix build .#documentation
+```
+
+or
+```shell
+nix build .#watch-documentation
+```
+
+## Hosts
+
+### nixos
+
+```shell
+nixos-rebuild --flake '.#<hostname> <check|build|switch>'
+```
+
+### darwin
+
+```shell
+darwin-rebuild --flake '.#<hostname> <check|build|switch>'
+```
+
+### build vm
+
+Uses [nixos-generators](https://github.com/nix-community/nixos-generators).
+
+```shell
+nix build .#nixosConfigurations.<hostName>.config.formats.<format>
+```
+
+### generate topology diagram
+
+Uses [nix-topology](https://oddlama.github.io/nix-topology).
+
+#### Linux
+
+```shell
+nix build .#topology.x86_64-linux.config.output
+```
+
+#### macOS
+
+```shell
+nix build .#topology.x86_64-darwin.config.output
+```
+
+## home-manager
+
+```shell
+home-manager --flake '.#<username> <build|switch>'
+```
+
+## nixvim
+
+```shell
+nix run .# -- <file>
+```
+
+```shell
+nix run .#<name>-nvim -- <file>
+```
+
+## Packages
+
+My (somewhat) useful custom nix packages are defined in `./pkgs`.
+
+### build
+
+Locally, build them with:
+
+```shell
+nix build .#<pkg>
+```
+
+### run
+
+Subsequently, run them with:
+
+```shell
+./result/bin/<pkg>
 ```
 
 ---
