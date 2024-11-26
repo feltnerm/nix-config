@@ -26,6 +26,8 @@ nix fmt
 
 ## Inspiration
 
+[![Test](https://github.com/feltnerm/nixos-config/actions/workflows/checks.yml/badge.svg)](https://github.com/feltnerm/nixos-config/actions/workflows/checks.yml)
+
 <small>
 Inspired by the following (and many others!):
 

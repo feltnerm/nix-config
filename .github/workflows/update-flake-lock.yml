@@ -1,0 +1,23 @@
+name: update-flake-lock
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule:
+    - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/update-flake-lock@main
+        with:
+          token: ${{ secrets.GH_TOKEN_FLAKE_UPDATES }}
+          pr-title: "chore(flake.lock): scheduled update"
+          pr-labels: |
+            dependencies
+            automated
+          git-author-name: 'feltnermbot'
+          git-author-email: 'github-actions[bot]@users.noreply.github.com'
+          git-committer-name: 'feltnerm-action-bot'
+          git-committer-email: 'github-actions[bot]@users.noreply.github.com'
