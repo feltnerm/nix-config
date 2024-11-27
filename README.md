@@ -4,6 +4,12 @@ the official feltnerm [nix](https://nixos.org/) config
 
 ## Development
 
+#### Development Shell
+
+```shell
+nix develop
+```
+
 #### Update and Commit Lockfile
 
 ```shell

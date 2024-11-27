@@ -46,11 +46,15 @@
           {
           };
 
-        systems = [ "x86_64-darwin" "x86_64-linux" ];
+        systems = [
+          "x86_64-darwin"
+          "x86_64-linux"
+        ];
 
         perSystem =
           { pkgs, ... }:
           {
+            devShells.default = import ./shell.nix { inherit pkgs; };
             packages = import ./pkgs { inherit pkgs; };
             treefmt = {
               programs = {
