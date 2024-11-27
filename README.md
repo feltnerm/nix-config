@@ -22,6 +22,26 @@ nix flake check
 nix fmt
 ```
 
+#### Packages
+
+My (somewhat) useful custom nix packages are defined in `./pkgs`.
+
+###### build
+
+Locally, build them with:
+
+```shell
+nix build .#<pkg>
+```
+
+###### run
+
+Subsequently, run them with:
+
+```shell
+./result/bin/<pkg>
+```
+
 ---
 
 ## Inspiration

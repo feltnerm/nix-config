@@ -48,18 +48,21 @@
 
         systems = [ "x86_64-darwin" "x86_64-linux" ];
 
-        perSystem = _: {
-          treefmt = {
-            programs = {
-              deadnix.enable = true;
-              statix.enable = true;
-              nixfmt.enable = true;
-              mdsh.enable = true;
-              shfmt.enable = true;
-              shellcheck.enable = true;
+        perSystem =
+          { pkgs, ... }:
+          {
+            packages = import ./pkgs { inherit pkgs; };
+            treefmt = {
+              programs = {
+                deadnix.enable = true;
+                statix.enable = true;
+                nixfmt.enable = true;
+                mdsh.enable = true;
+                shfmt.enable = true;
+                shellcheck.enable = true;
+              };
             };
           };
-        };
       }
     );
 }
