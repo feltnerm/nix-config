@@ -14,15 +14,10 @@ in
         # sans fonts
         comic-neue
         source-sans
-
-        (nerdfonts.override {
-          fonts = [
-            "Hack"
-            "IBMPlexMono"
-            "Iosevka"
-            "JetBrainsMono"
-          ];
-        })
+        nerd-fonts.hack
+        nerd-fonts.blex-mono
+        nerd-fonts.iosevka
+        nerd-fonts.jetbrains-mono
       ];
 
       enableDefaultPackages = lib.mkDefault true;
