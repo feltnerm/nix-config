@@ -3,6 +3,7 @@ _: {
   fileSystems = {
     "/boot" = {
       label = "MONKEBOOT";
+      fsType = "vfat";
       options = [
         "noatime"
         "nodiratime"
@@ -12,6 +13,7 @@ _: {
 
     "/" = {
       label = "NIXROOT";
+      fsType = "ext4";
       options = [
         "noatime"
         "nodiratime"
@@ -21,6 +23,7 @@ _: {
 
     "/home" = {
       label = "MONKEHOME";
+      fsType = "ext4";
       options = [
         "noatime"
         "nodiratime"

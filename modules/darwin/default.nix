@@ -27,15 +27,10 @@ in
         # sans fonts
         comic-neue
         source-sans
-
-        (nerdfonts.override {
-          fonts = [
-            "Hack"
-            "IBMPlexMono"
-            "Iosevka"
-            "JetBrainsMono"
-          ];
-        })
+        nerd-fonts.hack
+        nerd-fonts.blex-mono
+        nerd-fonts.iosevka
+        nerd-fonts.jetbrains-mono
       ];
     };
 
@@ -45,10 +40,6 @@ in
         # Give admins enhanced nix privs
         trusted-users = [ "@admin" ];
       };
-    };
-
-    services = {
-      nix-daemon.enable = true;
     };
 
     # enable Touch ID sudo authentication
@@ -182,9 +173,8 @@ in
         "homebrew/services"
       ];
 
-      brews =
-        [
-        ];
+      brews = [
+      ];
 
       casks = [
         # fonts
