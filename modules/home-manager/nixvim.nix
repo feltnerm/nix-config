@@ -12,6 +12,11 @@
     #  colorscheme = lib.mkDefault config.feltnerm.theme;
     #};
 
+    globals = {
+      mapleader = lib.mkDefault " ";
+      maplocalleader = lib.mkDefault " ";
+    };
+
     opts = {
       fileencoding = "utf-8";
 
@@ -38,9 +43,9 @@
       };
       # more = true;
 
-      tabstop = 4;
-      shiftwidth = 4;
-      softtabstop = 4;
+      tabstop = 2;
+      shiftwidth = 2;
+      softtabstop = 2;
       expandtab = true;
       joinspaces = false;
 
@@ -90,10 +95,10 @@
       backspace = "eol,start,indent";
     };
     keymaps = [
-      {
-        key = "<Space>";
-        action = "<NOP>";
-      }
+      # {
+      #   key = "<Space>";
+      #   action = "<NOP>";
+      # }
       # {
       #     key = "qq";
       #     action = "<NOP>";
@@ -264,6 +269,7 @@
       which-key.enable = lib.mkDefault true;
       yanky.enable = lib.mkDefault true;
       hop.enable = lib.mkDefault true;
+      wrapping.enable = lib.mkDefault true;
 
       # git
       fugitive.enable = lib.mkDefault true;
@@ -274,8 +280,105 @@
       lualine.enable = lib.mkDefault true;
       luasnip.enable = lib.mkDefault true;
       neo-tree.enable = lib.mkDefault true;
-      telescope.enable = lib.mkDefault true;
       web-devicons.enable = lib.mkDefault true;
+      todo-comments.enable = lib.mkDefault true;
+
+      blink-cmp = {
+        enable = lib.mkDefault true;
+        settings = {
+          keymap.preset = lib.mkDefault "super-tab";
+          signature.enabled = lib.mkDefault true;
+          completion = {
+            documentation.auto_show = lib.mkDefault true;
+            accept.auto_brackets = {
+              enabled = lib.mkDefault true;
+              semantic_token_resolution.enabled = lib.mkDefault true;
+            };
+          };
+        };
+      };
+
+      lsp = {
+        enable = lib.mkDefault true;
+        keymaps = {
+          diagnostic = {
+            "<leader>ce" = "open_float";
+            "<leader>j" = "goto_next";
+            "<leader>k" = "goto_prev";
+            "<leader>q" = "setloclist";
+          };
+          lspBuf = {
+            K = "hover";
+            gD = "references";
+            #gD = "declaration";
+            gd = "definition";
+            gi = "implementation";
+            gt = "type_definition";
+            n = "signature_help";
+            f = "format";
+
+            ca = "code_action";
+            cr = "rename";
+          };
+          extra = [
+            {
+              action = "<cmd>LspStop<Enter>";
+              key = "<leader>lx";
+              options = {
+                desc = "stop the lsp";
+              };
+            }
+            {
+              action = "<cmd>LspStart<Enter>";
+              key = "<leader>ls";
+              options = {
+                desc = "start the lsp";
+              };
+            }
+            {
+              action = "<cmd>LspRestart<Enter>";
+              key = "<leader>lr";
+              options = {
+                desc = "restart the lsp";
+              };
+            }
+          ];
+        };
+      };
+
+      telescope = {
+        enable = lib.mkDefault true;
+        keymaps = {
+          "<leader>p" = "live_grep";
+          "<leader>pp" = "current_buffer_fuzzy_find";
+          "<leader>pf" = "find_files";
+          "<leader>pb" = "buffers";
+          "<leader>n" = "tags";
+          "<leader>pbt" = "current_buffer_tags";
+          "<leader>phc" = "command_history";
+          "<leader>phs" = "search_history";
+          "<leader>phh" = "help_tags";
+          "<leader>pq" = "quickfix";
+
+          # git
+          "<leader>pg" = "git_files";
+          "<leader>pgc" = "git_commits";
+          "<leader>pgbc" = "git_bcommits";
+          "<leader>pgs" = "git_status";
+          "<leader>pgb" = "git_branches";
+          "<leader>ctt" = "treesitter";
+
+          # lsp
+          "<leader>cr" = "lsp_references";
+          "<leader>cci" = "lsp_incoming_calls";
+          "<leader>cco" = "lsp_outgoing_calls";
+          "<leader>cs" = "lsp_document_symbols";
+          "<leader>cws" = "lsp_workspace_symbols";
+          "<leader>ci" = "lsp_implementations";
+          "<leader>cd" = "lsp_definitions";
+          "<leader>ct" = "lsp_type_definitions";
+        };
+      };
 
       conform-nvim = {
         enable = lib.mkDefault true;
@@ -293,7 +396,15 @@
         };
       };
 
+      markview.enable = lib.mkDefault true;
+
       # treesitter
+      treesitter-context = {
+        enable = lib.mkDefault true;
+        settings = {
+          max_lines = 2;
+        };
+      };
       treesitter = {
         enable = lib.mkDefault true;
         settings = {
@@ -324,14 +435,6 @@
       # })
       # ];
       # plugins = {
-
-      # # completion
-      # # blink-cmp-dictionary.enable = true;
-      # # blink-cmp-git.enable = true;
-      # # blink-cmp-spell.enable = true;
-      # # blink-compat.enable = true;
-      # # blink-emoji.enable = true;
-      # # blink-ripgrep.enable = true;
     };
   };
 }

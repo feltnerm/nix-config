@@ -68,6 +68,12 @@ in
         userName = cfg.git.username;
         userEmail = cfg.git.email;
       };
+
+      nixvim = {
+        plugins = {
+          dap.enable = lib.mkDefault true;
+        };
+      };
     };
 
     editorconfig = {
@@ -86,6 +92,13 @@ in
         "Makefile" = {
           "indent_style" = "tab";
         };
+      };
+    };
+
+    programs.nixvim = {
+      plugins = {
+        project-nvim.enable = lib.mkDefault true;
+        rest.enable = true;
       };
     };
 
