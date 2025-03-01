@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   ...
@@ -127,6 +128,21 @@
     # AppleFontSmoothing = null;
     # CustomSystemPreferences = {};
     # CustomUserPreferences = {};
+  };
+
+  # allow nix to manage fonts
+  fonts = {
+    packages = with pkgs; [
+      # sans fonts
+      comic-neue
+      source-sans
+
+      # monospace
+      nerd-fonts.hack
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.iosevka
+      nerd-fonts.blex-mono
+    ];
   };
 
   homebrew = lib.mkIf config.homebrew.enable {
