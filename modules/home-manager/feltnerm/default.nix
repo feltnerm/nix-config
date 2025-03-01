@@ -52,7 +52,11 @@ in
     programs = {
       bat.enable = lib.mkDefault true;
       dircolors.enable = lib.mkDefault true;
-      eza.enable = lib.mkDefault true;
+      eza = {
+        enable = lib.mkDefault true;
+        icons = lib.mkDefault "auto";
+        git = lib.mkDefault true;
+      };
       fzf.enable = lib.mkDefault true;
       git.enable = lib.mkDefault true;
       gpg.enable = lib.mkDefault true;
