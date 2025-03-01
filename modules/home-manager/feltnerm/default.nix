@@ -49,8 +49,16 @@ in
       };
     };
 
+    services.yubikey-agent.enable = true;
+
     programs = {
       bat.enable = lib.mkDefault true;
+      btop = {
+        enable = lib.mkDefault true;
+        settings = {
+          vim_keys = true;
+        };
+      };
       dircolors.enable = lib.mkDefault true;
       eza = {
         enable = lib.mkDefault true;
@@ -58,6 +66,7 @@ in
         git = lib.mkDefault true;
       };
       fzf.enable = lib.mkDefault true;
+      gh.enable = lib.mkDefault true;
       git.enable = lib.mkDefault true;
       gpg.enable = lib.mkDefault true;
       home-manager.enable = lib.mkDefault true;
@@ -71,11 +80,17 @@ in
       ripgrep.enable = lib.mkDefault true;
       ssh.enable = lib.mkDefault true;
       tmux.enable = lib.mkDefault true;
+      #wezterm.enable = lib.mkDefault true;
+      yazi.enable = lib.mkDefault true;
       zsh.enable = lib.mkDefault true;
 
       atuin = {
         enable = lib.mkDefault true;
         settings = {
+          invert = true;
+          inline_height = 36;
+          search_mode = "skim";
+          style = "compact";
           enter_accept = false; # do not immediately execute a command
           filter_mode_shell_up_key_binding = "directory"; # up-arrow searches current dir if it is a .git directory
           keymap_mode = "vim-normal";
@@ -168,6 +183,7 @@ in
         # pkgs.rsync
         pkgs.speedtest-cli
         pkgs.sshfs
+        pkgs.trippy
         pkgs.wget
 
         # http
@@ -187,6 +203,15 @@ in
         pkgs.unrar
         pkgs.unzip
 
+        # pdf
+        pkgs.poppler
+
+        # history
+        pkgs.zoxide
+
+        # image tools
+        pkgs.imagemagick
+
         # yubikey
         #pkgs.yubikey
         #pkgs.yubikey-agent
@@ -200,8 +225,6 @@ in
         pkgs.lolcat
         pkgs.neofetch
         pkgs.toilet
-
-        # fun 2
         pkgs.ascii-image-converter
         pkgs.asciinema
         pkgs.nyancat
