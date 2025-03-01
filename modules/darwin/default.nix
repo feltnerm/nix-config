@@ -25,7 +25,10 @@
   # enable Touch ID sudo authentication
   security.pam.services.sudo_local.touchIdAuth = lib.mkDefault true;
 
-  system.keyboard.remapCapsLockToEscape = lib.mkDefault true;
+  system.keyboard = {
+    enableKeyMapping = lib.mkDefault true;
+    remapCapsLockToEscape = lib.mkDefault true;
+  };
   system.defaults = {
     # GlobalPreferences.com.apple = {
     #   # disable mouse acceleration
@@ -77,7 +80,6 @@
       DisableConsoleAccess = lib.mkDefault true;
       GuestEnabled = lib.mkDefault false;
     };
-
 
     NSGlobalDomain = {
       # 24-hour clock
