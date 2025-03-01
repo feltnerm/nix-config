@@ -1,6 +1,9 @@
 the official feltnerm [nix](https://nixos.org/) config
 ----
-[![Test](https://github.com/feltnerm/nixos-config/actions/workflows/checks.yml/badge.svg)](https://github.com/feltnerm/nixos-config/actions/workflows/checks.yml)
+
+[![checks](https://github.com/feltnerm/nix-config/actions/workflows/checks.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/checks.yml)
+
+[![update-flake-lock](https://github.com/feltnerm/nix-config/actions/workflows/update-flake-lock.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/update-flake-lock.yml)
 
 ## Development
 
