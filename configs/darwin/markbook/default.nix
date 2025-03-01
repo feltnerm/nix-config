@@ -15,9 +15,6 @@
       # TODO replace with yabai
       "amethyst"
 
-      # stop from sleeping
-      "caffeine"
-
       # e-book manager
       "calibre"
 
@@ -39,24 +36,16 @@
       # screen recorder and broadcaster
       "obs"
 
-      # remote fs gui
-      "cyberduck"
-
       # For Java
       "intellij-idea-ce"
 
-      # sql gui
-      "sequel-ace"
-
       # VPN
-      "tunnelblick"
-      "private-internet-access"
+      #"private-internet-access"
 
       # it's meh, but good visual editor
       "visual-studio-code"
 
       # VM mgmt
-      "vagrant"
       "virtualbox"
 
       # media player
