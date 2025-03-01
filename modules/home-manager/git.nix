@@ -141,9 +141,7 @@ in
 
     programs.git = {
       userName = lib.mkDefault config.home.username;
-      diff-so-fancy = {
-        enable = lib.mkDefault true;
-      };
+      difftastic.enable = lib.mkDefault true;
       ignores = gitIgnores;
       aliases = {
         br = "branch";

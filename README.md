@@ -31,19 +31,6 @@ nix flake check
 nix fmt
 ```
 
-### Build Documentation
-
-(may not work on macOS)
-
-```shell
-nix build .#documentation
-```
-
-or
-```shell
-nix build .#watch-documentation
-```
-
 ## Hosts
 
 ### nixos
