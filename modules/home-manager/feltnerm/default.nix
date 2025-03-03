@@ -23,33 +23,18 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    stylix = lib.mkIf config.stylix.enable {
+    services.yubikey-agent.enable = true;
+
+    stylix = {
       base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
       polarity = lib.mkDefault "dark";
       fonts = {
-        serif = {
-          package = pkgs.dejavu_fonts;
-          name = "DejaVu Serif";
-        };
-
-        sansSerif = {
-          package = pkgs.dejavu_fonts;
-          name = "DejaVu Sans";
-        };
-
         monospace = {
           package = pkgs.nerd-fonts.jetbrains-mono;
           name = "JetBrainsMono Nerd Font Mono";
         };
-
-        emoji = {
-          package = pkgs.noto-fonts-emoji;
-          name = "Noto Color Emoji";
-        };
       };
     };
-
-    services.yubikey-agent.enable = true;
 
     programs = {
       bat.enable = lib.mkDefault true;
