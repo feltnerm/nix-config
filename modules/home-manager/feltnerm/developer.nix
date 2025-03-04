@@ -72,6 +72,8 @@ in
       nixvim = {
         plugins = {
           dap.enable = lib.mkDefault true;
+          project-nvim.enable = lib.mkDefault true;
+          rest.enable = lib.mkDefault true;
         };
       };
     };
@@ -92,13 +94,6 @@ in
         "Makefile" = {
           "indent_style" = "tab";
         };
-      };
-    };
-
-    programs.nixvim = {
-      plugins = {
-        project-nvim.enable = lib.mkDefault true;
-        rest.enable = true;
       };
     };
 
