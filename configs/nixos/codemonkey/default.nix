@@ -1,10 +1,29 @@
-{ inputs, lib, ... }:
+{ config, inputs, lib, ... }:
 {
   imports = [ inputs.disko.nixosModules.disko ];
 
   config = {
+    networking.hostId = "30292576";
+
     system.stateVersion = "25.05";
-    hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
+
+    hardware.enableRedistributableFirmware = true;
+    hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+    boot.initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "nvme"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "sr_mod"
+    ];
+    boot.initrd.kernelModules = [ ];
+    boot.kernelModules = [ "kvm-intel" ];
+    boot.extraModulePackages = [ ];
+
+    nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     # SSD support
     boot.kernel.sysctl = {
