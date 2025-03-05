@@ -6,29 +6,13 @@
 {
   config = lib.mkIf config.programs.zsh.enable {
     programs.zsh = {
-      autosuggestion.enable = lib.mkDefault true;
       enableCompletion = lib.mkDefault true;
       enableVteIntegration = lib.mkDefault true; # allow terminal to track current directory
       autocd = lib.mkDefault true; # automatically enter a directory when typed
-      #defaultKeymap = "vicmd";
-      #completionInit = ''
-      #  autoload -U compint
-      #  zstyle ":completion:*" menu select
-      #  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      #  zmodload zsh/complist
-      #  compinit
-      #  _comp_options+=(globdots)
+      defaultKeymap = lib.mkDefault "viins";
 
-      #  bindkey -M menuselect 'h' vi-backward-char
-      #  bindkey -M menuselect 'k' vi-up-line-or-history
-      #  bindkey -M menuselect 'l' vi-forward-char
-      #  bindkey -M menuselect 'j' vi-down-line-or-history
-      #  bindkey -v '^?' backward-delete-char
-      #'';
-
-      syntaxHighlighting = {
-        enable = lib.mkDefault true;
-      };
+      autosuggestion.enable = lib.mkDefault true;
+      syntaxHighlighting.enable = lib.mkDefault true;
 
       history = {
         extended = lib.mkDefault true;
@@ -45,20 +29,17 @@
         plugins = [ ];
       };
 
-      # added to the top of .zshrc
-      initExtraFirst = "";
-
       # added to .zshrc
-      initExtra = lib.mkDefault ''
-        autoload edit-command-line; zle -N edit-command-line
-        bindkey '^e' edit-command-line
+      initExtra = ''
+        autoload edit-command-line
+        zle -N edit-command-line
+        bindkey "^X^E" edit-command-line
+        #bindkey -M vicmd '^e' edit-command-line
+        #bindkey -M vicmd ' ' edit-command-line
 
         bindkey -v
         export KEYTIMEOUT=1
       '';
-
-      #added to .zprofile
-      profileExtra = lib.mkDefault "";
     };
   };
 }
