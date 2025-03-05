@@ -104,7 +104,6 @@
       };
       zpool = {
         zroot = {
-          #mountpoint = "/";
           type = "zpool";
           options.cachefile = "none";
           rootFsOptions = {
@@ -137,7 +136,6 @@
         };
 
         zdata = {
-          mountpoint = "/data";
           type = "zpool";
           mode = "mirror";
           options.cachefile = "none";
