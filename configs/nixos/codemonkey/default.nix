@@ -40,7 +40,7 @@
     # { boot.kernelParams = [ "elevator=none" ]; }
 
     # boot loader
-    boot.loader.grub.device = "/dev/nvme0n1/";
+    boot.loader.systemd-boot.enable = true;
     disko.devices = {
       disk = {
         main = {
@@ -64,38 +64,6 @@
                 content = {
                   type = "zfs";
                   pool = "zroot";
-                };
-              };
-            };
-          };
-        };
-        sda = {
-          device = "/dev/sda";
-          type = "disk";
-          content = {
-            type = "gpt";
-            partitions = {
-              zfs = {
-                size = "100%";
-                content = {
-                  type = "zfs";
-                  pool = "zdata";
-                };
-              };
-            };
-          };
-        };
-        sdb = {
-          device = "/dev/sdb";
-          type = "disk";
-          content = {
-            type = "gpt";
-            partitions = {
-              zfs = {
-                size = "100%";
-                content = {
-                  type = "zfs";
-                  pool = "zdata";
                 };
               };
             };
@@ -130,29 +98,6 @@
             "safe/persist" = {
               type = "zfs_fs";
               mountpoint = "/persist";
-              options."com.sun:auto-snapshot" = "true";
-            };
-          };
-        };
-
-        zdata = {
-          type = "zpool";
-          mode = "mirror";
-          options.cachefile = "none";
-          rootFsOptions = {
-            compression = "zstd";
-            "com.sun:auto-snapshot" = "false";
-          };
-          postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zdata@blank$' || zfs snapshot zdata@blank";
-
-          datasets = {
-            "local/data" = {
-              type = "zfs_fs";
-              mountpoint = "/data";
-            };
-            "safe/data/persist" = {
-              type = "zfs_fs";
-              mountpoint = "/data/persist";
               options."com.sun:auto-snapshot" = "true";
             };
           };
