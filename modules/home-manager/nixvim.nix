@@ -95,17 +95,6 @@
       backspace = "eol,start,indent";
     };
     keymaps = [
-      # {
-      #   key = "<Space>";
-      #   action = "<NOP>";
-      # }
-      # {
-      #     key = "qq";
-      #     action = "<NOP>";
-      #     options = {
-      #         desc = "disable recording when I spaz out";
-      #     };
-      # }
       {
         key = "<esc>";
         action = "<cmd>noh<CR>";
@@ -259,6 +248,13 @@
           desc = "no help";
         };
       }
+      {
+        key = "<leader>d";
+        action = "<CMD>Neotree toggle<CR>";
+        options = {
+          desc = "toggle neotree";
+        };
+      }
     ];
     plugins = {
       direnv.enable = lib.mkDefault true;
@@ -266,7 +262,6 @@
       nvim-surround.enable = lib.mkDefault true;
       auto-save.enable = lib.mkDefault true;
       repeat.enable = lib.mkDefault true;
-      which-key.enable = lib.mkDefault true;
       yanky.enable = lib.mkDefault true;
       hop.enable = lib.mkDefault true;
       wrapping.enable = lib.mkDefault true;
@@ -279,9 +274,14 @@
       # ui
       lualine.enable = lib.mkDefault true;
       luasnip.enable = lib.mkDefault true;
-      neo-tree.enable = lib.mkDefault true;
+      neo-tree = {
+        enable = lib.mkDefault true;
+        filesystem.followCurrentFile.enabled = lib.mkDefault true;
+      };
       web-devicons.enable = lib.mkDefault true;
       todo-comments.enable = lib.mkDefault true;
+      oil.enable = lib.mkDefault true;
+      markview.enable = lib.mkDefault true;
 
       blink-cmp = {
         enable = lib.mkDefault true;
@@ -349,34 +349,162 @@
       telescope = {
         enable = lib.mkDefault true;
         keymaps = {
-          "<leader>p" = "live_grep";
-          "<leader>pp" = "current_buffer_fuzzy_find";
-          "<leader>pf" = "find_files";
-          "<leader>pb" = "buffers";
-          "<leader>n" = "tags";
-          "<leader>pbt" = "current_buffer_tags";
-          "<leader>phc" = "command_history";
-          "<leader>phs" = "search_history";
-          "<leader>phh" = "help_tags";
-          "<leader>pq" = "quickfix";
+          # grep
+          "<leader>p" = {
+            action = "live_grep";
+            options = {
+              desc = "find in file";
+            };
+          };
+          "<leader>pp" = {
+            action = "current_buffer_fuzzy_find";
+            options = {
+              desc = "find in buffer";
+            };
+          };
+
+          # files
+          "<leader>f" = {
+            action = "find_files";
+            options = {
+              desc = "find file";
+            };
+          };
+
+          # buffers
+          "<leader>b" = {
+            action = "find buffer";
+            options = {
+              desc = "find buffer";
+            };
+          };
+          "<leader>bt" = {
+            action = "current_buffer_tags";
+            options = {
+              desc = "find buffer tag";
+            };
+          };
+
+          "<leader>n" = {
+            action = "tags";
+            options = {
+              desc = "find tag";
+            };
+          };
+          "<leader>q" = {
+            action = "quickfix";
+            options = {
+              desc = "find quickfix";
+            };
+          };
+
+          # history
+          "<leader>phc" = {
+            action = "command_history";
+            options = {
+              desc = "find command history";
+            };
+          };
+          "<leader>phs" = {
+            action = "search_history";
+            options = {
+              desc = "find search history";
+            };
+          };
+          "<leader>phh" = {
+            action = "help_tags";
+            options = {
+              desc = "find help tag";
+            };
+          };
 
           # git
-          "<leader>pg" = "git_files";
-          "<leader>pgc" = "git_commits";
-          "<leader>pgbc" = "git_bcommits";
-          "<leader>pgs" = "git_status";
-          "<leader>pgb" = "git_branches";
-          "<leader>ctt" = "treesitter";
+          "<leader>g" = {
+            action = "git_files";
+            options = {
+              desc = "find git file";
+            };
+          };
+          "<leader>gc" = {
+            action = "git_commits";
+            options = {
+              desc = "find git commit";
+            };
+          };
+          "<leader>gbc" = {
+            action = "git_bcommits";
+            options = {
+              desc = "find git bcommits";
+            };
+          };
+          "<leader>gb" = {
+            action = "git_branches";
+            options = {
+              desc = "find git branches";
+            };
+          };
+          "<leader>gs" = {
+            action = "git_status";
+            options = {
+              desc = "find git status";
+            };
+          };
+          "<leader>ctt" = {
+            action = "treesitter";
+            options = {
+              desc = "find treesitter";
+            };
+          };
 
           # lsp
-          "<leader>cr" = "lsp_references";
-          "<leader>cci" = "lsp_incoming_calls";
-          "<leader>cco" = "lsp_outgoing_calls";
-          "<leader>cs" = "lsp_document_symbols";
-          "<leader>cws" = "lsp_workspace_symbols";
-          "<leader>ci" = "lsp_implementations";
-          "<leader>cd" = "lsp_definitions";
-          "<leader>ct" = "lsp_type_definitions";
+          "<leader>cr" = {
+            action = "lsp_references";
+            options = {
+              desc = "code references";
+            };
+          };
+          "<leader>cci" = {
+            action = "lsp_incoming_calls";
+            options = {
+              desc = "code incoming calls";
+            };
+          };
+          "<leader>cco" = {
+            action = "lsp_outgoing_calls";
+            options = {
+              desc = "code outgoing calls";
+            };
+          };
+          "<leader>cs" = {
+            action = "lsp_document_symbols";
+            options = {
+              desc = "code document symbols";
+            };
+          };
+          "<leader>cws" = {
+            action = "lsp_workspace_symbols";
+            options = {
+              desc = "code workspace symbols";
+            };
+          };
+          "<leader>ci" = {
+            action = "lsp_implementations";
+            options = {
+              desc = "code implementations";
+            };
+          };
+          "<leader>cd" = {
+            action = "lsp_definitions";
+            options = {
+              desc = "code definitions";
+            };
+          };
+          "<leader>ct" = {
+            action = "lsp_type_definitions";
+            options = {
+              desc = "code type definitions";
+            };
+          };
         };
       };
 
@@ -395,8 +523,6 @@
           };
         };
       };
-
-      markview.enable = lib.mkDefault true;
 
       # treesitter
       treesitter-context = {
@@ -426,6 +552,39 @@
           xml
           yaml
         ];
+      };
+
+      which-key = {
+        enable = lib.mkDefault true;
+        settings = {
+          replace = {
+            desc = [
+              [
+                "<space>"
+                "SPACE"
+              ]
+              [
+                "<leader>"
+                "SPACE"
+              ]
+              [
+                "<[cC][rR]>"
+                "RETURN"
+              ]
+              [
+                "<[tT][aA][bB]>"
+                "TAB"
+              ]
+              [
+                "<[bB][sS]>"
+                "BACKSPACE"
+              ]
+            ];
+          };
+          win = {
+            border = "single";
+          };
+        };
       };
       # autoCmd = [
       # # Remove trailing whitespace on save
