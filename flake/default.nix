@@ -31,6 +31,22 @@
           modules = [ ../configs/nixos/codemonkey ];
           users = {
             mark = {
+              modules = [
+                {
+                  extraGroups = [
+                    "wheel"
+                    "audio"
+                    "disk"
+                    "input"
+                    "network"
+                    "networkmanager"
+                    "systemd-journal"
+                    "video"
+                  ];
+                  initialHashedPassword = "$6$2NK82jaDKvjvsrCb$ob7K1mkNsBKy75a4aB5kzNFtQt1QSvlRTPeLlLwAkgPfp2eAgIfLds147MflimRdbHP8ErNoOkG9pUMFNoKua0
+";
+                }
+              ];
               home = {
                 modules = [
                   ../configs/home/mark
