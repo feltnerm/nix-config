@@ -100,6 +100,13 @@ let
             }) hostConfig.users;
           }
 
+          # user modules
+          {
+            users.users = builtins.mapAttrs (_username: userConf: _: {
+              imports = userConf.modules;
+            }) hostConfig.users;
+          }
+
           # home-manager
           inputs.home-manager.nixosModules.home-manager
           {
