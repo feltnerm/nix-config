@@ -246,14 +246,13 @@
     }
   ];
   plugins = {
-    direnv.enable = lib.mkDefault true;
-    commentary.enable = lib.mkDefault true;
-    nvim-surround.enable = lib.mkDefault true;
     auto-save.enable = lib.mkDefault true;
-    repeat.enable = lib.mkDefault true;
-    which-key.enable = lib.mkDefault true;
-    yanky.enable = lib.mkDefault true;
+    commentary.enable = lib.mkDefault true;
+    direnv.enable = lib.mkDefault true;
     hop.enable = lib.mkDefault true;
+    nvim-surround.enable = lib.mkDefault true;
+    repeat.enable = lib.mkDefault true;
+    yanky.enable = lib.mkDefault true;
 
     # git
     fugitive.enable = lib.mkDefault true;
