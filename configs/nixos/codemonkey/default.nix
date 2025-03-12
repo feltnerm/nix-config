@@ -9,6 +9,7 @@
 
   config = {
     networking.hostId = "30292576";
+    networking.networkmanager.enable = true;
 
     system.stateVersion = "25.05";
 
