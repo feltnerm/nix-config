@@ -28,25 +28,30 @@
         };
         listener = [
           {
+            # lower brightness
             timeout = 150;
             on-timeout = "brightnessctl -s set 10";
             on-resume = "brightnessctl -r";
           }
           {
+            # turn off keyboard backlight
             timeout = 150;
             on-timeout = "brightnessctl -sd rgb:kbd_backlight set 0";
             on-resume = "brightnessctl -sd rgb:kbd_backlight";
           }
           {
+            # lock screen
             timeout = 300;
             on-timeout = "loginctl lock-session";
           }
           {
+            # turn monitor off
             timeout = 300;
             on-timeout = "hyprctl dispatch dpms off";
             on-resume = "hyprctl dispatch dpms on";
           }
           {
+            # suspend OS
             timeout = 1800;
             on-timeout = "systemctl suspend";
           }
@@ -68,15 +73,16 @@
     services.mako.enable = lib.mkDefault true;
     wayland.windowManager.hyprland = {
       settings = {
+        # variables
+        "$terminal" = "ghostty";
+        "$mainMod" = "super";
+
         "exec-once" = [
           "systemctl --user start hyprpolkitagent"
           "swww-daemon"
           "hyprsunset"
-          # "hyprlock"
-          # "hypridle"
         ];
-        "$terminal" = "ghostty";
-        "$mainMod" = "super";
+
         # mouse binds
         "bindm" = [
 
@@ -87,19 +93,19 @@
         # repeatable
         "binde" = [
           # resize window
-          "$mainMod shift, h, resizeactive,-50 0"
-          "$mainMod shift, j, resizeactive,0 50"
-          "$mainMod shift, k, resizeactive,0 -50"
-          "$mainMod shift, l, resizeactive,50 0"
+          "$mainMod shift, h, resizeactive, -50 0"
+          "$mainMod shift, j, resizeactive, 0 50"
+          "$mainMod shift, k, resizeactive, 0 -50"
+          "$mainMod shift, l, resizeactive, 50 0"
         ];
         "bind" = [
           "ctrl alt, delete, exec, uwsm stop"
           "CTRL ALT, L, exec, hyprlock" # screen lock
           "CTRL ALT, P, exec, " # poweroff
 
-          "$mainMod, m, fullscreen,1"
-          "$mainMod, f, fullscreen,0"
-          "$mainMod shift, f, fullscreenstate,0 2"
+          "$mainMod, m, fullscreen, 1"
+          "$mainMod, f, fullscreen, 0"
+          "$mainMod shift, f, fullscreenstate, 0 2"
           "$mainMod ctrl, f, togglefloating"
           "$mainMod ctrl, c, centerwindow"
           "$mainMod ctrl, p, pin"
@@ -117,7 +123,7 @@
           "$mainMod ctrl, l, movewindow, r"
 
           # swap windows
-          "$mainMod ctrl, m, layoutmsg, focusmaster master"
+          "alt, m, layoutmsg, focusmaster master"
           "$mainMod alt, m, layoutmsg, swapwithmaster master"
           "$mainMod alt, h, swapwindow, l"
           "$mainMod alt, j, swapwindow, d"
@@ -128,16 +134,7 @@
           "alt, tab, cyclenext"
           "alt, tab, bringactivetotop"
 
-          # layout
-          # "$mainMod ctrl, d, layoutmsg, removemaster"
-          # "$mainMod ctrl, i, layoutmsg, addmaster"
-          # "$mainMod ctrl, j, layoutmsg, cyclenext"
-          # "$mainMod ctrl, k, layoutmsg, cycleprev"
-          # "$mainMod ctrl, return, layoutmsg, swapwithmaster"
-
           # workspace
-          # "$mainMod, tab, workspace, m+1"
-          # "$mainMod shift, tab, workspace, m-1"
           "$mainMod, 1, workspace,1"
           "alt shift, 1, movetoworkspace,1"
           "$mainMod shift, 1, movetoworkspacesilent,1"
@@ -153,8 +150,6 @@
           "$mainMod, 5, workspace,5"
           "alt shift, 5, movetoworkspace,5"
           "$mainMod shift, 5, movetoworkspacesilent,5"
-          # "$mainMod SHIFT, U, movetoworkspace, special"
-          # "$mainMod U, togglespecialworkspace,"
 
           # mouse
           "$mainMod, mouse_down, workspace, e+1"
@@ -171,10 +166,10 @@
           # custom keybinds and launchers
           "$mainMod, return, exec, uwsm app -- $terminal"
           "$mainMod, escape, exec, uwsm app -- nwg-bar"
-          "$mainMod, space, exec, uwsm app -- ghostty -e $(tofi-run)"
+          "$mainMod, space, exec, uwsm app -- $terminal -e $(tofi-run)"
           "$mainMod shift, space, exec, uwsm app -- $(tofi-drun)"
 
-          "$mainMod, d, exec, uwsm app -- ghostty -e yazi"
+          "$mainMod, d, exec, uwsm app -- $terminal -e yazi"
         ];
       };
     };
