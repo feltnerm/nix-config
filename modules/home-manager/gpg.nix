@@ -15,12 +15,9 @@ in
   config = lib.mkIf config.programs.gpg.enable {
     home.packages = [ pinentry.package ];
 
-    programs.gpg = {
-      #homedir = "${config.xdg.dataHome}/gnupg";
-    };
+    programs.gpg = { };
 
     services.gpg-agent = {
-      # FIXME
       enable = lib.mkDefault true;
       enableSshSupport = lib.mkDefault true;
       enableExtraSocket = lib.mkDefault true;

@@ -1,4 +1,5 @@
 {
+  lib,
   ...
 }:
 {
@@ -32,24 +33,13 @@
           users = {
             mark = {
               modules = [
-                {
-                  extraGroups = [
-                    "wheel"
-                    "audio"
-                    "disk"
-                    "input"
-                    "network"
-                    "networkmanager"
-                    "systemd-journal"
-                    "video"
-                  ];
-                  initialHashedPassword = "$6$2NK82jaDKvjvsrCb$ob7K1mkNsBKy75a4aB5kzNFtQt1QSvlRTPeLlLwAkgPfp2eAgIfLds147MflimRdbHP8ErNoOkG9pUMFNoKua0";
-                }
+                ../configs/nixos/codemonkey/user/mark.nix
               ];
               home = {
                 modules = [
                   ../configs/home/mark
-                  # ./configs/home/mark/gui.nix
+                  ../configs/nixos/codemonkey/home/mark.nix
+                  { feltnerm.theme = lib.mkForce "catppuccin-mocha"; }
                 ];
               };
             };
