@@ -57,6 +57,7 @@ in
       home-manager.enable = lib.mkDefault true;
       htop.enable = lib.mkDefault true;
       info.enable = lib.mkDefault true;
+      jujutsu.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
       keychain.enable = lib.mkDefault true;
       nixvim.enable = lib.mkDefault true;

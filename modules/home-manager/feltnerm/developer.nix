@@ -69,6 +69,13 @@ in
         userEmail = cfg.git.email;
       };
 
+      jujutsu = lib.mkIf config.programs.jujutsu.enable {
+        settings = {
+          name = cfg.git.username;
+          inherit (cfg.git) email;
+        };
+      };
+
       nixvim = {
         plugins = {
           dap.enable = lib.mkDefault true;
