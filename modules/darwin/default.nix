@@ -178,7 +178,7 @@
     yabai = lib.mkIf config.services.yabai.enable {
       config = {
         focus_follows_mouse = "off";
-        mouse_follows_focus = "on";
+        mouse_follows_focus = "off";
         mouse_modifier = "alt";
         mouse_action1 = "move";
         mouse_action2 = "resize";
