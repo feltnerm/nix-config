@@ -124,7 +124,9 @@ in
       g = "git";
     };
 
-    home.packages = [ pkgs.git-quick-stats ];
+    home.packages = [
+      pkgs.git-quick-stats
+    ];
 
     # persist ssh sessions to github for a short while
     programs.ssh = lib.mkIf config.programs.ssh.enable {

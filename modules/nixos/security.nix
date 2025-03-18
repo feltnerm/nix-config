@@ -13,7 +13,7 @@
     "@wheel"
   ];
   security = {
-    # rtkit.enable = true;
+    rtkit.enable = true;
     # apparmor = {
     #   enable = true;
     #   killUnconfinedConfinables = true;
