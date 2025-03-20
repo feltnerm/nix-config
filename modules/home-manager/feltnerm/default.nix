@@ -72,6 +72,7 @@ in
 
       atuin = {
         enable = lib.mkDefault true;
+        daemon.enable = lib.mkDefault true;
         settings = {
           invert = true;
           inline_height = 36;
