@@ -1,4 +1,5 @@
 {
+  lib,
   ...
 }:
 {
@@ -31,10 +32,14 @@
           modules = [ ../configs/nixos/codemonkey ];
           users = {
             mark = {
+              modules = [
+                ../configs/nixos/codemonkey/user/mark.nix
+              ];
               home = {
                 modules = [
                   ../configs/home/mark
-                  # ./configs/home/mark/gui.nix
+                  ../configs/nixos/codemonkey/home/mark.nix
+                  { feltnerm.theme = lib.mkForce "catppuccin-mocha"; }
                 ];
               };
             };

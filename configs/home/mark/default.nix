@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   ...
 }:
 {
@@ -11,7 +12,7 @@
   config = {
     feltnerm = {
       enable = true;
-      theme = "gruvbox-dark-hard";
+      theme = lib.mkDefault "gruvbox-dark-hard";
       developer = {
         enable = true;
         git = {
@@ -26,7 +27,9 @@
     };
 
     programs = {
-      nix-index.enable = true;
+      keychain = {
+        keys = [ "id_ed25519_sk" ];
+      };
       nixvim = _: {
         # imports = [inputs.self.nixvimConfigurations.packages];
         config = {

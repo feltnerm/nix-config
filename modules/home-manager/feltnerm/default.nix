@@ -72,6 +72,7 @@ in
 
       atuin = {
         enable = lib.mkDefault true;
+        daemon.enable = lib.mkDefault true;
         settings = {
           invert = true;
           inline_height = 36;
@@ -181,8 +182,6 @@ in
 
         # nix
         pkgs.niv
-        pkgs.nix-tree
-        pkgs.nix-health
 
         # utils
         pkgs.tree
@@ -198,11 +197,11 @@ in
         # image tools
         pkgs.imagemagick
 
+        pkgs.bitwarden-cli
         # yubikey
-        #pkgs.yubikey
-        #pkgs.yubikey-agent
-        #pkgs.yubikey-manager
-        #pkgs.yubikey-personalization
+        pkgs.yubikey-agent
+        pkgs.yubikey-manager
+        pkgs.yubikey-personalization
 
         # fun
         pkgs.cowsay

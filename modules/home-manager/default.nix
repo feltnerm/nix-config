@@ -13,7 +13,7 @@
     ./firefox.nix
     ./git.nix
     ./gpg.nix
-    # ./hyprland.nix
+    ./hyprland.nix
     ./nixvim.nix
     ./readline.nix
     ./zsh.nix
