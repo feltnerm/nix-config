@@ -117,6 +117,10 @@
     # boot loader
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = false; # NOTE: rely on BIOS boot order
+
+    # disk
+    services.zfs.autoScrub.enable = true;
+    services.zfs.trim.enable = true;
     disko.devices = {
       disk = {
         main = {
@@ -145,43 +149,42 @@
             };
           };
         };
-        # sda = {
-        #   type = "disk";
-        #   device = "/dev/sda";
-        #   content = {
-        #     type = "gpt";
-        #     partitions = {
-        #       zfs = {
-        #         size = "100%";
-        #         content = {
-        #           type = "zfs";
-        #           pool = "zdata";
-        #         };
-        #       };
-        #     };
-        #   };
-        # };
-        # sdb = {
-        #   type = "disk";
-        #   device = "/dev/sdb";
-        #   content = {
-        #     type = "gpt";
-        #     partitions = {
-        #       zfs = {
-        #         size = "100%";
-        #         content = {
-        #           type = "zfs";
-        #           pool = "zdata";
-        #         };
-        #       };
-        #     };
-        #   };
-        # };
+        sda = {
+          type = "disk";
+          device = "/dev/sda";
+          content = {
+            type = "gpt";
+            partitions = {
+              zfs = {
+                size = "100%";
+                content = {
+                  type = "zfs";
+                  pool = "zdata";
+                };
+              };
+            };
+          };
+        };
+        sdb = {
+          type = "disk";
+          device = "/dev/sdb";
+          content = {
+            type = "gpt";
+            partitions = {
+              zfs = {
+                size = "100%";
+                content = {
+                  type = "zfs";
+                  pool = "zdata";
+                };
+              };
+            };
+          };
+        };
       };
       zpool = {
         zroot = {
           type = "zpool";
-          #options.cachefile = "none";
           rootFsOptions = {
             compression = "zstd";
             "com.sun:auto-snapshot" = "false";
@@ -211,28 +214,29 @@
           };
         };
 
-        #zdata = {
-        #  type = "zpool";
-        #  mode = "mirror";
-        #  #options.cachefile = "none";
-        #  rootFsOptions = {
-        #    compression = "zstd";
-        #    "com.sun:auto-snapshot" = "false";
-        #  };
-        #  postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zdata@blank$' || zfs snapshot zdata@blank";
+        zdata = {
+          type = "zpool";
+          mode = "mirror";
+          rootFsOptions = {
+            compression = "zstd";
+            "com.sun:auto-snapshot" = "false";
+          };
+          postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zdata@blank$' || zfs snapshot zdata@blank";
 
-        #  datasets = {
-        #    "local/data" = {
-        #      type = "zfs_fs";
-        #      mountpoint = "/data";
-        #    };
-        #    "safe/data/persist" = {
-        #      type = "zfs_fs";
-        #      mountpoint = "/data/persist";
-        #      options."com.sun:auto-snapshot" = "true";
-        #    };
-        #  };
-        #};
+          datasets = {
+            "local/data" = {
+              type = "zfs_fs";
+              mountpoint = "/data";
+              options.mountpoint = "legacy";
+            };
+            "safe/data/persist" = {
+              type = "zfs_fs";
+              mountpoint = "/data/persist";
+              options."com.sun:auto-snapshot" = "true";
+              options.mountpoint = "legacy";
+            };
+          };
+        };
 
       };
       nodev = {
