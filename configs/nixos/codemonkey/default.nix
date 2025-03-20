@@ -120,7 +120,7 @@
     disko.devices = {
       disk = {
         main = {
-          device = "/dev/nvme0n1";
+          device = "/dev/disk/by-id/nvme-KINGSTON_SFYRS1000G_50026B7686EE6A4F";
           type = "disk";
           content = {
             type = "gpt";
@@ -145,11 +145,43 @@
             };
           };
         };
+        # sda = {
+        #   type = "disk";
+        #   device = "/dev/sda";
+        #   content = {
+        #     type = "gpt";
+        #     partitions = {
+        #       zfs = {
+        #         size = "100%";
+        #         content = {
+        #           type = "zfs";
+        #           pool = "zdata";
+        #         };
+        #       };
+        #     };
+        #   };
+        # };
+        # sdb = {
+        #   type = "disk";
+        #   device = "/dev/sdb";
+        #   content = {
+        #     type = "gpt";
+        #     partitions = {
+        #       zfs = {
+        #         size = "100%";
+        #         content = {
+        #           type = "zfs";
+        #           pool = "zdata";
+        #         };
+        #       };
+        #     };
+        #   };
+        # };
       };
       zpool = {
         zroot = {
           type = "zpool";
-          options.cachefile = "none";
+          #options.cachefile = "none";
           rootFsOptions = {
             compression = "zstd";
             "com.sun:auto-snapshot" = "false";
@@ -178,6 +210,30 @@
             };
           };
         };
+
+        #zdata = {
+        #  type = "zpool";
+        #  mode = "mirror";
+        #  #options.cachefile = "none";
+        #  rootFsOptions = {
+        #    compression = "zstd";
+        #    "com.sun:auto-snapshot" = "false";
+        #  };
+        #  postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zdata@blank$' || zfs snapshot zdata@blank";
+
+        #  datasets = {
+        #    "local/data" = {
+        #      type = "zfs_fs";
+        #      mountpoint = "/data";
+        #    };
+        #    "safe/data/persist" = {
+        #      type = "zfs_fs";
+        #      mountpoint = "/data/persist";
+        #      options."com.sun:auto-snapshot" = "true";
+        #    };
+        #  };
+        #};
+
       };
       nodev = {
         "/tmp" = {
