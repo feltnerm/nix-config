@@ -10,14 +10,25 @@
     ./tmux
 
     ./alacritty.nix
+    ./atuin.nix
+    ./editorconfig.nix
     ./firefox.nix
     ./git.nix
     ./gpg.nix
     ./hyprland.nix
     ./nixvim.nix
     ./readline.nix
+    ./stylix.nix
     ./zsh.nix
   ];
+
+  options.feltnerm = {
+    enable = lib.mkEnableOption "feltnerm";
+    theme = lib.mkOption {
+      description = "theme";
+      default = "gruvbox-dark-hard";
+    };
+  };
 
   config = {
     programs = {
@@ -28,7 +39,6 @@
     };
 
     home.packages = with pkgs; [
-      home-manager
       nix-health
       nix-tree
     ];

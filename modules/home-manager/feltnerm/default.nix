@@ -13,30 +13,14 @@ in
     ./developer.nix
   ];
 
-  options.feltnerm = {
-    enable = lib.mkEnableOption "feltnerm";
-    theme = lib.mkOption {
-      description = "theme";
-      default = "gruvbox-dark-hard";
-    };
-  };
-
   config = lib.mkIf cfg.enable {
 
-    services.yubikey-agent.enable = true;
+    services.yubikey-agent.enable = lib.mkDefault true;
 
-    stylix = {
-      base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
-      polarity = lib.mkDefault "dark";
-      fonts = {
-        monospace = {
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          name = "JetBrainsMono Nerd Font Mono";
-        };
-      };
-    };
+    editorconfig.enable = lib.mkDefault true;
 
     programs = {
+      atuin.enable = lib.mkDefault true;
       bat.enable = lib.mkDefault true;
       btop = {
         enable = lib.mkDefault true;
@@ -45,6 +29,10 @@ in
         };
       };
       dircolors.enable = lib.mkDefault true;
+      direnv = {
+        enable = lib.mkDefault true;
+        nix-direnv.enable = true;
+      };
       eza = {
         enable = lib.mkDefault true;
         icons = lib.mkDefault "auto";
@@ -60,43 +48,21 @@ in
       jujutsu.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
       keychain.enable = lib.mkDefault true;
+      nix-index.enable = lib.mkDefault true;
       nixvim.enable = lib.mkDefault true;
-      ranger.enable = lib.mkDefault true;
       readline.enable = lib.mkDefault true;
       ripgrep.enable = lib.mkDefault true;
       ssh.enable = lib.mkDefault true;
-      tmux.enable = lib.mkDefault true;
-      #wezterm.enable = lib.mkDefault true;
-      yazi.enable = lib.mkDefault true;
-      zsh.enable = lib.mkDefault true;
-
-      atuin = {
-        enable = lib.mkDefault true;
-        daemon.enable = lib.mkDefault true;
-        settings = {
-          invert = true;
-          inline_height = 36;
-          search_mode = "skim";
-          style = "compact";
-          enter_accept = false; # do not immediately execute a command
-          filter_mode_shell_up_key_binding = "directory"; # up-arrow searches current dir if it is a .git directory
-          keymap_mode = "vim-normal";
-        };
-      };
-
-      direnv = {
-        enable = lib.mkDefault true;
-        nix-direnv.enable = true;
-      };
-
-      nix-index.enable = lib.mkDefault true;
-
       starship = {
         enable = lib.mkDefault true;
         settings = {
           add_newline = true;
         };
       };
+      tmux.enable = lib.mkDefault true;
+      yazi.enable = lib.mkDefault true;
+      zoxide.enable = lib.mkDefault true;
+      zsh.enable = lib.mkDefault true;
     };
 
     xdg = {
@@ -108,7 +74,6 @@ in
     };
 
     home = {
-
       # don't display login message
       file.".hushlogin" = {
         text = "";
@@ -140,6 +105,8 @@ in
         pkgs.ripgrep
         pkgs.ripgrep-all
 
+        pkgs.chezmoi
+
         # process management
         pkgs.bottom
         pkgs.killall
@@ -156,7 +123,6 @@ in
         # file browsers
         pkgs.mc # midnight commander
         pkgs.ncdu_1 # FIXME once zig is stable
-        pkgs.ranger
         pkgs.nnn
 
         # networking
@@ -167,7 +133,7 @@ in
         pkgs.openvpn
         pkgs.prettyping
         pkgs.rclone
-        # pkgs.rsync
+        pkgs.rsync
         pkgs.speedtest-cli
         pkgs.sshfs
         pkgs.trippy
@@ -190,9 +156,6 @@ in
 
         # pdf
         pkgs.poppler
-
-        # history
-        pkgs.zoxide
 
         # image tools
         pkgs.imagemagick

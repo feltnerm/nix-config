@@ -85,25 +85,6 @@ in
       };
     };
 
-    editorconfig = {
-      enable = lib.mkDefault true;
-      settings = {
-        "*" = {
-          "charset" = "utf-8";
-          "end_of_line" = "lf";
-          "trim_trailing_whitespace" = true;
-          "insert_final_newline" = true;
-        };
-        "*.{json,yaml,yml,toml,tml}" = {
-          "indent_style" = "space";
-          "indent_size" = "2";
-        };
-        "Makefile" = {
-          "indent_style" = "tab";
-        };
-      };
-    };
-
     # home-manager configuration
     home = {
       sessionVariables = {
@@ -111,70 +92,10 @@ in
       };
 
       # developer-ey packages
-      packages =
-        (lib.optionals config.programs.fzf.enable [
-          fzfGitCommits
-          fzfRepo
-        ])
-        ++ [
-          # bitwarden-cli
-
-          # docker management
-          #dive
-
-          pkgs.diffsitter
-
-          # audio/image/video processing
-          #exiftool
-          #ffmpeg
-          #flac
-          #ghostscript
-          #image_optim
-          #imagemagick
-          #nodePackages.svgo
-
-          # shell
-          # shellcheck
-
-          # html validate/format
-          #tidyp
-
-          # json, yaml, js, and more format
-          #nodePackages.prettier
-
-          # process mgmt
-          # glances
-          #gotop
-          # nodePackages.nodemon
-
-          # yubikey
-          # yubikey-agent
-          # yubikey-manager
-          # yubikey-personalization
-
-          # fun
-          # ascii-image-converter
-          # asciinema
-          # nyancat
-          # yt-dlp
-
-          # spellingz
-          #aspell
-          #aspellDicts.en
-          #aspellDicts.en-computers
-          #aspellDicts.en-science
-          #ispell
-          #hunspell
-          #hunspellDicts.en-us
-
-          # nix-format-feltnerm
-
-          # cloud
-          # awscli
-
-          # web servers
-          # caddy
-        ];
+      packages = lib.optionals config.programs.fzf.enable [
+        fzfGitCommits
+        fzfRepo
+      ];
     };
   };
 }
