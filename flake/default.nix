@@ -20,9 +20,9 @@
   feltnerm = {
     nixvim = {
       configs = {
-        feltnerm-nvim = {
-          modules = [ ../configs/nixvim ];
-        };
+        # feltnerm-nvim = {
+        #   modules = [ ../configs/nixvim ];
+        # };
       };
     };
 
