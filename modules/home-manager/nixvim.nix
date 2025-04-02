@@ -13,8 +13,9 @@
     #};
 
     globals = {
-      mapleader = lib.mkDefault " ";
-      maplocalleader = lib.mkDefault " ";
+      mapleader = lib.mkDefault " "; # FIXME: use keycode <space>?
+      maplocalleader = lib.mkDefault " "; # FIXME: control or space?
+      netrw_banner = 0;
     };
 
     opts = {
@@ -26,13 +27,12 @@
         "noselect"
       ];
 
-      modeline = true;
-      magic = true;
-      autoindent = true;
       autoread = true;
-      incsearch = true;
-      smartcase = true;
-      ignorecase = true;
+      modeline = true;
+      showcmd = true;
+      # cmdheight = 1;
+
+      wrap = false;
 
       list = true;
       listchars = {
@@ -43,41 +43,45 @@
       };
       # more = true;
 
-      tabstop = 2;
-      shiftwidth = 2;
-      softtabstop = 2;
       expandtab = true;
       joinspaces = false;
+      shiftwidth = 2;
+      softtabstop = 2;
+      tabstop = 2;
 
+      autoindent = true;
+      breakindent = true;
+      copyindent = true;
+      linebreak = true;
+      preserveindent = true;
+
+      cursorline = true;
       number = true;
       relativenumber = true;
       ruler = true;
+      signcolumn = "auto";
+
       scrolloff = 8;
       sidescrolloff = 8;
-      # showcmd = true;
-      # cmdheight = 1;
-      linebreak = true;
-      breakindent = true;
-      copyindent = true;
-      preserveindent = true;
+
       # colorcolumn = "120";
-      cursorline = true;
-      signcolumn = "auto";
+      lazyredraw = true;
+      pumheight = 8;
       termguicolors = true;
       title = true;
       ttyfast = true;
-      lazyredraw = true;
       updatetime = 100;
-      pumheight = 8;
-      showmatch = true;
-      matchtime = 1;
-      showcmd = true;
-
-      wrap = false;
 
       foldenable = true;
-      foldlevelstart = 20;
+      foldlevelstart = 99;
       foldmethod = "indent";
+
+      ignorecase = true;
+      incsearch = true;
+      magic = true;
+      matchtime = 1;
+      showmatch = true;
+      smartcase = true;
 
       splitbelow = true;
       splitright = true;
@@ -87,12 +91,17 @@
       # t_vb = "";
 
       backup = false;
+      confirm = true;
       writebackup = false;
+      undofile = true;
+      undolevels = 10000;
 
+      backspace = "eol,start,indent";
       mouse = "a";
       mousehide = true;
 
-      backspace = "eol,start,indent";
+      # TODO: figure out syntax for
+      # vim.opt.diffopt:append("linematch:60") -- second stage diff to align lines
     };
     keymaps = [
       {
@@ -257,31 +266,31 @@
       }
     ];
     plugins = {
-      direnv.enable = lib.mkDefault true;
+      lz-n.enable = lib.mkForce true; # required for lazy loading
+
+      auto-save.enable = lib.mkDefault true;
       commentary.enable = lib.mkDefault true;
       nvim-surround.enable = lib.mkDefault true;
-      auto-save.enable = lib.mkDefault true;
       repeat.enable = lib.mkDefault true;
-      yanky.enable = lib.mkDefault true;
-      hop.enable = lib.mkDefault true;
       wrapping.enable = lib.mkDefault true;
-
-      # git
-      fugitive.enable = lib.mkDefault true;
-      gitblame.enable = lib.mkDefault true;
-      gitgutter.enable = lib.mkDefault true;
+      yanky.enable = lib.mkDefault true;
 
       # ui
       lualine.enable = lib.mkDefault true;
       luasnip.enable = lib.mkDefault true;
+      todo-comments.enable = lib.mkDefault true;
+      web-devicons.enable = lib.mkDefault true;
+
+      markview = {
+        enable = lib.mkDefault true;
+        lazyLoad.settings.ft = "markdown";
+      };
+
       neo-tree = {
         enable = lib.mkDefault true;
         filesystem.followCurrentFile.enabled = lib.mkDefault true;
       };
-      web-devicons.enable = lib.mkDefault true;
-      todo-comments.enable = lib.mkDefault true;
       oil.enable = lib.mkDefault true;
-      markview.enable = lib.mkDefault true;
 
       blink-cmp = {
         enable = lib.mkDefault true;
@@ -298,70 +307,23 @@
         };
       };
 
-      lsp = {
-        enable = lib.mkDefault true;
-        keymaps = {
-          diagnostic = {
-            "<leader>ce" = "open_float";
-            "<leader>j" = "goto_next";
-            "<leader>k" = "goto_prev";
-            "<leader>q" = "setloclist";
-          };
-          lspBuf = {
-            K = "hover";
-            gD = "references";
-            #gD = "declaration";
-            gd = "definition";
-            gi = "implementation";
-            gt = "type_definition";
-            n = "signature_help";
-            f = "format";
-
-            ca = "code_action";
-            cr = "rename";
-          };
-          extra = [
-            {
-              action = "<cmd>LspStop<Enter>";
-              key = "<leader>lx";
-              options = {
-                desc = "stop the lsp";
-              };
-            }
-            {
-              action = "<cmd>LspStart<Enter>";
-              key = "<leader>ls";
-              options = {
-                desc = "start the lsp";
-              };
-            }
-            {
-              action = "<cmd>LspRestart<Enter>";
-              key = "<leader>lr";
-              options = {
-                desc = "restart the lsp";
-              };
-            }
-          ];
-        };
-      };
-
       telescope = {
         enable = lib.mkDefault true;
         keymaps = {
           # grep
-          "<leader>p" = {
-            action = "live_grep";
-            options = {
-              desc = "find in file";
-            };
-          };
-          "<leader>pp" = {
-            action = "current_buffer_fuzzy_find";
-            options = {
-              desc = "find in buffer";
-            };
-          };
+          # FIXME: conflicts
+          # "<leader>p" = {
+          #   action = "live_grep";
+          #   options = {
+          #     desc = "find in file";
+          #   };
+          # };
+          # "<leader>pp" = {
+          #   action = "current_buffer_fuzzy_find";
+          #   options = {
+          #     desc = "find in buffer";
+          #   };
+          # };
 
           # files
           "<leader>f" = {
@@ -372,139 +334,52 @@
           };
 
           # buffers
-          "<leader>b" = {
-            action = "find buffer";
-            options = {
-              desc = "find buffer";
-            };
-          };
-          "<leader>bt" = {
-            action = "current_buffer_tags";
-            options = {
-              desc = "find buffer tag";
-            };
-          };
-
-          "<leader>n" = {
-            action = "tags";
-            options = {
-              desc = "find tag";
-            };
-          };
-          "<leader>q" = {
-            action = "quickfix";
-            options = {
-              desc = "find quickfix";
-            };
-          };
-
-          # history
-          "<leader>phc" = {
-            action = "command_history";
-            options = {
-              desc = "find command history";
-            };
-          };
-          "<leader>phs" = {
-            action = "search_history";
-            options = {
-              desc = "find search history";
-            };
-          };
-          "<leader>phh" = {
-            action = "help_tags";
-            options = {
-              desc = "find help tag";
-            };
-          };
+          # FIXME: conflicts
+          # "<leader>b" = {
+          #   action = "find buffer";
+          #   options = {
+          #     desc = "find buffer";
+          #   };
+          # };
+          # "<leader>bt" = {
+          #   action = "current_buffer_tags";
+          #   options = {
+          #     desc = "find buffer tag";
+          #   };
+          # };
 
           # git
-          "<leader>g" = {
-            action = "git_files";
-            options = {
-              desc = "find git file";
-            };
-          };
-          "<leader>gc" = {
-            action = "git_commits";
-            options = {
-              desc = "find git commit";
-            };
-          };
-          "<leader>gbc" = {
-            action = "git_bcommits";
-            options = {
-              desc = "find git bcommits";
-            };
-          };
-          "<leader>gb" = {
-            action = "git_branches";
-            options = {
-              desc = "find git branches";
-            };
-          };
-          "<leader>gs" = {
-            action = "git_status";
-            options = {
-              desc = "find git status";
-            };
-          };
-          "<leader>ctt" = {
-            action = "treesitter";
-            options = {
-              desc = "find treesitter";
-            };
-          };
-
-          # lsp
-          "<leader>cr" = {
-            action = "lsp_references";
-            options = {
-              desc = "code references";
-            };
-          };
-          "<leader>cci" = {
-            action = "lsp_incoming_calls";
-            options = {
-              desc = "code incoming calls";
-            };
-          };
-          "<leader>cco" = {
-            action = "lsp_outgoing_calls";
-            options = {
-              desc = "code outgoing calls";
-            };
-          };
-          "<leader>cs" = {
-            action = "lsp_document_symbols";
-            options = {
-              desc = "code document symbols";
-            };
-          };
-          "<leader>cws" = {
-            action = "lsp_workspace_symbols";
-            options = {
-              desc = "code workspace symbols";
-            };
-          };
-          "<leader>ci" = {
-            action = "lsp_implementations";
-            options = {
-              desc = "code implementations";
-            };
-          };
-          "<leader>cd" = {
-            action = "lsp_definitions";
-            options = {
-              desc = "code definitions";
-            };
-          };
-          "<leader>ct" = {
-            action = "lsp_type_definitions";
-            options = {
-              desc = "code type definitions";
-            };
-          };
+          # FIXME:conflicts!
+          # "<leader>g" = {
+          #   action = "git_files";
+          #   options = {
+          #     desc = "find git file";
+          #   };
+          # };
+          # "<leader>gc" = {
+          #   action = "git_commits";
+          #   options = {
+          #     desc = "find git commit";
+          #   };
+          # };
+          # "<leader>gbc" = {
+          #   action = "git_bcommits";
+          #   options = {
+          #     desc = "find git bcommits";
+          #   };
+          # };
+          # "<leader>gb" = {
+          #   action = "git_branches";
+          #   options = {
+          #     desc = "find git branches";
+          #   };
+          # };
+          # "<leader>gs" = {
+          #   action = "git_status";
+          #   options = {
+          #     desc = "find git status";
+          #   };
+          # };
         };
       };
 
