@@ -78,9 +78,55 @@ in
 
       nixvim = {
         plugins = {
+          # git
+          fugitive.enable = lib.mkDefault true;
+          gitblame.enable = lib.mkDefault true;
+          gitgutter.enable = lib.mkDefault true;
+
+          # dap
           dap.enable = lib.mkDefault true;
+
+          # project
           project-nvim.enable = lib.mkDefault true;
+
           rest.enable = lib.mkDefault true;
+
+          treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
+          # treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+
+          # LSP
+          lsp = {
+            enable = lib.mkDefault true;
+            servers = {
+              bashls.enable = lib.mkDefault true;
+              gleam.enable = lib.mkDefault true;
+              # TODO: enable for text, git commits, etc.
+              harper_ls.enable = lib.mkDefault false;
+              cssls.enable = lib.mkDefault true;
+              html.enable = lib.mkDefault true;
+              jsonls.enable = lib.mkDefault true;
+              lua_ls.enable = lib.mkDefault true;
+              marksman.enable = lib.mkDefault true;
+              nil_ls = {
+                enable = lib.mkDefault true;
+                settings = {
+                  formatting = {
+                    command = [ "${lib.getExe pkgs.nixfmt}" ];
+                  };
+                  nix = {
+                    flake = {
+                      autoArchive = true;
+                    };
+                  };
+                };
+              };
+              rust_analyzer.enable = lib.mkDefault true;
+              ts_ls.enable = lib.mkDefault true;
+              vimls.enable = lib.mkDefault true;
+              yamlls.enable = lib.mkDefault true;
+              zls.enable = lib.mkDefault true;
+            };
+          };
         };
       };
     };

@@ -14,7 +14,7 @@
     };
 
     flake.nixvimModules = {
-      default = ../modules/nixvim;
+      # default = ../modules/nixvim;
     };
   };
 }
