@@ -71,8 +71,10 @@ in
 
       jujutsu = lib.mkIf config.programs.jujutsu.enable {
         settings = {
-          name = cfg.git.username;
-          inherit (cfg.git) email;
+          user = {
+            name = cfg.git.username;
+            inherit (cfg.git) email;
+          };
         };
       };
 
