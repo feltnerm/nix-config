@@ -67,6 +67,7 @@
         hyprsunset
         nwg-bar
         swww
+        wl-clipboard-rs
       ];
     };
 
