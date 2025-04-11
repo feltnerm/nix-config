@@ -64,7 +64,7 @@
       scrolloff = 8;
       sidescrolloff = 8;
 
-      # colorcolumn = "120";
+      colorcolumn = "80";
       lazyredraw = true;
       pumheight = 8;
       termguicolors = true;
