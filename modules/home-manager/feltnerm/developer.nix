@@ -113,7 +113,7 @@ in
                 enable = lib.mkDefault true;
                 settings = {
                   formatting = {
-                    command = [ "${lib.getExe pkgs.nixfmt}" ];
+                    command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
                   };
                   nix = {
                     flake = {
@@ -122,7 +122,11 @@ in
                   };
                 };
               };
-              rust_analyzer.enable = lib.mkDefault true;
+              rust_analyzer = {
+                enable = lib.mkDefault true;
+                installCargo = lib.mkDefault false;
+                installRustc = lib.mkDefault false;
+              };
               ts_ls.enable = lib.mkDefault true;
               vimls.enable = lib.mkDefault true;
               yamlls.enable = lib.mkDefault true;
