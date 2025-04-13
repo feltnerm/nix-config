@@ -30,7 +30,7 @@
       autoread = true;
       modeline = true;
       showcmd = true;
-      # cmdheight = 1;
+      cmdheight = 1;
 
       wrap = false;
 
@@ -277,7 +277,6 @@
 
       # ui
       lualine.enable = lib.mkDefault true;
-      luasnip.enable = lib.mkDefault true;
       todo-comments.enable = lib.mkDefault true;
       web-devicons.enable = lib.mkDefault true;
 
@@ -290,12 +289,12 @@
         enable = lib.mkDefault true;
         filesystem.followCurrentFile.enabled = lib.mkDefault true;
       };
-      oil.enable = lib.mkDefault true;
+      # oil.enable = lib.mkDefault true;
 
       blink-cmp = {
         enable = lib.mkDefault true;
         settings = {
-          keymap.preset = lib.mkDefault "super-tab";
+          keymap.preset = lib.mkDefault "enter";
           signature.enabled = lib.mkDefault true;
           completion = {
             documentation.auto_show = lib.mkDefault true;
@@ -311,75 +310,72 @@
         enable = lib.mkDefault true;
         keymaps = {
           # grep
-          # FIXME: conflicts
-          # "<leader>p" = {
-          #   action = "live_grep";
-          #   options = {
-          #     desc = "find in file";
-          #   };
-          # };
-          # "<leader>pp" = {
-          #   action = "current_buffer_fuzzy_find";
-          #   options = {
-          #     desc = "find in buffer";
-          #   };
-          # };
+          "<leader>p" = {
+            action = "live_grep";
+            options = {
+              desc = "telecope find in file";
+            };
+          };
+          "<leader>pp" = {
+            action = "current_buffer_fuzzy_find";
+            options = {
+              desc = "telecope find in buffer";
+            };
+          };
 
           # files
           "<leader>f" = {
             action = "find_files";
             options = {
-              desc = "find file";
+              desc = "telecope find file";
             };
           };
 
           # buffers
-          # FIXME: conflicts
-          # "<leader>b" = {
-          #   action = "find buffer";
-          #   options = {
-          #     desc = "find buffer";
-          #   };
-          # };
-          # "<leader>bt" = {
-          #   action = "current_buffer_tags";
-          #   options = {
-          #     desc = "find buffer tag";
-          #   };
-          # };
+          "<leader>b" = {
+            action = "find buffer";
+            options = {
+              desc = "telecope find buffer";
+            };
+          };
+          "<leader>bt" = {
+            action = "current_buffer_tags";
+            options = {
+              desc = "telecope find buffer tag";
+            };
+          };
 
           # git
-          # FIXME:conflicts!
-          # "<leader>g" = {
-          #   action = "git_files";
-          #   options = {
-          #     desc = "find git file";
-          #   };
-          # };
-          # "<leader>gc" = {
-          #   action = "git_commits";
-          #   options = {
-          #     desc = "find git commit";
-          #   };
-          # };
-          # "<leader>gbc" = {
-          #   action = "git_bcommits";
-          #   options = {
-          #     desc = "find git bcommits";
-          #   };
-          # };
-          # "<leader>gb" = {
-          #   action = "git_branches";
-          #   options = {
-          #     desc = "find git branches";
-          #   };
-          # };
-          # "<leader>gs" = {
-          #   action = "git_status";
-          #   options = {
-          #     desc = "find git status";
-          #   };
-          # };
+          "<leader>g" = {
+            action = "git_files";
+            options = {
+              desc = "telecope find git file";
+            };
+          };
+          "<leader>gc" = {
+            action = "git_commits";
+            options = {
+              desc = "telecope find git commit";
+            };
+          };
+          "<leader>gbc" = {
+            action = "git_bcommits";
+            options = {
+              desc = "telecope find git bcommits";
+            };
+          };
+          "<leader>gb" = {
+            action = "git_branches";
+            options = {
+              desc = "telecope find git branches";
+            };
+          };
+          "<leader>gs" = {
+            action = "git_status";
+            options = {
+              desc = "telecope find git status";
+            };
+          };
         };
       };
 
