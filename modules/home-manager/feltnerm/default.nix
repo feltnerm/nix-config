@@ -160,7 +160,8 @@ in
         # image tools
         pkgs.imagemagick
 
-        pkgs.bitwarden-cli
+        #pkgs.bitwarden-cli
+
         # yubikey
         pkgs.yubikey-agent
         pkgs.yubikey-manager
