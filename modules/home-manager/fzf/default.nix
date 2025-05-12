@@ -32,5 +32,5 @@ lib.mkIf config.programs.fzf.enable {
     ];
   };
 
-  programs.zsh.initExtra = lib.mkIf config.programs.zsh.enable fzfFilesZshExtra;
+  programs.zsh.initContent = lib.mkIf config.programs.zsh.enable fzfFilesZshExtra;
 }

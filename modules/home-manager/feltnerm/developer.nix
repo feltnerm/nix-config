@@ -60,7 +60,7 @@ in
 
   config = lib.mkIf cfg.enable {
     programs = {
-      zsh.initExtra = lib.mkIf (
+      zsh.initContent = lib.mkIf (
         config.programs.zsh.enable && config.programs.fzf.enable
       ) fzfReposZshExtra;
 
