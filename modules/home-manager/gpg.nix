@@ -23,7 +23,7 @@ in
       enableExtraSocket = lib.mkDefault true;
       defaultCacheTtl = 60;
       maxCacheTtl = 120;
-      pinentryPackage = pinentry.package;
+      pinentry.package = pinentry.package;
     };
 
     #programs.git.extraConfig.user.signgingKey = cfg.pubKey;
