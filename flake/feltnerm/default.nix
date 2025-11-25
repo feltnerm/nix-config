@@ -36,7 +36,8 @@ let
       {
         imports = [
           homeManagerModule
-        ] ++ userHomeConfig.modules;
+        ]
+        ++ userHomeConfig.modules;
         config = {
           home = {
             inherit username;
@@ -128,7 +129,8 @@ let
           # inputs.nixos-facter-modules.nixosModules.facter
           # { config.facter.reportPath = "${localFlake}/configs/nixos/${hostname}/facter.json"; }
 
-        ] ++ hostConfig.modules;
+        ]
+        ++ hostConfig.modules;
       }
     ) nixosHosts;
 
@@ -187,7 +189,8 @@ let
 
           # other included modules
           inputs.agenix.darwinModules.default
-        ] ++ hostConfig.modules;
+        ]
+        ++ hostConfig.modules;
       }
     ) darwinHosts;
 
@@ -228,7 +231,8 @@ let
 
           # default modules
           inputs.agenix.homeManagerModules.default
-        ] ++ userConfig.modules;
+        ]
+        ++ userConfig.modules;
       }
     ) userHomes;
 
@@ -244,7 +248,8 @@ let
         extraSpecialArgs = { inherit system inputs; };
         modules = [
           nixvimModules
-        ] ++ vimConfig.modules;
+        ]
+        ++ vimConfig.modules;
       }
     ) vimConfigs;
 in
