@@ -7,7 +7,7 @@
     inputs.home-manager.flakeModules.default
   ];
 
-  flake.homeManagerModules = {
+  flake.homeModules = {
     default = ../modules/home-manager;
   };
 }

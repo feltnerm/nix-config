@@ -36,7 +36,8 @@ let
       {
         imports = [
           homeManagerModule
-        ] ++ userHomeConfig.modules;
+        ]
+        ++ userHomeConfig.modules;
         config = {
           home = {
             inherit username;
@@ -128,7 +129,8 @@ let
           # inputs.nixos-facter-modules.nixosModules.facter
           # { config.facter.reportPath = "${localFlake}/configs/nixos/${hostname}/facter.json"; }
 
-        ] ++ hostConfig.modules;
+        ]
+        ++ hostConfig.modules;
       }
     ) nixosHosts;
 
@@ -187,7 +189,8 @@ let
 
           # other included modules
           inputs.agenix.darwinModules.default
-        ] ++ hostConfig.modules;
+        ]
+        ++ hostConfig.modules;
       }
     ) darwinHosts;
 
@@ -227,8 +230,9 @@ let
           }
 
           # default modules
-          inputs.agenix.homeManagerModules.default
-        ] ++ userConfig.modules;
+          inputs.agenix.homeModules.default
+        ]
+        ++ userConfig.modules;
       }
     ) userHomes;
 
@@ -244,7 +248,8 @@ let
         extraSpecialArgs = { inherit system inputs; };
         modules = [
           nixvimModules
-        ] ++ vimConfig.modules;
+        ]
+        ++ vimConfig.modules;
       }
     ) vimConfigs;
 in
@@ -260,10 +265,10 @@ in
       */
       darwinConfigurations =
         mkDarwinSystems config.feltnerm.darwin.hosts inputs.self.darwinModules.default
-          inputs.self.homeManagerModules.default;
+          inputs.self.homeModules.default;
       nixosConfigurations =
         mkNixosSystems config.feltnerm.nixos.hosts inputs.self.nixosModules.default
-          inputs.self.homeManagerModules.default;
+          inputs.self.homeModules.default;
     };
 
     perSystem =
@@ -274,7 +279,7 @@ in
         */
         legacyPackages.homeConfigurations =
           mkHomeManagerHomes pkgs config.feltnerm.home.users
-            inputs.self.homeManagerModules.default;
+            inputs.self.homeModules.default;
 
         nixvimConfigurations =
           mkNixvimConfigs system config.feltnerm.nixvim.configs

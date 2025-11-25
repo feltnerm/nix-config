@@ -287,7 +287,9 @@
 
       neo-tree = {
         enable = lib.mkDefault true;
-        filesystem.followCurrentFile.enabled = lib.mkDefault true;
+        settings = {
+          filesystem.follow_current_file.enabled = lib.mkDefault true;
+        };
       };
       # oil.enable = lib.mkDefault true;
 
