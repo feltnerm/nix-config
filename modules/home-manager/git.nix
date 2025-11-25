@@ -130,6 +130,7 @@ in
 
     # persist ssh sessions to github for a short while
     programs.ssh = lib.mkIf config.programs.ssh.enable {
+      enableDefaultConfig = false;
       matchBlocks = {
         "github.com" = {
           extraOptions = {
@@ -142,28 +143,32 @@ in
     };
 
     programs.git = {
-      userName = lib.mkDefault config.home.username;
       # FIXME
       # difftastic.enable = lib.mkDefault true;
       ignores = gitIgnores;
-      aliases = {
-        br = "branch";
-        c = "commit -am";
-        ci = "commit";
-        co = "checkout";
-        dad = "!curl https://icanhazdadjoke.com/ && git add";
-        df = "diff --color --color-words --abbrev";
-        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-        p = "push";
-        pl = "pull";
-        pom = "push origin main";
-        ps = "push";
-        ri = "rebase --interactive --autosquash";
-        st = "status";
-        # fixup = "!sh -c 'git commit -m \"fixup! $(git log -1 --format='\\'%s'\\' $@)\"' -";
-        # squash = "!sh -c 'git commit -m \"squash! $(git log -1 --format='\\'%s'\\' $@)\"' -";
-      };
-      extraConfig = {
+
+      settings = {
+        user = {
+          name = lib.mkDefault config.home.username;
+        };
+
+        aliases = {
+          br = "branch";
+          c = "commit -am";
+          ci = "commit";
+          co = "checkout";
+          dad = "!curl https://icanhazdadjoke.com/ && git add";
+          df = "diff --color --color-words --abbrev";
+          lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+          p = "push";
+          pl = "pull";
+          pom = "push origin main";
+          ps = "push";
+          ri = "rebase --interactive --autosquash";
+          st = "status";
+          # fixup = "!sh -c 'git commit -m \"fixup! $(git log -1 --format='\\'%s'\\' $@)\"' -";
+          # squash = "!sh -c 'git commit -m \"squash! $(git log -1 --format='\\'%s'\\' $@)\"' -";
+        };
         color.ui = "auto";
         # core.editor = "vim"; # default to $EDITOR?
         core.ignorecase = lib.mkDefault false;

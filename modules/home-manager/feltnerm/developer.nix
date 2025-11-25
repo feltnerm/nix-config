@@ -65,8 +65,10 @@ in
       ) fzfReposZshExtra;
 
       git = lib.mkIf config.programs.git.enable {
-        userName = cfg.git.username;
-        userEmail = cfg.git.email;
+        settings.user = {
+          name = cfg.git.username;
+          inherit (cfg.git) email;
+        };
       };
 
       jujutsu = lib.mkIf config.programs.jujutsu.enable {

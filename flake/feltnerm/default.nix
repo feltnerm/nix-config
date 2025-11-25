@@ -230,7 +230,7 @@ let
           }
 
           # default modules
-          inputs.agenix.homeManagerModules.default
+          inputs.agenix.homeModules.default
         ]
         ++ userConfig.modules;
       }
@@ -265,10 +265,10 @@ in
       */
       darwinConfigurations =
         mkDarwinSystems config.feltnerm.darwin.hosts inputs.self.darwinModules.default
-          inputs.self.homeManagerModules.default;
+          inputs.self.homeModules.default;
       nixosConfigurations =
         mkNixosSystems config.feltnerm.nixos.hosts inputs.self.nixosModules.default
-          inputs.self.homeManagerModules.default;
+          inputs.self.homeModules.default;
     };
 
     perSystem =
@@ -279,7 +279,7 @@ in
         */
         legacyPackages.homeConfigurations =
           mkHomeManagerHomes pkgs config.feltnerm.home.users
-            inputs.self.homeManagerModules.default;
+            inputs.self.homeModules.default;
 
         nixvimConfigurations =
           mkNixvimConfigs system config.feltnerm.nixvim.configs
