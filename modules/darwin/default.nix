@@ -158,13 +158,9 @@
       autoUpdate = lib.mkDefault false;
     };
 
-    taps = [
-      "homebrew/bundle"
-      "homebrew/services"
-    ];
+    taps = [];
 
-    brews = [
-    ];
+    brews = [];
 
     casks = [
       # fonts

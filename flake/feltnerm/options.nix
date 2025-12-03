@@ -68,7 +68,10 @@ in
     darwin = {
       hosts = lib.mkOption {
         description = "Define darwin hosts.";
-        type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-darwin" ]);
+        type = lib.types.lazyAttrsOf (mkHostOption [
+          "aarch64-darwin"
+          "x86_64-darwin"
+        ]);
         default = { };
         example = lib.literalExpression '''';
       };
