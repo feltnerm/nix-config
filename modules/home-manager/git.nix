@@ -152,7 +152,7 @@ in
           name = lib.mkDefault config.home.username;
         };
 
-        aliases = {
+        alias = {
           br = "branch";
           c = "commit -am";
           ci = "commit";
