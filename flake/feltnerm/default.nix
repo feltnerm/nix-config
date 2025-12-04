@@ -170,6 +170,9 @@ let
             users.users = mkUsersConfig hostConfig.users (u: "/Users/${u}");
           }
 
+          # nix-homebrew
+          inputs.nix-homebrew.darwinModules.nix-homebrew
+
           # home-manager
           inputs.home-manager.darwinModules.home-manager
           {

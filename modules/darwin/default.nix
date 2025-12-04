@@ -182,6 +182,10 @@
     ];
   };
 
+  nix-homebrew = lib.mkIf config.homebrew.enable {
+    enable = true;
+  };
+
   homebrew = lib.mkIf config.homebrew.enable {
     onActivation = {
       # enable homebrew auto-update during nix-darwin activation
