@@ -48,25 +48,6 @@
       };
     };
 
-    darwin = {
-      hosts = {
-        markbook = {
-          modules = [
-            ../configs/darwin/markbook
-          ];
-          users = {
-            mark = {
-              home = {
-                modules = [
-                  ../configs/home/mark
-                ];
-              };
-            };
-          };
-        };
-      };
-    };
-
     home = {
       users = {
         mark = {
