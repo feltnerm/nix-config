@@ -12,9 +12,9 @@
     */
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Optional alternate channels (unused):
-    # nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    # Optional alternate channels (currently unused):
+    # nixpkgs-master.url = "github:nixos/nixpkgs/master";  # useful for testing latest changes
+    # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";  # pin older stable release
 
     darwin = {
       url = "github:lnl7/nix-darwin/master";
