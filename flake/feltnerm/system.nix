@@ -29,7 +29,7 @@
         "flakes"
       ];
 
-      # TODO use shared build caches
+      # TODO(caches): Configure shared binary caches once infra is ready.
       # substituters = [];
       # trusted-public-keys = [];
     };
