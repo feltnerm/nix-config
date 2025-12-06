@@ -2,7 +2,12 @@
   Settings and packages available to all home-manager profiles
 */
 
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   imports = [
     ./feltnerm
@@ -32,16 +37,21 @@
       ssh.enable = lib.mkDefault true;
     };
 
-    home.packages = with pkgs; [
-      nix-health
-      nix-tree
+    home.packages =
+      with pkgs;
+      let
+        selfPkgs = inputs.self.packages.${pkgs.system};
+      in
+      [
+        nix-health
+        nix-tree
 
-      greet
-      nlsp
-      screensaver
-      year-progress
-      chuckscii
-    ];
+        selfPkgs.greet
+        selfPkgs.nlsp
+        selfPkgs.screensaver
+        selfPkgs.year-progress
+        selfPkgs.chuckscii
+      ];
 
     systemd.user.startServices = lib.mkDefault true;
 
