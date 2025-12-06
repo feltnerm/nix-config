@@ -71,6 +71,10 @@ in
         };
       };
 
+      gh = lib.mkIf config.programs.git.enable {
+        enable = lib.mkDefault true;
+      };
+
       jujutsu = lib.mkIf config.programs.jujutsu.enable {
         settings = {
           user = {
