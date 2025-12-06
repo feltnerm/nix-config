@@ -1,0 +1,27 @@
+name: ci
+on:
+  workflow_call:
+
+jobs:
+  run-ci:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: flake info
+        run: nix flake info
+      - name: show flake
+        run: nix flake show
+      - name: format
+        run: nix fmt
+      - name: flake check (all systems)
+        run: nix flake check --all-systems
+      - name: flake checker
+        uses: DeterminateSystems/flake-checker-action@v5
+        with:
+          fail-mode: true
+          ignore-missing-flake-lock: false
+          send-statistics: false
