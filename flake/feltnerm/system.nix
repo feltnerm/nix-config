@@ -29,9 +29,12 @@
         "flakes"
       ];
 
-      # TODO(caches): Configure shared binary caches once infra is ready.
-      # substituters = [];
-      # trusted-public-keys = [];
+      # Use shared binary caches
+      extra-substituters = [ "https://feltnerm.cachix.org" ];
+      extra-trusted-public-keys = [
+        "feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ="
+      ];
+
     };
   };
 

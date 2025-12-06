@@ -46,6 +46,41 @@
             };
           };
         };
+
+        virtmark = {
+          modules = [ ../configs/nixos/virtmark ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/virtmark/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/virtmark/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+
+        virtmark-gui = {
+          modules = [ ../configs/nixos/virtmark-gui ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/virtmark-gui/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/virtmark-gui/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+
       };
     };
 

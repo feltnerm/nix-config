@@ -1,5 +1,7 @@
 # feltnerm nix-config
 
+[![Build VMs (main)](https://github.com/feltnerm/nix-config/actions/workflows/build-vms-main.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/build-vms-main.yml)
+
 Personal NixOS, nix-darwin, and Home Manager setup using flake-parts and a small `feltnerm` module to define hosts and users.
 
 ## Quick Start
@@ -45,9 +47,33 @@ nix build .#<pkg> && ./result/bin/<pkg>
 
 ## Extras
 
-- VM images: `nixosConfigurations.<host>.config.formats.<format>`
-- Topology diagrams: build outputs under `flake.topology`
-- TODO Secrets: use ragenix/agenix (`age.secrets.*`, store files outside git)
+### VM Development
+- Devshell: `nix develop .#vm`
+- Build: `build-vm <host> <output>`
+  - Examples: `build-vm virtmark vmWithBootLoader`, `build-vm virtmark-gui qcow`, `build-vm codemonkey iso`
+- Run: `run-vm ./result --memory 4096 --cpus 2`
+- Seed SSH keys: `seed-cloud-init mark ~/.ssh/id_ed25519.pub seed.iso`
+
+Notes
+- Artifacts appear at `./result` (symlink)
+- SSH forwarding: `ssh -p 2222 mark@localhost`
+- Acceleration: macOS (HVF) and Linux (KVM) auto-enabled when available
+- Default user: `mark` (see `configs/nixos/*/user/mark.nix`)
+
+Direct Nix builds (reference)
+- `nix build .#nixosConfigurations.<host>.config.system.build.vmWithBootLoader`
+- `nix build .#nixosConfigurations.<host>.config.system.build.vm`
+- `nix build .#nixosConfigurations.<host>.config.formats.{iso,qcow}`
+
+Cloud-init (optional)
+- Quick helper: `scripts/cloud-init-seed.sh mark ~/.ssh/id_ed25519.pub seed.iso`
+- Manual:
+  - Create `user-data` and `meta-data`, then `cloud-localds seed.iso user-data meta-data`
+  - Boot with VM image + `seed.iso`, then `ssh -p 2222 mark@localhost`
+
+Other
+- Topology: `flake.topology` outputs
+- Secrets: ragenix/agenix (`age.secrets.*`, store files outside git)
 
 ## Inspiration
 

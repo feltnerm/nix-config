@@ -1,0 +1,68 @@
+name: build-vms-manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      host:
+        description: NixOS host (flake nixosConfigurations)
+        required: true
+        default: codemonkey
+        type: choice
+        options:
+          - codemonkey
+          - virtmark
+          - virtmark-gui
+      format:
+        description: VM format to build
+        required: true
+        default: vm
+        type: choice
+        options:
+          - vm
+          - vmWithBootLoader
+          - vmWithDisko
+          - iso
+          - qcow
+
+jobs:
+  build-vm:
+    name: Build selected VM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Enable binary cache
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Set up Cachix (feltnerm)
+        uses: cachix/cachix-action@v15
+        with:
+          name: feltnerm
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          skipPush: true
+
+
+      - name: Show flake
+        run: nix flake show
+
+      - name: Build VM
+        run: |
+          set -euxo pipefail
+          HOST="${{ github.event.inputs.host }}"
+          FORMAT="${{ github.event.inputs.format }}"
+          case "$FORMAT" in
+            vm|vmWithBootLoader|vmWithDisko)
+              nix build .#nixosConfigurations."$HOST".config.system.build."$FORMAT"
+              ;;
+            iso|qcow)
+              nix build .#nixosConfigurations."$HOST".config.formats."$FORMAT"
+              ;;
+            *)
+              echo "Unsupported format: $FORMAT" >&2
+              exit 1
+              ;;
+          esac
+

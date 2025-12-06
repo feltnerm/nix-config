@@ -1,0 +1,35 @@
+name: build-vms-main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-vms:
+    name: Build NixOS VMs (main)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [ virtmark, virtmark-gui, codemonkey ]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Enable binary cache
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Set up Cachix (feltnerm)
+        uses: cachix/cachix-action@v15
+        with:
+          name: feltnerm
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Show flake
+        run: nix flake show
+
+      - name: Build bootable VM
+        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.vmWithBootLoader
+
