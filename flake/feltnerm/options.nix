@@ -73,7 +73,7 @@ in
           "x86_64-darwin"
         ]);
         default = { };
-        example = lib.literalExpression '''';
+        example = lib.literalExpression ''{ my-mac = { system = "aarch64-darwin"; modules = [ ../configs/darwin/my-mac ]; users.mark = { modules = [ ../configs/home/mark ]; }; }; }'';
       };
     };
 
@@ -82,7 +82,7 @@ in
         description = "Define nixos hosts.";
         type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
         default = { };
-        example = lib.literalExpression '''';
+        example = lib.literalExpression ''{ codemonkey = { system = "x86_64-linux"; modules = [ ../configs/nixos/codemonkey ]; users.mark = { modules = [ ../configs/nixos/codemonkey/user/mark.nix ]; home.modules = [ ../configs/home/mark ../configs/nixos/codemonkey/home/mark.nix ]; }; }; }'';
       };
     };
 
@@ -91,7 +91,7 @@ in
         description = "(work-in-progress) Define a user whose `$HOME` to manage.";
         type = lib.types.lazyAttrsOf mkHomeOption;
         default = { };
-        example = lib.literalExpression '''';
+        example = lib.literalExpression ''{ mark = { modules = [ ../configs/home/mark ]; nixvim.modules = [ ../configs/nixvim ]; }; }'';
       };
     };
 
@@ -100,7 +100,7 @@ in
         description = "(work-in-progress) Define neovim configs";
         type = lib.types.lazyAttrsOf mkNixvimOption;
         default = { };
-        example = lib.literalExpression '''';
+        example = lib.literalExpression ''{ feltnerm-nvim = { modules = [ ../configs/nixvim ]; }; }'';
       };
     };
   };

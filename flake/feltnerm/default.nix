@@ -209,19 +209,6 @@ let
   /**
         Create nixvim configs
   */
-  mkNixvimConfigs =
-    system: vimConfigs: nixvimModules:
-    builtins.mapAttrs (
-      _vimConfigName: vimConfig:
-      inputs.nixvim.lib.evalNixvim {
-        inherit system;
-        extraSpecialArgs = { inherit system inputs; };
-        modules = [
-          nixvimModules
-        ]
-        ++ vimConfig.modules;
-      }
-    ) vimConfigs;
 in
 {
 
@@ -242,7 +229,7 @@ in
     };
 
     perSystem =
-      { system, pkgs, ... }:
+      { pkgs, ... }:
       {
         /**
           home-manager
@@ -251,9 +238,10 @@ in
           mkHomeManagerHomes pkgs config.feltnerm.home.users
             inputs.self.homeModules.default;
 
-        nixvimConfigurations =
-          mkNixvimConfigs system config.feltnerm.nixvim.configs
-            inputs.self.nixvimModules.default;
+        # nixvimConfigurations disabled: home-manager nixvim module is not compatible with evalNixvim
+        # nixvimConfigurations =
+        #   mkNixvimConfigs system config.feltnerm.nixvim.configs
+        #     inputs.self.nixvimModules.default;
       };
 
   };

@@ -13,7 +13,11 @@ jobs:
       run: nix flake info
     - name: show flake
       run: nix flake show
-    - name: flake check
+    - name: format
+      run: nix fmt
+    - name: flake check (all systems)
+      run: nix flake check --all-systems
+    - name: flake checker
       uses: DeterminateSystems/flake-checker-action@v5
       with:
         fail-mode: true

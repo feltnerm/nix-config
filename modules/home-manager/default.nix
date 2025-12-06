@@ -20,15 +20,9 @@
     ./readline.nix
     ./stylix.nix
     ./zsh.nix
-  ];
 
-  options.feltnerm = {
-    enable = lib.mkEnableOption "feltnerm";
-    theme = lib.mkOption {
-      description = "theme";
-      default = "gruvbox-dark-hard";
-    };
-  };
+    ./options.nix
+  ];
 
   config = {
     programs = {
@@ -51,6 +45,5 @@
     };
 
     home.enableNixpkgsReleaseCheck = lib.mkDefault true;
-
   };
 }

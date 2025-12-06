@@ -5,6 +5,7 @@
     ./services
 
     ./security.nix
+    ./networking.nix
   ];
 
   config = {
