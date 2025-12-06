@@ -135,6 +135,101 @@ in
               zls.enable = lib.mkDefault true;
             };
           };
+
+          blink-copilot.enable = lib.mkDefault cfg.ai.enable;
+
+          copilot-lua = lib.mkIf (cfg.ai.enable && cfg.ai.provider == "copilot") {
+            settings = {
+              # let blink take over
+              suggestion = {
+                enabled = false;
+              };
+              panel = {
+                enabled = false;
+              };
+            };
+          };
+
+          blink-cmp = {
+            enable = true;
+            # keymaps / completion inspired by intellij
+            settings = {
+              appearance = {
+                nerd_font_variant = "mono";
+              };
+              sources = {
+                default = [
+                  "lsp"
+                  "snippets"
+                  "path"
+                ]
+                ++ lib.optionals cfg.ai.enable [ cfg.ai.provider ]
+                ++ [
+                  "buffer"
+                ];
+                providers = {
+                  # Give LSP a slight edge over other core sources
+                  lsp.score_offset = 5;
+
+                  buffer.score_offset = -7;
+
+                  # Adjust Copilot's rank as needed (e.g., lower it to prevent it from
+                  # obscuring all other suggestions, which is common practice).
+                  copilot = {
+                    enabled = lib.mkDefault cfg.ai.enable;
+                    name = "copilot";
+                    module = "blink-copilot";
+                    async = true;
+                    score_offset = -100;
+                  };
+                };
+              };
+              completion = {
+                list = {
+                  selection = {
+                    preselect = false;
+                  };
+                };
+                documentation = {
+                  auto_show = true;
+                };
+                ghost_text = {
+                  enabled = true;
+                };
+              };
+              fuzzy.implementation = "prefer_rust_with_warning";
+              keymap = {
+                preset = "super-tab";
+                # Explicitly redefine <Tab> for multi-purpose use
+                # Note: When overriding keymaps, you must use a Lua string
+                # to specify the command array.
+                "<Tab>" = [
+                  "select_next"
+                  "snippet_forward"
+                  "accept"
+                  "fallback"
+                ];
+
+                # Explicitly redefine <S-Tab> (Shift+Tab)
+                "<S-Tab>" = [
+                  "select_prev"
+                  "snippet_backward"
+                ];
+
+                # Enter accepts the completion
+                "<CR>" = [
+                  "accept"
+                  "fallback"
+                ];
+
+                # Manually show completion/documentation
+                "<C-Space>" = [
+                  "show"
+                  "show_documentation"
+                ];
+              };
+            };
+          };
         };
       };
     };
