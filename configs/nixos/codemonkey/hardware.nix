@@ -163,7 +163,7 @@
     '';
     users.groups.uinput = { };
     systemd.services.kanata-internalKeyboard.serviceConfig = {
-      SupplimentaryGroups = [
+      SupplementaryGroups = [
         "input"
         "uinput"
       ];

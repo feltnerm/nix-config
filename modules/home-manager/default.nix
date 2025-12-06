@@ -53,7 +53,7 @@
         selfPkgs.chuckscii
       ];
 
-    systemd.user.startServices = lib.mkDefault true;
+    systemd.user.startServices = lib.mkDefault pkgs.stdenv.isDarwin;
 
     services.home-manager.autoUpgrade = {
       enable = lib.mkDefault false;
