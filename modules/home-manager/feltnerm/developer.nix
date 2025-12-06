@@ -69,9 +69,10 @@ in
   config = lib.mkIf cfg.enable {
 
     services = {
-      # ollama = lib.mkIf cfg.ai.enable {
-      #   enable = true;
-      # };
+      ollama = lib.mkIf cfg.ai.enable {
+        # fails on aarm64-darwin
+        enable = lib.mkDefault false;
+      };
     };
 
     programs = {
