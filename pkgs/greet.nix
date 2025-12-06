@@ -1,12 +1,3 @@
-{ pkgs }:
-let
-  name = "greet";
-in
-pkgs.writeShellApplication {
-  inherit name;
-  runtimeInputs = [
-    pkgs.fortune
-    pkgs.cowsay
-  ];
-  text = "fortune | cowsay -W 80";
-}
+# Deprecated: use pkgs/greet/package.nix
+# Keeping stub for backward compatibility if referenced elsewhere.
+{ pkgs }: import ./greet/package.nix { inherit pkgs; }

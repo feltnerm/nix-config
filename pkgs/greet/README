@@ -1,0 +1,1 @@
+Package greet: simple cowsay fortune greeter. Converted to directory layout with package.nix.

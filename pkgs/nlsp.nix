@@ -1,7 +1,2 @@
-{ pkgs }:
-let
-  name = "nlsp";
-in
-pkgs.writeShellScriptBin name ''
-  tr '\r\n' ' ' < /dev/stdin
-''
+# Deprecated: use pkgs/nlsp/package.nix
+{ pkgs }: import ./nlsp/package.nix { inherit pkgs; }
