@@ -101,7 +101,7 @@ in
       };
 
       opencode = lib.mkIf cfg.ai.enable {
-        enable = true;
+        enable = lib.mkDefault true;
       };
 
       nixvim = {
@@ -179,9 +179,8 @@ in
             };
           };
 
-          blink-copilot.enable = lib.mkDefault cfg.ai.enable;
-
           copilot-lua = lib.mkIf (cfg.ai.enable && cfg.ai.provider == "copilot") {
+            enable = lib.mkDefault true;
             settings = {
               # let blink take over
               suggestion = {
@@ -193,8 +192,9 @@ in
             };
           };
 
+          blink-copilot.enable = lib.mkDefault cfg.ai.enable;
           blink-cmp = {
-            enable = true;
+            enable = lib.mkDefault true;
             # keymaps / completion inspired by intellij
             settings = {
               appearance = {
