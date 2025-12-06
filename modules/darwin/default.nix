@@ -51,10 +51,11 @@
     dock = {
       appswitcher-all-displays = lib.mkDefault true;
       autohide = lib.mkDefault true;
-      mru-spaces = lib.mkDefault false;
-      showhidden = lib.mkDefault true;
-
+      autohide-delay = lib.mkDefault 0.100;
       dashboard-in-overlay = lib.mkDefault false;
+      mru-spaces = lib.mkDefault false;
+      show-recents = lib.mkDefault false;
+      showhidden = lib.mkDefault true;
     };
 
     finder = {
@@ -74,7 +75,28 @@
       # show full POSIX path
       _FXShowPosixPathInTitle = lib.mkDefault true;
 
+      # show folders first when sorting by name
+      _FXSortFoldersFirst = lib.mkDefault true;
+
+      # show path breadcrumbs
+      ShowPathbar = lib.mkDefault true;
+
+      # show disk space stats at the bottom of finder windows
+      ShowStatusBar = lib.mkDefault true;
+
       QuitMenuItem = lib.mkDefault true;
+    };
+
+    menuExtraClock = {
+      # 24-hour clock
+      Show24Hour = lib.mkDefault true;
+      ShowDate = lib.mkDefault 1;
+    };
+
+    screencapture = {
+      # immediately open screenshots in preview
+      target = lib.mkDefault "preview";
+      type = lib.mkDefault "png";
     };
 
     loginwindow = {
@@ -83,19 +105,13 @@
     };
 
     NSGlobalDomain = {
+      AppleEnableMouseSwipeNavigateWithScrolls = lib.mkDefault true;
+
       # 24-hour clock
       AppleICUForce24HourTime = lib.mkDefault true;
 
       # dark mode
       AppleInterfaceStyle = lib.mkDefault "Dark";
-
-      # FIXME defined in finder
-      # show file extensions in Finder
-      # AppleShowAllExtensions = true;
-
-      # FIXME defined in finder
-      # show hidden files in Finder
-      # AppleShowAllFiles = true;
 
       # always show scroll bars
       AppleShowScrollBars = lib.mkDefault "Always";
@@ -114,14 +130,35 @@
       NSTableViewDefaultSizeMode = lib.mkDefault 3;
 
       # use F1, F2, etc. as standard function keys
-      # com.apple.keyboard.fnState = null;
-
-      # FIXME
+      "com.apple.keyboard.fnState" = lib.mkDefault true;
       # enable tap-to-click
-      # com.apple.mouse.tapBehavior = 1;
-      # FIXME
+      "com.apple.mouse.tapBehavior" = lib.mkDefault 1;
       # no beep
-      # com.apple.sound.beep.feedback = 0;
+      "com.apple.sound.beep.feedback" = lib.mkDefault 0;
+      # disable "natural" scroll
+      "com.apple.swipescrolldirection" = lib.mkDefault false;
+    };
+
+    WindowManager = {
+      # disable apple tiling
+      EnableTilingByEdgeDrag = lib.mkDefault false;
+      EnableTilingOptionAccelerator = lib.mkDefault false;
+      EnableTopTilingByEdgeDrag = lib.mkDefault false;
+
+      # disable stage man
+      GloballyEnabled = lib.mkDefault false;
+      # click wallpaper to reveal desktop
+      EnableStandardClickToShowDesktop = lib.mkDefault true;
+    };
+
+    controlcenter = {
+      AirDrop = lib.mkDefault false;
+      BatteryShowPercentage = lib.mkDefault true;
+      Bluetooth = lib.mkDefault true;
+      Display = lib.mkDefault false;
+      FocusModes = lib.mkDefault false;
+      NowPlaying = lib.mkDefault false;
+      Sound = lib.mkDefault true;
     };
 
     # ActivityMonitor = {};
@@ -145,6 +182,10 @@
     ];
   };
 
+  nix-homebrew = lib.mkIf config.homebrew.enable {
+    enable = true;
+  };
+
   homebrew = lib.mkIf config.homebrew.enable {
     onActivation = {
       # enable homebrew auto-update during nix-darwin activation
@@ -158,9 +199,9 @@
       autoUpdate = lib.mkDefault false;
     };
 
-    taps = [];
+    taps = [ ];
 
-    brews = [];
+    brews = [ ];
 
     casks = [
       # fonts

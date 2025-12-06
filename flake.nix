@@ -20,6 +20,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
     # TODO
     # nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
