@@ -56,9 +56,24 @@ in
         default = "";
       };
     };
+    ai = {
+      enable = lib.mkEnableOption "ai";
+      provider = lib.mkOption {
+        description = "AI model provider";
+        default = "copilot";
+        type = lib.types.enum [ "copilot" ];
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
+
+    services = {
+      # ollama = lib.mkIf cfg.ai.enable {
+      #   enable = true;
+      # };
+    };
+
     programs = {
       zsh.initContent = lib.mkIf (
         config.programs.zsh.enable && config.programs.fzf.enable
@@ -84,8 +99,22 @@ in
         };
       };
 
+      opencode = lib.mkIf cfg.ai.enable {
+        enable = true;
+      };
+
       nixvim = {
+        extraPlugins = [ ];
         plugins = {
+          snacks = {
+            enable = lib.mkDefault true;
+            settings = {
+              input.enabled = lib.mkDefault true;
+              picker.enabled = lib.mkDefault true;
+              terminal.enabled = lib.mkDefault true;
+            };
+          };
+
           # git
           fugitive.enable = lib.mkDefault true;
           gitblame.enable = lib.mkDefault true;
@@ -137,6 +166,15 @@ in
               vimls.enable = lib.mkDefault true;
               yamlls.enable = lib.mkDefault true;
               zls.enable = lib.mkDefault true;
+            };
+          };
+
+          opencode = {
+            enable = lib.mkDefault cfg.ai.enable;
+            settings = {
+              provider = {
+                enabled = lib.mkDefault "snacks";
+              };
             };
           };
 

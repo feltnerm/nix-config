@@ -15,6 +15,7 @@
       theme = lib.mkDefault "gruvbox-dark-hard";
       developer = {
         enable = true;
+        ai.enable = true;
         git = {
           username = "feltnerm";
           email = "feltner.mj@gmail.com";
@@ -34,10 +35,6 @@
         # imports = [inputs.self.nixvimConfigurations.packages];
         config = {
           enable = true;
-          plugins = {
-            lsp.enable = true;
-            blink-cmp.enable = true;
-          };
         };
       };
     };
