@@ -11,7 +11,11 @@
 
     profile = lib.mkOption {
       description = "Preset configuration profile for package selection.";
-      type = lib.types.enum [ "minimal" "standard" "full" ];
+      type = lib.types.enum [
+        "minimal"
+        "standard"
+        "full"
+      ];
       default = "standard";
     };
 

@@ -1,5 +1,5 @@
 _: {
-  flake.overlays.default = final: prev: {
+  flake.overlays.default = final: _prev: {
     # Re-export all packages from this flake as overlay attributes
     chuckscii = final.callPackage ../pkgs/chuckscii/package.nix { };
     greet = final.callPackage ../pkgs/greet/package.nix { };

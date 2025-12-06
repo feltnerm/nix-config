@@ -174,28 +174,30 @@ in
               minimal = base;
               standard = base ++ developmentPkgs ++ fileBrowsers;
               full = base ++ developmentPkgs ++ fileBrowsers ++ networkingPkgs ++ funPkgs ++ yubikeyPkgs;
-            }.
-            ${cfg.profile or (if pkgs.stdenv.isDarwin then "full" else "standard")};
+            }
+            .${cfg.profile or (if pkgs.stdenv.isDarwin then "full" else "standard")};
 
         in
-          preset
-          ++ lib.optionals cfg.packages.development developmentPkgs
-          ++ lib.optionals cfg.packages.networking networkingPkgs
-          ++ lib.optionals cfg.packages.fun funPkgs
-          ++ lib.optionals cfg.packages.yubikey yubikeyPkgs
-          # platform-specific extras
-          ++ lib.optionals pkgs.stdenv.isDarwin [ ]
-           ++ lib.optionals pkgs.stdenv.isLinux [ ]
-          # custom local packages via pkgs-by-name
-          ++ lib.optionals cfg.packages.custom (
-            let byname = pkgs.by-name or { }; in
-            builtins.filter (p: p != null) [
-              (byname.greet or null)
-              (byname.chuckscii or null)
-              (byname.screensaver or null)
-              (byname.year-progress or null)
-            ]
-          );
+        preset
+        ++ lib.optionals cfg.packages.development developmentPkgs
+        ++ lib.optionals cfg.packages.networking networkingPkgs
+        ++ lib.optionals cfg.packages.fun funPkgs
+        ++ lib.optionals cfg.packages.yubikey yubikeyPkgs
+        # platform-specific extras
+        ++ lib.optionals pkgs.stdenv.isDarwin [ ]
+        ++ lib.optionals pkgs.stdenv.isLinux [ ]
+        # custom local packages via pkgs-by-name
+        ++ lib.optionals cfg.packages.custom (
+          let
+            byname = pkgs.by-name or { };
+          in
+          builtins.filter (p: p != null) [
+            (byname.greet or null)
+            (byname.chuckscii or null)
+            (byname.screensaver or null)
+            (byname.year-progress or null)
+          ]
+        );
     };
   };
 }
