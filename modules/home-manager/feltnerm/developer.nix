@@ -192,7 +192,7 @@ in
             };
           };
 
-          blink-copilot.enable = lib.mkDefault cfg.ai.enable;
+          blink-copilot.enable = lib.mkDefault (cfg.ai.enable && cfg.ai.provider == "copilot");
           blink-cmp = {
             enable = lib.mkDefault true;
             # keymaps / completion inspired by intellij
@@ -218,7 +218,7 @@ in
 
                   # Adjust Copilot's rank as needed (e.g., lower it to prevent it from
                   # obscuring all other suggestions, which is common practice).
-                  copilot = {
+                  copilot = lib.mkIf (cfg.ai.provider == "copilot") {
                     enabled = lib.mkDefault cfg.ai.enable;
                     name = "copilot";
                     module = "blink-copilot";
