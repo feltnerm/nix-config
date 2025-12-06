@@ -35,6 +35,12 @@
     home.packages = with pkgs; [
       nix-health
       nix-tree
+
+      greet
+      nlsp
+      screensaver
+      year-progress
+      chuckscii
     ];
 
     systemd.user.startServices = lib.mkDefault true;
