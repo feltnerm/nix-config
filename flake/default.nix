@@ -10,6 +10,7 @@
     ./devshells.nix
     ./flake-modules.nix
     ./home.nix
+    ./overlays.nix
     ./nixos.nix
     ./nixvim.nix
     ./pkgs.nix
