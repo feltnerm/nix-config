@@ -53,13 +53,13 @@ let
     ) users;
 
   /**
-      Create nixos systems
+      Generic system builder to deduplicate platform-specific logic
   */
-  mkNixosSystems =
-    nixosHosts: nixosModule: homeManagerModule:
+  mkSystemsGeneric =
+    buildFn: hosts: baseModule: homeManagerModule: homeRoot: extraModules:
     builtins.mapAttrs (
       hostname: hostConfig:
-      inputs.nixpkgs.lib.nixosSystem {
+      buildFn {
         inherit (hostConfig) system;
         specialArgs = {
           inherit inputs hostname;
@@ -67,24 +67,20 @@ let
         modules = [
           { _module.args = { inherit inputs hostname; }; }
 
-          # my modules
+          # shared modules
           systemModule
-          nixosModule
+          baseModule
 
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
 
-          # users
+          # users and groups
           {
-            users.users = mkUsersConfig hostConfig.users (u: "/home/${u}");
+            users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
           }
-
-          # ensure each user has a group named after them
           {
             users.groups = builtins.mapAttrs (_username: _userConf: { }) hostConfig.users;
           }
-
-          # nixos user
           {
             users.users = builtins.mapAttrs (_username: _userConf: {
               isNormalUser = lib.mkDefault true;
@@ -93,84 +89,50 @@ let
           }
 
           # home-manager
-          inputs.home-manager.nixosModules.home-manager
+          (
+            if homeRoot == "/Users" then
+              inputs.home-manager.darwinModules.home-manager
+            else
+              inputs.home-manager.nixosModules.home-manager
+          )
           {
             home-manager = {
               useGlobalPkgs = false;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit hostname inputs;
+                inherit (hostConfig) system;
               };
-              users = mkHomeUsersConfig hostConfig.users (u: "/home/${u}") homeManagerModule;
+              users = mkHomeUsersConfig hostConfig.users (u: "${homeRoot}/${u}") homeManagerModule;
             };
           }
-
-          # default modules
-          inputs.agenix.nixosModules.default
-          inputs.nixos-generators.nixosModules.all-formats
-          inputs.nix-topology.nixosModules.default
-          # FIXME facter
-          # inputs.nixos-facter-modules.nixosModules.facter
-          # { config.facter.reportPath = "${localFlake}/configs/nixos/${hostname}/facter.json"; }
-
         ]
+        ++ extraModules
         ++ hostConfig.modules;
       }
-    ) nixosHosts;
+    ) hosts;
+
+  /**
+      Create nixos systems
+  */
+  mkNixosSystems =
+    nixosHosts: nixosModule: homeManagerModule:
+    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" [
+      inputs.agenix.nixosModules.default
+      inputs.nixos-generators.nixosModules.all-formats
+      inputs.nix-topology.nixosModules.default
+    ];
 
   /**
       Create nix-darwin systems
   */
   mkDarwinSystems =
     darwinHosts: darwinModule: homeManagerModule:
-    builtins.mapAttrs (
-      hostname: hostConfig:
-      inputs.darwin.lib.darwinSystem {
-        inherit (hostConfig) system;
-        specialArgs = {
-          inherit inputs hostname;
-        };
-        modules = [
-          { _module.args = { inherit inputs hostname; }; }
-
-          # my modules
-          systemModule
-          darwinModule
-
-          # networking
-          { networking.hostName = lib.mkDefault "${hostname}"; }
-
-          # users
-          {
-            users.users = mkUsersConfig hostConfig.users (u: "/Users/${u}");
-          }
-
-          # nix-homebrew
-          inputs.nix-homebrew.darwinModules.nix-homebrew
-
-          # home-manager
-          inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = false;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit (hostConfig) system;
-                inherit
-                  hostname
-                  inputs
-                  ;
-              };
-              users = mkHomeUsersConfig hostConfig.users (u: "/Users/${u}") homeManagerModule;
-            };
-          }
-
-          # other included modules
-          inputs.agenix.darwinModules.default
-        ]
-        ++ hostConfig.modules;
-      }
-    ) darwinHosts;
+    mkSystemsGeneric inputs.darwin.lib.darwinSystem darwinHosts darwinModule homeManagerModule "/Users"
+      [
+        inputs.nix-homebrew.darwinModules.nix-homebrew
+        inputs.agenix.darwinModules.default
+      ];
 
   /**
         Create a home-manager home
