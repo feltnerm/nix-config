@@ -116,10 +116,9 @@
       # always show scroll bars
       AppleShowScrollBars = lib.mkDefault "Always";
 
-      # key repeat
-      # TODO find actual values
-      # InitialKeyRepeat = 100;
-      # KeyRepeat = 100;
+      # key repeat (values depend on hardware/preferences)
+      InitialKeyRepeat = lib.mkDefault 300000;
+      KeyRepeat = lib.mkDefault 2;
 
       # stop messing with my text, Apple
       NSAutomaticCapitalizationEnabled = lib.mkDefault false;
