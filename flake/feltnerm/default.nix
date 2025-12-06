@@ -45,6 +45,9 @@ let
           };
           # let home-manager install and manage itself
           programs.home-manager.enable = true;
+
+          # allow unfree packages in Home Manager when using local pkgs
+          nixpkgs.config.allowUnfree = lib.mkDefault true;
         };
       }
     ) users;
@@ -64,18 +67,9 @@ let
         modules = [
           { _module.args = { inherit inputs hostname; }; }
 
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          }
-
           # my modules
           systemModule
           nixosModule
-
-          { nixpkgs.config.allowUnfree = lib.mkDefault true; }
 
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
@@ -85,11 +79,8 @@ let
             users.users = mkUsersConfig hostConfig.users (u: "/home/${u}");
           }
 
-          # user groups
+          # ensure each user has a group named after them
           {
-            users.users = builtins.mapAttrs (username: _userConf: {
-              extraGroups = [ "${username}" ];
-            }) hostConfig.users;
             users.groups = builtins.mapAttrs (_username: _userConf: { }) hostConfig.users;
           }
 
@@ -101,18 +92,11 @@ let
             }) hostConfig.users;
           }
 
-          # user modules
-          {
-            users.users = builtins.mapAttrs (_username: userConf: _: {
-              imports = userConf.modules;
-            }) hostConfig.users;
-          }
-
           # home-manager
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
-              useGlobalPkgs = true;
+              useGlobalPkgs = false;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit hostname inputs;
@@ -150,17 +134,8 @@ let
           { _module.args = { inherit inputs hostname; }; }
 
           # my modules
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          }
           systemModule
           darwinModule
-
-          # nixpkgs
-          { nixpkgs.config.allowUnfree = lib.mkDefault true; }
 
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
@@ -177,7 +152,7 @@ let
           inputs.home-manager.darwinModules.home-manager
           {
             home-manager = {
-              useGlobalPkgs = true;
+              useGlobalPkgs = false;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit (hostConfig) system;
@@ -213,15 +188,7 @@ let
           { _module.args = { inherit inputs username; }; }
 
           # my modules
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          }
           homeManagerModule
-
-          { nixpkgs.config.allowUnfree = true; }
 
           {
             home = {

@@ -35,6 +35,9 @@
     };
   };
 
+  # shared nixpkgs settings
+  nixpkgs.config.allowUnfree = lib.mkDefault true;
+
   # shared environment settings
   environment = {
     shells = [
