@@ -2,7 +2,12 @@
   Settings and packages available to all home-manager profiles
 */
 
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   imports = [
     ./feltnerm
@@ -20,15 +25,9 @@
     ./readline.nix
     ./stylix.nix
     ./zsh.nix
-  ];
 
-  options.feltnerm = {
-    enable = lib.mkEnableOption "feltnerm";
-    theme = lib.mkOption {
-      description = "theme";
-      default = "gruvbox-dark-hard";
-    };
-  };
+    ./options.nix
+  ];
 
   config = {
     programs = {
@@ -38,12 +37,23 @@
       ssh.enable = lib.mkDefault true;
     };
 
-    home.packages = with pkgs; [
-      nix-health
-      nix-tree
-    ];
+    home.packages =
+      with pkgs;
+      let
+        selfPkgs = inputs.self.packages.${pkgs.system};
+      in
+      [
+        nix-health
+        nix-tree
 
-    systemd.user.startServices = lib.mkDefault true;
+        selfPkgs.greet
+        selfPkgs.nlsp
+        selfPkgs.screensaver
+        selfPkgs.year-progress
+        selfPkgs.chuckscii
+      ];
+
+    systemd.user.startServices = lib.mkDefault pkgs.stdenv.isDarwin;
 
     services.home-manager.autoUpgrade = {
       enable = lib.mkDefault false;
@@ -51,6 +61,5 @@
     };
 
     home.enableNixpkgsReleaseCheck = lib.mkDefault true;
-
   };
 }

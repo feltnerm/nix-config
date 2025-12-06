@@ -10,6 +10,7 @@
     ./devshells.nix
     ./flake-modules.nix
     ./home.nix
+    ./overlays.nix
     ./nixos.nix
     ./nixvim.nix
     ./pkgs.nix
@@ -20,9 +21,9 @@
   feltnerm = {
     nixvim = {
       configs = {
-        # feltnerm-nvim = {
-        #   modules = [ ../configs/nixvim ];
-        # };
+        feltnerm-nvim = {
+          modules = [ ../modules/home-manager/nixvim.nix ];
+        };
       };
     };
 

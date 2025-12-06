@@ -1,125 +1,61 @@
-the official feltnerm [nix](https://nixos.org/) config
-----
+# feltnerm nix-config
 
-[![checks](https://github.com/feltnerm/nix-config/actions/workflows/checks.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/checks.yml)
+Personal NixOS, nix-darwin, and Home Manager setup using flake-parts and a small `feltnerm` module to define hosts and users.
 
-[![update-flake-lock](https://github.com/feltnerm/nix-config/actions/workflows/update-flake-lock.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/update-flake-lock.yml)
+## Quick Start
 
-## Development
+Enable flakes: add `experimental-features = nix-command flakes` to Nix config.
 
-### Development Shell
+- NixOS
+  ```sh
+  sudo nixos-rebuild switch --flake .#<hostname>
+  ```
+- macOS (nix-darwin) (may require `sudo`)
+  ```sh
+  darwin-rebuild switch --flake .#<hostname>
+  ```
+- Home Manager (standalone) (sort of tested)
+  ```sh
+  home-manager switch --flake .#<username>
+  ```
 
-```shell
+## Architecture (short)
+
+- flake-parts modules live in `flake/`
+- `feltnerm` adds _my_ options
+    - Shared system settings: `flake/feltnerm/system.nix`
+- Custom packages: `pkgs/<name>/package.nix`
+
+## Common Tasks
+
+```sh
+# Dev shell
 nix develop
-```
 
-### Update and Commit Lockfile
-
-```shell
+# Update inputs and commit lockfile
 nix flake update --commit-lock-file
-```
 
-### Check
-
-```shell
+# Checks & format
 nix flake check
-```
-
-### Format
-
-```shell
 nix fmt
+
+# Build a package
+nix build .#<pkg> && ./result/bin/<pkg>
 ```
 
-## Hosts
+## Extras
 
-### nixos
-
-```shell
-nixos-rebuild --flake '.#<hostname> <check|build|switch>'
-```
-
-### darwin
-
-```shell
-darwin-rebuild --flake '.#<hostname> <check|build|switch>'
-```
-
-### build vm
-
-Uses [nixos-generators](https://github.com/nix-community/nixos-generators).
-
-```shell
-nix build .#nixosConfigurations.<hostName>.config.formats.<format>
-```
-
-### generate topology diagram
-
-Uses [nix-topology](https://oddlama.github.io/nix-topology).
-
-#### Linux
-
-```shell
-nix build .#topology.x86_64-linux.config.output
-```
-
-#### macOS
-
-```shell
-nix build .#topology.x86_64-darwin.config.output
-```
-
-## home-manager
-
-```shell
-home-manager --flake '.#<username> <build|switch>'
-```
-
-## nixvim
-
-```shell
-nix run .# -- <file>
-```
-
-```shell
-nix run .#<name>-nvim -- <file>
-```
-
-## Packages
-
-My (somewhat) useful custom nix packages are defined in `./pkgs`.
-
-### build
-
-Locally, build them with:
-
-```shell
-nix build .#<pkg>
-```
-
-### run
-
-Subsequently, run them with:
-
-```shell
-./result/bin/<pkg>
-```
-
----
+- VM images: `nixosConfigurations.<host>.config.formats.<format>`
+- Topology diagrams: build outputs under `flake.topology`
+- TODO Secrets: use ragenix/agenix (`age.secrets.*`, store files outside git)
 
 ## Inspiration
-
-<small>
-Inspired by the following (and many others!):
 
 - https://github.com/Xe/nixos-configs
 - https://github.com/notusknot/dotfiles-nix
 - https://github.com/sioodmy/dotfiles
 - https://github.com/colemickens/nixcfg
 - https://github.com/divnix/digga
-- https://jdisaacs.com/blog/ixos-config/
+- https://jdisaacs.com/blog/nixos-config/
 - https://git.sr.ht/~misterio/nix-config
 - https://github.com/TheMaxMur/NixOS-Configuration
-</small>
-
-

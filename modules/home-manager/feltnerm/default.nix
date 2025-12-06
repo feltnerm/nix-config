@@ -91,103 +91,113 @@ in
         oracow = "${pkgs.fortune}/bin/fortune | ${pkgs.cowsay}/bin/cowsay";
       };
 
-      packages = [
-        pkgs.zsh
-        pkgs.vim
-        pkgs.git
-        pkgs.man
+      packages =
+        let
+          # base always-installed packages (minimal profile)
+          base = [
+            pkgs.zsh
+            pkgs.vim
+            pkgs.git
+            pkgs.man
+            pkgs.readline
+            pkgs.ripgrep
+          ];
 
-        # shell utils
-        pkgs.ack
-        pkgs.fd
-        pkgs.fpp
-        pkgs.readline
-        pkgs.ripgrep
-        pkgs.ripgrep-all
+          # development tools
+          developmentPkgs = [
+            pkgs.ack
+            pkgs.fd
+            pkgs.fpp
+            pkgs.chezmoi
+            pkgs.bottom
+            pkgs.killall
+            pkgs.lsof
+            pkgs.glances
+            pkgs.gawk
+            pkgs.tree
+            pkgs.unrar
+            pkgs.unzip
+            pkgs.poppler
+            pkgs.imagemagick
+          ];
 
-        pkgs.chezmoi
+          # file browsers
+          fileBrowsers = [
+            pkgs.mc
+            pkgs.ncdu_1
+            pkgs.nnn
+          ];
 
-        # process management
-        pkgs.bottom
-        pkgs.killall
-        #lnav
-        pkgs.lsof
-        #pidof
-        pkgs.glances
-        #gotop
-        # pkgs.nodePackages.nodemon
+          # networking tools
+          networkingPkgs = [
+            pkgs.curl
+            pkgs.mosh
+            pkgs.mtr
+            pkgs.openssl
+            pkgs.openvpn
+            pkgs.prettyping
+            pkgs.rclone
+            pkgs.rsync
+            pkgs.speedtest-cli
+            pkgs.sshfs
+            pkgs.trippy
+            pkgs.wget
+            pkgs.hexyl
+            pkgs.httpie
+            pkgs.lynx
+            pkgs.surfraw
+          ];
 
-        # processors
-        pkgs.gawk
+          # fun/toys
+          funPkgs = [
+            pkgs.cowsay
+            pkgs.figlet
+            pkgs.fortune
+            pkgs.lolcat
+            pkgs.neofetch
+            pkgs.toilet
+            pkgs.ascii-image-converter
+            pkgs.asciinema
+            pkgs.nyancat
+            pkgs.yt-dlp
+          ];
 
-        # file browsers
-        pkgs.mc # midnight commander
-        pkgs.ncdu_1 # FIXME once zig is stable
-        pkgs.nnn
+          yubikeyPkgs = [
+            pkgs.yubikey-agent
+            pkgs.yubikey-manager
+            pkgs.yubikey-personalization
+          ];
 
-        # networking
-        pkgs.curl
-        pkgs.mosh
-        pkgs.mtr
-        pkgs.openssl
-        pkgs.openvpn
-        pkgs.prettyping
-        pkgs.rclone
-        pkgs.rsync
-        pkgs.speedtest-cli
-        pkgs.sshfs
-        pkgs.trippy
-        pkgs.wget
+          # profile presets
+          preset =
+            {
+              minimal = base;
+              standard = base ++ developmentPkgs ++ fileBrowsers;
+              full = base ++ developmentPkgs ++ fileBrowsers ++ networkingPkgs ++ funPkgs ++ yubikeyPkgs;
+            }
+            .${cfg.profile or (if pkgs.stdenv.isDarwin then "full" else "standard")};
 
-        # http
-        pkgs.hexyl
-        pkgs.httpie
-        pkgs.lynx
-        # TODO surfraw configuration
-        pkgs.surfraw
-
-        # nix
-        pkgs.niv
-
-        # utils
-        pkgs.tree
-        pkgs.unrar
-        pkgs.unzip
-
-        # pdf
-        pkgs.poppler
-
-        # image tools
-        pkgs.imagemagick
-
-        #pkgs.bitwarden-cli
-
-        # yubikey
-        pkgs.yubikey-agent
-        pkgs.yubikey-manager
-        pkgs.yubikey-personalization
-
-        # fun
-        pkgs.cowsay
-        pkgs.figlet
-        pkgs.fortune
-        pkgs.lolcat
-        pkgs.neofetch
-        pkgs.toilet
-        pkgs.ascii-image-converter
-        pkgs.asciinema
-        pkgs.nyancat
-        pkgs.yt-dlp
-
-        # my scripts and packages
-        # self.legacyPackages."${pkgs.stdenv.hostPlatform.system}".chuckscii
-        # self.legacyPackages."${pkgs.stdenv.hostPlatform.system}".greet
-        # self.legacyPackages."${pkgs.stdenv.hostPlatform.system}".screensaver
-        # self.legacyPackages."${pkgs.stdenv.hostPlatform.system}".year-progress
-
-        # self.packages."${pkgs.stdenv.hostPlatform.system}".feltnerm-nvim
-
-      ];
+        in
+        preset
+        ++ lib.optionals cfg.packages.development developmentPkgs
+        ++ lib.optionals cfg.packages.networking networkingPkgs
+        ++ lib.optionals cfg.packages.fun funPkgs
+        ++ lib.optionals cfg.packages.yubikey yubikeyPkgs
+        # platform-specific extras
+        ++ lib.optionals pkgs.stdenv.isDarwin [ ]
+        ++ lib.optionals pkgs.stdenv.isLinux [ ]
+        # custom local packages via pkgs-by-name
+        ++ lib.optionals cfg.packages.custom (
+          let
+            byname = pkgs.by-name or { };
+          in
+          builtins.filter (p: p != null) [
+            (byname.greet or null)
+            (byname.chuckscii or null)
+            (byname.screensaver or null)
+            (byname.year-progress or null)
+          ]
+        );
     };
   };
 }

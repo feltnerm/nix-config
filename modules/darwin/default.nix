@@ -38,15 +38,11 @@
     #   # sound.beep.sound = "";
     # };
 
-    # enable firewall
-    # alf.globalstate = 1;
-
-    # drop pings
-    # alf.stealthenabled = 1;
-
-    # allow signed apps to use the network by default
-    # alf.allowdownloadsignedenabled = 1;
-    # alf.allowsignedenabled = 1;
+    # Firewall configuration examples (commented):
+    # alf.globalstate = 1;                # enable firewall
+    # alf.stealthenabled = 1;             # drop ICMP pings
+    # alf.allowdownloadsignedenabled = 1; # allow signed downloads
+    # alf.allowsignedenabled = 1;         # allow signed apps
 
     dock = {
       appswitcher-all-displays = lib.mkDefault true;

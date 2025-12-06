@@ -45,18 +45,21 @@ let
           };
           # let home-manager install and manage itself
           programs.home-manager.enable = true;
+
+          # allow unfree packages in Home Manager when using local pkgs
+          nixpkgs.config.allowUnfree = lib.mkDefault true;
         };
       }
     ) users;
 
   /**
-      Create nixos systems
+      Generic system builder to deduplicate platform-specific logic
   */
-  mkNixosSystems =
-    nixosHosts: nixosModule: homeManagerModule:
+  mkSystemsGeneric =
+    buildFn: hosts: baseModule: homeManagerModule: homeRoot: extraModules:
     builtins.mapAttrs (
       hostname: hostConfig:
-      inputs.nixpkgs.lib.nixosSystem {
+      buildFn {
         inherit (hostConfig) system;
         specialArgs = {
           inherit inputs hostname;
@@ -64,36 +67,20 @@ let
         modules = [
           { _module.args = { inherit inputs hostname; }; }
 
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          }
-
-          # my modules
+          # shared modules
           systemModule
-          nixosModule
-
-          { nixpkgs.config.allowUnfree = lib.mkDefault true; }
+          baseModule
 
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
 
-          # users
+          # users and groups
           {
-            users.users = mkUsersConfig hostConfig.users (u: "/home/${u}");
+            users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
           }
-
-          # user groups
           {
-            users.users = builtins.mapAttrs (username: _userConf: {
-              extraGroups = [ "${username}" ];
-            }) hostConfig.users;
             users.groups = builtins.mapAttrs (_username: _userConf: { }) hostConfig.users;
           }
-
-          # nixos user
           {
             users.users = builtins.mapAttrs (_username: _userConf: {
               isNormalUser = lib.mkDefault true;
@@ -101,101 +88,51 @@ let
             }) hostConfig.users;
           }
 
-          # user modules
-          {
-            users.users = builtins.mapAttrs (_username: userConf: _: {
-              imports = userConf.modules;
-            }) hostConfig.users;
-          }
-
           # home-manager
-          inputs.home-manager.nixosModules.home-manager
+          (
+            if homeRoot == "/Users" then
+              inputs.home-manager.darwinModules.home-manager
+            else
+              inputs.home-manager.nixosModules.home-manager
+          )
           {
             home-manager = {
-              useGlobalPkgs = true;
+              useGlobalPkgs = false;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit hostname inputs;
+                inherit (hostConfig) system;
               };
-              users = mkHomeUsersConfig hostConfig.users (u: "/home/${u}") homeManagerModule;
+              users = mkHomeUsersConfig hostConfig.users (u: "${homeRoot}/${u}") homeManagerModule;
             };
           }
-
-          # default modules
-          inputs.agenix.nixosModules.default
-          inputs.nixos-generators.nixosModules.all-formats
-          inputs.nix-topology.nixosModules.default
-          # FIXME facter
-          # inputs.nixos-facter-modules.nixosModules.facter
-          # { config.facter.reportPath = "${localFlake}/configs/nixos/${hostname}/facter.json"; }
-
         ]
+        ++ extraModules
         ++ hostConfig.modules;
       }
-    ) nixosHosts;
+    ) hosts;
+
+  /**
+      Create nixos systems
+  */
+  mkNixosSystems =
+    nixosHosts: nixosModule: homeManagerModule:
+    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" [
+      inputs.agenix.nixosModules.default
+      inputs.nixos-generators.nixosModules.all-formats
+      inputs.nix-topology.nixosModules.default
+    ];
 
   /**
       Create nix-darwin systems
   */
   mkDarwinSystems =
     darwinHosts: darwinModule: homeManagerModule:
-    builtins.mapAttrs (
-      hostname: hostConfig:
-      inputs.darwin.lib.darwinSystem {
-        inherit (hostConfig) system;
-        specialArgs = {
-          inherit inputs hostname;
-        };
-        modules = [
-          { _module.args = { inherit inputs hostname; }; }
-
-          # my modules
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          }
-          systemModule
-          darwinModule
-
-          # nixpkgs
-          { nixpkgs.config.allowUnfree = lib.mkDefault true; }
-
-          # networking
-          { networking.hostName = lib.mkDefault "${hostname}"; }
-
-          # users
-          {
-            users.users = mkUsersConfig hostConfig.users (u: "/Users/${u}");
-          }
-
-          # nix-homebrew
-          inputs.nix-homebrew.darwinModules.nix-homebrew
-
-          # home-manager
-          inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit (hostConfig) system;
-                inherit
-                  hostname
-                  inputs
-                  ;
-              };
-              users = mkHomeUsersConfig hostConfig.users (u: "/Users/${u}") homeManagerModule;
-            };
-          }
-
-          # other included modules
-          inputs.agenix.darwinModules.default
-        ]
-        ++ hostConfig.modules;
-      }
-    ) darwinHosts;
+    mkSystemsGeneric inputs.darwin.lib.darwinSystem darwinHosts darwinModule homeManagerModule "/Users"
+      [
+        inputs.nix-homebrew.darwinModules.nix-homebrew
+        inputs.agenix.darwinModules.default
+      ];
 
   /**
         Create a home-manager home
@@ -213,15 +150,7 @@ let
           { _module.args = { inherit inputs username; }; }
 
           # my modules
-          {
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          }
           homeManagerModule
-
-          { nixpkgs.config.allowUnfree = true; }
 
           {
             home = {
@@ -242,19 +171,6 @@ let
   /**
         Create nixvim configs
   */
-  mkNixvimConfigs =
-    system: vimConfigs: nixvimModules:
-    builtins.mapAttrs (
-      _vimConfigName: vimConfig:
-      inputs.nixvim.lib.evalNixvim {
-        inherit system;
-        extraSpecialArgs = { inherit system inputs; };
-        modules = [
-          nixvimModules
-        ]
-        ++ vimConfig.modules;
-      }
-    ) vimConfigs;
 in
 {
 
@@ -275,7 +191,7 @@ in
     };
 
     perSystem =
-      { system, pkgs, ... }:
+      { pkgs, ... }:
       {
         /**
           home-manager
@@ -284,9 +200,10 @@ in
           mkHomeManagerHomes pkgs config.feltnerm.home.users
             inputs.self.homeModules.default;
 
-        nixvimConfigurations =
-          mkNixvimConfigs system config.feltnerm.nixvim.configs
-            inputs.self.nixvimModules.default;
+        # nixvimConfigurations disabled: home-manager nixvim module is not compatible with evalNixvim
+        # nixvimConfigurations =
+        #   mkNixvimConfigs system config.feltnerm.nixvim.configs
+        #     inputs.self.nixvimModules.default;
       };
 
   };

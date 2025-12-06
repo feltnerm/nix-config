@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  config,
   ...
 }:
 {
@@ -12,7 +13,7 @@
   config = {
     feltnerm = {
       enable = true;
-      theme = lib.mkDefault "gruvbox-dark-hard";
+      theme = lib.mkDefault config.feltnerm.theme;
       developer = {
         enable = true;
         ai.enable = true;
@@ -25,6 +26,7 @@
 
     stylix = {
       enable = true;
+      enableReleaseChecks = lib.mkDefault false;
     };
 
     programs = {

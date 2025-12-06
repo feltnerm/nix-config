@@ -12,8 +12,9 @@
     */
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    # Optional alternate channels (currently unused):
+    # nixpkgs-master.url = "github:nixos/nixpkgs/master";  # useful for testing latest changes
+    # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";  # pin older stable release
 
     darwin = {
       url = "github:lnl7/nix-darwin/master";
@@ -22,7 +23,7 @@
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
-    # TODO
+    # TODO(wsl-support): Consider adding NixOS-WSL support when targeting Windows environments.
     # nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     hardware.url = "github:nixos/nixos-hardware";

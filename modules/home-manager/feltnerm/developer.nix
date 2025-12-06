@@ -46,13 +46,19 @@ in
     enable = lib.mkEnableOption "developer";
     codeHome = lib.mkOption {
       description = "code directory";
+      type = lib.types.str;
       default = "${config.home.homeDirectory}/code";
+      example = "${config.home.homeDirectory}/Projects";
     };
     git = {
       username = lib.mkOption {
+        description = "Git user name";
+        type = lib.types.str;
         default = "";
       };
       email = lib.mkOption {
+        description = "Git user email";
+        type = lib.types.str;
         default = "";
       };
     };
