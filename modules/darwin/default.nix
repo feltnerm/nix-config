@@ -51,11 +51,11 @@
     dock = {
       appswitcher-all-displays = lib.mkDefault true;
       autohide = lib.mkDefault true;
-      autohide-delay = lib.mkDefault 0.300;
-      mru-spaces = lib.mkDefault false;
-      showhidden = lib.mkDefault true;
-
+      autohide-delay = lib.mkDefault 0.100;
       dashboard-in-overlay = lib.mkDefault false;
+      mru-spaces = lib.mkDefault false;
+      show-recents = lib.mkDefault false;
+      showhidden = lib.mkDefault true;
     };
 
     finder = {
@@ -136,7 +136,7 @@
       # no beep
       "com.apple.sound.beep.feedback" = lib.mkDefault 0;
       # disable "natural" scroll
-      "com.apple.swipescrolldirection" = lib.mkDefault true;
+      "com.apple.swipescrolldirection" = lib.mkDefault false;
     };
 
     WindowManager = {
