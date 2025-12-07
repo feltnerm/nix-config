@@ -46,7 +46,6 @@ let
           # let home-manager install and manage itself
           programs.home-manager.enable = true;
 
-
         };
       }
     ) users;
@@ -96,7 +95,7 @@ let
           )
           {
             home-manager = {
-              useGlobalPkgs = false;
+              useGlobalPkgs = true;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit hostname inputs;
