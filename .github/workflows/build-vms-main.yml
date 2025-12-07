@@ -1,0 +1,23 @@
+name: build-vms-main
+
+on:
+  push:
+    branches: [ main ]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-vms-fast:
+    name: Build NixOS VMs (fast)
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [ virtmark ]
+    uses: ./.github/workflows/vm-build.yml
+    with:
+      host: ${{ matrix.host }}
+      format: vm
+    secrets:
+      CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+

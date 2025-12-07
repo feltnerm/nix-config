@@ -10,8 +10,8 @@
   config = lib.mkIf config.services.openssh.enable {
     services.openssh = {
       settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = true;
+        PermitRootLogin = lib.mkDefault "no";
+        PasswordAuthentication = lib.mkDefault true;
       };
     };
 

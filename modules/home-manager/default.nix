@@ -40,7 +40,7 @@
     home.packages =
       with pkgs;
       let
-        selfPkgs = inputs.self.packages.${pkgs.system};
+        selfPkgs = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
       in
       [
         nix-health

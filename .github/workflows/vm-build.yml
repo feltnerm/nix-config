@@ -1,0 +1,60 @@
+name: vm-build
+
+on:
+  workflow_call:
+    inputs:
+      host:
+        description: NixOS host (flake nixosConfigurations)
+        required: true
+        type: string
+      format:
+        description: VM format to build
+        required: true
+        type: string
+    secrets:
+      CACHIX_AUTH_TOKEN:
+        required: false
+
+jobs:
+  build-vm:
+    name: Build VM
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Enable binary cache
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Set up Cachix (feltnerm)
+        if: secrets.CACHIX_AUTH_TOKEN != ''
+        uses: cachix/cachix-action@v15
+        with:
+          name: feltnerm
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Show flake
+        run: nix flake show
+
+      - name: Build VM
+        run: |
+          set -euxo pipefail
+          HOST="${{ inputs.host }}"
+          FORMAT="${{ inputs.format }}"
+          case "$FORMAT" in
+            vm|vmWithBootLoader|vmWithDisko)
+              nix build .#nixosConfigurations."$HOST".config.system.build."$FORMAT"
+              ;;
+            iso|qcow)
+              nix build .#nixosConfigurations."$HOST".config.formats."$FORMAT"
+              ;;
+            *)
+              echo "Unsupported format: $FORMAT" >&2
+              exit 1
+              ;;
+          esac

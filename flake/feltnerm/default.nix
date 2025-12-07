@@ -102,6 +102,7 @@ let
               extraSpecialArgs = {
                 inherit hostname inputs;
                 inherit (hostConfig) system;
+                feltnermTheme = config.feltnerm.theme;
               };
               users = mkHomeUsersConfig hostConfig.users (u: "${homeRoot}/${u}") homeManagerModule;
             };
@@ -145,6 +146,7 @@ let
         inherit pkgs;
         extraSpecialArgs = {
           inherit inputs username;
+          feltnermTheme = config.feltnerm.theme;
         };
         modules = [
           { _module.args = { inherit inputs username; }; }
