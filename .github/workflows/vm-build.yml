@@ -52,6 +52,9 @@ jobs:
             iso|qcow)
               nix build .#nixosConfigurations."$HOST".config.formats."$FORMAT"
               ;;
+            tarball)
+              nix build .#nixosConfigurations."$HOST".config.system.build.tarball
+              ;;
             *)
               echo "Unsupported format: $FORMAT" >&2
               exit 1
