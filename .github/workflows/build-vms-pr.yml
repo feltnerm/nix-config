@@ -9,6 +9,9 @@ jobs:
   build-vm:
     name: Build NixOS VM (PR)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
