@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: [ main ]
     types: [ opened, synchronize, reopened ]
+    paths:
+      - '**/*.nix'
+      - 'flake.nix'
+      - 'flake.lock'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true

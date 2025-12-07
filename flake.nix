@@ -24,7 +24,10 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     # TODO(wsl-support): Consider adding NixOS-WSL support when targeting Windows environments.
-    # nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     hardware.url = "github:nixos/nixos-hardware";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
