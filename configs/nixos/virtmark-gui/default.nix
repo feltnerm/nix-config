@@ -5,6 +5,7 @@
 {
   imports = [
     ./hardware.nix
+    ../../../modules/nixos/vm-base.nix
   ];
 
   config = {
