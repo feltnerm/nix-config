@@ -3,6 +3,10 @@ name: build-vms-main
 on:
   push:
     branches: [ main ]
+    paths:
+      - '**/*.nix'
+      - 'flake.nix'
+      - 'flake.lock'
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
