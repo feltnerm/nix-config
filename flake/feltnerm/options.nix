@@ -65,6 +65,12 @@ let
 in
 {
   options.feltnerm = {
+    theme = lib.mkOption {
+      description = "Global default theme for Home Manager profiles.";
+      type = lib.types.str;
+      default = "catppuccin-mocha";
+      example = "gruvbox-dark-hard";
+    };
     darwin = {
       hosts = lib.mkOption {
         description = "Define darwin hosts.";

@@ -40,8 +40,8 @@ _: {
            echo "  ssh -p 2222 mark@localhost"
 
            # Tunables for run-vm
-           export VM_MEMORY=${_VM_MEMORY: -4096}
-           export VM_CPUS=${_VM_CPUS: -2}
+           export VM_MEMORY=$${_VM_MEMORY:-4096}
+           export VM_CPUS=$${_VM_CPUS:-2}
 
            # Source helper functions
            if [ -f scripts/devshell-vm.sh ]; then

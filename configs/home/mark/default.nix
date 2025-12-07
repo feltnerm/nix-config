@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  config,
   ...
 }:
 {
@@ -13,7 +12,9 @@
   config = {
     feltnerm = {
       enable = true;
-      theme = lib.mkDefault "catppuccin-mocha";
+      # theme default now comes from flake-level feltnerm.theme via extraSpecialArgs
+      # remove or override here only if you need per-home differences
+      # theme = lib.mkDefault "catppuccin-mocha";
       developer = {
         enable = true;
         ai.enable = true;
