@@ -9,9 +9,9 @@ Personal NixOS, nix-darwin, and Home Manager setup using flake-parts and a small
 ## Quick Start
 
 - See system guides under `configs/`:
-  - NixOS: `configs/nixos/README.md`
-  - macOS (nix-darwin): `configs/darwin/README.md`
-  - Home Manager: `configs/home/README.md`
+  - [NixOS](configs/nixos/README.md): `configs/nixos/README.md`
+  - [macOS](configs/darwin/README.md) (nix-darwin): `configs/darwin/README.md`
+  - [Home Manager](/configs/home/README.md) `configs/home/README.md`
 
 ## Common Tasks
 
