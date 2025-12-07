@@ -13,7 +13,7 @@
   config = {
     feltnerm = {
       enable = true;
-      theme = lib.mkDefault config.feltnerm.theme;
+      theme = lib.mkDefault "catppuccin-mocha";
       developer = {
         enable = true;
         ai.enable = true;
