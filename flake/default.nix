@@ -99,6 +99,24 @@
           };
         };
 
+        reddevil = {
+          modules = [ ../configs/nixos/reddevil ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/reddevil/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/reddevil/home/mark.nix
+                  { feltnerm.theme = lib.mkForce "catppuccin-macchiato"; }
+                ];
+              };
+            };
+          };
+        };
+
       };
     };
 
