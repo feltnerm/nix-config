@@ -1,30 +1,23 @@
-name: build-vms-manual
+name: vm-build
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       host:
         description: NixOS host (flake nixosConfigurations)
         required: true
-        default: virtmark
-        type: choice
-        options:
-          - virtmark
+        type: string
       format:
         description: VM format to build
         required: true
-        default: vm
-        type: choice
-        options:
-          - vm
-          - vmWithBootLoader
-          - vmWithDisko
-          - iso
-          - qcow
+        type: string
+    secrets:
+      CACHIX_AUTH_TOKEN:
+        required: false
 
 jobs:
   build-vm:
-    name: Build selected VM
+    name: Build VM
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,12 +32,11 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v8
 
       - name: Set up Cachix (feltnerm)
+        if: secrets.CACHIX_AUTH_TOKEN != ''
         uses: cachix/cachix-action@v15
         with:
           name: feltnerm
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          skipPush: true
-
 
       - name: Show flake
         run: nix flake show
@@ -52,8 +44,8 @@ jobs:
       - name: Build VM
         run: |
           set -euxo pipefail
-          HOST="${{ github.event.inputs.host }}"
-          FORMAT="${{ github.event.inputs.format }}"
+          HOST="${{ inputs.host }}"
+          FORMAT="${{ inputs.format }}"
           case "$FORMAT" in
             vm|vmWithBootLoader|vmWithDisko)
               nix build .#nixosConfigurations."$HOST".config.system.build."$FORMAT"
@@ -66,4 +58,3 @@ jobs:
               exit 1
               ;;
           esac
-
