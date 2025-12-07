@@ -1,9 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   config = {
     # Prefer simple DHCP networking for VMs
     networking = {
-      networkmanager.enable = lib.mkDefault false;
+      networkmanager.enable = lib.mkForce false;
       useDHCP = lib.mkDefault true;
       firewall.enable = lib.mkDefault true;
       firewall.allowedTCPPorts = lib.mkDefault [ 22 ];
@@ -14,7 +14,7 @@
       enable = lib.mkDefault true;
       settings = {
         PermitRootLogin = lib.mkDefault "no";
-        PasswordAuthentication = lib.mkDefault false;
+        PasswordAuthentication = lib.mkForce false;
       };
     };
 
@@ -28,14 +28,22 @@
     documentation.enable = lib.mkDefault false;
 
     # Avoid GC and store optimize timers in VMs
-    services.nix-gc.enable = lib.mkDefault false;
     nix = {
-      optimise.automatic = lib.mkDefault false;
+      gc.automatic = lib.mkForce false;
+      optimise.automatic = lib.mkForce false;
     };
 
     # Useful base packages; very minimal
-    environment.systemPackages = lib.mkDefault (with pkgs; [
-      vim git tmux htop curl wget
-    ]);
+    environment.systemPackages = lib.mkDefault (
+      with pkgs;
+      [
+        vim
+        git
+        tmux
+        htop
+        curl
+        wget
+      ]
+    );
   };
 }
