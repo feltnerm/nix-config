@@ -5,7 +5,6 @@
 {
   pkgs,
   lib,
-  inputs,
   ...
 }:
 {
@@ -40,7 +39,13 @@
     home.packages =
       with pkgs;
       let
-        selfPkgs = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
+        selfPkgs = {
+          greet = pkgs.callPackage ../../pkgs/greet.nix { };
+          nlsp = pkgs.callPackage ../../pkgs/nlsp.nix { };
+          screensaver = pkgs.callPackage ../../pkgs/screensaver/package.nix { };
+          year-progress = pkgs.callPackage ../../pkgs/year-progress/package.nix { };
+          chuckscii = pkgs.callPackage ../../pkgs/chuckscii/package.nix { };
+        };
       in
       [
         nix-health
