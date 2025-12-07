@@ -1,6 +1,7 @@
 # feltnerm nix-config
 
-[![Build VMs (main)](https://github.com/feltnerm/nix-config/actions/workflows/build-vms-main.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/build-vms-main.yml)
+[![CI Checks](https://github.com/feltnerm/nix-config/actions/workflows/checks-main.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/checks-main.yml)
+[![VM Builds](https://github.com/feltnerm/nix-config/actions/workflows/build-vms-main.yml/badge.svg)](https://github.com/feltnerm/nix-config/actions/workflows/build-vms-main.yml)
 
 Personal NixOS, nix-darwin, and Home Manager setup using flake-parts and a small `feltnerm` module to define hosts and users.
 
