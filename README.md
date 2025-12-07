@@ -8,20 +8,10 @@ Personal NixOS, nix-darwin, and Home Manager setup using flake-parts and a small
 
 ## Quick Start
 
-Enable flakes: add `experimental-features = nix-command flakes` to Nix config.
-
-- NixOS
-  ```sh
-  sudo nixos-rebuild switch --flake .#<hostname>
-  ```
-- macOS (nix-darwin) (may require `sudo`)
-  ```sh
-  darwin-rebuild switch --flake .#<hostname>
-  ```
-- Home Manager (standalone) (sort of tested)
-  ```sh
-  home-manager switch --flake .#<username>
-  ```
+- See system guides under `configs/`:
+  - NixOS: `configs/nixos/README.md`
+  - macOS (nix-darwin): `configs/darwin/README.md`
+  - Home Manager: `configs/home/README.md`
 
 ## Common Tasks
 
