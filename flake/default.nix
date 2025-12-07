@@ -81,6 +81,24 @@
           };
         };
 
+        markbook = {
+          modules = [ ../configs/nixos/markbook ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/markbook/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/markbook/home/mark.nix
+                  { feltnerm.theme = lib.mkForce "catppuccin-latte"; }
+                ];
+              };
+            };
+          };
+        };
+
       };
     };
 
