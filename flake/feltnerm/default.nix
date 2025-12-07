@@ -46,8 +46,7 @@ let
           # let home-manager install and manage itself
           programs.home-manager.enable = true;
 
-          # allow unfree packages in Home Manager when using local pkgs
-          nixpkgs.config.allowUnfree = lib.mkDefault true;
+
         };
       }
     ) users;
