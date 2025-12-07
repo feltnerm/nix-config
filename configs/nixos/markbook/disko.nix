@@ -5,6 +5,7 @@
     disko.devices = {
       disk.main = {
         type = "disk";
+        # TODO
         device = lib.mkDefault "/dev/disk/by-id/replace-me";
         content = {
           type = "gpt";

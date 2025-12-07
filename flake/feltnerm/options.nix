@@ -71,6 +71,7 @@ in
       default = "catppuccin-mocha";
       example = "gruvbox-dark-hard";
     };
+
     darwin = {
       hosts = lib.mkOption {
         description = "Define darwin hosts.";

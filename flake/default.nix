@@ -82,6 +82,40 @@
           };
         };
 
+        livecd = {
+          modules = [ ../configs/nixos/livecd ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/livecd/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/livecd/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+
+        livecd-gui = {
+          modules = [ ../configs/nixos/livecd-gui ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/livecd-gui/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/livecd-gui/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+
         markbook = {
           modules = [ ../configs/nixos/markbook ];
           users = {
