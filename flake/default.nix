@@ -16,6 +16,7 @@
     ./pkgs.nix
     ./topology.nix
     ./treefmt.nix
+    ./isos.nix
   ];
 
   feltnerm = {
