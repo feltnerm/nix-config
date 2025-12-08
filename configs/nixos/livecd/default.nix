@@ -4,8 +4,7 @@
 }:
 {
   imports = [
-    ./hardware.nix
-    ../../../modules/nixos/vm-base.nix
+    # Live CD should remain hardware-agnostic; no hardware.nix
   ];
 
   config = {
@@ -15,23 +14,17 @@
     system.stateVersion = "25.11";
     nixpkgs.hostPlatform = "x86_64-linux";
 
-    nix.settings.trusted-users = [ "mark" ];
-
+    # Networking suitable for a live environment
     networking.networkmanager.enable = true;
     networking.firewall.enable = true;
     networking.firewall.allowedTCPPorts = [ 22 ];
 
-    users.users.mark.shell = pkgs.zsh;
-
+    # SSH for remote access if needed
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "no";
     services.openssh.settings.PasswordAuthentication = false;
 
-    # Allow cloud-init to inject SSH keys/users on first boot
-    services.cloud-init.enable = true;
-
-    services.qemuGuest.enable = true;
-
+    # Basic CLI tools
     environment.systemPackages = with pkgs; [
       vim
       git

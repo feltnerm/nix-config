@@ -45,8 +45,9 @@
     };
 
     # Filesystems (update labels if different)
+    # Provide a default root; Disko can override.
     fileSystems."/" = {
-      device = "/dev/disk/by-label/nixos";
+      device = lib.mkDefault "/dev/disk/by-label/nixos";
       fsType = "ext4";
       options = [
         "noatime"

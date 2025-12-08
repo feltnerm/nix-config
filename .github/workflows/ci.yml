@@ -19,8 +19,12 @@ jobs:
         run: nix fmt
       - name: flake check (all systems)
         run: nix flake check --all-systems
+      - name: example flake check (minimal)
+        run: |
+          cd tests/example-flake
+          nix flake check
       - name: flake checker
-        uses: DeterminateSystems/flake-checker-action@v5
+        uses: DeterminateSystems/flake-checker-action@main
         with:
           fail-mode: true
           ignore-missing-flake-lock: false

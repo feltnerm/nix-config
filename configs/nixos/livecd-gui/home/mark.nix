@@ -1,5 +1,5 @@
 /**
-  * home-manager gui config (for nixos)
+  * home-manager GUI config for livecd-gui
 */
 _: {
   feltnerm.home.gui.enable = true;

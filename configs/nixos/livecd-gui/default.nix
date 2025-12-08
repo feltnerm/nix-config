@@ -1,11 +1,9 @@
 {
-  pkgs,
   ...
 }:
 {
   imports = [
-    ./hardware.nix
-    ../../../modules/nixos/vm-base.nix
+    # Live CD GUI variant; hardware-agnostic
   ];
 
   config = {
@@ -15,21 +13,11 @@
     system.stateVersion = "25.11";
     nixpkgs.hostPlatform = "x86_64-linux";
 
-    nix.settings.trusted-users = [ "mark" ];
-
+    # Networking
     networking.networkmanager.enable = true;
     networking.firewall.enable = false;
 
-    users.users.mark.shell = pkgs.zsh;
-
-    services.openssh.enable = true;
-
-    # Allow cloud-init to inject SSH keys/users on first boot
-    services.cloud-init.enable = true;
-
     # GUI via module
     feltnerm.gui.enable = true;
-
-    services.qemuGuest.enable = true;
   };
 }

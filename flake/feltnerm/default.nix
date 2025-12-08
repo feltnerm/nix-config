@@ -46,6 +46,11 @@ let
           # let home-manager install and manage itself
           programs.home-manager.enable = true;
 
+          # allow unfree packages per HM user
+          nixpkgs.config = {
+            allowUnfree = true;
+            allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
+          };
         };
       }
     ) users;
@@ -72,6 +77,14 @@ let
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
 
+          # allow unfree packages for system builds
+          {
+            nixpkgs.config = {
+              allowUnfree = true;
+              allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
+            };
+          }
+
           # users and groups
           {
             users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
@@ -95,7 +108,7 @@ let
           )
           {
             home-manager = {
-              useGlobalPkgs = true;
+              useGlobalPkgs = false;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit hostname inputs;
@@ -115,12 +128,16 @@ let
       Create nixos systems
   */
   mkNixosSystems =
-    nixosHosts: nixosModule: homeManagerModule:
-    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" [
-      inputs.agenix.nixosModules.default
-      inputs.nixos-generators.nixosModules.all-formats
-      inputs.nix-topology.nixosModules.default
-    ];
+    nixosHosts: nixosModule: homeManagerModule: extra:
+    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" (
+      [
+        inputs.stylix.nixosModules.stylix
+        inputs.agenix.nixosModules.default
+        inputs.nixos-generators.nixosModules.all-formats
+        inputs.nix-topology.nixosModules.default
+      ]
+      ++ extra
+    );
 
   /**
       Create nix-darwin systems
@@ -129,6 +146,7 @@ let
     darwinHosts: darwinModule: homeManagerModule:
     mkSystemsGeneric inputs.darwin.lib.darwinSystem darwinHosts darwinModule homeManagerModule "/Users"
       [
+        inputs.stylix.darwinModules.stylix
         inputs.nix-homebrew.darwinModules.nix-homebrew
         inputs.agenix.darwinModules.default
       ];
@@ -161,6 +179,14 @@ let
             };
           }
 
+          # allow unfree packages in HM evaluation
+          {
+            nixpkgs.config = {
+              allowUnfree = true;
+              allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
+            };
+          }
+
           # default modules
           inputs.agenix.homeModules.default
         ]
@@ -186,8 +212,22 @@ in
         mkDarwinSystems config.feltnerm.darwin.hosts inputs.self.darwinModules.default
           inputs.self.homeModules.default;
       nixosConfigurations =
-        mkNixosSystems config.feltnerm.nixos.hosts inputs.self.nixosModules.default
-          inputs.self.homeModules.default;
+        (mkNixosSystems config.feltnerm.nixos.hosts inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ ]
+        )
+        // (mkNixosSystems config.feltnerm.nixos.vms inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ inputs.self.nixosModules.vm-base ]
+        )
+        // (mkNixosSystems config.feltnerm.nixos.livecds inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ inputs.self.nixosModules.live-iso ]
+        )
+        // (mkNixosSystems config.feltnerm.nixos.wsl inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ inputs.self.nixosModules.wsl-base ]
+        );
     };
 
     perSystem =

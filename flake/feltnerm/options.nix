@@ -71,6 +71,7 @@ in
       default = "catppuccin-mocha";
       example = "gruvbox-dark-hard";
     };
+
     darwin = {
       hosts = lib.mkOption {
         description = "Define darwin hosts.";
@@ -85,10 +86,24 @@ in
 
     nixos = {
       hosts = lib.mkOption {
-        description = "Define nixos hosts.";
+        description = "Define nixos hosts (physical hardware).";
         type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
         default = { };
-        example = lib.literalExpression ''{ codemonkey = { system = "x86_64-linux"; modules = [ ../configs/nixos/codemonkey ]; users.mark = { modules = [ ../configs/nixos/codemonkey/user/mark.nix ]; home.modules = [ ../configs/home/mark ../configs/nixos/codemonkey/home/mark.nix ]; }; }; }'';
+      };
+      vms = lib.mkOption {
+        description = "Define nixos VMs (images meant for virtual machines).";
+        type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
+        default = { };
+      };
+      livecds = lib.mkOption {
+        description = "Define nixos livecds (ISO/live environments).";
+        type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
+        default = { };
+      };
+      wsl = lib.mkOption {
+        description = "Define nixos WSL systems.";
+        type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
+        default = { };
       };
     };
 

@@ -9,6 +9,7 @@ let
 in
 {
   stylix = {
+    enable = lib.mkDefault true;
     base16Scheme = lib.mkDefault "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
     polarity = lib.mkDefault "dark";
     fonts = {

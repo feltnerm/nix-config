@@ -1,6 +1,5 @@
 {
   inputs,
-  lib,
   ...
 }:
 {
@@ -23,11 +22,6 @@
           email = "feltner.mj@gmail.com";
         };
       };
-    };
-
-    stylix = {
-      enable = true;
-      enableReleaseChecks = lib.mkDefault false;
     };
 
     programs = {
