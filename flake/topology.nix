@@ -66,7 +66,7 @@
               };
             };
 
-            nodes.reddevil = {
+            nodes.reddevil-windows = {
               deviceType = "desktop";
               hardware.info = "Microsoft Windows 11";
               interfaces.eth0 = { };
