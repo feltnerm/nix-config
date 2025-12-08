@@ -6,6 +6,7 @@
   imports = [
     # Live CD GUI variant; hardware-agnostic
     ../../../flake/feltnerm/system.nix
+    ../../../../modules/nixos/live-iso.nix
   ];
 
   config = {
