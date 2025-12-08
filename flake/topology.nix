@@ -56,7 +56,7 @@
                   "eth5"
                 ]
               ];
-              connections.eth2 = mkConnection "reddevil" "eth0";
+              connections.eth2 = mkConnection "reddevil-windows" "eth0";
             };
 
             networks = {
