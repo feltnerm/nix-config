@@ -26,7 +26,7 @@ jobs:
       - name: Build topology
         run: |
           set -euxo pipefail
-          SYS=$(nix eval --raw --expr 'builtins.currentSystem')
+          SYS=x86_64-linux
           nix build .#topology."${SYS}".config.output
 
       - name: Find built SVG

@@ -46,7 +46,7 @@ nix build .#<pkg>
 ```sh
 # Build topology output via flake-parts (SVG)
 # Uses perSystem.topology from flake/topology.nix
-nix build .#topology.$(nix eval --raw --expr 'builtins.currentSystem').config.output
+nix build .#topology.x86_64-linux.config.output
 # Result symlink at ./result (e.g., ./result/topology.svg)
 ```
 - Source: `flake/topology.nix:1`
