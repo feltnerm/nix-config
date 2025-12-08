@@ -113,7 +113,7 @@
       AppleShowScrollBars = lib.mkDefault "Always";
 
       # key repeat (values depend on hardware/preferences)
-      InitialKeyRepeat = lib.mkDefault 300000;
+      InitialKeyRepeat = lib.mkDefault 1;
       KeyRepeat = lib.mkDefault 2;
 
       # stop messing with my text, Apple
