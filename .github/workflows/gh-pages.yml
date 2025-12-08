@@ -23,19 +23,15 @@ jobs:
       - name: Enable binary cache
         uses: DeterminateSystems/magic-nix-cache-action@main
 
-      - name: Build topology
+      - name: Build and prepare site content
         run: |
           set -euxo pipefail
           SYS=x86_64-linux
-          nix build .#topology."${SYS}".config.output
-
-
-      - name: Prepare site content
-        run: |
-          set -euxo pipefail
+          OUT=$(nix build .#topology."${SYS}".config.output --print-out-paths)
           mkdir -p site
-          test -f result/topology.svg || { echo "result/topology.svg not found" >&2; exit 1; }
-          cp result/topology.svg site/topology.svg
+          SVG_PATH="$OUT/topology.svg"
+          test -f "$SVG_PATH" || { echo "topology.svg not found at $SVG_PATH" >&2; ls -la "$OUT" || true; exit 1; }
+          cp "$SVG_PATH" site/topology.svg
           cat > site/index.html <<'EOF'
           <!doctype html>
           <html>
