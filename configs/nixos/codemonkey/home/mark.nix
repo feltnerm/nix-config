@@ -1,8 +1,6 @@
 /**
   * home-manager gui config (for nixos)
 */
-{ lib, pkgs, ... }:
-{
+_: {
   feltnerm.home.gui.enable = true;
-
 }
