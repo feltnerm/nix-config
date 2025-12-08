@@ -1,8 +1,6 @@
 /**
   * home-manager GUI config for livecd-gui
 */
-{ lib, pkgs, ... }:
-{
+_: {
   feltnerm.home.gui.enable = true;
-
 }
