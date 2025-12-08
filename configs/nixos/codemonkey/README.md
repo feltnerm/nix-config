@@ -1,7 +1,5 @@
 # codemonkey (Desktop Workstation)
 
-Host-specific notes for the `codemonkey` NixOS configuration. For generic installation steps, see `configs/nixos/README.md`.
-
 ## Disk Layout (disko)
 Uses disko with ZFS pools/datasets defined in `hardware.nix`. Verify device IDs under `/dev/disk/by-id/`.
 ```bash

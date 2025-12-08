@@ -42,33 +42,9 @@ nix build .#<pkg>
 ./result/bin/<pkg>
 ```
 
-### Topology
-```sh
-# Build topology output via flake-parts (SVG)
-# Uses perSystem.topology from flake/topology.nix
-nix build .#topology.x86_64-linux.config.output
-# Result symlink at ./result (e.g., ./result/topology.svg)
-```
-- Source: `flake/topology.nix:1`
-
-### Secrets (agenix/ragenix)
-```sh
-# Edit a secret
-nix run github:yaxitech/ragenix -- -e path/to/secret.age
-
-# Rekey secrets after adding/removing recipients
-nix run github:yaxitech/ragenix -- -r
-```
-- Store `.age` files outside git; keep recipients updated.
-
 ## VM Development
 
 See `docs/vm-development.md` for detailed VM build/run instructions.
-
-## Extras
-
-- Topology: `flake.topology` outputs
-- Secrets: ragenix/agenix (`age.secrets.*`, store files outside git)`
 
 ## Inspiration
 

@@ -17,12 +17,3 @@
   ```bash
   sudo powertop --auto-tune
   ```
-
-## Install Shortcut
-Follow `configs/nixos/README.md` for partitioning and base steps. Then install:
-```bash
-cd /mnt
-sudo git clone https://github.com/feltnerm/nix-config
-cd nix-config
-sudo nixos-install --flake .#markbook
-```
