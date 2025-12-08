@@ -27,6 +27,7 @@
 
     ./options.nix
     ./gui.nix
+    ./stylix.nix
   ];
 
   config = {

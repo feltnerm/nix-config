@@ -46,6 +46,11 @@ let
           # let home-manager install and manage itself
           programs.home-manager.enable = true;
 
+          # allow unfree packages per HM user
+          nixpkgs.config = {
+            allowUnfree = true;
+            #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
+          };
         };
       }
     ) users;
@@ -72,6 +77,14 @@ let
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
 
+          # allow unfree packages for system builds
+          {
+            nixpkgs.config = {
+              allowUnfree = true;
+              #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
+            };
+          }
+
           # users and groups
           {
             users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
@@ -95,7 +108,7 @@ let
           )
           {
             home-manager = {
-              useGlobalPkgs = true;
+              useGlobalPkgs = false;
               useUserPackages = true;
               extraSpecialArgs = {
                 inherit hostname inputs;
@@ -163,6 +176,14 @@ let
               homeDirectory = lib.mkDefault (
                 if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}"
               );
+            };
+          }
+
+          # allow unfree packages in HM evaluation
+          {
+            nixpkgs.config = {
+              allowUnfree = true;
+              #allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
             };
           }
 

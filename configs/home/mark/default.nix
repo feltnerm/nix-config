@@ -5,6 +5,7 @@
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
+    inputs.stylix.homeModules.stylix
   ];
 
   config = {
