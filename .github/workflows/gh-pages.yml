@@ -29,9 +29,11 @@ jobs:
           SYS=x86_64-linux
           OUT=$(nix build .#topology."${SYS}".config.output --print-out-paths)
           mkdir -p site
-          SVG_PATH="$OUT/topology.svg"
-          test -f "$SVG_PATH" || { echo "topology.svg not found at $SVG_PATH" >&2; ls -la "$OUT" || true; exit 1; }
-          cp "$SVG_PATH" site/topology.svg
+          for name in main network; do
+            SVG_PATH="$OUT/$name.svg"
+            test -f "$SVG_PATH" || { echo "$name.svg not found at $SVG_PATH" >&2; ls -la "$OUT" || true; exit 1; }
+            cp "$SVG_PATH" "site/$name.svg"
+          done
           cat > site/index.html <<'EOF'
           <!doctype html>
           <html>
@@ -43,12 +45,26 @@ jobs:
                 html, body { margin: 0; padding: 0; }
                 .wrap { max-width: 100%; }
                 .wrap object { display: block; width: 100%; height: auto; }
+                .grid { display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 1rem; }
+                @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+                h2 { font-family: system-ui, -apple-system, sans-serif; }
               </style>
             </head>
             <body>
-              <a class="wrap" href="topology.svg" target="_blank" rel="noopener noreferrer">
-                <object type="image/svg+xml" data="topology.svg"></object>
-              </a>
+              <div class="grid">
+                <section>
+                  <h2>Main</h2>
+                  <a class="wrap" href="main.svg" target="_blank" rel="noopener noreferrer">
+                    <object type="image/svg+xml" data="main.svg"></object>
+                  </a>
+                </section>
+                <section>
+                  <h2>Network</h2>
+                  <a class="wrap" href="network.svg" target="_blank" rel="noopener noreferrer">
+                    <object type="image/svg+xml" data="network.svg"></object>
+                  </a>
+                </section>
+              </div>
             </body>
           </html>
           EOF
