@@ -8,9 +8,9 @@ jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/update-flake-lock@main
+      - uses: DeterminateSystems/update-flake-lock@v21
         with:
           token: ${{ secrets.GH_TOKEN_FLAKE_UPDATES }}
           pr-title: "chore(flake.lock): scheduled update"
