@@ -1,0 +1,80 @@
+name: gh-pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Enable binary cache
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+
+      - name: Build topology
+        run: |
+          set -euxo pipefail
+          SYS=$(nix eval --raw --expr 'builtins.currentSystem')
+          nix build .#topology."${SYS}".config.output
+
+      - name: Find built SVG
+        id: find_svg
+        run: |
+          set -euxo pipefail
+          if [ -f result/topology.svg ]; then
+            echo "svg=result/topology.svg" >> "$GITHUB_OUTPUT"
+          else
+            SVG=$(find result -maxdepth 2 -name '*.svg' | head -n1)
+            if [ -z "$SVG" ]; then
+              echo "No SVG found in build result" >&2
+              exit 1
+            fi
+            echo "svg=$SVG" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prepare site content
+        run: |
+          set -euxo pipefail
+          mkdir -p site
+          cp "${{ steps.find_svg.outputs.svg }}" site/topology.svg
+          cat > site/index.html <<'EOF'
+          <!doctype html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>Topology</title>
+              <style>
+                html, body { margin: 0; padding: 0; }
+                .wrap { max-width: 100%; }
+                .wrap object { display: block; width: 100%; height: auto; }
+              </style>
+            </head>
+            <body>
+              <a class="wrap" href="topology.svg" target="_blank" rel="noopener noreferrer">
+                <object type="image/svg+xml" data="topology.svg"></object>
+              </a>
+            </body>
+          </html>
+          EOF
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
