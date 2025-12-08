@@ -48,74 +48,6 @@
           };
         };
 
-        virtmark = {
-          modules = [ ../configs/nixos/virtmark ];
-          users = {
-            mark = {
-              modules = [
-                ../configs/nixos/virtmark/user/mark.nix
-              ];
-              home = {
-                modules = [
-                  ../configs/home/mark
-                  ../configs/nixos/virtmark/home/mark.nix
-                ];
-              };
-            };
-          };
-        };
-
-        virtmark-gui = {
-          modules = [ ../configs/nixos/virtmark-gui ];
-          users = {
-            mark = {
-              modules = [
-                ../configs/nixos/virtmark-gui/user/mark.nix
-              ];
-              home = {
-                modules = [
-                  ../configs/home/mark
-                  ../configs/nixos/virtmark-gui/home/mark.nix
-                ];
-              };
-            };
-          };
-        };
-
-        livecd = {
-          modules = [ ../configs/nixos/livecd ];
-          users = {
-            mark = {
-              modules = [
-                ../configs/nixos/livecd/user/mark.nix
-              ];
-              home = {
-                modules = [
-                  ../configs/home/mark
-                  ../configs/nixos/livecd/home/mark.nix
-                ];
-              };
-            };
-          };
-        };
-
-        livecd-gui = {
-          modules = [ ../configs/nixos/livecd-gui ];
-          users = {
-            mark = {
-              modules = [
-                ../configs/nixos/livecd-gui/user/mark.nix
-              ];
-              home = {
-                modules = [
-                  ../configs/home/mark
-                  ../configs/nixos/livecd-gui/home/mark.nix
-                ];
-              };
-            };
-          };
-        };
-
         markbook = {
           modules = [ ../configs/nixos/markbook ];
           users = {
@@ -134,8 +66,12 @@
           };
         };
 
+      };
+      wsl = {
         reddevil = {
-          modules = [ ../configs/nixos/reddevil ];
+          modules = [
+            ../configs/nixos/reddevil
+          ];
           users = {
             mark = {
               modules = [
@@ -151,7 +87,82 @@
             };
           };
         };
-
+      };
+      vms = {
+        virtmark = {
+          modules = [
+            ../configs/nixos/virtmark
+          ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/virtmark/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/virtmark/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+        virtmark-gui = {
+          modules = [
+            ../configs/nixos/virtmark-gui
+          ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/virtmark-gui/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/virtmark-gui/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+      };
+      livecds = {
+        livecd = {
+          modules = [
+            ../configs/nixos/livecd
+          ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/livecd/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/livecd/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
+        livecd-gui = {
+          modules = [
+            ../configs/nixos/livecd-gui
+          ];
+          users = {
+            mark = {
+              modules = [
+                ../configs/nixos/livecd-gui/user/mark.nix
+              ];
+              home = {
+                modules = [
+                  ../configs/home/mark
+                  ../configs/nixos/livecd-gui/home/mark.nix
+                ];
+              };
+            };
+          };
+        };
       };
     };
 

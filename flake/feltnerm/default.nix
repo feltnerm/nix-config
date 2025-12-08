@@ -115,13 +115,16 @@ let
       Create nixos systems
   */
   mkNixosSystems =
-    nixosHosts: nixosModule: homeManagerModule:
-    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" [
-      inputs.stylix.nixosModules.stylix
-      inputs.agenix.nixosModules.default
-      inputs.nixos-generators.nixosModules.all-formats
-      inputs.nix-topology.nixosModules.default
-    ];
+    nixosHosts: nixosModule: homeManagerModule: extra:
+    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" (
+      [
+        inputs.stylix.nixosModules.stylix
+        inputs.agenix.nixosModules.default
+        inputs.nixos-generators.nixosModules.all-formats
+        inputs.nix-topology.nixosModules.default
+      ]
+      ++ extra
+    );
 
   /**
       Create nix-darwin systems
@@ -188,8 +191,22 @@ in
         mkDarwinSystems config.feltnerm.darwin.hosts inputs.self.darwinModules.default
           inputs.self.homeModules.default;
       nixosConfigurations =
-        mkNixosSystems config.feltnerm.nixos.hosts inputs.self.nixosModules.default
-          inputs.self.homeModules.default;
+        (mkNixosSystems config.feltnerm.nixos.hosts inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ ]
+        )
+        // (mkNixosSystems config.feltnerm.nixos.vms inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ inputs.self.nixosModules.vm-base ]
+        )
+        // (mkNixosSystems config.feltnerm.nixos.livecds inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ inputs.self.nixosModules.live-iso ]
+        )
+        // (mkNixosSystems config.feltnerm.nixos.wsl inputs.self.nixosModules.default
+          inputs.self.homeModules.default
+          [ inputs.self.nixosModules.wsl-base ]
+        );
     };
 
     perSystem =

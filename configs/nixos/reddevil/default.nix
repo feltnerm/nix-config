@@ -7,7 +7,6 @@
   imports = [
     inputs.nixos-wsl.nixosModules.default
     ./hardware.nix
-    ../../../modules/nixos/wsl-base.nix
   ];
 
   config = {

@@ -1,13 +1,10 @@
 {
-  inputs,
   pkgs,
   ...
 }:
 {
   imports = [
     # Live CD should remain hardware-agnostic; no hardware.nix
-    ../../../flake/feltnerm/system.nix
-    (inputs.self + "/modules/nixos/live-iso.nix")
   ];
 
   config = {
