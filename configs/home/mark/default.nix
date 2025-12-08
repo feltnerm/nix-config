@@ -1,6 +1,5 @@
 {
   inputs,
-  lib,
   ...
 }:
 {
@@ -23,8 +22,6 @@
         };
       };
     };
-
-
 
     programs = {
       keychain = {

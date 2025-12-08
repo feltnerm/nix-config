@@ -9,21 +9,27 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, feltnerm-config, home-manager, ... }: {
-    # Minimal NixOS configuration to validate downstream usage
-    nixosConfigurations.test-minimal = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        feltnerm-config.nixosModules.default
-        {
-          # Minimal system usage: include a tiny host module
-          imports = [ ./hosts/test-nixos ];
-        }
-      ];
-    };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      feltnerm-config,
+      ...
+    }:
+    {
+      # Minimal NixOS configuration to validate downstream usage
+      nixosConfigurations.test-minimal = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          feltnerm-config.nixosModules.default
+          {
+            # Minimal system usage: include a tiny host module
+            imports = [ ./hosts/test-nixos ];
+          }
+        ];
+      };
 
-    # Provide a simple check target for `nix flake check`
-    checks.x86_64-linux.example-build =
-      (self.nixosConfigurations.test-minimal.config.system.build.toplevel);
-  };
+      # Provide a simple check target for `nix flake check`
+      checks.x86_64-linux.example-build = self.nixosConfigurations.test-minimal.config.system.build.toplevel;
+    };
 }

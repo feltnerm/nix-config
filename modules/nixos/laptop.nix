@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.feltnerm.laptop;
 in
@@ -21,11 +26,14 @@ in
     services.thermald.enable = true;
     programs.light.enable = true;
 
-    environment.systemPackages = lib.mkDefault (with pkgs; [
-      blueman
-      light
-      brightnessctl
-      powertop
-    ]);
+    environment.systemPackages = lib.mkDefault (
+      with pkgs;
+      [
+        blueman
+        light
+        brightnessctl
+        powertop
+      ]
+    );
   };
 }
