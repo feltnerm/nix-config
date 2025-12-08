@@ -29,26 +29,13 @@ jobs:
           SYS=x86_64-linux
           nix build .#topology."${SYS}".config.output
 
-      - name: Find built SVG
-        id: find_svg
-        run: |
-          set -euxo pipefail
-          if [ -f result/topology.svg ]; then
-            echo "svg=result/topology.svg" >> "$GITHUB_OUTPUT"
-          else
-            SVG=$(find result -maxdepth 2 -name '*.svg' | head -n1)
-            if [ -z "$SVG" ]; then
-              echo "No SVG found in build result" >&2
-              exit 1
-            fi
-            echo "svg=$SVG" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Prepare site content
         run: |
           set -euxo pipefail
           mkdir -p site
-          cp "${{ steps.find_svg.outputs.svg }}" site/topology.svg
+          test -f result/topology.svg || { echo "result/topology.svg not found" >&2; exit 1; }
+          cp result/topology.svg site/topology.svg
           cat > site/index.html <<'EOF'
           <!doctype html>
           <html>
