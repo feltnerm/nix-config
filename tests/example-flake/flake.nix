@@ -30,6 +30,7 @@
       };
 
       # Provide a simple check target for `nix flake check`
-      checks.x86_64-linux.example-build = self.nixosConfigurations.test-minimal.config.system.build.toplevel;
+      checks.x86_64-linux.example-build =
+        self.nixosConfigurations.test-minimal.config.system.build.toplevel;
     };
 }
