@@ -4,12 +4,29 @@
   lib,
   ...
 }:
+let
+  cfg = config.feltnerm.gui;
+in
 {
   imports = [
     ./fonts.nix
   ];
 
+  options.feltnerm.gui = {
+    enable = lib.mkEnableOption "GUI stack (Hyprland + greetd + terminal)";
+  };
+
   config = lib.mkMerge [
+    # When feltnerm.gui.enable = true, set common GUI stack defaults
+    (lib.mkIf cfg.enable {
+      services.greetd.enable = true;
+      services.pipewire.enable = true;
+      programs.hyprland.enable = true;
+      programs.hyprlock.enable = true;
+      security.pam.services.hyprlock = { };
+      environment.systemPackages = lib.mkDefault (with pkgs; [ xdg-utils kitty ]);
+    })
+
     {
       # dbus.enable = true;
       # qt.platformTheme = "qt5ct";

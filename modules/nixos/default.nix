@@ -6,6 +6,10 @@
 
     ./security.nix
     ./networking.nix
+
+    ./kanata.nix
+    ./laptop.nix
+    ./bluetooth.nix
   ];
 
   config = {

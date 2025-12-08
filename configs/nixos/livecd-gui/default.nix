@@ -19,15 +19,7 @@
     networking.networkmanager.enable = true;
     networking.firewall.enable = false;
 
-    # GUI setup: greetd + Hyprland
-    services.greetd.enable = true;
-    programs.hyprland.enable = true;
-    programs.hyprlock.enable = true;
-    security.pam.services.hyprlock = { };
-
-    environment.systemPackages = with pkgs; [
-      kitty
-      firefox
-    ];
+    # GUI via module
+    feltnerm.gui.enable = true;
   };
 }

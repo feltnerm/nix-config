@@ -27,16 +27,8 @@
     # Allow cloud-init to inject SSH keys/users on first boot
     services.cloud-init.enable = true;
 
-    # GUI setup: greetd + Hyprland
-    services.greetd.enable = true;
-    programs.hyprland.enable = true;
-    programs.hyprlock.enable = true;
-    security.pam.services.hyprlock = { };
-
-    environment.systemPackages = with pkgs; [
-      kitty
-      firefox
-    ];
+    # GUI via module
+    feltnerm.gui.enable = true;
 
     services.qemuGuest.enable = true;
   };

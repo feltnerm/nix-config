@@ -26,6 +26,7 @@
     ./zsh.nix
 
     ./options.nix
+    ./gui.nix
   ];
 
   config = {
