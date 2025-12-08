@@ -8,7 +8,7 @@
   ...
 }:
 {
-  imports = [
+   imports = [
     ./feltnerm
     ./fzf
     ./tmux
@@ -28,7 +28,10 @@
     ./options.nix
     ./gui.nix
     ./stylix.nix
+
+    ./secrets.nix
   ];
+
 
   config = {
     programs = {

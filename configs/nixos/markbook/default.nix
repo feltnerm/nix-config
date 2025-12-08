@@ -53,6 +53,13 @@
     # Kanata via module
     feltnerm.kanata.enable = true;
 
+    # Secrets: host and user-level
+    feltnerm.secrets = {
+      enable = true;
+      hostSecrets = [ "opencode-api-token" ];
+      userSecrets = { mark = [ "opencode-api-token" ]; };
+    };
+
     # Notes for future fine-tuning:
     # - Hyprland HiDPI scaling: set monitor scale in home-manager (e.g., 2.0 or 1.5)
     # - Function keys behavior: adjust hid_apple.fnmode via kernelParams

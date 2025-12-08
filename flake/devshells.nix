@@ -1,6 +1,6 @@
 _: {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, inputs, ... }:
     {
       devShells.default = pkgs.mkShell {
         name = "feltnerm-dev";
@@ -12,6 +12,9 @@ _: {
           gitlint
           gnupg
           home-manager
+          inputs.agenix.packages.${pkgs.system}.default
+          age
+          ssh-to-age
         ];
         shellHook = ''
           echo "Welcome to feltnerm-dev"
@@ -20,6 +23,11 @@ _: {
           echo "  nix flake check                         # run flake checks"
           echo "  nix flake update                        # update inputs"
           echo "  home-manager switch --flake .#mark"
+          echo ""
+          echo "Secrets Management:"
+          echo "  agenix -e secrets/path/to/secret.age    # edit/create secret"
+          echo "  ssh-to-age < ~/.ssh/id_ed25519.pub      # convert personal SSH key"
+          echo "  ssh-to-age -i /etc/ssh/ssh_host_ed25519_key.pub  # convert host key"
         '';
       };
 

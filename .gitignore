@@ -1,2 +1,9 @@
 result
 seed.iso
+
+# Secrets - only commit encrypted files
+secrets/**
+!secrets/secrets.nix
+!secrets/.gitattributes
+!secrets/README.md
+!secrets/**/*.age

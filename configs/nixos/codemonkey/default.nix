@@ -36,5 +36,12 @@
 
     # Kanata via module
     feltnerm.kanata.enable = true;
+
+    # Secrets: host and user-level
+    feltnerm.secrets = {
+      enable = true;
+      hostSecrets = [ "opencode-api-token" ];
+      userSecrets = { mark = [ "opencode-api-token" ]; };
+    };
   };
 }
