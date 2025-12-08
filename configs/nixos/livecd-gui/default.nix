@@ -1,8 +1,9 @@
 {
+  inputs,
   pkgs,
   ...
-}:
-{
+ }:
+ {
   imports = [
     # Live CD GUI variant; hardware-agnostic
     ../../../flake/feltnerm/system.nix
