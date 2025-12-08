@@ -15,7 +15,7 @@ in
   config = lib.mkIf cfg.enable {
     wayland.windowManager.hyprland.enable = true;
     programs.firefox.enable = true;
-    stylix.targets.firefox.profileNames = cfg.firefoxProfiles;
+
     programs.ghostty.enable = true;
   };
 }
