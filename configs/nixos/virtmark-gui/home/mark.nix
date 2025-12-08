@@ -1,7 +1,6 @@
 /**
   * home-manager GUI config for virtmark-gui
 */
-_:
-{
+_: {
   feltnerm.home.gui.enable = true;
 }
