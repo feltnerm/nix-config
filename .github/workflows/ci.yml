@@ -9,7 +9,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@main
       - uses: DeterminateSystems/nix-installer-action@main
       - name: flake info
         run: nix flake info
@@ -24,7 +24,7 @@ jobs:
           cd tests/example-flake
           nix flake check
       - name: flake checker
-        uses: DeterminateSystems/flake-checker-action@v5
+        uses: DeterminateSystems/flake-checker-action@main
         with:
           fail-mode: true
           ignore-missing-flake-lock: false
