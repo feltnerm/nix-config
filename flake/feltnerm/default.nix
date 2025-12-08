@@ -117,6 +117,7 @@ let
   mkNixosSystems =
     nixosHosts: nixosModule: homeManagerModule:
     mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" [
+      inputs.stylix.nixosModules.stylix
       inputs.agenix.nixosModules.default
       inputs.nixos-generators.nixosModules.all-formats
       inputs.nix-topology.nixosModules.default
@@ -129,6 +130,7 @@ let
     darwinHosts: darwinModule: homeManagerModule:
     mkSystemsGeneric inputs.darwin.lib.darwinSystem darwinHosts darwinModule homeManagerModule "/Users"
       [
+        inputs.stylix.darwinModules.stylix
         inputs.nix-homebrew.darwinModules.nix-homebrew
         inputs.agenix.darwinModules.default
       ];

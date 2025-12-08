@@ -22,7 +22,7 @@
     ./hyprland.nix
     ./nixvim.nix
     ./readline.nix
-    ./stylix.nix
+
     ./zsh.nix
 
     ./options.nix

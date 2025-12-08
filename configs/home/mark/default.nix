@@ -6,7 +6,6 @@
 {
   imports = [
     inputs.nixvim.homeModules.nixvim
-    inputs.stylix.homeModules.stylix
   ];
 
   config = {
@@ -25,10 +24,7 @@
       };
     };
 
-    stylix = {
-      enable = true;
-      enableReleaseChecks = lib.mkDefault false;
-    };
+
 
     programs = {
       keychain = {
