@@ -26,8 +26,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
+        uses: nixbuild/nix-quick-install-action@v34
 
+      - name: Setup Nix cache
+        uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          restore-keys: |
+            nix-${{ runner.os }}-
       - name: Set up Cachix (feltnerm)
         uses: cachix/cachix-action@v15
         with:

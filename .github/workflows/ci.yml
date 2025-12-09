@@ -10,15 +10,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: nixbuild/nix-quick-install-action@v34
+      - uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          restore-keys: |
+            nix-${{ runner.os }}-
       - name: flake info
-        run: nix flake info
+        run: nix flake info --show-trace
       - name: show flake
-        run: nix flake show
+        run: nix flake show --show-trace
       - name: format
         run: nix fmt
       - name: flake check (all systems)
-        run: nix flake check --all-systems
+        run: nix flake check --all-systems --show-trace
       - name: example flake check (minimal)
         run: |
           cd tests/example-flake

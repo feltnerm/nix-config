@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: nixbuild/nix-quick-install-action@v34
       - uses: DeterminateSystems/update-flake-lock@v21
         with:
           token: ${{ secrets.GH_TOKEN_FLAKE_UPDATES }}
@@ -21,3 +21,8 @@ jobs:
           git-author-email: 'github-actions[bot]@users.noreply.github.com'
           git-committer-name: 'feltnerm-action-bot'
           git-committer-email: 'github-actions[bot]@users.noreply.github.com'
+      - uses: nix-community/cache-nix-action@v6
+        with:
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          restore-keys: |
+            nix-${{ runner.os }}-

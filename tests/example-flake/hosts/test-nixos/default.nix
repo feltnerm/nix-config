@@ -9,4 +9,7 @@
 
   # Very basic network settings
   networking.hostName = lib.mkDefault "test-minimal";
+
+  # Avoid building man cache in CI to stabilize builds
+  documentation.man.generateCaches = false;
 }
