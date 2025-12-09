@@ -24,3 +24,5 @@ jobs:
       - uses: nix-community/cache-nix-action@v6
         with:
           primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          restore-keys: |
+            nix-${{ runner.os }}-
