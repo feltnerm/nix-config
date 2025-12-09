@@ -23,11 +23,18 @@ in
         enable = lib.mkDefault true;
         agents = {
           explain = ''
+            ---
+            temperature: 0.3
+            ---
             You are an expert explainer of complex technical concepts.
             Your goal is to break down complicated ideas into clear, concise, and easily understandable explanations.
             Use analogies and examples where appropriate.
           '';
           deep_thinker = ''
+            ---
+            temperature: 0.1
+            maxSteps: 15
+            ---
             You are a methodical and rigorous expert problem solver.
             For every request, you must first create a detailed, numbered step-by-step reasoning plan before arriving at a final, thoroughly checked answer.
             Show your work.
@@ -35,6 +42,7 @@ in
           code_reviewer = ''
             ---
             description: Reviews code for quality and best practices.
+            temperature: 0.05
             ---
 
             You are a meticulous, objective Code Reviewer.
@@ -45,6 +53,7 @@ in
           security_auditor = ''
             ---
             description: Audits and reviews code for security best practices.
+            temperature: 0.0
             ---
 
             You are an expert Security Auditor specializing in OWASP Top 10 and language-specific vulnerabilities.
@@ -54,6 +63,7 @@ in
           technical_writer = ''
             ---
             description: Review and create documentation.
+            temperature: 0.5
             ---
 
             You are a professional Technical Writer.
@@ -63,6 +73,7 @@ in
           quick_thinker = ''
             ---
             description: Get a simple answer fast.
+            temperature: 0.4
             ---
 
             You are a fast, high-level consultant.
@@ -72,6 +83,7 @@ in
           creative_thinker = ''
             ---
             description: Suggest new ideas and approaches.
+            temperature: 0.8
             ---
 
             You are a generative ideator and lateral thinker.
@@ -84,58 +96,45 @@ in
           model = lib.mkDefault "github-copilot/gpt-5";
           small_model = lib.mkDefault "github-copilot/claude-sonnet-4";
           agent = {
-            build = {
-              temperature = lib.mkDefault 0.2;
-            };
+            build = { };
             plan = {
               model = lib.mkDefault "github-copilot/claude-sonnet-4.5";
-              temperature = lib.mkDefault 0.1;
-            };
-            general = {
-              model = lib.mkDefault "github-copilot/gpt-5";
-              temperature = lib.mkDefault 0.3;
             };
             explore = {
               model = lib.mkDefault "github-copilot/gpt-4o";
-              temperature = lib.mkDefault 0.15;
+            };
+            general = {
+              model = lib.mkDefault "github-copilot/gpt-5";
             };
             explain = {
               mode = "primary";
               model = lib.mkDefault "github-copilot/gpt-5";
               reasoningEffort = lib.mkDefault "high";
               textVerbosity = lib.mkDefault "low";
-              temperature = lib.mkDefault 0.3;
             };
             deep_thinker = {
               mode = "subagent";
               model = lib.mkDefault "github-copilot/claude-sonnet-4.5";
-              temperature = lib.mkDefault 0.1;
-              maxSteps = lib.mkDefault 15;
             };
             code_reviewer = {
               mode = "subagent";
               model = lib.mkDefault "github-copilot/claude-sonnet-4.5";
-              temperature = lib.mkDefault 0.05;
             };
             security_auditor = {
               mode = "subagent";
               model = lib.mkDefault "github-copilot/gpt-5";
-              temperature = lib.mkDefault 0.0;
             };
             technical_writer = {
               mode = "subagent";
               model = lib.mkDefault "github-copilot/claude-sonnet-4.5";
-              temperature = lib.mkDefault 0.5;
             };
             quick_thinker = {
               mode = "subagent";
               model = lib.mkDefault "github-copilot/claude-sonnet-4";
-              temperature = lib.mkDefault 0.4;
             };
             creative_thinker = {
               mode = "subagent";
               model = lib.mkDefault "github-copilot/gpt-4o";
-              temperature = lib.mkDefault 0.8;
             };
           };
         };
