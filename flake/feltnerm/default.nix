@@ -62,6 +62,11 @@ let
     buildFn: hosts: baseModule: homeManagerModule: homeRoot: extraModules:
     builtins.mapAttrs (
       hostname: hostConfig:
+      let
+        # Make platform checks explicit and readable
+        isDarwin = homeRoot == "/Users";
+        isNixos = homeRoot == "/home";
+      in
       buildFn {
         inherit (hostConfig) system;
         specialArgs = {
@@ -99,9 +104,9 @@ let
             }) hostConfig.users;
           }
 
-          # home-manager
+          # home-manager (darwin vs nixos)
           (
-            if homeRoot == "/Users" then
+            if isDarwin then
               inputs.home-manager.darwinModules.home-manager
             else
               inputs.home-manager.nixosModules.home-manager
