@@ -8,12 +8,14 @@
     "root"
     "@wheel"
   ];
+
   nix.settings.trusted-users = lib.mkDefault [
     "root"
     "@wheel"
   ];
+
   security = {
-    rtkit.enable = true;
+    rtkit.enable = lib.mkDefault true;
     # apparmor = {
     #   enable = true;
     #   killUnconfinedConfinables = true;

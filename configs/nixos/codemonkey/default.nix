@@ -30,6 +30,7 @@
     # Base services
     services.openssh.enable = true;
     services.pipewire.enable = true;
+    services.pcscd.enable = true;
 
     # GUI stack via module
     feltnerm.gui.enable = true;
