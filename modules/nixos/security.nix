@@ -26,7 +26,7 @@
 
     sudo = {
       enable = lib.mkDefault true;
-      # execWheelOnly = true;
+      execWheelOnly = lib.mkDefault true;
       # extraConfig = "Defaults env_reset,timestamp_timeout=5";
       # extraRules = [
       #   {
