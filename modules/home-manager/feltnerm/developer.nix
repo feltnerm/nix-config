@@ -65,6 +65,12 @@ in
         type = lib.types.str;
         default = "";
       };
+      signingKey = lib.mkOption {
+        description = "SSH public key to use for Git signing (path or key string).";
+        type = lib.types.str;
+        default = "";
+        example = "~/.ssh/id_ed25519_sk.pub";
+      };
     };
     ai = {
       enable = lib.mkEnableOption "ai";

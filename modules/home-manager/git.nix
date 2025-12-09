@@ -210,7 +210,7 @@ in
         # user.signingkey = config.feltnerm.programs.gpg.pubKey;
         commit.gpgSign = lib.mkDefault true;
         gpg.format = lib.mkDefault "ssh";
-        user.signingkey = lib.mkDefault config.feltnerm.ssh.signingKey;
+        user.signingkey = lib.mkDefault config.feltnerm.developer.git.signingKey;
 
         gpg = {
           ssh = {
