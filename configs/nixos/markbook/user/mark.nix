@@ -3,7 +3,6 @@
   users.users.mark = {
     isNormalUser = true;
     createHome = true;
-    group = "mark";
     shell = pkgs.zsh;
     extraGroups = [
       "wheel"
@@ -18,8 +17,4 @@
     ];
     initialHashedPassword = "$6$2NK82jaDKvjvsrCb$ob7K1mkNsBKy75a4aB5kzNFtQt1QSvlRTPeLlLwAkgPfp2eAgIfLds147MflimRdbHP8ErNoOkG9pUMFNoKua0";
   };
-
-  users.groups.mark = { };
-
-  security.sudo.wheelNeedsPassword = false;
 }

@@ -29,6 +29,8 @@
     # Trust local user for builds/switches
     nix.settings.trusted-users = [ "mark" ];
 
+    security.sudo.wheelNeedsPassword = false;
+
     # Networking basics
     networking.networkmanager.enable = true;
     networking.firewall.enable = false;

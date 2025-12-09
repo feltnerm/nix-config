@@ -91,12 +91,15 @@ let
 
           # users and groups
           {
+            # set username and $HOME
             users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
           }
           {
+            # set user groups, default is their own group
             users.groups = builtins.mapAttrs (_username: _userConf: { name = _username; }) hostConfig.users;
           }
           {
+            # set user attributes
             users.users = builtins.mapAttrs (_username: _userConf: (_userConf.attrs or { })) hostConfig.users;
           }
 
@@ -165,6 +168,7 @@ let
                 home.modules = (hc.modules or [ ]) ++ homeModulesDefault;
                 attrs = (userCfg.attrs or { }) // {
                   group = username;
+                  isNormalUser = lib.mkDefault true;
                 };
               }
             ) users';
