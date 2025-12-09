@@ -22,12 +22,12 @@
           email = "feltner.mj@gmail.com";
         };
       };
+
+      # Use YubiKey SSH key for Git signing
+      ssh.signingKey = "~/.ssh/id_ed25519_sk.pub";
     };
 
     programs = {
-      keychain = {
-        keys = [ "id_ed25519_sk" ];
-      };
       nixvim = _: {
         # imports = [inputs.self.nixvimConfigurations.packages];
         config = {

@@ -28,6 +28,7 @@
     ./options.nix
     ./gui.nix
     ./stylix.nix
+    ./yubikey.nix
   ];
 
   config = {

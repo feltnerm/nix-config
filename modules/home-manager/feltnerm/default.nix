@@ -15,8 +15,6 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    services.yubikey-agent.enable = lib.mkDefault true;
-
     editorconfig.enable = lib.mkDefault true;
 
     programs = {
@@ -47,7 +45,7 @@ in
       info.enable = lib.mkDefault true;
       jujutsu.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
-      keychain.enable = lib.mkDefault true;
+      keychain.enable = lib.mkDefault false;
       nix-index.enable = lib.mkDefault true;
       nixvim.enable = lib.mkDefault true;
       readline.enable = lib.mkDefault true;
@@ -177,6 +175,7 @@ in
             pkgs.yubikey-agent
             pkgs.yubikey-manager
             pkgs.yubikey-personalization
+            pkgs.ykman
           ];
 
           # profile presets
@@ -184,7 +183,8 @@ in
             {
               minimal = base;
               standard = base ++ developmentPkgs ++ fileBrowsers;
-              full = base ++ developmentPkgs ++ fileBrowsers ++ networkingPkgs ++ funPkgs ++ yubikeyPkgs;
+              full = base ++ developmentPkgs ++ fileBrowsers ++ networkingPkgs ++ funPkgs;
+
             }
             .${cfg.profile or (if pkgs.stdenv.isDarwin then "full" else "standard")};
 

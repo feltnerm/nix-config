@@ -208,14 +208,15 @@ in
         # format.signoff = cfg.signCommits;
         # commit.gpgSign = cfg.signCommits;
         # user.signingkey = config.feltnerm.programs.gpg.pubKey;
+        commit.gpgSign = lib.mkDefault true;
+        gpg.format = lib.mkDefault "ssh";
+        user.signingkey = lib.mkDefault config.feltnerm.ssh.signingKey;
+
         gpg = {
-          #format = "ssh";
-          #ssh = {
-          #  defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
-          #  programs = "${pkgs.openssh}/bin/ssh-keygen";
-          #  #    # TODO
-          #  #    # allowedSignersFile = cfg.allowedSignerFile;
-          #};
+          ssh = {
+            defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
+            programs = "${pkgs.openssh}/bin/ssh-keygen";
+          };
         };
       };
     };
