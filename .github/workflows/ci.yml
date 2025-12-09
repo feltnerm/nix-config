@@ -15,13 +15,13 @@ jobs:
         with:
           primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
       - name: flake info
-        run: nix flake info
+        run: nix flake info --show-trace
       - name: show flake
-        run: nix flake show
+        run: nix flake show --show-trace
       - name: format
         run: nix fmt
       - name: flake check (all systems)
-        run: nix flake check --all-systems
+        run: nix flake check --all-systems --show-trace
       - name: example flake check (minimal)
         run: |
           cd tests/example-flake
