@@ -24,13 +24,10 @@
         };
       };
 
-      # Use YubiKey SSH key for Git signing
       ssh.signingKey = "~/.ssh/id_ed25519_sk.pub";
     };
 
     programs = {
-      # FIXME
-      git.settings.commit.gpgSign = false;
       nixvim = _: {
         # imports = [inputs.self.nixvimConfigurations.packages];
         config = {
