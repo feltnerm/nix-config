@@ -1,6 +1,5 @@
 {
   inputs,
-  pkgs,
   ...
 }:
 {
@@ -34,8 +33,7 @@
     networking.networkmanager.enable = true;
     networking.firewall.enable = false;
 
-    # User shell
-    users.users.mark.shell = pkgs.zsh;
+    # User shell is set in user/mark.nix
 
     # Base services
     services.openssh.enable = true;

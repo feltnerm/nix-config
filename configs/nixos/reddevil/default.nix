@@ -16,8 +16,7 @@
     # Trust mark for builds/switches
     nix.settings.trusted-users = [ "mark" ];
 
-    # User shell
-    users.users.mark.shell = pkgs.zsh;
+    # User shell is set in user/mark.nix
 
     # SSH server (left enabled; can be tuned later)
     services.openssh.enable = true;

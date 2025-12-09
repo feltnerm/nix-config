@@ -94,13 +94,10 @@ let
             users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
           }
           {
-            users.groups = builtins.mapAttrs (_username: _userConf: { }) hostConfig.users;
+            users.groups = builtins.mapAttrs (_username: _userConf: { name = _username; }) hostConfig.users;
           }
           {
-            users.users = builtins.mapAttrs (_username: _userConf: {
-              isNormalUser = lib.mkDefault true;
-              createHome = lib.mkDefault true;
-            }) hostConfig.users;
+            users.users = builtins.mapAttrs (_username: _userConf: (_userConf.attrs or { })) hostConfig.users;
           }
 
           # home-manager (darwin vs nixos)
@@ -135,8 +132,8 @@ let
     nixosHosts: nixosModule: homeManagerModule: extra:
     let
       conv = config.feltnerm.conventions;
-      cfgBase = conv.configsPath;
-      homeBase = conv.homeConfigsPath;
+      cfgBase = builtins.toString conv.configsPath;
+      homeBase = builtins.toString conv.homeConfigsPath;
 
       # applyConventions
       # - derives conventional module paths for hosts, users, and homes
@@ -166,7 +163,9 @@ let
               {
                 modules = (userCfg.modules or [ ]) ++ userModulesDefault;
                 home.modules = (hc.modules or [ ]) ++ homeModulesDefault;
-                attrs = userCfg.attrs or { };
+                attrs = (userCfg.attrs or { }) // {
+                  group = username;
+                };
               }
             ) users';
           in

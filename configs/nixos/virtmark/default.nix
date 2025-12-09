@@ -21,8 +21,6 @@
     networking.firewall.enable = true;
     networking.firewall.allowedTCPPorts = [ 22 ];
 
-    users.users.mark.shell = pkgs.zsh;
-
     services.openssh.enable = true;
     services.openssh.settings.PermitRootLogin = "no";
     services.openssh.settings.PasswordAuthentication = false;
