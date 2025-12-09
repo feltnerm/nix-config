@@ -20,7 +20,7 @@ in
     editorconfig.enable = lib.mkDefault true;
 
     programs = {
-      atuin.enable = lib.mkDefault true;
+      mcfly.enable = lib.mkDefault true;
       bat.enable = lib.mkDefault true;
       btop = {
         enable = lib.mkDefault true;
@@ -53,6 +53,7 @@ in
       readline.enable = lib.mkDefault true;
       ripgrep.enable = lib.mkDefault true;
       ssh.enable = lib.mkDefault true;
+      tealdeer.enable = lib.mkDefault true;
       starship = {
         enable = lib.mkDefault true;
         settings = {
@@ -77,6 +78,12 @@ in
       # don't display login message
       file.".hushlogin" = {
         text = "";
+      };
+
+      # if mcfly is enabled, set VI keybindings in env
+      sessionVariables = lib.mkIf config.programs.mcfly.enable {
+        MCFLY_KEYBINDINGS_VI = "true";
+        MCFLY_KEYBINDINGS_EMACS = "false";
       };
 
       shellAliases = {
@@ -119,6 +126,10 @@ in
             pkgs.unzip
             pkgs.poppler
             pkgs.imagemagick
+            pkgs.dust
+            pkgs.procs
+            pkgs.tokei
+            pkgs.vivid
           ];
 
           # file browsers
