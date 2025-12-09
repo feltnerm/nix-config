@@ -19,7 +19,6 @@ in
       yubikey-agent
       yubikey-manager
       yubikey-personalization
-      ykman
     ];
   };
 }
