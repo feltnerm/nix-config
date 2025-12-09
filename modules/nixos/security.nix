@@ -26,18 +26,18 @@
 
     sudo = {
       enable = lib.mkDefault true;
-      execWheelOnly = true;
-      extraConfig = "Defaults env_reset,timestamp_timeout=5";
-      extraRules = [
-        {
-          commands = [
-            {
-              command = "/run/current-system/sw/bin/nixos-rebuild";
-              options = [ "NOPASSWD" ];
-            }
-          ];
-        }
-      ];
+      # execWheelOnly = true;
+      # extraConfig = "Defaults env_reset,timestamp_timeout=5";
+      # extraRules = [
+      #   {
+      #     commands = [
+      #       {
+      #         command = "/run/current-system/sw/bin/nixos-rebuild";
+      #         options = [ "NOPASSWD" ];
+      #       }
+      #     ];
+      #   }
+      # ];
     };
   };
 }
