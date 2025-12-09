@@ -10,6 +10,8 @@
     ./kanata.nix
     ./laptop.nix
     ./bluetooth.nix
+
+    ./secrets.nix
   ];
 
   config = {
