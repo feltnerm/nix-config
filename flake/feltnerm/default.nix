@@ -65,7 +65,6 @@ let
       let
         # Make platform checks explicit and readable
         isDarwin = homeRoot == "/Users";
-        isNixos = homeRoot == "/home";
       in
       buildFn {
         inherit (hostConfig) system;
@@ -134,15 +133,63 @@ let
   */
   mkNixosSystems =
     nixosHosts: nixosModule: homeManagerModule: extra:
-    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" (
-      [
-        inputs.stylix.nixosModules.stylix
-        inputs.agenix.nixosModules.default
-        inputs.nixos-generators.nixosModules.all-formats
-        inputs.nix-topology.nixosModules.default
-      ]
-      ++ extra
-    );
+    let
+      conv = config.feltnerm.conventions;
+      cfgBase = conv.configsPath;
+      homeBase = conv.homeConfigsPath;
+
+      # applyConventions
+      # - derives conventional module paths for hosts, users, and homes
+      # - host module:   ${cfgBase}/${hostname}
+      # - user module:   ${cfgBase}/${hostname}/user/${username}.nix
+      # - home modules:  ${homeBase}/${username} and ${cfgBase}/${hostname}/home/${username}.nix
+      # - merges explicit modules/attrs from configuration
+      applyConventions =
+        hostAttrs:
+        lib.mapAttrs (
+          hostname: hostCfg:
+          let
+            # Require hosts to explicitly define users; if omitted, no users are configured
+            users' = hostCfg.users or { };
+
+            # For each user, append convention-based modules to any explicitly provided ones
+            usersWithDefaults = lib.mapAttrs (
+              username: userCfg:
+              let
+                hc = userCfg.home or { };
+                homeModulesDefault = [
+                  (homeBase + "/" + username)
+                  (cfgBase + "/" + hostname + "/home/" + username + ".nix")
+                ];
+                userModulesDefault = [ (cfgBase + "/" + hostname + "/user/" + username + ".nix") ];
+              in
+              {
+                modules = (userCfg.modules or [ ]) ++ userModulesDefault;
+                home.modules = (hc.modules or [ ]) ++ homeModulesDefault;
+                attrs = userCfg.attrs or { };
+              }
+            ) users';
+          in
+          {
+            inherit (hostCfg) system;
+            # Always include the conventional host module path
+            modules = (hostCfg.modules or [ ]) ++ [ (cfgBase + "/" + hostname) ];
+            users = usersWithDefaults;
+          }
+        ) hostAttrs;
+    in
+    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem (applyConventions nixosHosts) nixosModule
+      homeManagerModule
+      "/home"
+      (
+        [
+          inputs.stylix.nixosModules.stylix
+          inputs.agenix.nixosModules.default
+          inputs.nixos-generators.nixosModules.all-formats
+          inputs.nix-topology.nixosModules.default
+        ]
+        ++ extra
+      );
 
   /**
       Create nix-darwin systems

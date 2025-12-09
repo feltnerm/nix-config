@@ -37,6 +37,12 @@ let
         type = mkHomeOption;
         default = { };
       };
+      attrs = lib.mkOption {
+        description = "NixOS-only: attributes merged into users.users.<name>.";
+        type = lib.types.attrsOf lib.types.anything;
+        default = { };
+        example = lib.literalExpression ''{ extraGroups = [ "wheel" "networkmanager" ]; shell = pkgs.zsh; }'';
+      };
     };
   };
 
@@ -105,6 +111,25 @@ in
         type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
         default = { };
       };
+    };
+
+    conventions = lib.mkOption {
+      description = "Convention settings to auto-fill module paths.";
+      type = lib.types.submodule {
+        options = {
+          configsPath = lib.mkOption {
+            description = "Base path to NixOS host configs.";
+            type = lib.types.path;
+            default = ../configs/nixos;
+          };
+          homeConfigsPath = lib.mkOption {
+            description = "Base path to home-manager user configs.";
+            type = lib.types.path;
+            default = ../configs/home;
+          };
+        };
+      };
+      default = { };
     };
 
     home = {
