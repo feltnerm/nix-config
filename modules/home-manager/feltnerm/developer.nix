@@ -42,6 +42,10 @@ let
   };
 in
 {
+  imports = [
+    ./ai.nix
+  ];
+
   options.feltnerm.developer = {
     enable = lib.mkEnableOption "developer";
     codeHome = lib.mkOption {
@@ -74,13 +78,6 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    services = {
-      ollama = lib.mkIf cfg.ai.enable {
-        # fails on aarm64-darwin
-        enable = lib.mkDefault false;
-      };
-    };
-
     programs = {
       zsh.initContent = lib.mkIf (
         config.programs.zsh.enable && config.programs.fzf.enable
@@ -104,10 +101,6 @@ in
             inherit (cfg.git) email;
           };
         };
-      };
-
-      opencode = lib.mkIf cfg.ai.enable {
-        enable = lib.mkDefault true;
       };
 
       nixvim = {
