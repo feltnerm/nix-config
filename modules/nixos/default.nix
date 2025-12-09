@@ -38,6 +38,9 @@
       # keyMap = cfg.locale.keymap;
     };
 
+    # Map Caps Lock to Escape via XKB options
+    services.xserver.xkbOptions = lib.mkDefault "caps:escape";
+
     documentation = lib.mkIf config.documentation.enable {
       # includeAllModules = lib.mkDefault true;
       dev.enable = lib.mkDefault true;
