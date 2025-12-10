@@ -17,10 +17,10 @@ let
     Attempt to load a user module from ${cfgBase}/${hostname}/${userCfgBase}/${username}/default.nix or ${cfgBase}/${hostname}/${userCfgBase}/${username}.nix
   */
   loadUserModule =
-    os: hostname: userCfgBase: username:
+    conventions: os: hostname: userCfgBase: username:
     let
-      defaultPath = ../../configs/${os}/${hostname}/${userCfgBase}/${username}/default.nix;
-      path = ../../configs/${os}/${hostname}/${userCfgBase}/${username}.nix;
+      defaultPath = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${userCfgBase}/${username}/default.nix";
+      path = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${userCfgBase}/${username}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -33,10 +33,10 @@ let
     Attempt to load a user home module from ${cfgBase}/${hostname}/${homeCfgBase}/${username}/default.nix or ${cfgBase}/${hostname}/${userCfgBase}/${username}.nix
   */
   loadUserHomeModule =
-    os: hostname: homeCfgBase: username:
+    conventions: os: hostname: homeCfgBase: username:
     let
-      defaultPath = ../../configs/${os}/${hostname}/${homeCfgBase}/${username};
-      path = ../../configs/${os}/${hostname}/${homeCfgBase}/${username}.nix;
+      defaultPath = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${homeCfgBase}/${username}";
+      path = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${homeCfgBase}/${username}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -49,10 +49,10 @@ let
     Attempt to load a host module from ${cfgBase}/${hostname}/default.nix or
   */
   loadHostModule =
-    os: hostname:
+    conventions: os: hostname:
     let
-      defaultPath = ../../configs/${os}/${hostname};
-      path = ../../configs/${os}/${hostname}/${hostname}.nix;
+      defaultPath = builtins.toPath "${conventions.configsPath}/${os}/${hostname}";
+      path = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${hostname}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -65,10 +65,10 @@ let
     Attempt to load a home module from ${cfgBase}/home/default.nix or
   */
   loadHomeModule =
-    username:
+    conventions: username:
     let
-      defaultPath = ../../configs/home/${username};
-      path = ../../configs/home/${username}/${username}.nix;
+      defaultPath = builtins.toPath "${conventions.configsPath}/${conventions.homeConfigsDirName}/${username}";
+      path = builtins.toPath "${conventions.configsPath}/${conventions.homeConfigsDirName}/${username}/${username}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -97,8 +97,11 @@ let
       let
         userHomeConfig = userConfig.home;
         # conventionally loaded user home module
-        homeModule = loadHomeModule username;
-        userHomeModule = loadUserHomeModule os hostname "home" username;
+        homeModule = loadHomeModule config.feltnerm.conventions username;
+        userHomeModule =
+          loadUserHomeModule config.feltnerm.conventions os hostname
+            config.feltnerm.conventions.userHomeConfigsDirName
+            username;
       in
       {
         imports = [
@@ -136,7 +139,7 @@ let
         # of course apple has to be weird
         homeRoot = if os == "darwin" then "/Users" else "/home";
         # conventionally loaded host module
-        hostModule = loadHostModule os hostname;
+        hostModule = loadHostModule config.feltnerm.conventions os hostname;
       in
       buildFn {
         inherit (hostConfig) system;
@@ -186,7 +189,12 @@ let
           # autoload user modules based on convention
           {
             imports = builtins.attrValues (
-              builtins.mapAttrs (username: _userConf: loadUserModule os hostname "user" username) hostConfig.users
+              builtins.mapAttrs (
+                username: _userConf:
+                loadUserModule config.feltnerm.conventions os hostname
+                  config.feltnerm.conventions.userConfigsDirName
+                  username
+              ) hostConfig.users
             );
           }
 
@@ -257,7 +265,7 @@ let
     builtins.mapAttrs (
       username: userConfig:
       let
-        userHomeModule = loadHomeModule username;
+        userHomeModule = loadHomeModule config.feltnerm.conventions username;
       in
       inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
