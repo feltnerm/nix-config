@@ -19,8 +19,8 @@ let
   loadUserModule =
     conventions: os: hostname: userCfgBase: username:
     let
-      defaultPath = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${userCfgBase}/${username}/default.nix";
-      path = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${userCfgBase}/${username}.nix";
+      defaultPath = conventions.configsPath + "/${os}/${hostname}/${userCfgBase}/${username}/default.nix";
+      path = conventions.configsPath + "/${os}/${hostname}/${userCfgBase}/${username}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -35,8 +35,8 @@ let
   loadUserHomeModule =
     conventions: os: hostname: homeCfgBase: username:
     let
-      defaultPath = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${homeCfgBase}/${username}";
-      path = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${homeCfgBase}/${username}.nix";
+      defaultPath = conventions.configsPath + "/${os}/${hostname}/${homeCfgBase}/${username}";
+      path = conventions.configsPath + "/${os}/${hostname}/${homeCfgBase}/${username}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -51,8 +51,8 @@ let
   loadHostModule =
     conventions: os: hostname:
     let
-      defaultPath = builtins.toPath "${conventions.configsPath}/${os}/${hostname}";
-      path = builtins.toPath "${conventions.configsPath}/${os}/${hostname}/${hostname}.nix";
+      defaultPath = conventions.configsPath + "/${os}/${hostname}";
+      path = conventions.configsPath + "/${os}/${hostname}/${hostname}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
@@ -67,8 +67,8 @@ let
   loadHomeModule =
     conventions: username:
     let
-      defaultPath = builtins.toPath "${conventions.configsPath}/${conventions.homeConfigsDirName}/${username}";
-      path = builtins.toPath "${conventions.configsPath}/${conventions.homeConfigsDirName}/${username}/${username}.nix";
+      defaultPath = conventions.configsPath + "/${conventions.homeConfigsDirName}/${username}";
+      path = conventions.configsPath + "/${conventions.homeConfigsDirName}/${username}/${username}.nix";
     in
     if builtins.pathExists defaultPath then
       defaultPath
