@@ -45,7 +45,6 @@ in
       info.enable = lib.mkDefault true;
       jujutsu.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
-      keychain.enable = lib.mkDefault false;
       nix-index.enable = lib.mkDefault true;
       nixvim.enable = lib.mkDefault true;
       readline.enable = lib.mkDefault true;
