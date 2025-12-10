@@ -106,7 +106,6 @@ let
       {
         imports = [
           homeManagerModule
-          # FIXME
           homeModule
           userHomeModule
         ]

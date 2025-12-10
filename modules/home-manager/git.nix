@@ -189,25 +189,6 @@ in
         merge.conflictstyle = lib.mkDefault "diff3";
         merge.log = lib.mkDefault true;
 
-        # TODO ?
-        #protocol.keybase.allow = "always";
-
-        # TODO
-        # commit.template = "${commitTemplate}";
-        # credential.helper = "store --file ~/.git-credentials";
-
-        # TODO
-        url = {
-          # "git@github.com:" = {
-          #   insteadOf = "gh:";
-          # };
-          # "git@github.com:".insteadOf "github:";
-        };
-
-        # TODO
-        # format.signoff = cfg.signCommits;
-        # commit.gpgSign = cfg.signCommits;
-        # user.signingkey = config.feltnerm.programs.gpg.pubKey;
         commit.gpgSign = lib.mkDefault true;
         gpg.format = lib.mkDefault "ssh";
         user.signingkey = lib.mkDefault config.feltnerm.developer.git.signingKey;

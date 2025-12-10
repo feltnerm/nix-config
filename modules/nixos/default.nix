@@ -39,7 +39,7 @@
     };
 
     # Map Caps Lock to Escape via XKB options
-    services.xserver.xkbOptions = lib.mkDefault "caps:escape";
+    services.xserver.xkb.options = lib.mkDefault "caps:escape";
 
     documentation = lib.mkIf config.documentation.enable {
       # includeAllModules = lib.mkDefault true;

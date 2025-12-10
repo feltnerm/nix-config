@@ -120,5 +120,8 @@
         userContent = ""; # custom user content CSS
       };
     };
+
+    # Stylix Firefox profile binding
+    stylix.targets.firefox.profileNames = [ "mark" ];
   };
 }
