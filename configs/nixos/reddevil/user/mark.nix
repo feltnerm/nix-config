@@ -1,13 +1,11 @@
 { pkgs, ... }:
 {
   users.users.mark = {
-    isNormalUser = true;
-    createHome = true;
-    home = "/home/mark";
     description = "Mark Feltner";
+    shell = pkgs.zsh;
+    home = "/home/mark";
     extraGroups = [
       "wheel"
     ];
-    shell = pkgs.zsh;
   };
 }

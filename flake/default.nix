@@ -20,24 +20,14 @@
   ];
 
   feltnerm = {
-    nixvim = {
-      configs = {
-        feltnerm-nvim = {
-          modules = [ ../modules/home-manager/nixvim.nix ];
-        };
-      };
-    };
 
     conventions = {
-      configsPath = ../configs/nixos;
-      homeConfigsPath = ../configs/home;
+      configsPath = ../configs;
     };
 
     nixos = {
-
       hosts = {
         codemonkey = {
-          system = "x86_64-linux";
           users = {
             mark = {
               home = {
@@ -48,7 +38,6 @@
         };
 
         markbook = {
-          system = "x86_64-linux";
           users = {
             mark = {
               home = {
@@ -61,7 +50,6 @@
 
       wsl = {
         reddevil = {
-          system = "x86_64-linux";
           users = {
             mark = {
               home = {
@@ -73,30 +61,26 @@
       };
 
       vms = {
-        virtmark = {
-          system = "x86_64-linux";
-        };
-        virtmark-gui = {
-          system = "x86_64-linux";
-        };
+        virtmark = { };
+        virtmark-gui = { };
       };
 
       livecds = {
-        livecd = {
-          system = "x86_64-linux";
-        };
-        livecd-gui = {
-          system = "x86_64-linux";
-        };
+        livecd = { };
+        livecd-gui = { };
       };
     };
 
     home = {
       users = {
-        mark = {
-          modules = [
-            ../configs/home/mark
-          ];
+        mark = { };
+      };
+    };
+
+    nixvim = {
+      configs = {
+        feltnerm-nvim = {
+          modules = [ ../modules/home-manager/nixvim.nix ];
         };
       };
     };

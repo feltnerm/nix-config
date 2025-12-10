@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
   users.users.mark = {
-    isNormalUser = true;
-    createHome = true;
     shell = pkgs.zsh;
     extraGroups = [
       "wheel"

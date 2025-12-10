@@ -37,12 +37,6 @@ let
         type = mkHomeOption;
         default = { };
       };
-      attrs = lib.mkOption {
-        description = "NixOS-only: attributes merged into users.users.<name>.";
-        type = lib.types.attrsOf lib.types.anything;
-        default = { };
-        example = lib.literalExpression ''{ extraGroups = [ "wheel" "networkmanager" ]; shell = pkgs.zsh; }'';
-      };
     };
   };
 
@@ -78,6 +72,45 @@ in
       example = "gruvbox-dark-hard";
     };
 
+    conventions = {
+      configsPath = lib.mkOption {
+        description = "Base path to the configurations directory.";
+        type = lib.types.path;
+        default = ./configs;
+        example = lib.literalExpression "./my-configs";
+      };
+
+      homeConfigsDirName = lib.mkOption {
+        description = ''
+          Directory name for standalone home-manager configurations.
+          Example: configsPath/home/<username>.
+        '';
+        type = lib.types.str;
+        default = "home";
+        example = "home-manager";
+      };
+
+      userConfigsDirName = lib.mkOption {
+        description = ''
+          Directory name for user configurations within OS-specific host configs.
+          Example: configsPath/<os>/<hostname>/user/<username>.
+        '';
+        type = lib.types.str;
+        default = "user";
+        example = "users";
+      };
+
+      userHomeConfigsDirName = lib.mkOption {
+        description = ''
+          Directory name for home-manager configurations within user configs.
+          Example: configsPath/<os>/<hostname>/home/<username>.
+        '';
+        type = lib.types.str;
+        default = "home";
+        example = "home";
+      };
+    };
+
     darwin = {
       hosts = lib.mkOption {
         description = "Define darwin hosts.";
@@ -111,25 +144,6 @@ in
         type = lib.types.lazyAttrsOf (mkHostOption [ "x86_64-linux" ]);
         default = { };
       };
-    };
-
-    conventions = lib.mkOption {
-      description = "Convention settings to auto-fill module paths.";
-      type = lib.types.submodule {
-        options = {
-          configsPath = lib.mkOption {
-            description = "Base path to NixOS host configs.";
-            type = lib.types.path;
-            default = ../configs/nixos;
-          };
-          homeConfigsPath = lib.mkOption {
-            description = "Base path to home-manager user configs.";
-            type = lib.types.path;
-            default = ../configs/home;
-          };
-        };
-      };
-      default = { };
     };
 
     home = {
