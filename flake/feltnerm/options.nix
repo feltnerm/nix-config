@@ -72,6 +72,45 @@ in
       example = "gruvbox-dark-hard";
     };
 
+    conventions = {
+      configsPath = lib.mkOption {
+        description = "Base path to the configurations directory.";
+        type = lib.types.path;
+        default = ./configs;
+        example = lib.literalExpression "./my-configs";
+      };
+
+      homeConfigsDirName = lib.mkOption {
+        description = ''
+          Directory name for standalone home-manager configurations.
+          Example: configsPath/home/<username>.
+        '';
+        type = lib.types.str;
+        default = "home";
+        example = "home-manager";
+      };
+
+      userConfigsDirName = lib.mkOption {
+        description = ''
+          Directory name for user configurations within OS-specific host configs.
+          Example: configsPath/<os>/<hostname>/user/<username>.
+        '';
+        type = lib.types.str;
+        default = "user";
+        example = "users";
+      };
+
+      userHomeConfigsDirName = lib.mkOption {
+        description = ''
+          Directory name for home-manager configurations within user configs.
+          Example: configsPath/<os>/<hostname>/home/<username>.
+        '';
+        type = lib.types.str;
+        default = "home";
+        example = "home";
+      };
+    };
+
     darwin = {
       hosts = lib.mkOption {
         description = "Define darwin hosts.";

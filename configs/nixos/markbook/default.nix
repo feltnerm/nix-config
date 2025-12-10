@@ -1,6 +1,5 @@
 {
   inputs,
-  pkgs,
   ...
 }:
 {
@@ -30,16 +29,18 @@
     # Trust local user for builds/switches
     nix.settings.trusted-users = [ "mark" ];
 
+    security.sudo.wheelNeedsPassword = false;
+
     # Networking basics
     networking.networkmanager.enable = true;
     networking.firewall.enable = false;
 
-    # User shell
-    users.users.mark.shell = pkgs.zsh;
+    # User shell is set in user/mark.nix
 
     # Base services
     services.openssh.enable = true;
     services.pipewire.enable = true;
+    services.pcscd.enable = true;
 
     # GUI via module
     feltnerm.gui.enable = true;

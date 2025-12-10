@@ -15,8 +15,6 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    services.yubikey-agent.enable = lib.mkDefault true;
-
     editorconfig.enable = lib.mkDefault true;
 
     programs = {
@@ -47,7 +45,7 @@ in
       info.enable = lib.mkDefault true;
       jujutsu.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
-      keychain.enable = lib.mkDefault true;
+      keychain.enable = lib.mkDefault false;
       nix-index.enable = lib.mkDefault true;
       nixvim.enable = lib.mkDefault true;
       readline.enable = lib.mkDefault true;
@@ -173,32 +171,17 @@ in
             pkgs.yt-dlp
           ];
 
-          yubikeyPkgs = [
-            pkgs.yubikey-agent
-            pkgs.yubikey-manager
-            pkgs.yubikey-personalization
-          ];
-
-          # profile presets
-          preset =
-            {
-              minimal = base;
-              standard = base ++ developmentPkgs ++ fileBrowsers;
-              full = base ++ developmentPkgs ++ fileBrowsers ++ networkingPkgs ++ funPkgs ++ yubikeyPkgs;
-            }
-            .${cfg.profile or (if pkgs.stdenv.isDarwin then "full" else "standard")};
-
         in
-        preset
-        ++ lib.optionals cfg.packages.development developmentPkgs
-        ++ lib.optionals cfg.packages.networking networkingPkgs
-        ++ lib.optionals cfg.packages.fun funPkgs
-        ++ lib.optionals cfg.packages.yubikey yubikeyPkgs
+        base
+        ++ developmentPkgs
+        ++ fileBrowsers
+        ++ networkingPkgs
+        ++ funPkgs
         # platform-specific extras
         ++ lib.optionals pkgs.stdenv.isDarwin [ ]
         ++ lib.optionals pkgs.stdenv.isLinux [ ]
         # custom local packages via pkgs-by-name
-        ++ lib.optionals cfg.packages.custom (
+        ++ (
           let
             byname = pkgs.by-name or { };
           in

@@ -1,15 +1,11 @@
 { pkgs, ... }:
 {
   users.users.mark = {
-    isNormalUser = true;
-    home = "/home/mark";
     description = "Mark Feltner";
+    shell = pkgs.zsh;
+    home = "/home/mark";
     extraGroups = [
       "wheel"
     ];
-    shell = pkgs.zsh;
   };
-
-  # Allow wheel group sudo without password for dev convenience
-  security.sudo.wheelNeedsPassword = false;
 }

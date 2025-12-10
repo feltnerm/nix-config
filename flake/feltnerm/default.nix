@@ -14,6 +14,70 @@ let
   systemModule = import ./system.nix;
 
   /**
+    Attempt to load a user module from ${cfgBase}/${hostname}/${userCfgBase}/${username}/default.nix or ${cfgBase}/${hostname}/${userCfgBase}/${username}.nix
+  */
+  loadUserModule =
+    conventions: os: hostname: userCfgBase: username:
+    let
+      defaultPath = conventions.configsPath + "/${os}/${hostname}/${userCfgBase}/${username}/default.nix";
+      path = conventions.configsPath + "/${os}/${hostname}/${userCfgBase}/${username}.nix";
+    in
+    if builtins.pathExists defaultPath then
+      defaultPath
+    else if builtins.pathExists path then
+      path
+    else
+      throw "No user config found for user: ${username}";
+
+  /**
+    Attempt to load a user home module from ${cfgBase}/${hostname}/${homeCfgBase}/${username}/default.nix or ${cfgBase}/${hostname}/${userCfgBase}/${username}.nix
+  */
+  loadUserHomeModule =
+    conventions: os: hostname: homeCfgBase: username:
+    let
+      defaultPath = conventions.configsPath + "/${os}/${hostname}/${homeCfgBase}/${username}";
+      path = conventions.configsPath + "/${os}/${hostname}/${homeCfgBase}/${username}.nix";
+    in
+    if builtins.pathExists defaultPath then
+      defaultPath
+    else if builtins.pathExists path then
+      path
+    else
+      throw "No user home config found for: ${username}@${hostname} (${os})";
+
+  /**
+    Attempt to load a host module from ${cfgBase}/${hostname}/default.nix or
+  */
+  loadHostModule =
+    conventions: os: hostname:
+    let
+      defaultPath = conventions.configsPath + "/${os}/${hostname}";
+      path = conventions.configsPath + "/${os}/${hostname}/${hostname}.nix";
+    in
+    if builtins.pathExists defaultPath then
+      defaultPath
+    else if builtins.pathExists path then
+      path
+    else
+      throw "No host config found for: ${hostname}";
+
+  /**
+    Attempt to load a home module from ${cfgBase}/home/default.nix or
+  */
+  loadHomeModule =
+    conventions: username:
+    let
+      defaultPath = conventions.configsPath + "/${conventions.homeConfigsDirName}/${username}";
+      path = conventions.configsPath + "/${conventions.homeConfigsDirName}/${username}/${username}.nix";
+    in
+    if builtins.pathExists defaultPath then
+      defaultPath
+    else if builtins.pathExists path then
+      path
+    else
+      throw "No home config found for: ${username}";
+
+  /**
     Generate the configuration for users.
   */
   mkUsersConfig =
@@ -27,15 +91,23 @@ let
     Generate home-manager configuration for users.
   */
   mkHomeUsersConfig =
-    users: userHomeFunction: homeManagerModule:
+    os: hostname: users: userHomeFunction: homeManagerModule:
     builtins.mapAttrs (
       username: userConfig:
       let
         userHomeConfig = userConfig.home;
+        # conventionally loaded user home module
+        homeModule = loadHomeModule config.feltnerm.conventions username;
+        userHomeModule =
+          loadUserHomeModule config.feltnerm.conventions os hostname
+            config.feltnerm.conventions.userHomeConfigsDirName
+            username;
       in
       {
         imports = [
           homeManagerModule
+          homeModule
+          userHomeModule
         ]
         ++ userHomeConfig.modules;
         config = {
@@ -56,12 +128,18 @@ let
     ) users;
 
   /**
-      Generic system builder to deduplicate platform-specific logic
+    Generic ../system builder to deduplicate platform-specific logic
   */
   mkSystemsGeneric =
-    buildFn: hosts: baseModule: homeManagerModule: homeRoot: extraModules:
+    os: buildFn: hosts: baseModule: homeManagerModule: extraModules:
     builtins.mapAttrs (
       hostname: hostConfig:
+      let
+        # of course apple has to be weird
+        homeRoot = if os == "darwin" then "/Users" else "/home";
+        # conventionally loaded host module
+        hostModule = loadHostModule config.feltnerm.conventions os hostname;
+      in
       buildFn {
         inherit (hostConfig) system;
         specialArgs = {
@@ -73,6 +151,7 @@ let
           # shared modules
           systemModule
           baseModule
+          hostModule
 
           # networking
           { networking.hostName = lib.mkDefault "${hostname}"; }
@@ -89,9 +168,16 @@ let
           {
             users.users = mkUsersConfig hostConfig.users (u: "${homeRoot}/${u}");
           }
+
+          # user groups
           {
+            users.users = builtins.mapAttrs (username: _userConf: {
+              extraGroups = [ "${username}" ];
+            }) hostConfig.users;
             users.groups = builtins.mapAttrs (_username: _userConf: { }) hostConfig.users;
           }
+
+          # nixos user
           {
             users.users = builtins.mapAttrs (_username: _userConf: {
               isNormalUser = lib.mkDefault true;
@@ -99,9 +185,28 @@ let
             }) hostConfig.users;
           }
 
-          # home-manager
+          # autoload user modules based on convention
+          {
+            imports = builtins.attrValues (
+              builtins.mapAttrs (
+                username: _userConf:
+                loadUserModule config.feltnerm.conventions os hostname
+                  config.feltnerm.conventions.userConfigsDirName
+                  username
+              ) hostConfig.users
+            );
+          }
+
+          # user modules
+          {
+            imports = builtins.concatLists (
+              builtins.attrValues (builtins.mapAttrs (_username: userConf: userConf.modules) hostConfig.users)
+            );
+          }
+
+          # home-manager (darwin vs nixos)
           (
-            if homeRoot == "/Users" then
+            if os == "darwin" then
               inputs.home-manager.darwinModules.home-manager
             else
               inputs.home-manager.nixosModules.home-manager
@@ -115,7 +220,7 @@ let
                 inherit (hostConfig) system;
                 feltnermTheme = config.feltnerm.theme;
               };
-              users = mkHomeUsersConfig hostConfig.users (u: "${homeRoot}/${u}") homeManagerModule;
+              users = mkHomeUsersConfig os hostname hostConfig.users (u: "${homeRoot}/${u}") homeManagerModule;
             };
           }
         ]
@@ -129,7 +234,7 @@ let
   */
   mkNixosSystems =
     nixosHosts: nixosModule: homeManagerModule: extra:
-    mkSystemsGeneric inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule "/home" (
+    mkSystemsGeneric "nixos" inputs.nixpkgs.lib.nixosSystem nixosHosts nixosModule homeManagerModule (
       [
         inputs.stylix.nixosModules.stylix
         inputs.agenix.nixosModules.default
@@ -144,7 +249,7 @@ let
   */
   mkDarwinSystems =
     darwinHosts: darwinModule: homeManagerModule:
-    mkSystemsGeneric inputs.darwin.lib.darwinSystem darwinHosts darwinModule homeManagerModule "/Users"
+    mkSystemsGeneric "darwin" inputs.darwin.lib.darwinSystem darwinHosts darwinModule homeManagerModule
       [
         inputs.stylix.darwinModules.stylix
         inputs.nix-homebrew.darwinModules.nix-homebrew
@@ -158,6 +263,9 @@ let
     pkgs: userHomes: homeManagerModule:
     builtins.mapAttrs (
       username: userConfig:
+      let
+        userHomeModule = loadHomeModule config.feltnerm.conventions username;
+      in
       inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
@@ -169,6 +277,7 @@ let
 
           # my modules
           homeManagerModule
+          userHomeModule
 
           {
             home = {

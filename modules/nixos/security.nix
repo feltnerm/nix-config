@@ -8,12 +8,14 @@
     "root"
     "@wheel"
   ];
+
   nix.settings.trusted-users = lib.mkDefault [
     "root"
     "@wheel"
   ];
+
   security = {
-    rtkit.enable = true;
+    rtkit.enable = lib.mkDefault true;
     # apparmor = {
     #   enable = true;
     #   killUnconfinedConfinables = true;
@@ -26,18 +28,18 @@
 
     sudo = {
       enable = lib.mkDefault true;
-      execWheelOnly = true;
-      extraConfig = "Defaults env_reset,timestamp_timeout=5";
-      extraRules = [
-        {
-          commands = [
-            {
-              command = "/run/current-system/sw/bin/nixos-rebuild";
-              options = [ "NOPASSWD" ];
-            }
-          ];
-        }
-      ];
+      execWheelOnly = lib.mkDefault true;
+      # extraConfig = "Defaults env_reset,timestamp_timeout=5";
+      # extraRules = [
+      #   {
+      #     commands = [
+      #       {
+      #         command = "/run/current-system/sw/bin/nixos-rebuild";
+      #         options = [ "NOPASSWD" ];
+      #       }
+      #     ];
+      #   }
+      # ];
     };
   };
 }

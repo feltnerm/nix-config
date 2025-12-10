@@ -1,5 +1,4 @@
 {
-  pkgs,
   ...
 }:
 {
@@ -19,8 +18,6 @@
 
     networking.networkmanager.enable = true;
     networking.firewall.enable = false;
-
-    users.users.mark.shell = pkgs.zsh;
 
     services.openssh.enable = true;
 
