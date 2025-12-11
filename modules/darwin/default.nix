@@ -300,17 +300,15 @@
         # Resize master pane
         alt - left : yabai -m window --resize left:-20:0
         alt - right : yabai -m window --resize right:-20:0
-        # Resize with hjkl
-        alt + shift - h : yabai -m window --resize left:-20:0; yabai -m window --resize right:-20:0
-        alt + shift - l : yabai -m window --resize right:20:0; yabai -m window --resize left:20:0
-        alt + shift - j : yabai -m window --resize bottom:0:20; yabai -m window --resize top:0:20
-        alt + shift - k : yabai -m window --resize top:0:-20; yabai -m window --resize bottom:0:-20
+        # Resize with hjkl (standardized)
+        shift + alt + ctrl - h : yabai -m window --resize left:-20:0; yabai -m window --resize right:-20:0
+        shift + alt + ctrl - l : yabai -m window --resize right:20:0; yabai -m window --resize left:20:0
+        shift + alt + ctrl - j : yabai -m window --resize bottom:0:20; yabai -m window --resize top:0:20
+        shift + alt + ctrl - k : yabai -m window --resize top:0:-20; yabai -m window --resize bottom:0:-20
 
         # Move window to master
         shift + alt - return : yabai -m window --warp master
 
-        # Float/Unfloat window
-        shift + alt - f : yabai -m window --toggle float
 
         # Force kill window
         shift + alt - q : yabai -m window --close

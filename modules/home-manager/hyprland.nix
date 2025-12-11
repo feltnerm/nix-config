@@ -94,10 +94,10 @@
         # repeatable
         "binde" = [
           # resize window
-          "shift alt, h, resizeactive, -50 0"
-          "shift alt, j, resizeactive, 0 50"
-          "shift alt, k, resizeactive, 0 -50"
-          "shift alt, l, resizeactive, 50 0"
+          "shift alt ctrl, h, resizeactive, -50 0"
+          "shift alt ctrl, j, resizeactive, 0 50"
+          "shift alt ctrl, k, resizeactive, 0 -50"
+          "shift alt ctrl, l, resizeactive, 50 0"
         ];
         "bind" = [
           "ctrl alt, delete, exec, uwsm stop"
@@ -135,35 +135,25 @@
           # workspace
           "alt, 1, workspace,1"
           "shift alt, 1, movetoworkspace,1"
-          "shift alt, 1, movetoworkspacesilent,1"
           "alt, 2, workspace,2"
           "shift alt, 2, movetoworkspace,2"
-          "shift alt, 2, movetoworkspacesilent,2"
           "alt, 3, workspace,3"
           "shift alt, 3, movetoworkspace,3"
-          "shift alt, 3, movetoworkspacesilent,3"
           "alt, 4, workspace,4"
           "shift alt, 4, movetoworkspace,4"
-          "shift alt, 4, movetoworkspacesilent,4"
           "alt, 5, workspace,5"
           "shift alt, 5, movetoworkspace,5"
-          "shift alt, 5, movetoworkspacesilent,5"
 
           "alt, 6, workspace,6"
           "shift alt, 6, movetoworkspace,6"
-          "shift alt, 6, movetoworkspacesilent,6"
           "alt, 7, workspace,7"
           "shift alt, 7, movetoworkspace,7"
-          "shift alt, 7, movetoworkspacesilent,7"
           "alt, 8, workspace,8"
           "shift alt, 8, movetoworkspace,8"
-          "shift alt, 8, movetoworkspacesilent,8"
           "alt, 9, workspace,9"
           "shift alt, 9, movetoworkspace,9"
-          "shift alt, 9, movetoworkspacesilent,9"
           "alt, 0, workspace,10"
           "shift alt, 0, movetoworkspace,10"
-          "shift alt, 0, movetoworkspacesilent,10"
 
           # mouse
           "alt, mouse_down, workspace, e+1"
@@ -192,11 +182,8 @@
 
           # additions to align with macOS
           "shift alt, return, layoutmsg, swapwithmaster master"
-          "shift alt, t, togglefloating"
           "shift alt, p, workspace, e-1"
           "shift alt, n, workspace, e+1"
-          "shift ctrl, left, movetoworkspace, e-1"
-          "shift ctrl, right, movetoworkspace, e+1"
         ];
       };
     };

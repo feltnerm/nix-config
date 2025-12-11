@@ -11,7 +11,7 @@
 ║  Alt + h/j/k/l           Focus window          ║
 ║  Alt + Shift + h/j/k/l   Swap window           ║
 ║  Alt + Ctrl + h/j/k/l    Move window           ║
-║  Alt + Shift + hjkl      Resize window         ║
+║  Alt + Shift + Ctrl + hjkl  Resize window      ║
 ║                                                ║
 ║  WINDOW STATES                                 ║
 ║  Alt + F                 Fullscreen            ║
