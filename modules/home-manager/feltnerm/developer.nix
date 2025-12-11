@@ -110,41 +110,40 @@ in
       };
 
       nixvim = {
-        keymaps =
-          lib.optionals config.programs.nixvim.plugins.lsp.enable [
-            {
-              key = "<leader>ca";
-              action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
-              options = {
-                desc = "code action";
-              };
-            }
-            {
-              key = "<leader>cr";
-              action = "<cmd>lua vim.lsp.buf.rename()<cr>";
-              options = {
-                desc = "rename symbol";
-              };
-            }
-            {
-              key = "<leader>cf";
-              mode = [
-                "n"
-                "v"
-              ];
-              action = "<cmd>lua vim.lsp.buf.format()<cr>";
-              options = {
-                desc = "format buffer/selection";
-              };
-            }
-            {
-              key = "<leader>cd";
-              action = "<cmd>lua vim.diagnostic.open_float()<cr>";
-              options = {
-                desc = "line diagnostics";
-              };
-            }
-          ];
+        keymaps = lib.optionals config.programs.nixvim.plugins.lsp.enable [
+          {
+            key = "<leader>ca";
+            action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+            options = {
+              desc = "code action";
+            };
+          }
+          {
+            key = "<leader>cr";
+            action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+            options = {
+              desc = "rename symbol";
+            };
+          }
+          {
+            key = "<leader>cf";
+            mode = [
+              "n"
+              "v"
+            ];
+            action = "<cmd>lua vim.lsp.buf.format()<cr>";
+            options = {
+              desc = "format buffer/selection";
+            };
+          }
+          {
+            key = "<leader>cd";
+            action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+            options = {
+              desc = "line diagnostics";
+            };
+          }
+        ];
         extraPlugins = [ ];
         plugins = {
           snacks = {
@@ -161,12 +160,53 @@ in
           gitblame.enable = lib.mkDefault true;
           gitgutter.enable = lib.mkDefault true;
 
-          # dap
-          dap.enable = lib.mkDefault true;
-          dap-ui.enable = lib.mkDefault true;
-
           # better diagnostics
           trouble.enable = lib.mkDefault true;
+
+          # dap
+          dap.enable = lib.mkDefault true;
+          dap-virtual-text.enable = lib.mkDefault true;
+          dap-ui = {
+            enable = lib.mkDefault true;
+            settings.layouts = [
+              {
+                elements = [
+                  {
+                    id = "scopes";
+                    size = 0.25;
+                  }
+                  {
+                    id = "breakpoints";
+                    size = 0.25;
+                  }
+                  {
+                    id = "stacks";
+                    size = 0.25;
+                  }
+                  {
+                    id = "watches";
+                    size = 0.25;
+                  }
+                ];
+                position = "left";
+                size = 40;
+              }
+              {
+                elements = [
+                  {
+                    id = "repl";
+                    size = 0.5;
+                  }
+                  {
+                    id = "console";
+                    size = 0.5;
+                  }
+                ];
+                position = "bottom";
+                size = 10;
+              }
+            ];
+          };
 
           # project
           project-nvim.enable = lib.mkDefault true;
