@@ -264,6 +264,40 @@
           desc = "toggle neotree";
         };
       }
+
+      # LSP essentials
+      {
+        key = "<leader>ca";
+        action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+        options = {
+          desc = "code action";
+        };
+      }
+      {
+        key = "<leader>cr";
+        action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+        options = {
+          desc = "rename symbol";
+        };
+      }
+      {
+        key = "<leader>cf";
+        mode = [
+          "n"
+          "v"
+        ];
+        action = "<cmd>lua vim.lsp.buf.format()<cr>";
+        options = {
+          desc = "format buffer/selection";
+        };
+      }
+      {
+        key = "<leader>cd";
+        action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+        options = {
+          desc = "line diagnostics";
+        };
+      }
     ];
     plugins = {
       lz-n.enable = lib.mkForce true; # required for lazy loading
@@ -398,6 +432,50 @@
               desc = "search quickfix list";
             };
           };
+
+          # search LSP (sub-group)
+          "<leader>sld" = {
+            action = "lsp_definitions";
+            options = {
+              desc = "search definitions";
+            };
+          };
+          "<leader>slr" = {
+            action = "lsp_references";
+            options = {
+              desc = "search references";
+            };
+          };
+          "<leader>sli" = {
+            action = "lsp_implementations";
+            options = {
+              desc = "search implementations";
+            };
+          };
+          "<leader>slt" = {
+            action = "lsp_type_definitions";
+            options = {
+              desc = "search type definitions";
+            };
+          };
+          "<leader>sls" = {
+            action = "lsp_document_symbols";
+            options = {
+              desc = "search document symbols";
+            };
+          };
+          "<leader>slS" = {
+            action = "lsp_workspace_symbols";
+            options = {
+              desc = "search workspace symbols";
+            };
+          };
+          "<leader>slD" = {
+            action = "diagnostics";
+            options = {
+              desc = "search diagnostics";
+            };
+          };
         };
       };
 
@@ -472,6 +550,16 @@
               __unkeyed-1 = "<leader>V";
               group = "Vim";
               icon = " ";
+            }
+            {
+              __unkeyed-1 = "<leader>c";
+              group = "Code";
+              icon = " ";
+            }
+            {
+              __unkeyed-1 = "<leader>sl";
+              group = "LSP";
+              icon = "󰒓 ";
             }
 
             # Standalone keys with labels
