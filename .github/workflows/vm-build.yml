@@ -32,7 +32,7 @@ jobs:
         uses: nix-community/cache-nix-action@v6
         with:
           primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
-          restore-keys: |
+          restore-prefixes-first-mach: |
             nix-${{ runner.os }}-
       - name: Set up Cachix (feltnerm)
         uses: cachix/cachix-action@v15
