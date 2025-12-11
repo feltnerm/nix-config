@@ -168,14 +168,14 @@
         };
       }
       {
-        key = "<leader>sw";
+        key = "<leader>-";
         action = "<cmd>split<CR>";
         options = {
           desc = "split horizontal";
         };
       }
       {
-        key = "<leader>sv";
+        key = "<leader>|";
         action = "<cmd>vsplit<CR>";
         options = {
           desc = "split vertical";
@@ -311,71 +311,91 @@
       telescope = {
         enable = lib.mkDefault true;
         keymaps = {
-          # grep
-          "<leader>p" = {
-            action = "live_grep";
-            options = {
-              desc = "telecope find in file";
-            };
-          };
-          "<leader>pp" = {
-            action = "current_buffer_fuzzy_find";
-            options = {
-              desc = "telecope find in buffer";
-            };
-          };
-
-          # files
-          "<leader>f" = {
+          # search files
+          "<leader>sf" = {
             action = "find_files";
             options = {
-              desc = "telecope find file";
+              desc = "search files";
             };
           };
 
-          # buffers
-          "<leader>b" = {
-            action = "find buffer";
+          # search text
+          "<leader>sg" = {
+            action = "live_grep";
             options = {
-              desc = "telecope find buffer";
+              desc = "search grep (text in files)";
             };
           };
-          "<leader>bt" = {
+          "<leader>s/" = {
+            action = "current_buffer_fuzzy_find";
+            options = {
+              desc = "search in current buffer";
+            };
+          };
+
+          # search buffers
+          "<leader>sb" = {
+            action = "buffers";
+            options = {
+              desc = "search buffers";
+            };
+          };
+          "<leader>st" = {
             action = "current_buffer_tags";
             options = {
-              desc = "telecope find buffer tag";
+              desc = "search buffer tags";
             };
           };
 
-          # git
-          "<leader>g" = {
+          # search git
+          "<leader>sG" = {
             action = "git_files";
             options = {
-              desc = "telecope find git file";
+              desc = "search git files";
             };
           };
-          "<leader>gc" = {
+          "<leader>sc" = {
             action = "git_commits";
             options = {
-              desc = "telecope find git commit";
+              desc = "search git commits";
             };
           };
-          "<leader>gbc" = {
+          "<leader>sC" = {
             action = "git_bcommits";
             options = {
-              desc = "telecope find git bcommits";
+              desc = "search buffer git commits";
             };
           };
-          "<leader>gb" = {
-            action = "git_branches";
+
+          # search vim
+          "<leader>sh" = {
+            action = "help_tags";
             options = {
-              desc = "telecope find git branches";
+              desc = "search help";
             };
           };
-          "<leader>gs" = {
-            action = "git_status";
+          "<leader>sk" = {
+            action = "keymaps";
             options = {
-              desc = "telecope find git status";
+              desc = "search keymaps";
+            };
+          };
+          "<leader>sr" = {
+            action = "oldfiles";
+            options = {
+              desc = "search recent files";
+            };
+          };
+          "<leader>sm" = {
+            action = "marks";
+            options = {
+              desc = "search marks";
+            };
+          };
+          "<leader>sq" = {
+            action = "quickfix";
+            options = {
+              desc = "search quickfix list";
             };
           };
         };
@@ -430,6 +450,52 @@
       which-key = {
         enable = lib.mkDefault true;
         settings = {
+          delay = 200;
+          spec = [
+            # Top-level groups
+            {
+              __unkeyed-1 = "<leader>s";
+              group = "Search";
+              icon = "󰍉 ";
+            }
+            {
+              __unkeyed-1 = "<leader>t";
+              group = "Tabs";
+              icon = "󰓩 ";
+            }
+            {
+              __unkeyed-1 = "<leader>w";
+              group = "Windows";
+              icon = "󰇙 ";
+            }
+            {
+              __unkeyed-1 = "<leader>V";
+              group = "Vim";
+              icon = " ";
+            }
+
+            # Standalone keys with labels
+            {
+              __unkeyed-1 = "<leader>/";
+              desc = "Clear search highlights";
+              icon = "󰹿 ";
+            }
+            {
+              __unkeyed-1 = "<leader>-";
+              desc = "Split horizontal";
+              icon = "󰧱 ";
+            }
+            {
+              __unkeyed-1 = "<leader>|";
+              desc = "Split vertical";
+              icon = "󰧲 ";
+            }
+            {
+              __unkeyed-1 = "<leader>d";
+              desc = "Toggle Neotree";
+              icon = "󰙅 ";
+            }
+          ];
           replace = {
             desc = [
               [
@@ -439,6 +505,14 @@
               [
                 "<leader>"
                 "SPACE"
+              ]
+              [
+                "-"
+                "horizontal split"
+              ]
+              [
+                "|"
+                "vertical split"
               ]
               [
                 "<[cC][rR]>"
