@@ -11,7 +11,20 @@
     programs.hyprlock.enable = lib.mkDefault true;
     programs.tofi = {
       enable = lib.mkDefault true;
-
+      settings = {
+        width = "%50";
+        height = "40%";
+        border-width = 2;
+        outline-width = 0;
+        padding-left = "2%";
+        padding-top = "2%";
+        result-spacing = 25;
+        num-results = 10;
+        prompt-text = " run: ";
+        fuzzy-match = true;
+        hide-cursor = true;
+        history = true;
+      };
     };
     programs.waybar.enable = lib.mkDefault true;
     programs.waybar.systemd.enable = lib.mkDefault true;
