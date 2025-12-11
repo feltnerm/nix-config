@@ -88,28 +88,27 @@
         "bindm" = [
 
           # resize and move windows
-          "$mainMod, mouse:272, movewindow" # NOTE: mouse:272 = left click
-          "$mainMod, mouse:273, resizewindow" # NOTE: mouse:272 = right click
+          "alt, mouse:272, movewindow" # NOTE: mouse:272 = left click
+          "alt, mouse:273, resizewindow" # NOTE: mouse:272 = right click
         ];
         # repeatable
         "binde" = [
           # resize window
-          "$mainMod shift, h, resizeactive, -50 0"
-          "$mainMod shift, j, resizeactive, 0 50"
-          "$mainMod shift, k, resizeactive, 0 -50"
-          "$mainMod shift, l, resizeactive, 50 0"
+          "shift alt, h, resizeactive, -50 0"
+          "shift alt, j, resizeactive, 0 50"
+          "shift alt, k, resizeactive, 0 -50"
+          "shift alt, l, resizeactive, 50 0"
         ];
         "bind" = [
           "ctrl alt, delete, exec, uwsm stop"
-          "CTRL ALT, L, exec, hyprlock" # screen lock
-          "CTRL ALT, P, exec, " # poweroff
+          "ctrl alt, l, exec, hyprlock" # screen lock
+          "ctrl alt, p, exec, " # poweroff
 
-          "$mainMod, m, fullscreen, 1"
-          "$mainMod, f, fullscreen, 0"
-          "$mainMod shift, f, fullscreenstate, 0 2"
-          "$mainMod ctrl, f, togglefloating"
-          "$mainMod ctrl, c, centerwindow"
-          "$mainMod ctrl, p, pin"
+          "shift alt, m, fullscreen, 1"
+          "alt, f, fullscreen, 0"
+          "shift alt, f, togglefloating"
+          "alt ctrl, c, centerwindow"
+          "alt ctrl, p, pin"
 
           # move focus
           "alt, h, movefocus, l"
@@ -118,59 +117,86 @@
           "alt, l, movefocus, r"
 
           # move windows
-          "$mainMod ctrl, h, movewindow, l"
-          "$mainMod ctrl, j, movewindow, d"
-          "$mainMod ctrl, k, movewindow, u"
-          "$mainMod ctrl, l, movewindow, r"
+          "alt ctrl, h, movewindow, l"
+          "alt ctrl, j, movewindow, d"
+          "alt ctrl, k, movewindow, u"
+          "alt ctrl, l, movewindow, r"
 
           # swap windows
-          "alt, m, layoutmsg, focusmaster master"
-          "$mainMod alt, m, layoutmsg, swapwithmaster master"
-          "$mainMod alt, h, swapwindow, l"
-          "$mainMod alt, j, swapwindow, d"
-          "$mainMod alt, k, swapwindow, u"
-          "$mainMod alt, l, swapwindow, r"
+          "shift alt, h, swapwindow, l"
+          "shift alt, j, swapwindow, d"
+          "shift alt, k, swapwindow, u"
+          "shift alt, l, swapwindow, r"
 
           # alt tab cycling
           "alt, tab, cyclenext"
           "alt, tab, bringactivetotop"
 
           # workspace
-          "$mainMod, 1, workspace,1"
-          "alt shift, 1, movetoworkspace,1"
-          "$mainMod shift, 1, movetoworkspacesilent,1"
-          "$mainMod, 2, workspace,2"
-          "alt shift, 1, movetoworkspace,2"
-          "$mainMod shift, 2, movetoworkspacesilent,2"
-          "$mainMod, 3, workspace,3"
-          "alt shift, 3, movetoworkspace,3"
-          "$mainMod shift, 3, movetoworkspacesilent,3"
-          "$mainMod, 4, workspace,4"
-          "alt shift, 4, movetoworkspace,4"
-          "$mainMod shift, 4, movetoworkspacesilent,4"
-          "$mainMod, 5, workspace,5"
-          "alt shift, 5, movetoworkspace,5"
-          "$mainMod shift, 5, movetoworkspacesilent,5"
+          "alt, 1, workspace,1"
+          "shift alt, 1, movetoworkspace,1"
+          "shift alt, 1, movetoworkspacesilent,1"
+          "alt, 2, workspace,2"
+          "shift alt, 2, movetoworkspace,2"
+          "shift alt, 2, movetoworkspacesilent,2"
+          "alt, 3, workspace,3"
+          "shift alt, 3, movetoworkspace,3"
+          "shift alt, 3, movetoworkspacesilent,3"
+          "alt, 4, workspace,4"
+          "shift alt, 4, movetoworkspace,4"
+          "shift alt, 4, movetoworkspacesilent,4"
+          "alt, 5, workspace,5"
+          "shift alt, 5, movetoworkspace,5"
+          "shift alt, 5, movetoworkspacesilent,5"
+
+          "alt, 6, workspace,6"
+          "shift alt, 6, movetoworkspace,6"
+          "shift alt, 6, movetoworkspacesilent,6"
+          "alt, 7, workspace,7"
+          "shift alt, 7, movetoworkspace,7"
+          "shift alt, 7, movetoworkspacesilent,7"
+          "alt, 8, workspace,8"
+          "shift alt, 8, movetoworkspace,8"
+          "shift alt, 8, movetoworkspacesilent,8"
+          "alt, 9, workspace,9"
+          "shift alt, 9, movetoworkspace,9"
+          "shift alt, 9, movetoworkspacesilent,9"
+          "alt, 0, workspace,10"
+          "shift alt, 0, movetoworkspace,10"
+          "shift alt, 0, movetoworkspacesilent,10"
 
           # mouse
-          "$mainMod, mouse_down, workspace, e+1"
-          "$mainMod, mouse_up, workspace, e-1"
-          "$mainMod, period, workspace, e+1"
-          "$mainMod, comma, workspace, e-1"
-          "$mainMod, period, movetoworkspace, e+1"
-          "$mainMod, comma, movetoworkspace, e-1"
+          "alt, mouse_down, workspace, e+1"
+          "alt, mouse_up, workspace, e-1"
+          "ctrl, right, workspace, e+1"
+          "ctrl, left, workspace, e-1"
+          "shift ctrl, right, movetoworkspace, e+1"
+          "shift ctrl, left, movetoworkspace, e-1"
+
+          # Multi-monitor support (placeholder for future configuration)
+          # "alt, period, focusmonitor, +1"        # Focus next monitor
+          # "alt, comma, focusmonitor, -1"         # Focus previous monitor
+          # "shift alt, period, movewindow, mon:+1" # Move window to next monitor
+          # "shift alt, comma, movewindow, mon:-1"  # Move window to previous monitor
 
           # process mgmt
-          "$mainMod, q, killactive, #kill"
-          "$mainMod shift, q, killactive"
+          "alt, q, killactive"
 
           # custom keybinds and launchers
-          "$mainMod, return, exec, uwsm app -- $terminal"
-          "$mainMod, escape, exec, uwsm app -- nwg-bar"
-          "$mainMod, space, exec, uwsm app -- $terminal -e $(tofi-run)"
-          "$mainMod shift, space, exec, uwsm app -- $(tofi-drun)"
+          "alt, return, exec, uwsm app -- $terminal"
+          "alt, escape, exec, uwsm app -- nwg-bar"
+          "alt, space, exec, uwsm app -- $terminal -e $(tofi-run)"
+          "shift alt, space, exec, uwsm app -- $(tofi-drun)"
 
-          "$mainMod, d, exec, uwsm app -- $terminal -e yazi"
+          "alt, d, exec, uwsm app -- $terminal -e yazi"
+
+          # additions to align with macOS
+          "shift alt, return, layoutmsg, swapwithmaster master"
+          "shift alt, t, togglefloating"
+          "shift alt, p, workspace, e-1"
+          "shift alt, n, workspace, e+1"
+          "shift ctrl, left, movetoworkspace, e-1"
+          "shift ctrl, right, movetoworkspace, e+1"
         ];
       };
     };

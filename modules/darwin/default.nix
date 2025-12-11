@@ -264,6 +264,13 @@
         shift + alt - p : yabai -m window --space prev;
         shift + alt - n : yabai -m window --space next;
 
+        # Cycle spaces
+        ctrl - left : yabai -m space --focus prev
+        ctrl - right : yabai -m space --focus next
+        # Move + follow while cycling
+        shift + ctrl - left : yabai -m window --space prev; yabai -m space --focus prev
+        shift + ctrl - right : yabai -m window --space next; yabai -m space --focus next
+
         # move window to space #
         shift + alt - 1 : yabai -m window --space 1;
         shift + alt - 2 : yabai -m window --space 2;
@@ -271,7 +278,11 @@
         shift + alt - 4 : yabai -m window --space 4;
         shift + alt - 5 : yabai -m window --space 5;
         shift + alt - 6 : yabai -m window --space 6;
-        shift + alt - 7 : yabai -m window --space 7;
+         shift + alt - 7 : yabai -m window --space 7;
+         shift + alt - 8 : yabai -m window --space 8;
+         shift + alt - 9 : yabai -m window --space 9;
+         shift + alt - 0 : yabai -m window --space 10;
+
 
         # rotate layout clockwise
         shift + alt - r : yabai -m space --rotate 270
@@ -282,12 +293,18 @@
         # flip along x-axis
         shift + alt - x : yabai -m space --mirror x-axis
 
-        # toggle window float
-        shift + alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+         # toggle window float
+         shift + alt - f : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
 
         # Resize master pane
         alt - left : yabai -m window --resize left:-20:0
         alt - right : yabai -m window --resize right:-20:0
+        # Resize with hjkl
+        alt + shift - h : yabai -m window --resize left:-20:0; yabai -m window --resize right:-20:0
+        alt + shift - l : yabai -m window --resize right:20:0; yabai -m window --resize left:20:0
+        alt + shift - j : yabai -m window --resize bottom:0:20; yabai -m window --resize top:0:20
+        alt + shift - k : yabai -m window --resize top:0:-20; yabai -m window --resize bottom:0:-20
 
         # Move window to master
         shift + alt - return : yabai -m window --warp master
@@ -295,11 +312,17 @@
         # Float/Unfloat window
         shift + alt - f : yabai -m window --toggle float
 
-        # Toggle window fullscreen
+        # Force kill window
+        shift + alt - q : yabai -m window --close
+
+        # Toggle window fullscreen (monocle)
         shift + alt - m : yabai -m window --toggle zoom-fullscreen
+        # Real fullscreen
+        alt - f : yabai -m window --toggle zoom-fullscreen
 
         # open terminal
-        cmd - return : /Applications/iTerm.app/Contents/MacOS/iTerm2
+        cmd - return : /Applications/Ghostty.app/Contents/MacOS/ghostty
+        alt - return : /Applications/Ghostty.app/Contents/MacOS/ghostty
 
         # Reload yabai and skhd
         ctrl + alt - r : yabai --restart && skhd --restart
