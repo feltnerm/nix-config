@@ -110,6 +110,40 @@ in
       };
 
       nixvim = {
+        keymaps = lib.optionals config.programs.nixvim.plugins.lsp.enable [
+          {
+            key = "<leader>ca";
+            action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+            options = {
+              desc = "code action";
+            };
+          }
+          {
+            key = "<leader>cr";
+            action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+            options = {
+              desc = "rename symbol";
+            };
+          }
+          {
+            key = "<leader>cf";
+            mode = [
+              "n"
+              "v"
+            ];
+            action = "<cmd>lua vim.lsp.buf.format()<cr>";
+            options = {
+              desc = "format buffer/selection";
+            };
+          }
+          {
+            key = "<leader>cd";
+            action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+            options = {
+              desc = "line diagnostics";
+            };
+          }
+        ];
         extraPlugins = [ ];
         plugins = {
           snacks = {
@@ -126,8 +160,53 @@ in
           gitblame.enable = lib.mkDefault true;
           gitgutter.enable = lib.mkDefault true;
 
+          # better diagnostics
+          trouble.enable = lib.mkDefault true;
+
           # dap
           dap.enable = lib.mkDefault true;
+          dap-virtual-text.enable = lib.mkDefault true;
+          dap-ui = {
+            enable = lib.mkDefault true;
+            settings.layouts = [
+              {
+                elements = [
+                  {
+                    id = "scopes";
+                    size = 0.25;
+                  }
+                  {
+                    id = "breakpoints";
+                    size = 0.25;
+                  }
+                  {
+                    id = "stacks";
+                    size = 0.25;
+                  }
+                  {
+                    id = "watches";
+                    size = 0.25;
+                  }
+                ];
+                position = "left";
+                size = 40;
+              }
+              {
+                elements = [
+                  {
+                    id = "repl";
+                    size = 0.5;
+                  }
+                  {
+                    id = "console";
+                    size = 0.5;
+                  }
+                ];
+                position = "bottom";
+                size = 10;
+              }
+            ];
+          };
 
           # project
           project-nvim.enable = lib.mkDefault true;
@@ -136,6 +215,62 @@ in
 
           treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
           # treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+
+          which-key = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
+            settings.spec = [
+              {
+                __unkeyed-1 = "<leader>sl";
+                group = "LSP";
+                icon = "󰒓 ";
+              }
+            ];
+          };
+
+          telescope.keymaps = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
+            # search LSP (sub-group)
+            "<leader>sld" = {
+              action = "lsp_definitions";
+              options = {
+                desc = "search definitions";
+              };
+            };
+            "<leader>slr" = {
+              action = "lsp_references";
+              options = {
+                desc = "search references";
+              };
+            };
+            "<leader>sli" = {
+              action = "lsp_implementations";
+              options = {
+                desc = "search implementations";
+              };
+            };
+            "<leader>slt" = {
+              action = "lsp_type_definitions";
+              options = {
+                desc = "search type definitions";
+              };
+            };
+            "<leader>sls" = {
+              action = "lsp_document_symbols";
+              options = {
+                desc = "search document symbols";
+              };
+            };
+            "<leader>slS" = {
+              action = "lsp_workspace_symbols";
+              options = {
+                desc = "search workspace symbols";
+              };
+            };
+            "<leader>slD" = {
+              action = "diagnostics";
+              options = {
+                desc = "search diagnostics";
+              };
+            };
+          };
 
           # LSP
           lsp = {

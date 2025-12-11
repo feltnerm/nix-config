@@ -172,7 +172,7 @@
       enable = true;
       keyboards.internalKeyboard = {
         devices = [
-          "/dev/input/by-id/usb-Keychron_Keychron_K2-event-kbd"
+          "/dev/input/by-id/usb-Keychron_Keychron_K2_Pro-event-kbd"
         ];
         extraDefCfg = "process-unmapped-keys yes";
         # keep full keyboard config in main config to avoid duplication
