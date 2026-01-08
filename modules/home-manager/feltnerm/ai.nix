@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -9,6 +10,17 @@ in
 {
   # Only apply when developer and AI are enabled
   config = lib.mkIf cfg.enable {
+
+    programs.git = lib.mkIf config.programs.git.enable {
+      ignores = [
+        ".opencode"
+        ".aider"
+      ];
+    };
+
+    home.packages = with pkgs; [
+      spec-kit
+    ];
 
     services = {
       ollama = {
