@@ -151,7 +151,7 @@ in
         description = "(work-in-progress) Define a user whose `$HOME` to manage.";
         type = lib.types.lazyAttrsOf mkHomeOption;
         default = { };
-        example = lib.literalExpression ''{ mark = { modules = [ ../configs/home/mark ]; nixvim.modules = [ ../configs/nixvim ]; }; }'';
+        example = lib.literalExpression "{ mark = { modules = [ ../configs/home/mark ]; nixvim.modules = [ ../configs/nixvim ]; }; }";
       };
     };
 
@@ -160,7 +160,7 @@ in
         description = "(work-in-progress) Define neovim configs";
         type = lib.types.lazyAttrsOf mkNixvimOption;
         default = { };
-        example = lib.literalExpression ''{ feltnerm-nvim = { modules = [ ../configs/nixvim ]; }; }'';
+        example = lib.literalExpression "{ feltnerm-nvim = { modules = [ ../configs/nixvim ]; }; }";
       };
     };
   };
