@@ -58,7 +58,10 @@ in
         };
       };
       tmux.enable = lib.mkDefault true;
-      yazi.enable = lib.mkDefault true;
+      yazi = {
+        enable = lib.mkDefault true;
+        shellWrapperName = lib.mkDefault "yy";
+      };
       zoxide.enable = lib.mkDefault true;
       zsh.enable = lib.mkDefault true;
     };
