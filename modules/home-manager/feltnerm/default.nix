@@ -165,7 +165,7 @@ in
             pkgs.figlet
             pkgs.fortune
             pkgs.lolcat
-            pkgs.neofetch
+            pkgs.fastfetch
             pkgs.toilet
             pkgs.ascii-image-converter
             pkgs.asciinema

@@ -3,7 +3,7 @@
 function _screensaver() {
   while true; do
     clear &&
-      neofetch &&
+      fastfetch &&
       fortune | cowsay &&
       sleep 30
   done

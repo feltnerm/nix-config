@@ -5,7 +5,7 @@ in
 pkgs.writeShellApplication {
   inherit name;
   runtimeInputs = [
-    pkgs.neofetch
+    pkgs.fastfetch
     pkgs.fortune
     pkgs.cowsay
   ];
