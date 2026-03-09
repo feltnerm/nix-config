@@ -16,7 +16,7 @@
 
     # GUI stays per host config; here only small QoL
     environment.systemPackages = with pkgs; [
-      neofetch
+      fastfetch
     ];
 
     # Banner to remind it's ephemeral

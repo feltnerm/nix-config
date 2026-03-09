@@ -58,7 +58,10 @@ in
         };
       };
       tmux.enable = lib.mkDefault true;
-      yazi.enable = lib.mkDefault true;
+      yazi = {
+        enable = lib.mkDefault true;
+        shellWrapperName = lib.mkDefault "yy";
+      };
       zoxide.enable = lib.mkDefault true;
       zsh.enable = lib.mkDefault true;
     };
@@ -162,7 +165,7 @@ in
             pkgs.figlet
             pkgs.fortune
             pkgs.lolcat
-            pkgs.neofetch
+            pkgs.fastfetch
             pkgs.toilet
             pkgs.ascii-image-converter
             pkgs.asciinema
