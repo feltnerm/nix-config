@@ -15,12 +15,7 @@ let
     "*.bak"
     "*.swp"
     "*.tmp"
-    "*~"
     "*~.nib"
-    ".fuse_hidden*"
-    ".directory"
-    ".Trash-*"
-    ".nfs*"
     "tmp/"
     "local.properties"
     ".settings/"
@@ -32,11 +27,9 @@ let
     ".bzrignore"
     "/CVS/*"
     ".cvsignore"
-    "*/.cvsignore"
 
     # ides
     ".project"
-    ".launch"
     "*.launch"
     ".dir-locals.el"
     ".idea"
@@ -44,7 +37,7 @@ let
     ".tern-port"
 
     # It's better to unpack these files and commit the raw source because
-    "# git has its own built in compression methods."
+    # git has its own built in compression methods.
     "*.7z"
     "*.jar"
     "*.rar"
@@ -55,8 +48,7 @@ let
     "*.xz"
     "*.lzma"
     "*.cab"
-    "
-    " # packing-only formats"
+    # packing-only formats
     "*.iso"
     "*.tar"
 
@@ -96,13 +88,14 @@ let
     ".apdisk"
 
     ### macOS Patch ###
-    "# iCloud generated files"
+    # iCloud generated files
     "*.icloud"
 
     ### Vim ###
     # Swap
     "[._]*.s[a-v][a-z]"
-    "!*.svg  # comment out if you don't need vector files"
+    # comment out if you don't need vector files
+    "!*.svg"
     "[._]*.sw[a-p]"
     "[._]s[a-rt-v][a-z]"
     "[._]ss[a-gi-z]"
@@ -130,7 +123,7 @@ in
 
     # persist ssh sessions to github for a short while
     programs.ssh = lib.mkIf config.programs.ssh.enable {
-      enableDefaultConfig = false;
+      enableDefaultConfig = lib.mkDefault false;
       matchBlocks = {
         "github.com" = {
           extraOptions = {
@@ -178,6 +171,7 @@ in
         pull.rebase = lib.mkDefault "true";
         push.default = lib.mkDefault "current";
         tag.sort = lib.mkDefault "version:refname";
+        tag.gpgSign = lib.mkDefault true;
 
         status = {
           short = lib.mkDefault true;
@@ -191,12 +185,10 @@ in
 
         commit.gpgSign = lib.mkDefault true;
         gpg.format = lib.mkDefault "ssh";
-        user.signingkey = lib.mkDefault config.feltnerm.developer.git.signingKey;
-
         gpg = {
           ssh = {
             defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
-            programs = "${pkgs.openssh}/bin/ssh-keygen";
+            program = "${pkgs.openssh}/bin/ssh-keygen";
           };
         };
       };

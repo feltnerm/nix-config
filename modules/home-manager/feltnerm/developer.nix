@@ -60,12 +60,9 @@ let
     };
   };
 
-  gitIdentityType = lib.types.submodule (
-    _:
-    {
-      options = gitIdentityOptions;
-    }
-  );
+  gitIdentityType = lib.types.submodule (_: {
+    options = gitIdentityOptions;
+  });
 
   mkGitUserSettings =
     identity:
