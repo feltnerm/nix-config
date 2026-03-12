@@ -13,9 +13,5 @@
       example = "catppuccin-mocha";
     };
 
-    yubikey = {
-      enable = lib.mkEnableOption "Enable YubiKey integration (agent, tools)";
-    };
-
   };
 }

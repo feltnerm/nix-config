@@ -187,8 +187,8 @@ in
         gpg.format = lib.mkDefault "ssh";
         gpg = {
           ssh = {
-            defaultKeyCommand = "${pkgs.openssh}/bin/ssh-add -L";
-            program = "${pkgs.openssh}/bin/ssh-keygen";
+            defaultKeyCommand = lib.mkDefault "${pkgs.openssh}/bin/ssh-add -L";
+            program = lib.mkDefault "${pkgs.openssh}/bin/ssh-keygen";
           };
         };
       };
