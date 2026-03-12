@@ -19,9 +19,11 @@
         enable = true;
         ai.enable = true;
         git = {
-          username = "feltnerm";
-          email = "feltner.mj@gmail.com";
-          signingKey = "~/.ssh/id_ed25519_sk.pub";
+          identity = {
+            username = "feltnerm";
+            email = "feltner.mj@gmail.com";
+            signingKey = "~/.ssh/id_ed25519_sk.pub";
+          };
         };
       };
 
