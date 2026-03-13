@@ -7,6 +7,14 @@
 
 Personal NixOS, nix-darwin, and Home Manager setup using flake-parts and a small `feltnerm` module to define hosts and users.
 
+## Quick Start
+
+- See system guides under `docs/`:
+  - [NixOS Hosts](docs/hosts.md): NixOS host configuration and installation
+  - [macOS/Darwin](docs/hosts.md#darwin-hosts) (nix-darwin): macOS host configuration
+  - [Home Manager](docs/homes.md): Home Manager configuration
+  - [VMs](docs/vms.md): VM build and development
+  - [LiveCDs](docs/livecds.md): LiveCD/ISO creation
 ## Common Tasks
 
 ### Development

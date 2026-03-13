@@ -190,6 +190,41 @@
         "type": "github"
       }
     },
+    "den": {
+      "locked": {
+        "lastModified": 1773392129,
+        "narHash": "sha256-SG1hP7CgNnWDIvF5wKfQLI692qGn39xgWm/UhRyrGUI=",
+        "owner": "vic",
+        "repo": "den",
+        "rev": "4bdcb63e6c337a2863af6b444b6da35702aac319",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "den",
+        "type": "github"
+      }
+    },
+    "devshell": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768818222,
+        "narHash": "sha256-460jc0+CZfyaO8+w8JNtlClB2n4ui1RbHfPTLkpwhU8=",
+        "owner": "numtide",
+        "repo": "devshell",
+        "rev": "255a2b1725a20d060f566e4755dbf571bbbb5f76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "devshell",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -224,6 +259,21 @@
       "original": {
         "owner": "rafaelmardojai",
         "repo": "firefox-gnome-theme",
+        "type": "github"
+      }
+    },
+    "flake-aspects": {
+      "locked": {
+        "lastModified": 1773339018,
+        "narHash": "sha256-sPPriYJpLmukixc6/KBzeOhw83OSodco5YbeayHzAgo=",
+        "owner": "vic",
+        "repo": "flake-aspects",
+        "rev": "b51a00bc0140e7708e421a64f20170a2e8ccae93",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "flake-aspects",
         "type": "github"
       }
     },
@@ -431,6 +481,21 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1772999353,
+        "narHash": "sha256-dPb0WxUhFaz6wuR3B6ysqFJpsu8txKDPZvS47AT2XLI=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "545a4df146fce44d155573e47f5a777985acf912",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
         "type": "github"
       }
     },
@@ -702,10 +767,14 @@
       "inputs": {
         "agenix": "agenix",
         "darwin": "darwin_2",
+        "den": "den",
+        "devshell": "devshell",
         "disko": "disko",
+        "flake-aspects": "flake-aspects",
         "flake-parts": "flake-parts",
         "hardware": "hardware",
         "home-manager": "home-manager_2",
+        "import-tree": "import-tree",
         "nix-homebrew": "nix-homebrew",
         "nix-topology": "nix-topology",
         "nixos-facter-modules": "nixos-facter-modules",

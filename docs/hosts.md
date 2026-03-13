@@ -1,14 +1,14 @@
 # Hosts
 
-Generic instructions for adding, installing, and maintaining NixOS hosts in this repo.
+Generic instructions for adding, installing, and maintaining NixOS and Darwin hosts in this repo.
 
 ## Overview
-- Hosts live under `configs/nixos/<host>/`
-- Common options and modules in `modules/nixos/*`
-- Flake wiring in `flake/nixos.nix` and host entries in `flake/default.nix`
+- Hosts live under `modules/hosts/<host>/`
+- Common options and modules in `modules/nixos/*` and `modules/darwin/*`
+- Flake wiring in `flake/nixos.nix`, `flake/darwin.nix`, and host entries in `flake/default.nix`
 
 ## Add a New Host
-1. Create `configs/nixos/<host>/default.nix` with imports of common modules
+1. Create `modules/hosts/<host>/default.nix` with imports of common modules
 2. Add `hardware.nix` (and `disko.nix` if using disko/ZFS)
 3. Add `home/mark.nix` and `user/mark.nix` or desired users
 4. Update flake outputs to include `<host>` (see `flake/nixos.nix`)
@@ -39,7 +39,7 @@ sudo nixos-install --flake .#<host>
 
 ## Disko/ZFS (optional)
 ```bash
-nix run github:nix-community/disko -- --mode zap_create_mount configs/nixos/<host>/hardware.nix
+nix run github:nix-community/disko -- --mode zap_create_mount modules/hosts/<host>/hardware.nix
 ```
 Verify by-id device paths before running.
 
@@ -57,3 +57,24 @@ Verify by-id device paths before running.
 ## Notes
 - Keep host README focused on specific quirks/tweaks (hardware, layout, roles)
 - For VMs, ISOs, and LiveCDs, see `docs/vms.md`, `docs/iso.md`, and `docs/livecds.md`
+
+## Darwin Hosts
+
+For macOS (Darwin) hosts using nix-darwin:
+
+### Overview
+- Darwin hosts live under `modules/hosts/<host>/`
+- Common options and modules in `modules/darwin/*`
+- Flake wiring in `flake/darwin.nix`
+
+### Add a New Darwin Host
+1. Create `modules/hosts/<host>/default.nix` with imports of common modules
+2. Add `home/mark.nix` for the user configuration
+3. Update flake outputs to include `<host>` (see `flake/darwin.nix`)
+
+### Activate on macOS
+```sh
+darwin-rebuild switch --flake .#<host>
+```
+
+Prereqs: nix-darwin installed and configured.

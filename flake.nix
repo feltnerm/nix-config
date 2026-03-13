@@ -50,6 +50,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    devshell = {
+      url = "github:numtide/devshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -76,6 +81,10 @@
     nix-topology.url = "github:oddlama/nix-topology";
     pkgs-by-name-for-flake-parts.url = "github:drupol/pkgs-by-name-for-flake-parts";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    den.url = "github:vic/den";
+    flake-aspects.url = "github:vic/flake-aspects";
+    import-tree.url = "github:vic/import-tree";
   };
 
   outputs =

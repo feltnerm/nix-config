@@ -33,4 +33,4 @@ scripts/cloud-init-seed.sh mark ~/.ssh/id_ed25519.pub seed.iso
 ```
 
 ## Notes
-- Host-specific overrides live under `configs/nixos/livecd*/`
+- Host-specific overrides live under `modules/hosts/livecd*/`

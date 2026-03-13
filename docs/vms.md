@@ -5,7 +5,7 @@ Generic instructions for building, running, and using NixOS VM artifacts produce
 ## Overview
 - VM types: `vm`, `vmWithBootLoader`, `qcow` images via flake outputs
 - Helpers: `build-vm <host> <output>`, `run-vm <image> [opts]`
-- Default user: `mark` (override per host under `configs/*/user/mark.nix`)
+- Default user: `mark` (override per host under `modules/hosts/<host>/user/mark.nix`)
 
 ## Devshell
 ```sh
@@ -63,4 +63,4 @@ ssh -p 2222 mark@localhost
 ## Notes
 - Artifacts appear at `./result` symlink
 - Acceleration: macOS (HVF) and Linux (KVM) auto-enabled when available
-- For host-specific tweaks, consult `configs/nixos/<host>/README.md`
+- For host-specific tweaks, consult `modules/hosts/<host>/README.md`

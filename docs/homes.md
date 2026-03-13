@@ -3,11 +3,11 @@
 Generic instructions for adding and using Home Manager configurations in this repo.
 
 ## Overview
-- Home configs live under `configs/home/<user>/` and `modules/home-manager/...`
+- Home configs live under `den/users/<user>/` and `modules/home-manager/...`
 - Managed via flakes and integrated with NixOS or Darwin as appropriate
 
 ## Add a New Home
-1. Create `configs/home/<user>/default.nix`
+1. Create `den/users/<user>/default.nix`
 2. Reference shared modules from `modules/home-manager/...` as needed
 3. Add flake outputs in `flake/home.nix` (if not already templated)
 
@@ -30,5 +30,5 @@ home-manager switch --flake .#<user>@darwin
 - Theme: adjust Stylix/Catppuccin options in `modules/home-manager/stylix.nix`
 
 ## Notes
-- For user-specific tweaks, document in `configs/home/<user>/README.md`
+- For user-specific tweaks, document in `den/users/<user>/README.md`
 - See `flake/home.nix` for available outputs and variants

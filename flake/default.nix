@@ -1,13 +1,29 @@
 {
-  lib,
+  config,
   ...
 }:
 {
   imports = [
-    ./feltnerm
+    ../modules/hosts
+
+    ./den.nix
+
+    ../modules/defaults.nix
+    ../modules/home
+    ../modules/outputs.nix
+    ../modules/homes.nix
+
+    ../modules/hosts/codemonkey
+    ../modules/hosts/markbook
+    ../modules/hosts/virtmark
+    ../modules/hosts/virtmark-gui
+    ../modules/hosts/livecd
+    ../modules/hosts/livecd-gui
+    ../modules/hosts/reddevil
+
+    ../modules/feltnerm
 
     ./darwin.nix
-    ./devshells.nix
     ./flake-modules.nix
     ./home.nix
     ./overlays.nix
@@ -19,70 +35,13 @@
     ./isos.nix
   ];
 
-  feltnerm = {
-
-    conventions = {
-      configsPath = ../configs;
-    };
-
-    nixos = {
-      hosts = {
-        codemonkey = {
-          users = {
-            mark = {
-              home = {
-                modules = [ { feltnerm.theme = lib.mkForce "catppuccin-mocha"; } ];
-              };
-            };
-          };
-        };
-
-        markbook = {
-          users = {
-            mark = {
-              home = {
-                modules = [ { feltnerm.theme = lib.mkForce "catppuccin-latte"; } ];
-              };
-            };
-          };
-        };
-      };
-
-      wsl = {
-        reddevil = {
-          users = {
-            mark = {
-              home = {
-                modules = [ { feltnerm.theme = lib.mkForce "catppuccin-macchiato"; } ];
-              };
-            };
-          };
-        };
-      };
-
-      vms = {
-        virtmark = { };
-        virtmark-gui = { };
-      };
-
-      livecds = {
-        livecd = { };
-        livecd-gui = { };
-      };
-    };
-
-    home = {
-      users = {
-        mark = { };
-      };
-    };
-
-    nixvim = {
-      configs = {
-        feltnerm-nvim = {
-          modules = [ ../modules/home-manager/nixvim.nix ];
-        };
-      };
+  config = {
+    flake = {
+      homeConfigurations = config.flake.den.homeConfigurations or { };
+      darwinConfigurations = config.flake.den.darwinConfigurations or { };
+      nixosConfigurations = config.flake.den.nixosConfigurations or { };
+      devShells = config.flake.den.devShells or { };
     };
   };
+
 }

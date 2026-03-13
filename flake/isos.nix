@@ -11,7 +11,7 @@
             iso-livecd = inputs.nixos-generators.nixosGenerate {
               inherit system;
               modules = [
-                ../configs/nixos/livecd
+                ../modules/hosts/livecd/host.nix
                 ../modules/nixos/iso-base.nix
                 ../modules/nixos/live-iso.nix
               ];
@@ -21,7 +21,7 @@
             iso-livecd-gui = inputs.nixos-generators.nixosGenerate {
               inherit system;
               modules = [
-                ../configs/nixos/livecd-gui
+                ../modules/hosts/livecd-gui
                 ../modules/nixos/iso-base.nix
                 ../modules/nixos/live-iso.nix
               ];
@@ -33,7 +33,7 @@
               inherit system;
               modules = [
                 ../modules/nixos/installer.nix
-                ../configs/nixos/codemonkey
+                ../modules/hosts/codemonkey
               ];
               format = "install-iso";
             };
@@ -42,7 +42,7 @@
               inherit system;
               modules = [
                 ../modules/nixos/installer.nix
-                ../configs/nixos/markbook
+                ../modules/hosts/markbook
               ];
               format = "install-iso";
             };

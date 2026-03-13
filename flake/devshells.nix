@@ -1,19 +1,33 @@
-_: {
+{ inputs, ... }:
+{
+  imports = [
+    inputs.devshell.flakeModule
+  ];
+
   perSystem =
     { pkgs, ... }:
     {
-      devShells.default = pkgs.mkShell {
-        name = "feltnerm-dev";
-        NIX_CONFIG = "experimental-features = nix-command flakes\nextra-substituters = https://feltnerm.cachix.org\nextra-trusted-public-keys = feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ=";
-        nativeBuildInputs = with pkgs; [
-          nix
-          git
-          treefmt
-          gitlint
-          gnupg
-          home-manager
+      devshells.default = {
+        devshell = {
+          name = "feltnerm-dev";
+          packages = with pkgs; [
+            nix
+            git
+            treefmt
+            gitlint
+            gnupg
+            home-manager
+          ];
+        };
+
+        env = [
+          {
+            name = "NIX_CONFIG";
+            value = "experimental-features = nix-command flakes\nextra-substituters = https://feltnerm.cachix.org\nextra-trusted-public-keys = feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ=";
+          }
         ];
-        shellHook = ''
+
+        devshell.startup.shellHook.text = ''
           echo "Welcome to feltnerm-dev"
           echo "Commands:"
           echo "  nix fmt                                 # format the repo"
@@ -23,15 +37,24 @@ _: {
         '';
       };
 
-      devShells.vm = pkgs.mkShell {
-        name = "feltnerm-vm";
-        NIX_CONFIG = "experimental-features = nix-command flakes\nextra-substituters = https://feltnerm.cachix.org\nextra-trusted-public-keys = feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ=";
-        nativeBuildInputs = with pkgs; [
-          nix
-          qemu
-          cloud-utils # provides cloud-localds
+      devshells.vm = {
+        devshell = {
+          name = "feltnerm-vm";
+          packages = with pkgs; [
+            nix
+            qemu
+            cloud-utils # provides cloud-localds
+          ];
+        };
+
+        env = [
+          {
+            name = "NIX_CONFIG";
+            value = "experimental-features = nix-command flakes\nextra-substituters = https://feltnerm.cachix.org\nextra-trusted-public-keys = feltnerm.cachix.org-1:ZZ9S0xOGfpYmi86JwCKyTWqHbTAzhWe4Qu/a/uHZBIQ=";
+          }
         ];
-        shellHook = ''
+
+        devshell.startup.shellHook.text = ''
           echo "Welcome to feltnerm-vm"
           echo "VM Commands:"
            echo "  build-vm <host> <output> # build VM for host/output (vm|vmWithBootLoader|vmWithDisko or iso|qcow|...)"
