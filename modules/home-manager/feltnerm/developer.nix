@@ -40,10 +40,81 @@ let
     ];
     text = builtins.readFile ./fzf-repo.sh;
   };
+
+  gitIdentityOptions = {
+    username = lib.mkOption {
+      description = "Git user name";
+      type = lib.types.str;
+      default = "";
+    };
+    email = lib.mkOption {
+      description = "Git user email";
+      type = lib.types.str;
+      default = "";
+    };
+    signingKey = lib.mkOption {
+      description = "SSH public key to use for Git signing (path or key string).";
+      type = lib.types.str;
+      default = "";
+      example = "~/.ssh/id_ed25519_sk.pub";
+    };
+  };
+
+  gitIdentityType = lib.types.submodule (_: {
+    options = gitIdentityOptions;
+  });
+
+  mkGitUserSettings =
+    identity:
+    lib.filterAttrs (_: value: value != null && value != "") {
+      name = identity.username;
+      inherit (identity) email;
+      signingkey = identity.signingKey;
+    };
+
+  mkJujutsuUserSettings =
+    identity:
+    lib.filterAttrs (_: value: value != null && value != "") {
+      name = identity.username;
+      inherit (identity) email;
+      # signingKey is intentionally omitted; jj signing is configured separately.
+    };
+
+  normalizeGitDir =
+    dir:
+    let
+      normalized = if lib.hasSuffix "/" dir then dir else "${dir}/";
+    in
+    lib.warnIf (!lib.hasSuffix "/" dir)
+      "feltnerm.developer.git.extraIdentities: directory \"${dir}\" is missing a trailing slash; git includeIf gitdir: only matches subdirectories when a trailing slash is present."
+      normalized;
+
+  mkIdentityInclude =
+    identity:
+    let
+      userSettings = mkGitUserSettings identity.identity;
+      baseContents = lib.optionalAttrs (userSettings != { }) { user = userSettings; };
+    in
+    {
+      condition = "gitdir:${normalizeGitDir identity.directory}";
+      contents = lib.recursiveUpdate baseContents identity.git;
+    };
 in
 {
   imports = [
     ./ai.nix
+    (lib.mkRenamedOptionModule
+      [ "feltnerm" "developer" "git" "username" ]
+      [ "feltnerm" "developer" "git" "identity" "username" ]
+    )
+    (lib.mkRenamedOptionModule
+      [ "feltnerm" "developer" "git" "email" ]
+      [ "feltnerm" "developer" "git" "identity" "email" ]
+    )
+    (lib.mkRenamedOptionModule
+      [ "feltnerm" "developer" "git" "signingKey" ]
+      [ "feltnerm" "developer" "git" "identity" "signingKey" ]
+    )
   ];
 
   options.feltnerm.developer = {
@@ -55,21 +126,57 @@ in
       example = "${config.home.homeDirectory}/Projects";
     };
     git = {
-      username = lib.mkOption {
-        description = "Git user name";
-        type = lib.types.str;
-        default = "";
+      identity = lib.mkOption {
+        description = "Git identity settings.";
+        type = gitIdentityType;
+        default = { };
       };
-      email = lib.mkOption {
-        description = "Git user email";
-        type = lib.types.str;
-        default = "";
-      };
-      signingKey = lib.mkOption {
-        description = "SSH public key to use for Git signing (path or key string).";
-        type = lib.types.str;
-        default = "";
-        example = "~/.ssh/id_ed25519_sk.pub";
+      extraIdentities = lib.mkOption {
+        description = "Additional Git identities applied per directory via includeIf.";
+        type = lib.types.listOf (
+          lib.types.submodule (
+            { ... }:
+            {
+              imports = [
+                (lib.mkRenamedOptionModule [ "username" ] [ "identity" "username" ])
+                (lib.mkRenamedOptionModule [ "email" ] [ "identity" "email" ])
+                (lib.mkRenamedOptionModule [ "signingKey" ] [ "identity" "signingKey" ])
+              ];
+              options = {
+                directory = lib.mkOption {
+                  description = "Directory prefix used for includeIf gitdir matching.";
+                  type = lib.types.str;
+                  example = "/Users/mark/code/feltnerm/";
+                };
+                identity = lib.mkOption {
+                  description = "Git identity for this directory.";
+                  type = gitIdentityType;
+                  default = { };
+                };
+                git = lib.mkOption {
+                  description = "Arbitrary git config sections merged into the include (e.g. gpg, commit, core).";
+                  type = lib.types.attrs;
+                  default = { };
+                  example = {
+                    gpg.format = "ssh";
+                    commit.gpgsign = true;
+                  };
+                };
+              };
+            }
+          )
+        );
+        default = [ ];
+        example = [
+          {
+            directory = "/Users/mark/code/feltnerm/";
+            identity = {
+              username = "Mark Feltner";
+              email = "mark@example.com";
+              signingKey = "~/.ssh/id_ed25519_personal.pub";
+            };
+          }
+        ];
       };
     };
     ai = {
@@ -82,352 +189,370 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable (
+    let
+      gitUserSettings = mkGitUserSettings cfg.git.identity;
+      jujutsuUserSettings = mkJujutsuUserSettings cfg.git.identity;
+    in
+    {
+      assertions = [
+        {
+          assertion = builtins.all (
+            identity:
+            identity.directory != ""
+            && (
+              identity.identity.username != ""
+              || identity.identity.email != ""
+              || identity.identity.signingKey != ""
+              || identity.git != { }
+            )
+          ) cfg.git.extraIdentities;
+          message = "feltnerm.developer.git.extraIdentities entries must set a directory and at least one of username, email, signingKey, or git config.";
+        }
+      ];
 
-    programs = {
-      zsh.initContent = lib.mkIf (
-        config.programs.zsh.enable && config.programs.fzf.enable
-      ) fzfReposZshExtra;
+      programs = {
+        zsh.initContent = lib.mkIf (
+          config.programs.zsh.enable && config.programs.fzf.enable
+        ) fzfReposZshExtra;
 
-      git = lib.mkIf config.programs.git.enable {
-        settings.user = {
-          name = cfg.git.username;
-          inherit (cfg.git) email;
+        git = lib.mkIf config.programs.git.enable {
+          settings = lib.optionalAttrs (gitUserSettings != { }) {
+            user = gitUserSettings;
+          };
+          includes = lib.mkAfter (map mkIdentityInclude cfg.git.extraIdentities);
         };
-      };
 
-      gh = lib.mkIf config.programs.git.enable {
-        enable = lib.mkDefault true;
-      };
+        gh = lib.mkIf config.programs.git.enable {
+          enable = lib.mkDefault true;
+        };
 
-      jujutsu = lib.mkIf config.programs.jujutsu.enable {
-        settings = {
-          user = {
-            name = cfg.git.username;
-            inherit (cfg.git) email;
+        jujutsu = lib.mkIf config.programs.jujutsu.enable {
+          settings = lib.optionalAttrs (jujutsuUserSettings != { }) {
+            user = jujutsuUserSettings;
           };
         };
-      };
 
-      nixvim = {
-        keymaps = lib.optionals config.programs.nixvim.plugins.lsp.enable [
-          {
-            key = "<leader>ca";
-            action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
-            options = {
-              desc = "code action";
-            };
-          }
-          {
-            key = "<leader>cr";
-            action = "<cmd>lua vim.lsp.buf.rename()<cr>";
-            options = {
-              desc = "rename symbol";
-            };
-          }
-          {
-            key = "<leader>cf";
-            mode = [
-              "n"
-              "v"
-            ];
-            action = "<cmd>lua vim.lsp.buf.format()<cr>";
-            options = {
-              desc = "format buffer/selection";
-            };
-          }
-          {
-            key = "<leader>cd";
-            action = "<cmd>lua vim.diagnostic.open_float()<cr>";
-            options = {
-              desc = "line diagnostics";
-            };
-          }
-        ];
-        extraPlugins = [ ];
-        plugins = {
-          snacks = {
-            enable = lib.mkDefault true;
-            settings = {
-              input.enabled = lib.mkDefault true;
-              picker.enabled = lib.mkDefault true;
-              terminal.enabled = lib.mkDefault true;
-            };
-          };
-
-          # git
-          fugitive.enable = lib.mkDefault true;
-          gitblame.enable = lib.mkDefault true;
-          gitgutter.enable = lib.mkDefault true;
-
-          # better diagnostics
-          trouble.enable = lib.mkDefault true;
-
-          # dap
-          dap.enable = lib.mkDefault true;
-          dap-virtual-text.enable = lib.mkDefault true;
-          dap-ui = {
-            enable = lib.mkDefault true;
-            settings.layouts = [
-              {
-                elements = [
-                  {
-                    id = "scopes";
-                    size = 0.25;
-                  }
-                  {
-                    id = "breakpoints";
-                    size = 0.25;
-                  }
-                  {
-                    id = "stacks";
-                    size = 0.25;
-                  }
-                  {
-                    id = "watches";
-                    size = 0.25;
-                  }
-                ];
-                position = "left";
-                size = 40;
-              }
-              {
-                elements = [
-                  {
-                    id = "repl";
-                    size = 0.5;
-                  }
-                  {
-                    id = "console";
-                    size = 0.5;
-                  }
-                ];
-                position = "bottom";
-                size = 10;
-              }
-            ];
-          };
-
-          # project
-          project-nvim.enable = lib.mkDefault true;
-
-          rest.enable = lib.mkDefault true;
-
-          treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
-          # treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-
-          which-key = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
-            settings.spec = [
-              {
-                __unkeyed-1 = "<leader>sl";
-                group = "LSP";
-                icon = "󰒓 ";
-              }
-            ];
-          };
-
-          telescope.keymaps = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
-            # search LSP (sub-group)
-            "<leader>sld" = {
-              action = "lsp_definitions";
+        nixvim = {
+          keymaps = lib.optionals config.programs.nixvim.plugins.lsp.enable [
+            {
+              key = "<leader>ca";
+              action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
               options = {
-                desc = "search definitions";
+                desc = "code action";
+              };
+            }
+            {
+              key = "<leader>cr";
+              action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+              options = {
+                desc = "rename symbol";
+              };
+            }
+            {
+              key = "<leader>cf";
+              mode = [
+                "n"
+                "v"
+              ];
+              action = "<cmd>lua vim.lsp.buf.format()<cr>";
+              options = {
+                desc = "format buffer/selection";
+              };
+            }
+            {
+              key = "<leader>cd";
+              action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+              options = {
+                desc = "line diagnostics";
+              };
+            }
+          ];
+          extraPlugins = [ ];
+          plugins = {
+            snacks = {
+              enable = lib.mkDefault true;
+              settings = {
+                input.enabled = lib.mkDefault true;
+                picker.enabled = lib.mkDefault true;
+                terminal.enabled = lib.mkDefault true;
               };
             };
-            "<leader>slr" = {
-              action = "lsp_references";
-              options = {
-                desc = "search references";
-              };
-            };
-            "<leader>sli" = {
-              action = "lsp_implementations";
-              options = {
-                desc = "search implementations";
-              };
-            };
-            "<leader>slt" = {
-              action = "lsp_type_definitions";
-              options = {
-                desc = "search type definitions";
-              };
-            };
-            "<leader>sls" = {
-              action = "lsp_document_symbols";
-              options = {
-                desc = "search document symbols";
-              };
-            };
-            "<leader>slS" = {
-              action = "lsp_workspace_symbols";
-              options = {
-                desc = "search workspace symbols";
-              };
-            };
-            "<leader>slD" = {
-              action = "diagnostics";
-              options = {
-                desc = "search diagnostics";
-              };
-            };
-          };
 
-          # LSP
-          lsp = {
-            enable = lib.mkDefault true;
-            servers = {
-              bashls.enable = lib.mkDefault true;
-              gleam.enable = lib.mkDefault true;
-              # TODO: enable for text, git commits, etc.
-              harper_ls.enable = lib.mkDefault false;
-              cssls.enable = lib.mkDefault true;
-              html.enable = lib.mkDefault true;
-              jsonls.enable = lib.mkDefault true;
-              lua_ls.enable = lib.mkDefault true;
-              marksman.enable = lib.mkDefault true;
-              nil_ls = {
-                enable = lib.mkDefault true;
-                settings = {
-                  formatting = {
-                    command = [ "${lib.getExe pkgs.nixfmt}" ];
-                  };
-                  nix = {
-                    flake = {
-                      autoArchive = true;
+            # git
+            fugitive.enable = lib.mkDefault true;
+            gitblame.enable = lib.mkDefault true;
+            gitgutter.enable = lib.mkDefault true;
+
+            # better diagnostics
+            trouble.enable = lib.mkDefault true;
+
+            # dap
+            dap.enable = lib.mkDefault true;
+            dap-virtual-text.enable = lib.mkDefault true;
+            dap-ui = {
+              enable = lib.mkDefault true;
+              settings.layouts = [
+                {
+                  elements = [
+                    {
+                      id = "scopes";
+                      size = 0.25;
+                    }
+                    {
+                      id = "breakpoints";
+                      size = 0.25;
+                    }
+                    {
+                      id = "stacks";
+                      size = 0.25;
+                    }
+                    {
+                      id = "watches";
+                      size = 0.25;
+                    }
+                  ];
+                  position = "left";
+                  size = 40;
+                }
+                {
+                  elements = [
+                    {
+                      id = "repl";
+                      size = 0.5;
+                    }
+                    {
+                      id = "console";
+                      size = 0.5;
+                    }
+                  ];
+                  position = "bottom";
+                  size = 10;
+                }
+              ];
+            };
+
+            # project
+            project-nvim.enable = lib.mkDefault true;
+
+            rest.enable = lib.mkDefault true;
+
+            treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
+            # treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+
+            which-key = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
+              settings.spec = [
+                {
+                  __unkeyed-1 = "<leader>sl";
+                  group = "LSP";
+                  icon = "󰒓 ";
+                }
+              ];
+            };
+
+            telescope.keymaps = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
+              # search LSP (sub-group)
+              "<leader>sld" = {
+                action = "lsp_definitions";
+                options = {
+                  desc = "search definitions";
+                };
+              };
+              "<leader>slr" = {
+                action = "lsp_references";
+                options = {
+                  desc = "search references";
+                };
+              };
+              "<leader>sli" = {
+                action = "lsp_implementations";
+                options = {
+                  desc = "search implementations";
+                };
+              };
+              "<leader>slt" = {
+                action = "lsp_type_definitions";
+                options = {
+                  desc = "search type definitions";
+                };
+              };
+              "<leader>sls" = {
+                action = "lsp_document_symbols";
+                options = {
+                  desc = "search document symbols";
+                };
+              };
+              "<leader>slS" = {
+                action = "lsp_workspace_symbols";
+                options = {
+                  desc = "search workspace symbols";
+                };
+              };
+              "<leader>slD" = {
+                action = "diagnostics";
+                options = {
+                  desc = "search diagnostics";
+                };
+              };
+            };
+
+            # LSP
+            lsp = {
+              enable = lib.mkDefault true;
+              servers = {
+                bashls.enable = lib.mkDefault true;
+                gleam.enable = lib.mkDefault true;
+                # TODO: enable for text, git commits, etc.
+                harper_ls.enable = lib.mkDefault false;
+                cssls.enable = lib.mkDefault true;
+                html.enable = lib.mkDefault true;
+                jsonls.enable = lib.mkDefault true;
+                lua_ls.enable = lib.mkDefault true;
+                marksman.enable = lib.mkDefault true;
+                nil_ls = {
+                  enable = lib.mkDefault true;
+                  settings = {
+                    formatting = {
+                      command = [ "${lib.getExe pkgs.nixfmt}" ];
+                    };
+                    nix = {
+                      flake = {
+                        autoArchive = true;
+                      };
                     };
                   };
                 };
-              };
-              rust_analyzer = {
-                enable = lib.mkDefault true;
-                installCargo = lib.mkDefault false;
-                installRustc = lib.mkDefault false;
-              };
-              ts_ls.enable = lib.mkDefault true;
-              vimls.enable = lib.mkDefault true;
-              yamlls.enable = lib.mkDefault true;
-              zls.enable = lib.mkDefault true;
-            };
-          };
-
-          opencode = {
-            enable = lib.mkDefault cfg.ai.enable;
-            settings = {
-              provider = {
-                enabled = lib.mkDefault "snacks";
+                rust_analyzer = {
+                  enable = lib.mkDefault true;
+                  installCargo = lib.mkDefault false;
+                  installRustc = lib.mkDefault false;
+                };
+                ts_ls.enable = lib.mkDefault true;
+                vimls.enable = lib.mkDefault true;
+                yamlls.enable = lib.mkDefault true;
+                zls.enable = lib.mkDefault true;
               };
             };
-          };
 
-          copilot-lua = lib.mkIf (cfg.ai.enable && cfg.ai.provider == "copilot") {
-            enable = lib.mkDefault true;
-            settings = {
-              # let blink take over
-              suggestion = {
-                enabled = false;
-              };
-              panel = {
-                enabled = false;
+            opencode = {
+              enable = lib.mkDefault cfg.ai.enable;
+              settings = {
+                provider = {
+                  enabled = lib.mkDefault "snacks";
+                };
               };
             };
-          };
 
-          blink-copilot.enable = lib.mkDefault (cfg.ai.enable && cfg.ai.provider == "copilot");
-          blink-cmp = {
-            enable = lib.mkDefault true;
-            # keymaps / completion inspired by intellij
-            settings = {
-              appearance = {
-                nerd_font_variant = "mono";
+            copilot-lua = lib.mkIf (cfg.ai.enable && cfg.ai.provider == "copilot") {
+              enable = lib.mkDefault true;
+              settings = {
+                # let blink take over
+                suggestion = {
+                  enabled = false;
+                };
+                panel = {
+                  enabled = false;
+                };
               };
-              sources = {
-                default = [
-                  "lsp"
-                  "snippets"
-                  "path"
-                ]
-                ++ lib.optionals cfg.ai.enable [ cfg.ai.provider ]
-                ++ [
-                  "buffer"
-                ];
-                providers = {
-                  # Give LSP a slight edge over other core sources
-                  lsp.score_offset = 5;
+            };
 
-                  buffer.score_offset = -7;
+            blink-copilot.enable = lib.mkDefault (cfg.ai.enable && cfg.ai.provider == "copilot");
+            blink-cmp = {
+              enable = lib.mkDefault true;
+              # keymaps / completion inspired by intellij
+              settings = {
+                appearance = {
+                  nerd_font_variant = "mono";
+                };
+                sources = {
+                  default = [
+                    "lsp"
+                    "snippets"
+                    "path"
+                  ]
+                  ++ lib.optionals cfg.ai.enable [ cfg.ai.provider ]
+                  ++ [
+                    "buffer"
+                  ];
+                  providers = {
+                    # Give LSP a slight edge over other core sources
+                    lsp.score_offset = 5;
 
-                  # Adjust Copilot's rank as needed (e.g., lower it to prevent it from
-                  # obscuring all other suggestions, which is common practice).
-                  copilot = lib.mkIf (cfg.ai.provider == "copilot") {
-                    enabled = lib.mkDefault cfg.ai.enable;
-                    name = "copilot";
-                    module = "blink-copilot";
-                    async = true;
-                    score_offset = -100;
+                    buffer.score_offset = -7;
+
+                    # Adjust Copilot's rank as needed (e.g., lower it to prevent it from
+                    # obscuring all other suggestions, which is common practice).
+                    copilot = lib.mkIf (cfg.ai.provider == "copilot") {
+                      enabled = lib.mkDefault cfg.ai.enable;
+                      name = "copilot";
+                      module = "blink-copilot";
+                      async = true;
+                      score_offset = -100;
+                    };
                   };
                 };
-              };
-              completion = {
-                list = {
-                  selection = {
-                    preselect = false;
+                completion = {
+                  list = {
+                    selection = {
+                      preselect = false;
+                    };
+                  };
+                  documentation = {
+                    auto_show = true;
+                  };
+                  ghost_text = {
+                    enabled = true;
                   };
                 };
-                documentation = {
-                  auto_show = true;
+                fuzzy.implementation = "prefer_rust_with_warning";
+                keymap = {
+                  preset = "super-tab";
+                  # Explicitly redefine <Tab> for multi-purpose use
+                  # Note: When overriding keymaps, you must use a Lua string
+                  # to specify the command array.
+                  "<Tab>" = [
+                    "select_next"
+                    "snippet_forward"
+                    "accept"
+                    "fallback"
+                  ];
+
+                  # Explicitly redefine <S-Tab> (Shift+Tab)
+                  "<S-Tab>" = [
+                    "select_prev"
+                    "snippet_backward"
+                  ];
+
+                  # Enter accepts the completion
+                  "<CR>" = [
+                    "accept"
+                    "fallback"
+                  ];
+
+                  # Manually show completion/documentation
+                  "<C-Space>" = [
+                    "show"
+                    "show_documentation"
+                  ];
                 };
-                ghost_text = {
-                  enabled = true;
-                };
-              };
-              fuzzy.implementation = "prefer_rust_with_warning";
-              keymap = {
-                preset = "super-tab";
-                # Explicitly redefine <Tab> for multi-purpose use
-                # Note: When overriding keymaps, you must use a Lua string
-                # to specify the command array.
-                "<Tab>" = [
-                  "select_next"
-                  "snippet_forward"
-                  "accept"
-                  "fallback"
-                ];
-
-                # Explicitly redefine <S-Tab> (Shift+Tab)
-                "<S-Tab>" = [
-                  "select_prev"
-                  "snippet_backward"
-                ];
-
-                # Enter accepts the completion
-                "<CR>" = [
-                  "accept"
-                  "fallback"
-                ];
-
-                # Manually show completion/documentation
-                "<C-Space>" = [
-                  "show"
-                  "show_documentation"
-                ];
               };
             };
           };
         };
       };
-    };
 
-    # home-manager configuration
-    home = {
-      sessionVariables = {
-        CODE_HOME = "${cfg.codeHome}";
+      # home-manager configuration
+      home = {
+        sessionVariables = {
+          CODE_HOME = "${cfg.codeHome}";
+        };
+
+        # developer-ey packages
+        packages = lib.optionals config.programs.fzf.enable [
+          fzfGitCommits
+          fzfRepo
+        ];
       };
-
-      # developer-ey packages
-      packages = lib.optionals config.programs.fzf.enable [
-        fzfGitCommits
-        fzfRepo
-      ];
-    };
-  };
+    }
+  );
 }
