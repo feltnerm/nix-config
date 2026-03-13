@@ -93,10 +93,11 @@ let
     identity:
     let
       userSettings = mkGitUserSettings identity.identity;
+      baseContents = lib.optionalAttrs (userSettings != { }) { user = userSettings; };
     in
     {
       condition = "gitdir:${normalizeGitDir identity.directory}";
-      contents = lib.optionalAttrs (userSettings != { }) { user = userSettings; };
+      contents = lib.recursiveUpdate baseContents identity.git;
     };
 in
 {
@@ -152,6 +153,15 @@ in
                   type = gitIdentityType;
                   default = { };
                 };
+                git = lib.mkOption {
+                  description = "Arbitrary git config sections merged into the include (e.g. gpg, commit, core).";
+                  type = lib.types.attrs;
+                  default = { };
+                  example = {
+                    gpg.format = "ssh";
+                    commit.gpgsign = true;
+                  };
+                };
               };
             }
           )
@@ -194,9 +204,10 @@ in
               identity.identity.username != ""
               || identity.identity.email != ""
               || identity.identity.signingKey != ""
+              || identity.git != { }
             )
           ) cfg.git.extraIdentities;
-          message = "feltnerm.developer.git.extraIdentities entries must set a directory and at least one of username, email, or signingKey.";
+          message = "feltnerm.developer.git.extraIdentities entries must set a directory and at least one of username, email, signingKey, or git config.";
         }
       ];
 
