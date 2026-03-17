@@ -24,13 +24,11 @@ in
     };
 
     services.thermald.enable = true;
-    programs.light.enable = true;
 
     environment.systemPackages = lib.mkDefault (
       with pkgs;
       [
         blueman
-        light
         brightnessctl
         powertop
       ]
