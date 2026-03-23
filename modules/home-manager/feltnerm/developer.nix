@@ -234,40 +234,163 @@ in
         };
 
         nixvim = {
-          keymaps = lib.optionals config.programs.nixvim.plugins.lsp.enable [
-            {
-              key = "<leader>ca";
-              action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
-              options = {
-                desc = "code action";
-              };
-            }
-            {
-              key = "<leader>cr";
-              action = "<cmd>lua vim.lsp.buf.rename()<cr>";
-              options = {
-                desc = "rename symbol";
-              };
-            }
-            {
-              key = "<leader>cf";
-              mode = [
-                "n"
-                "v"
-              ];
-              action = "<cmd>lua vim.lsp.buf.format()<cr>";
-              options = {
-                desc = "format buffer/selection";
-              };
-            }
-            {
-              key = "<leader>cd";
-              action = "<cmd>lua vim.diagnostic.open_float()<cr>";
-              options = {
-                desc = "line diagnostics";
-              };
-            }
-          ];
+          keymaps =
+            (lib.optionals config.programs.nixvim.plugins.lsp.enable [
+              {
+                key = "<leader>ca";
+                action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+                options = {
+                  desc = "code action";
+                };
+              }
+              {
+                key = "<leader>cr";
+                action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+                options = {
+                  desc = "rename symbol";
+                };
+              }
+              {
+                key = "<leader>cf";
+                mode = [
+                  "n"
+                  "v"
+                ];
+                action = "<cmd>lua vim.lsp.buf.format()<cr>";
+                options = {
+                  desc = "format buffer/selection";
+                };
+              }
+              {
+                key = "<leader>cd";
+                action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+                options = {
+                  desc = "line diagnostics";
+                };
+              }
+            ])
+            ++ (lib.optionals cfg.ai.enable [
+              {
+                key = "<leader>at";
+                action = "<cmd>CodeCompanionChat Toggle<cr>";
+                options = {
+                  desc = "codecompanion chat toggle";
+                };
+              }
+              {
+                key = "<leader>ai";
+                mode = [
+                  "n"
+                  "v"
+                ];
+                action = "<cmd>CodeCompanion<cr>";
+                options = {
+                  desc = "codecompanion inline";
+                };
+              }
+              {
+                key = "<leader>aa";
+                mode = [
+                  "n"
+                  "v"
+                ];
+                action = "<cmd>CodeCompanionActions<cr>";
+                options = {
+                  desc = "codecompanion actions";
+                };
+              }
+              {
+                key = "<leader>al";
+                action = "<cmd>CodeCompanionCLI<cr>";
+                options = {
+                  desc = "codecompanion cli";
+                };
+              }
+              {
+                key = "<leader>aL";
+                action = "<cmd>CodeCompanionCLI!<cr>";
+                options = {
+                  desc = "codecompanion cli (submit)";
+                };
+              }
+              {
+                key = "<leader>ax";
+                mode = "v";
+                action = "<cmd>CodeCompanionChat Add<cr>";
+                options = {
+                  desc = "codecompanion add to chat";
+                };
+              }
+            ])
+            ++ (lib.optionals config.programs.nixvim.plugins.opencode.enable [
+              {
+                key = "<leader>oa";
+                mode = [
+                  "n"
+                  "x"
+                ];
+                action = "<cmd>lua require('opencode').ask('@this: ', { submit = true })<cr>";
+                options = {
+                  desc = "opencode ask";
+                };
+              }
+              {
+                key = "<leader>ox";
+                mode = [
+                  "n"
+                  "x"
+                ];
+                action = "<cmd>lua require('opencode').select()<cr>";
+                options = {
+                  desc = "opencode select action";
+                };
+              }
+              {
+                key = "<leader>ot";
+                mode = "n";
+                action = "<cmd>lua require('opencode').toggle()<cr>";
+                options = {
+                  desc = "opencode toggle";
+                };
+              }
+              {
+                key = "<leader>or";
+                mode = [
+                  "n"
+                  "x"
+                ];
+                action = "v:lua.require'opencode'.operator('@this ')";
+                options = {
+                  desc = "opencode add range";
+                  expr = true;
+                };
+              }
+              {
+                key = "<leader>ol";
+                mode = "n";
+                action = "v:lua.require'opencode'.operator('@this ') .. '_'";
+                options = {
+                  desc = "opencode add line";
+                  expr = true;
+                };
+              }
+              {
+                key = "<leader>oU";
+                mode = "n";
+                action = "<cmd>lua require('opencode').command('session.half.page.up')<cr>";
+                options = {
+                  desc = "opencode scroll up";
+                };
+              }
+              {
+                key = "<leader>oD";
+                mode = "n";
+                action = "<cmd>lua require('opencode').command('session.half.page.down')<cr>";
+                options = {
+                  desc = "opencode scroll down";
+                };
+              }
+            ]);
           extraPlugins = [ ];
           plugins = {
             snacks = {
@@ -340,15 +463,37 @@ in
             treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
             # treesitter.grammarPackages = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
 
-            which-key = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
-              settings.spec = [
+            which-key =
+              lib.mkIf
+                (
+                  config.programs.nixvim.plugins.lsp.enable
+                  || config.programs.nixvim.plugins.opencode.enable
+                  || cfg.ai.enable
+                )
                 {
-                  __unkeyed-1 = "<leader>sl";
-                  group = "LSP";
-                  icon = "󰒓 ";
-                }
-              ];
-            };
+                  settings.spec =
+                    (lib.optionals config.programs.nixvim.plugins.lsp.enable [
+                      {
+                        __unkeyed-1 = "<leader>sl";
+                        group = "LSP";
+                        icon = "󰒓 ";
+                      }
+                    ])
+                    ++ (lib.optionals cfg.ai.enable [
+                      {
+                        __unkeyed-1 = "<leader>a";
+                        group = "CodeCompanion";
+                        icon = "󰡣 ";
+                      }
+                    ])
+                    ++ (lib.optionals config.programs.nixvim.plugins.opencode.enable [
+                      {
+                        __unkeyed-1 = "<leader>o";
+                        group = "OpenCode";
+                        icon = "󰚩 ";
+                      }
+                    ]);
+                };
 
             telescope.keymaps = lib.mkIf config.programs.nixvim.plugins.lsp.enable {
               # search LSP (sub-group)
@@ -437,9 +582,9 @@ in
             opencode = {
               enable = lib.mkDefault cfg.ai.enable;
               settings = {
-                provider = {
-                  enabled = lib.mkDefault "snacks";
-                };
+                # provider = {
+                #   enabled = lib.mkDefault "snacks";
+                # };
               };
             };
 

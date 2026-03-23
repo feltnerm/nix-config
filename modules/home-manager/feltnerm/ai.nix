@@ -10,6 +10,23 @@ in
 {
   # Only apply when developer and AI are enabled
   config = lib.mkIf cfg.enable {
+    programs.nixvim.plugins.codecompanion = {
+      enable = lib.mkDefault true;
+      settings = {
+        display = {
+          action_palette = {
+            provider = lib.mkDefault "snacks";
+          };
+        };
+        interactions = {
+          chat = {
+            adapter = "opencode";
+          };
+        };
+      };
+    };
+
+    home.shellAliases.nvimz = ''nvim -c "lua vim.defer_fn(function() vim.cmd('CodeCompanionChat Toggle') end, 100)"'';
 
     programs.git = lib.mkIf config.programs.git.enable {
       ignores = [
