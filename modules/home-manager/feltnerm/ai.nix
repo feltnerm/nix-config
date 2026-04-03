@@ -42,11 +42,14 @@ in
     services = {
       ollama = {
         # fails on aarm64-darwin
-        enable = lib.mkDefault false;
+        enable = lib.mkDefault true;
       };
     };
 
     programs = {
+      gemini-cli = {
+        enable = lib.mkDefault true;
+      };
       # OpenCode CLI configuration and agents
       opencode = {
         enable = lib.mkDefault true;
