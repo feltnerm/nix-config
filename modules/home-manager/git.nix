@@ -140,6 +140,9 @@ in
       # difftastic.enable = lib.mkDefault true;
       ignores = gitIgnores;
 
+      # Single source of truth for Git signing format.
+      signing.format = lib.mkDefault "ssh";
+
       settings = {
         user = {
           name = lib.mkDefault config.home.username;
@@ -184,7 +187,6 @@ in
         merge.log = lib.mkDefault true;
 
         commit.gpgSign = lib.mkDefault true;
-        gpg.format = lib.mkDefault "ssh";
         gpg = {
           ssh = {
             defaultKeyCommand = lib.mkDefault "${pkgs.openssh}/bin/ssh-add -L";
