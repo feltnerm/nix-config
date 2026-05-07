@@ -171,6 +171,7 @@ in
             pkgs.asciinema
             pkgs.nyancat
             pkgs.yt-dlp
+            pkgs.golazo
           ];
 
         in
