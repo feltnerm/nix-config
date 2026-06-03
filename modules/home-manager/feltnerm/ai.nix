@@ -58,28 +58,150 @@ in
       # OpenCode CLI configuration and agents
       opencode = {
         enable = lib.mkDefault true;
+        enableMcpIntegration = lib.mkDefault true;
         agents = { };
         settings = {
+          default_agent = lib.mkDefault "orchestrator";
+
+          model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+          small_model = lib.mkDefault "github-copilot/claude-haiku-4.5";
+
+          # github-copilot is a built-in provider
+          enabled_providers = lib.mkDefault [
+            "github-copilot"
+          ];
+
+          mcp = {
+            github.enabled = lib.mkDefault false;
+            opensearch.enabled = lib.mkDefault false;
+            playwright.enabled = lib.mkDefault false;
+            k8s.enabled = lib.mkDefault false;
+          };
 
           agent = {
             # primary agents
             # built-in
             build = {
-              model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+              mode = "all";
+              model = lib.mkDefault "github-copilot/gpt-5.3-codex";
+              temperature = 0.2;
             };
             plan = {
-              model = lib.mkDefault "github-copilot/gpt-5.2";
+              mode = "all";
+              model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+              effort = "high";
+              thinking = {
+                type = "adaptive";
+              };
+            };
+
+            # custom
+            orchestrator = {
+              mode = "primary";
+              model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+              effort = "low";
+              thinking = {
+                type = "adaptive";
+              };
+              permission = {
+                "*" = "deny";
+                question = "allow";
+                todoread = "allow";
+                todowrite = "allow";
+                task = {
+                  "*" = "allow";
+                };
+              };
+            };
+
+            rubber-duck = {
+              mode = "all";
+              model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+              effort = "low";
+              thinking = {
+                type = "adaptive";
+              };
+              permission = {
+                "*" = "deny";
+                write = "deny";
+                read = "ask";
+                webfetch = "allow";
+                websearch = "allow";
+                question = "allow";
+                task = {
+                  "*" = "allow";
+                };
+              };
+            };
+
+            deep-thinker = {
+              mode = "all";
+              model = lib.mkDefault "github-copilot/claude-opus-4.7";
+              effort = "high";
+              thinking = {
+                type = "adaptive";
+              };
+              permission = {
+                "*" = "deny";
+                write = "deny";
+                read = "ask";
+                webfetch = "allow";
+                websearch = "allow";
+                question = "allow";
+                task = {
+                  "*" = "allow";
+                };
+              };
             };
 
             # sub-agents
             # built-in
             explore = {
-              model = lib.mkDefault "github-copilot/gpt-4o";
+              model = lib.mkDefault "github-copilot/claude-haiku-4.5";
+              temperature = 0.1;
+              textVerbosity = "low";
             };
             general = {
-              model = lib.mkDefault "github-copilot/gpt-5";
+              model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+              thinking = {
+                type = "adaptive";
+              };
+              effort = "medium";
+            };
+
+            debugger = {
+              mode = "subagent";
+              model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
+              effort = "high";
+              thinking = {
+                type = "adaptive";
+              };
+              permission = {
+                bash = "ask";
+                edit = "ask";
+              };
+            };
+            writer = {
+              mode = "subagent";
+              model = lib.mkDefault "github-copilot/gpt-4.1";
+              temperature = 0.7;
+              textVerbosity = "high";
+            };
+            reviewer = {
+              mode = "subagent";
+              model = lib.mkDefault "github-copilot/claude-opus-4.7";
+              effort = "high";
+              thinking = {
+                type = "adaptive";
+              };
+              permission = {
+                write = "deny";
+                read = "allow";
+                question = "allow";
+              };
             };
           };
+
         };
       };
     };
