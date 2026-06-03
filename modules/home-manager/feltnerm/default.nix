@@ -45,6 +45,7 @@ in
       info.enable = lib.mkDefault true;
       jujutsu.enable = lib.mkDefault true;
       jq.enable = lib.mkDefault true;
+      mise.enable = lib.mkDefault true;
       nix-index.enable = lib.mkDefault true;
       nixvim.enable = lib.mkDefault true;
       readline.enable = lib.mkDefault true;
@@ -115,7 +116,6 @@ in
             pkgs.ack
             pkgs.fd
             pkgs.fpp
-            pkgs.chezmoi
             pkgs.bottom
             pkgs.killall
             pkgs.lsof
@@ -134,9 +134,8 @@ in
 
           # file browsers
           fileBrowsers = [
-            pkgs.mc
+            pkgs.dua
             pkgs.ncdu_1
-            pkgs.nnn
           ];
 
           # networking tools
