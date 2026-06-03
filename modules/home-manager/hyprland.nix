@@ -88,6 +88,8 @@
     wayland.windowManager.hyprland = {
       configType = lib.mkDefault "hyprlang";
       settings = {
+        ecosystem.no_start_hyprland_warning = true;
+
         # variables
         "$terminal" = "ghostty";
         "$mainMod" = "super";
