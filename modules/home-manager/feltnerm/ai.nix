@@ -36,7 +36,12 @@ in
     };
 
     home.packages = with pkgs; [
+      nono
+      rtk
+      llmfit
       spec-kit
+      goose-cli
+      pi-coding-agent
     ];
 
     services = {
