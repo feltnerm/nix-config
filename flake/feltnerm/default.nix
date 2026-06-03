@@ -215,6 +215,7 @@ let
             home-manager = {
               useGlobalPkgs = false;
               useUserPackages = true;
+              backupFileExtension = "bak";
               extraSpecialArgs = {
                 inherit hostname inputs;
                 inherit (hostConfig) system;
