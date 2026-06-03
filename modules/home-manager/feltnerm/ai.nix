@@ -61,13 +61,9 @@ in
             # built-in
             build = {
               model = lib.mkDefault "github-copilot/claude-sonnet-4.6";
-              reasoningEffort = lib.mkDefault "medium";
-              textVerbosity = lib.mkDefault "low";
             };
             plan = {
               model = lib.mkDefault "github-copilot/gpt-5.2";
-              reasoningEffort = lib.mkDefault "high";
-              textVerbosity = lib.mkDefault "low";
             };
 
             # sub-agents
