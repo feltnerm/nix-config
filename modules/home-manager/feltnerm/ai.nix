@@ -71,13 +71,6 @@ in
             "github-copilot"
           ];
 
-          mcp = {
-            github.enabled = lib.mkDefault false;
-            opensearch.enabled = lib.mkDefault false;
-            playwright.enabled = lib.mkDefault false;
-            k8s.enabled = lib.mkDefault false;
-          };
-
           agent = {
             # primary agents
             # built-in
