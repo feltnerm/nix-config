@@ -17,5 +17,7 @@ in
     programs.firefox.enable = true;
 
     programs.ghostty.enable = true;
+
+    gtk.gtk4.theme = config.gtk.theme;
   };
 }

@@ -45,8 +45,10 @@
       # includeAllModules = lib.mkDefault true;
       dev.enable = lib.mkDefault true;
       man = {
-        generateCaches = lib.mkDefault true;
+        cache.enable = lib.mkDefault true;
       };
     };
+
+    boot.zfs.forceImportRoot = lib.mkDefault false;
   };
 }

@@ -79,13 +79,14 @@
         hyprpicker
         hyprsunset
         nwg-bar
-        swww
+        awww
         wl-clipboard-rs
       ];
     };
 
     services.mako.enable = lib.mkDefault true;
     wayland.windowManager.hyprland = {
+      configType = lib.mkDefault "hyprlang";
       settings = {
         # variables
         "$terminal" = "ghostty";
@@ -93,7 +94,7 @@
 
         "exec-once" = [
           "systemctl --user start hyprpolkitagent"
-          "swww-daemon"
+          "awww-daemon"
           "hyprsunset"
         ];
 
