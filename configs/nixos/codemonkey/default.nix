@@ -1,5 +1,6 @@
 {
   inputs,
+  pkgs,
   ...
 }:
 {
@@ -37,5 +38,9 @@
 
     # Kanata via module
     feltnerm.kanata.enable = true;
+
+    environment.systemPackages = [
+      pkgs.nvtopPackages.amd
+    ];
   };
 }
