@@ -42,6 +42,7 @@ in
       spec-kit
       goose-cli
       pi-coding-agent
+      llama-cpp
     ];
 
     services = {
