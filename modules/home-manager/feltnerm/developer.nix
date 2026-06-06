@@ -103,6 +103,7 @@ in
 {
   imports = [
     ./ai.nix
+    ./notes.nix
     (lib.mkRenamedOptionModule
       [ "feltnerm" "developer" "git" "username" ]
       [ "feltnerm" "developer" "git" "identity" "username" ]
