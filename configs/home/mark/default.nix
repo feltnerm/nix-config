@@ -17,7 +17,10 @@
       yubikey.enable = true;
       developer = {
         enable = true;
-        ai.enable = true;
+        ai = {
+          enable = true;
+          provider.name = "openai";
+        };
         git = {
           identity = {
             username = "feltnerm";
