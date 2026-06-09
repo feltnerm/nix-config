@@ -181,10 +181,79 @@ in
     };
     ai = {
       enable = lib.mkEnableOption "ai";
-      provider = lib.mkOption {
-        description = "AI model provider";
-        default = "copilot";
-        type = lib.types.enum [ "copilot" ];
+      provider = {
+        name = lib.mkOption {
+          description = ''
+            AI provider name. Selects built-in model and agent defaults.
+            Set to null to configure agents manually.
+          '';
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          example = "github-copilot";
+        };
+        settings = lib.mkOption {
+          description = ''
+            Provider-specific settings passed directly to the provider block
+            (e.g. base URL, API version, extra options). Defaults to {}.
+          '';
+          type = lib.types.attrs;
+          default = { };
+        };
+      };
+      providers = lib.mkOption {
+        description = ''
+          Per-provider configuration for additional providers.
+          Each entry's settings are merged into programs.opencode.settings.provider.<name>
+          and plugins are aggregated into programs.opencode.settings.plugin.
+        '';
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              settings = lib.mkOption {
+                description = "Provider-specific settings (npm, name, options, models, etc.)";
+                type = lib.types.attrs;
+                default = { };
+              };
+              plugins = lib.mkOption {
+                description = "opencode plugins required by this provider.";
+                type = lib.types.listOf lib.types.str;
+                default = [ ];
+              };
+            };
+          }
+        );
+        default = { };
+      };
+      agents = lib.mkOption {
+        description = ''
+          Per-agent overrides merged on top of the active provider's built-in defaults.
+          Declared options (model, variant) default to null and inherit from the provider
+          profile. Any additional fields are passed through as-is.
+        '';
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            freeformType = lib.types.anything;
+            options = {
+              model = lib.mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+                description = "Model to use for this agent. null = inherit provider default.";
+              };
+              variant = lib.mkOption {
+                type = lib.types.nullOr (
+                  lib.types.enum [
+                    "low"
+                    "medium"
+                    "high"
+                  ]
+                );
+                default = null;
+                description = "Model variant/effort level. null = inherit provider default.";
+              };
+            };
+          }
+        );
+        default = { };
       };
     };
   };
@@ -588,7 +657,7 @@ in
               };
             };
 
-            copilot-lua = lib.mkIf (cfg.ai.enable && cfg.ai.provider == "copilot") {
+            copilot-lua = lib.mkIf (cfg.ai.enable && cfg.ai.provider.name == "github-copilot") {
               enable = lib.mkDefault true;
               settings = {
                 # let blink take over
@@ -601,7 +670,7 @@ in
               };
             };
 
-            blink-copilot.enable = lib.mkDefault (cfg.ai.enable && cfg.ai.provider == "copilot");
+            blink-copilot.enable = lib.mkDefault (cfg.ai.enable && cfg.ai.provider.name == "github-copilot");
             blink-cmp = {
               enable = lib.mkDefault true;
               # keymaps / completion inspired by intellij
@@ -615,7 +684,7 @@ in
                     "snippets"
                     "path"
                   ]
-                  ++ lib.optionals cfg.ai.enable [ cfg.ai.provider ]
+                  ++ lib.optionals (cfg.ai.enable && cfg.ai.provider.name == "github-copilot") [ "copilot" ]
                   ++ [
                     "buffer"
                   ];
@@ -627,7 +696,7 @@ in
 
                     # Adjust Copilot's rank as needed (e.g., lower it to prevent it from
                     # obscuring all other suggestions, which is common practice).
-                    copilot = lib.mkIf (cfg.ai.provider == "copilot") {
+                    copilot = lib.mkIf (cfg.ai.provider.name == "github-copilot") {
                       enabled = lib.mkDefault cfg.ai.enable;
                       name = "copilot";
                       module = "blink-copilot";
