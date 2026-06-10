@@ -13,7 +13,8 @@ let
       small_model = "openai/gpt-5.4-mini-fast";
       agents = {
         build = {
-          model = "openai/gpt-5.3-codex";
+          model = "openai/gpt-5.4-mini";
+          variant = "medium";
         };
         plan = {
           model = "openai/gpt-5.4";
