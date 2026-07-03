@@ -16,6 +16,8 @@
     includes = [
       (den.aspects.features._.theme "catppuccin-latte")
       den.aspects.features._.gui
+      den.aspects.features._.laptop
+      den.aspects.features._.bluetooth
       den.aspects.features._.kanata
       den.aspects.features._.ssh-enable
       den.aspects.features._.nopasswd-wheel

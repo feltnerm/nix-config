@@ -13,6 +13,7 @@
       den.aspects.features._.nopasswd-wheel
       den.aspects.features._.networkmanager
       den.aspects.features._.firewall-off
+      den.aspects.features._.security-base
       den.aspects.features._.audio
       den.aspects.features._.smart-card
       den.aspects.features._.intel-baseline

@@ -284,6 +284,8 @@ _: {
             ];
           };
 
+          programs.ghostty.enable = true;
+          gtk.gtk4.theme = config.gtk.theme;
           services.mako.enable = lib.mkIf (!pkgs.stdenv.isDarwin) (lib.mkDefault true);
         }
         # firefox configuration
