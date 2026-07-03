@@ -6,7 +6,6 @@ _: {
     ./developer
     ./gui
     ./hardware-intel
-    ./home
     ./home-cli-minimal.nix
     ./home-wsl-vars.nix
     ./kanata

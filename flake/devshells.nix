@@ -1,8 +1,6 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
-  imports = [
-    inputs.devshell.flakeModule
-  ];
+  imports = lib.optional (inputs ? devshell) inputs.devshell.flakeModule;
 
   perSystem =
     { pkgs, ... }:

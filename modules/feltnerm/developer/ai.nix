@@ -1,5 +1,4 @@
-_:
-{
+_: {
   config.den.aspects.features.provides.developer-ai = {
     homeManager =
       {
@@ -12,6 +11,11 @@ _:
         cfg = config.feltnerm.developer.ai;
       in
       {
+        imports = [
+          ../home/base.nix
+          ../home/nixvim.nix
+        ];
+
         config = lib.mkIf cfg.enable {
           home.shellAliases.nvimz = ''nvim -c "lua vim.defer_fn(function() vim.cmd('CodeCompanionChat Toggle') end, 100)"'';
 

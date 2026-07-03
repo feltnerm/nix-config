@@ -8,7 +8,7 @@
 {
   imports = [
     inputs.agenix.homeManagerModules.default
-    inputs.nixvim.homeModules.nixvim
+    inputs.nixvim.homeManagerModules.nixvim
     inputs.stylix.homeModules.stylix
   ];
 

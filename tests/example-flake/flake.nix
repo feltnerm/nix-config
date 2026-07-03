@@ -6,6 +6,8 @@
     den.url = "github:vic/den";
     # Use the repository root as the input under local development
     feltnerm-config.url = "path:../..";
+    devshell.url = "github:numtide/devshell";
+    devshell.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
