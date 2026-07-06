@@ -124,6 +124,16 @@
             pkgs.vivid
           ];
 
+          # nix CLI tools
+          nixTools = [
+            pkgs.nh
+            pkgs."nix-output-monitor"
+            pkgs.nvd
+            pkgs."nix-diff"
+            pkgs."nix-tree"
+            pkgs."nix-search-cli"
+          ];
+
           # file browsers
           fileBrowsers = [
             pkgs.dua
@@ -168,6 +178,7 @@
         in
         base
         ++ developmentPkgs
+        ++ nixTools
         ++ fileBrowsers
         ++ networkingPkgs
         ++ funPkgs
