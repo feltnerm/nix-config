@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
-  imports = [ ../../../../modules/feltnerm/home/default.nix ];
+  imports = [ ../../../../modules/home/mark/home.nix ];
 
-  home.stateVersion = "24.05";
+  home.stateVersion = "25.05";
 
   programs.bash.enable = true;
   home.packages = with pkgs; [ cowsay ];

@@ -243,6 +243,26 @@
         "type": "github"
       }
     },
+    "devshell_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768818222,
+        "narHash": "sha256-460jc0+CZfyaO8+w8JNtlClB2n4ui1RbHfPTLkpwhU8=",
+        "owner": "numtide",
+        "repo": "devshell",
+        "rev": "255a2b1725a20d060f566e4755dbf571bbbb5f76",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "devshell",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -270,6 +290,7 @@
         "agenix": "agenix",
         "darwin": "darwin_2",
         "den": "den_2",
+        "devshell": "devshell_2",
         "disko": "disko",
         "flake-aspects": "flake-aspects",
         "flake-parts": "flake-parts",
@@ -529,26 +550,6 @@
         "owner": "nix-community",
         "repo": "home-manager",
         "rev": "2f419037039a152448c5f4ae9494154753d1b399",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "home-manager_3": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778503501,
-        "narHash": "sha256-08L/X4/do7nET4rzidJ76eV/1r+mB7DchVpdPypsghc=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "85ba629c79449badf4338117c27f0ee92b4b9f1a",
         "type": "github"
       },
       "original": {
@@ -849,7 +850,6 @@
         "den": "den",
         "devshell": "devshell",
         "feltnerm-config": "feltnerm-config",
-        "home-manager": "home-manager_3",
         "nixpkgs": "nixpkgs_5"
       }
     },
