@@ -36,6 +36,8 @@
     networking.useDHCP = lib.mkDefault true;
     networking.networkmanager.enable = lib.mkDefault true;
 
+    boot.zfs.forceImportRoot = true;
+
     # Bootable ISO settings
     isoImage.makeEfiBootable = true;
     isoImage.makeUsbBootable = true;

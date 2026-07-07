@@ -13,7 +13,6 @@
         enableVteIntegration = lib.mkDefault true; # allow terminal to track current directory
         autocd = lib.mkDefault true; # automatically enter a directory when typed
         defaultKeymap = lib.mkDefault "viins";
-        dotDir = lib.mkDefault config.home.homeDirectory;
 
         autosuggestion.enable = lib.mkDefault true;
         syntaxHighlighting.enable = lib.mkDefault true;

@@ -33,6 +33,7 @@
         git = lib.mkDefault true;
       };
       fzf.enable = lib.mkDefault true;
+      fzf.historyWidget.zsh.command = "";
       gh.enable = lib.mkDefault true;
       home-manager.enable = lib.mkDefault true;
       htop.enable = lib.mkDefault true;
@@ -44,6 +45,7 @@
       readline.enable = lib.mkDefault true;
       ripgrep.enable = lib.mkDefault true;
       ssh.enable = lib.mkDefault true;
+      ssh.enableDefaultConfig = lib.mkDefault false;
       tealdeer.enable = lib.mkDefault true;
       starship = {
         enable = lib.mkDefault true;

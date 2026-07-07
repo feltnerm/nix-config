@@ -31,6 +31,8 @@
     networking.useDHCP = lib.mkDefault true;
     networking.networkmanager.enable = lib.mkDefault true;
 
+    boot.zfs.forceImportRoot = false;
+
     # Firmware for broad hardware support
     hardware.enableRedistributableFirmware = true;
 
@@ -44,7 +46,6 @@
 
     # Useful services
     services.openssh.enable = lib.mkDefault true;
-    services.openssh.settings.PermitRootLogin = lib.mkDefault "no";
     services.openssh.settings.PasswordAuthentication = lib.mkDefault false;
 
     # Console quality of life

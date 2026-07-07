@@ -37,7 +37,7 @@ _: {
           };
 
           programs = {
-            gemini-cli = {
+            antigravity-cli = {
               enable = lib.mkDefault true;
             };
             opencode = {

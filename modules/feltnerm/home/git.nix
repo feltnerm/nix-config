@@ -126,7 +126,6 @@ in
 
         # persist ssh sessions to github for a short while
         programs.ssh = lib.mkIf config.programs.ssh.enable {
-          enableDefaultConfig = lib.mkDefault false;
           matchBlocks = {
             "github.com" = {
               extraOptions = {
