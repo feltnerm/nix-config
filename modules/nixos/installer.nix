@@ -11,6 +11,8 @@
   ];
 
   config = {
+    system.stateVersion = "25.05";
+
     # Keep installer small/light; rely on host configs for packages
     documentation.enable = lib.mkDefault false;
 

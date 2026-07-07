@@ -1,53 +1,63 @@
-{ inputs, ... }:
+{ den, inputs, ... }:
 {
-  config = {
-    flake = {
-      # Expose convenience packages for building ISOs
-      perSystem =
-        { system, ... }:
+  # Expose convenience packages for building ISOs
+  perSystem =
+    { system, ... }:
+    {
+      packages =
+        let
+          nixosSystem = inputs.nixpkgs.lib.nixosSystem;
+        in
         {
-          packages = {
-            # Live ISOs
-            iso-livecd = inputs.nixos-generators.nixosGenerate {
+          # Live ISOs
+          iso-livecd =
+            (nixosSystem {
               inherit system;
+              specialArgs = { inherit inputs den; };
               modules = [
+                (inputs.nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
                 ../modules/hosts/livecd/host.nix
                 ../modules/nixos/iso-base.nix
                 ../modules/nixos/live-iso.nix
               ];
-              format = "iso";
-            };
+            }).config.system.build.isoImage;
 
-            iso-livecd-gui = inputs.nixos-generators.nixosGenerate {
+          iso-livecd-gui =
+            (nixosSystem {
               inherit system;
+              specialArgs = { inherit inputs den; };
               modules = [
-                ../modules/hosts/livecd-gui
+                (inputs.nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
+                ../modules/hosts/livecd-gui/host.nix
                 ../modules/nixos/iso-base.nix
                 ../modules/nixos/live-iso.nix
               ];
-              format = "iso";
-            };
+            }).config.system.build.isoImage;
 
-            # Installer ISOs (interactive, small/light, offline-capable via closure)
-            iso-codemonkey-installer = inputs.nixos-generators.nixosGenerate {
+          # Installer ISOs (interactive, small/light, offline-capable via closure)
+          iso-codemonkey-installer =
+            (nixosSystem {
               inherit system;
+              specialArgs = { inherit inputs den; };
               modules = [
                 ../modules/nixos/installer.nix
-                ../modules/hosts/codemonkey
+                {
+                  networking.hostName = "codemonkey-installer";
+                }
               ];
-              format = "install-iso";
-            };
+            }).config.system.build.isoImage;
 
-            iso-markbook-installer = inputs.nixos-generators.nixosGenerate {
+          iso-markbook-installer =
+            (nixosSystem {
               inherit system;
+              specialArgs = { inherit inputs den; };
               modules = [
                 ../modules/nixos/installer.nix
-                ../modules/hosts/markbook
+                {
+                  networking.hostName = "markbook-installer";
+                }
               ];
-              format = "install-iso";
-            };
-          };
+            }).config.system.build.isoImage;
         };
     };
-  };
 }

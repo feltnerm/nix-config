@@ -1,6 +1,8 @@
 { lib, pkgs, ... }:
 {
   config = {
+    system.stateVersion = "25.11";
+
     # Max offline capability: include common tooling
     environment.systemPackages = with pkgs; [
       vim

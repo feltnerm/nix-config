@@ -12,7 +12,6 @@
 
     # SSH for remote access if needed
     services.openssh.enable = true;
-    services.openssh.settings.PermitRootLogin = "no";
     services.openssh.settings.PasswordAuthentication = false;
 
     # Basic CLI tools
