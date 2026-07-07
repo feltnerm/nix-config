@@ -42,7 +42,6 @@ _: {
             };
             opencode = {
               enable = lib.mkDefault true;
-              agents = { };
               settings = {
                 agent = {
                   build = {
@@ -222,7 +221,6 @@ _: {
 
               opencode = {
                 enable = lib.mkDefault true;
-                agents = { };
                 settings = {
                   agent = {
                     build = {
