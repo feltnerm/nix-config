@@ -4,9 +4,6 @@
   lib,
   ...
 }:
-let
-  specialArgs = { inherit inputs; };
-in
 {
   den.schema.user.classes = lib.mkDefault [ "homeManager" ];
 
@@ -32,7 +29,7 @@ in
             { modules }:
             inputs.darwin.lib.darwinSystem {
               inherit modules;
-              inherit specialArgs;
+              specialArgs = { inherit inputs; };
             }
           )
         else
@@ -40,7 +37,7 @@ in
             { modules }:
             inputs.nixpkgs.lib.nixosSystem {
               inherit modules;
-              inherit specialArgs;
+              specialArgs = { inherit inputs; };
             }
           )
       );

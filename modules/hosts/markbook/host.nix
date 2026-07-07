@@ -1,4 +1,7 @@
-{ inputs, ... }:
+{
+  inputs,
+  ...
+}:
 {
   imports = [
     inputs.hardware.nixosModules.apple-macbook-pro-11-1
