@@ -28,7 +28,6 @@
     ./home.nix
     ./overlays.nix
     ./nixos.nix
-    ./nixvim.nix
     ./pkgs.nix
     ./topology.nix
     ./treefmt.nix

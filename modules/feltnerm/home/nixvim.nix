@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
@@ -10,6 +11,7 @@ in
 {
   config = lib.mkIf cfg.enable {
     programs.nixvim.enable = lib.mkDefault true;
+    programs.nixvim.nixpkgs.source = inputs.nixpkgs;
 
     programs.nixvim = {
       defaultEditor = lib.mkDefault true;
