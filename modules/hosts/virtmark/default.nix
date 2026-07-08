@@ -4,6 +4,9 @@
     nixos.imports = [
       ./host.nix
       {
+        documentation.man.cache.enable = false;
+      }
+      {
         nixpkgs.hostPlatform = "x86_64-linux";
         system.stateVersion = "25.11";
       }
