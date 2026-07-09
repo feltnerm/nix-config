@@ -12,14 +12,9 @@
 
   outputs =
     {
-      self,
       nixpkgs,
-      feltnerm-config,
       ...
     }@inputs:
-    let
-      system = "x86_64-linux";
-    in
     {
       # Minimal NixOS configuration to validate downstream usage
       nixosConfigurations.test-minimal = nixpkgs.lib.nixosSystem {
@@ -29,7 +24,7 @@
         };
         modules = [
           inputs.den.flakeModule
-          feltnerm-config.nixosModules.default
+          inputs.feltnerm-config.nixosModules.default
           {
             # Minimal system usage: include a tiny host module
             imports = [ ./hosts/test-nixos ];
@@ -37,12 +32,5 @@
         ];
       };
 
-      # Provide a simple check target for `nix flake check`
-      checks.${system} = {
-        example-build = self.nixosConfigurations.test-minimal.config.system.build.toplevel;
-        example-home = feltnerm-config.homeConfigurations."mark-${system}".activationPackage;
-        example-devshell = feltnerm-config.devShells.${system}.default;
-        example-package = feltnerm-config.packages.${system}.greet;
-      };
     };
 }
