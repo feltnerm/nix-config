@@ -8,7 +8,8 @@
 
     ./den.nix
 
-    ../modules/defaults.nix
+    ../modules/default.nix
+    ../modules/feltnerm
     ../modules/home
     ../modules/outputs.nix
     ../modules/homes.nix
@@ -20,8 +21,6 @@
     ../modules/hosts/livecd
     ../modules/hosts/livecd-gui
     ../modules/hosts/reddevil
-
-    ../modules/feltnerm
 
     ./darwin.nix
     ./flake-modules.nix

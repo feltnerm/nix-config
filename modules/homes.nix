@@ -2,7 +2,7 @@ _:
 let
   inventory = {
     mark.systems = [
-      "x86_64-linux"
+      "x86_64-linux" # exported as homeConfigurations."mark-x86_64-linux"
       "x86_64-darwin"
       "aarch64-darwin"
     ];

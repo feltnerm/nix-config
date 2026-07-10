@@ -7,7 +7,7 @@
 {
   imports = [
     inputs.den.flakeModule
-    ../modules/den/defaults.nix
+    ../modules/den/default.nix
   ]
   ++ lib.optional (inputs ? devshell) ./devshells.nix;
 

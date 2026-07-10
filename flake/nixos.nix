@@ -7,7 +7,7 @@ _: {
   flake.nixosModules = {
     default = {
       imports = [
-        ../modules/defaults.nix
+        ../modules/default.nix
       ];
     };
     vm-base = ../modules/nixos/vm-base.nix;
