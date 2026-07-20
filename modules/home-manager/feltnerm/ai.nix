@@ -164,6 +164,8 @@ in
         settings = {
           default_agent = lib.mkDefault "orchestrator";
 
+          autoupdate = lib.mkDefault false;
+
           enabled_providers = lib.mkDefault (
             lib.unique (
               lib.optional (cfg.provider.name != null) cfg.provider.name ++ lib.attrNames cfg.providers
