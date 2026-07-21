@@ -5,6 +5,8 @@
 }:
 {
   programs.nixvim = {
+    nixpkgs.config.allowUnfree = true;
+
     defaultEditor = lib.mkDefault true;
     vimdiffAlias = lib.mkDefault true;
     #colorschemes.base16 = {
