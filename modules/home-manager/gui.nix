@@ -18,6 +18,5 @@ in
 
     programs.ghostty.enable = true;
 
-    gtk.gtk4.theme = config.gtk.theme;
   };
 }

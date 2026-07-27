@@ -121,7 +121,6 @@ let
           # allow unfree packages per HM user
           nixpkgs.config = {
             allowUnfree = true;
-            allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
           };
         };
       }
@@ -160,7 +159,6 @@ let
           {
             nixpkgs.config = {
               allowUnfree = true;
-              allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
             };
           }
 
@@ -293,7 +291,6 @@ let
           {
             nixpkgs.config = {
               allowUnfree = true;
-              allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "unrar" ];
             };
           }
 
