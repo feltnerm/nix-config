@@ -140,8 +140,6 @@ in
       rtk
       llmfit
       spec-kit
-      goose-cli
-      pi-coding-agent
       llama-cpp
     ];
 
