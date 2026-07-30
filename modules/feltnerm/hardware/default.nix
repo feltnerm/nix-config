@@ -4,6 +4,23 @@
   ...
 }:
 {
+  imports = [
+    ./keyboard
+    ./intel
+  ];
+
+  config.den.aspects.features.provides.audio = {
+    nixos.services.pipewire.enable = true;
+  };
+
+  config.den.aspects.features.provides.bluetooth = {
+    nixos = {
+      hardware.bluetooth.enable = true;
+      hardware.bluetooth.powerOnBoot = true;
+      services.blueman.enable = true;
+    };
+  };
+
   config.den.aspects.features.provides.laptop = {
     nixos = {
       services.tlp = {

@@ -1,22 +1,33 @@
-{ lib, ... }:
-let
-  hostInventory = import ./inventory.nix;
+_:
+{
+  # Host schema and inventory management
+  den.hosts.x86_64-linux = {
+    codemonkey = {};
 
-  mkHost = name: {
-    ${name} = {
-      users.mark = { };
-      intoAttr = [
-        "den"
-        "nixosConfigurations"
-        name
-      ];
-    };
+    # laptop
+    markbook = {};
+
+    # wsl
+    reddevil = {};
+
+    # vms
+    virtmark = {};
+    virtmark-gui = {};
+
+    # images
+    livecd = {};
+    livecd-gui = {};
   };
 
-  hostNames = builtins.concatLists (
-    builtins.map builtins.attrNames (builtins.attrValues hostInventory)
-  );
-in
-{
-  den.hosts.x86_64-linux = lib.mkMerge (builtins.map mkHost hostNames);
+  # Schema validation for hosts
+  den.schema.host = _: {
+    # default includes for all hosts
+    includes = [];
+
+    # host options
+    options = {};
+
+    # host config
+    config = {};
+  };
 }

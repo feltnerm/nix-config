@@ -4,33 +4,18 @@
 }:
 {
   imports = [
-    ../modules/hosts
-
-    ./den.nix
-
-    ../modules/default.nix
-    ../modules/feltnerm
-    ../modules/home
-    ../modules/outputs.nix
-    ../modules/homes.nix
-
-    ../modules/hosts/codemonkey
-    ../modules/hosts/markbook
-    ../modules/hosts/virtmark
-    ../modules/hosts/virtmark-gui
-    ../modules/hosts/livecd
-    ../modules/hosts/livecd-gui
-    ../modules/hosts/reddevil
-
     ./darwin.nix
+    ./den.nix
+    ./devshells.nix
     ./flake-modules.nix
     ./home.nix
-    ./overlays.nix
+    ./isos.nix
     ./nixos.nix
+    ./nixvim.nix
+    ./overlays.nix
     ./pkgs.nix
     ./topology.nix
     ./treefmt.nix
-    ./isos.nix
   ];
 
   config = {

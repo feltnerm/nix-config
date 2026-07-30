@@ -48,6 +48,7 @@
           # alf.allowdownloadsignedenabled = 1; # allow signed downloads
           # alf.allowsignedenabled = 1;         # allow signed apps
 
+
           dock = {
             appswitcher-all-displays = lib.mkDefault true;
             autohide = lib.mkDefault true;

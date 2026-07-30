@@ -1,11 +1,19 @@
 _: {
-  config.den.aspects.features.provides.ssh-enable = {
-    nixos.services.openssh.enable = true;
-    nixos.services.openssh.settings.PermitRootLogin = "no";
-    nixos.services.openssh.settings.PasswordAuthentication = true;
+  den.aspects.ssh = {
+    nixos = {
+      services.openssh = {
+        enable = true;
+        settings = {
+          PermitRootLogin = "no";
+          PasswordAuthentication = true;
+        };
+      };
+
+      boot.initrd.network.ssh.enable = true;
+    };
   };
 
-  config.den.aspects.features.provides.ssh-hardened = {
+  den.aspects.ssh.hardened = {
     nixos.services.openssh = {
       enable = true;
       settings = {

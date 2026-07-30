@@ -1,3 +1,4 @@
+# TODO change to `images.nix` ??
 { den, inputs, ... }:
 {
   # Expose convenience packages for building ISOs

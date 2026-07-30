@@ -75,22 +75,16 @@ in
   imports = [
     ./developer/default.nix
     ./gui/default.nix
-    ./home-cli-minimal.nix
+    ./hardware/default.nix
+    ./home/default.nix
     ./ssh/default.nix
     ./network/default.nix
     ./security/default.nix
-    ./kanata/default.nix
     ./smart-card/default.nix
-    ./audio.nix
-    ./hardware-intel/default.nix
-    ./base-profiles/default.nix
-    ./bluetooth.nix
-    ./laptop.nix
-    ./nixvim-default.nix
-    ./home-wsl-vars.nix
-    ./wsl.nix
+    ./wsl/default.nix
     ./user-mark/default.nix
     ./theme/default.nix
+    ./nixvim-default.nix
   ];
 
   den.default.nixos = {
@@ -181,17 +175,5 @@ in
         allowUnfreePredicate = unfreePredicate;
       };
     };
-  };
-
-  # Home submodules always have class = "homeManager" (declared option in
-  # upstream homeType), so no class check is needed here.
-  den.schema.home = _: {
-    instantiate = lib.mkDefault (
-      { pkgs, modules }:
-      inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs modules;
-        inherit extraSpecialArgs;
-      }
-    );
   };
 }
