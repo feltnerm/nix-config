@@ -36,7 +36,11 @@ in
         icons = lib.mkDefault "auto";
         git = lib.mkDefault true;
       };
-      fzf.enable = lib.mkDefault true;
+      fzf = {
+        enable = lib.mkDefault true;
+        # disable fzf for shell history
+        historyWidget.command = lib.mkIf config.programs.mcfly.enable "";
+      };
       gh.enable = lib.mkDefault true;
       git.enable = lib.mkDefault true;
       gpg.enable = lib.mkDefault true;

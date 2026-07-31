@@ -37,6 +37,7 @@
         # imports = [inputs.self.nixvimConfigurations.packages];
         config = {
           enable = true;
+          nixpkgs.source = inputs.nixvim.inputs.nixpkgs;
         };
       };
     };

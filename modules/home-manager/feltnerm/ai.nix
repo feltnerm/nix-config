@@ -152,7 +152,10 @@ in
     };
 
     programs = {
-      gemini-cli = {
+      antigravity-cli = {
+        enable = lib.mkDefault true;
+      };
+      pi-coding-agent = {
         enable = lib.mkDefault true;
       };
       # OpenCode CLI configuration and agents
