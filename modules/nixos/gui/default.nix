@@ -81,7 +81,7 @@ in
       services.xserver.enable = lib.mkDefault false;
 
       # greeter
-      programs.regreet.enable = lib.mkDefault true;
+      services.displayManager.regreet.enable = lib.mkDefault true;
       services = {
         greetd = lib.mkIf config.services.greetd.enable {
           restart = lib.mkDefault true;
